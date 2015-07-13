@@ -50,6 +50,7 @@
                    
     }
 ~~~
+
 在方法**private void captureAction()**中有两步，第一步是设置相机模式；第二步是设置相机拍照模式并拍照。我们把第二步的相关代码放在第一步的回调接口的**onResult()**方法里面，这样可以保证成功运行完第一步后再执行第二步。
 
 编译并运行工程，连接飞行器试一下拍照功能，当在按下"capture"按钮后，屏幕闪了一下就说明拍照功能可以使用了。
@@ -57,7 +58,8 @@
 
 ### 2. 实现录像功能
 
-与实现拍照功能类似，我们实现了方法**private void recordAction()**来进行录像功能。当按下“Record”按钮,该方法将被调用，飞机上的相机开始录像。代码如下， 
+与实现拍照功能类似，我们实现了方法**private void recordAction()**来进行录像功能。当按下“Record”按钮,该方法将被调用，飞机上的相机开始录像。代码如下，
+ 
 ~~~java
 	 // function for starting recording
     private void recordAction(){
@@ -94,7 +96,8 @@
         });
         
     }
-~~~   
+~~~ 
+  
 ### 3. 实现停止录像功能
 
 在FPVActivity中，方法**private void stopRecord()** 被实现用来停止录像。当按下按钮“Stop recording”,该方法将被调用，飞机上的相机将停止录像。代码如下，
@@ -122,7 +125,7 @@
 现在，我们可以编译并运行工程，检查我们开始录像，停止录像功能了。如果一切正常，你将看到类似如下的截屏，
 ![recordVideoScreenShot](http://gitlab.djicorp.com/jian.zhao/SDK-SampleCodes-Android/raw/master/FPVDemo-Tutorial/images/recordVideo.png)
 
-Congratualtions! Your Aerial FPV Android app is done, you can use this app to control your Inspire 1's camera now.
+恭喜你！你的FPV航拍App已经大功告成，你现在可以用它来控制Inspire 1的相机了。
 
 ### 4. Go to Next Tutorial
 
