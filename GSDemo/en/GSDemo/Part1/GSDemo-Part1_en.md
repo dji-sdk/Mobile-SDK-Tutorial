@@ -1,5 +1,5 @@
 # DJI Mobile iOS SDK Tutorial
-
+ 
 
 # How to create a simple GroundStation App: Part 1/2
 In this tutorial, you will learn how to setup the DJI PC Simulator, upgrade your Inspire 1, Phantom 3 Professional and Phantom 3 Advanced's firmware to the beta version, and how to test the GroundStation API with DJI PC Simulator. Also, you will get in touch with the basic process of using DJI GroundStation's Waypoint feature. So let's get started!
@@ -29,7 +29,7 @@ Then, double click the **DJISimulator-Installer.exe** file and follow the instru
 
 **1**. The Simulator Config window will appear once you launch the DJI PC Simulator. Set the Latitude and Longitude values based on your preference. The "**SN**" represents the connected aircraft's SN number.
 
- ![Config](https://raw.githubusercontent.com/dji-sdk/GSDemo-Part1/master/Tutorial/Images/simulator_config.png)
+ ![Config](../../images/simulator_config.png)
 
 ---
 **Note**: 
@@ -38,14 +38,14 @@ Then, double click the **DJISimulator-Installer.exe** file and follow the instru
 
 - Select Show Log Window under the Log Settings tab to display the log window as below:
 
- ![showLog](https://raw.githubusercontent.com/dji-sdk/GSDemo-Part1/master/Tutorial/Images/showLog.png)
+ ![showLog](../../images/showLog.png)
 
 ---
 
 **2**. Connect the aircraft to your PC via a Micro USB cable, and then power on the aircraft and the
 remote controller. Click Display Simulator. You can see the screenshot as below:
 
- ![display](https://raw.githubusercontent.com/dji-sdk/GSDemo-Part1/master/Tutorial/Images/display.png)
+ ![display](../../images/display.png)
 
 ---
 **Note**: 
@@ -60,9 +60,9 @@ remote controller. Click Display Simulator. You can see the screenshot as below:
 
 **4**. Left-click and drag to change the view angle. Scroll to zoom in and zoom out.
 
- ![zoomIn](https://raw.githubusercontent.com/dji-sdk/GSDemo-Part1/master/Tutorial/Images/zoomIn.png)
+ ![zoomIn](../../images/zoomIn.png)
  
- ![zoomOut](https://raw.githubusercontent.com/dji-sdk/GSDemo-Part1/master/Tutorial/Images/zoomout.png)
+ ![zoomOut](../../images/zoomout.png)
 
 **5**. Click Stop Simulation to stop the simulation. Close the simulator, and power off the aircraft and the remote controller after use. 
 
@@ -89,9 +89,9 @@ You can check the firmware upgrade status by identifying the sound from the airc
 
 Also, you can check the firmware upgrade status by checking the **txt** file generated during the upgrade process. For Phantom 3 Professional, the txt file is named as **"P3X_FW_RESULT_AB.txt"**, For Inspire 1, it's named as **"WM610_FW_RESULT_AB.txt"**, here are the example contents:
 
-  ![upgradeP3XSuccess](https://raw.githubusercontent.com/dji-sdk/GSDemo-Part1/master/Tutorial/Images/upgradeP3XSuccess.png)
+  ![upgradeP3XSuccess](../../images/upgradeP3XSuccess.png)
   
-  ![upgradeInspire1Success](https://raw.githubusercontent.com/dji-sdk/GSDemo-Part1/master/Tutorial/Images/upgradeInspire1Success.png)
+  ![upgradeInspire1Success](../../images/upgradeInspire1Success.png)
 
 ## 3. Setup Map View
 
@@ -101,12 +101,12 @@ As you finish the above steps, we can now start to work on the app. Since in our
 
 **1**. Create a new project in Xcode and named it as "**GSDemo**", copy the **DJISDK.framework** to your Xcode's project folder. And then select the project target and go to Build Phases -> Link Binary With Libraries. Click the "+" button at the bottom and add libstdc++.6.0.9.dylib and libz.dylib to your project. Like the screenshot below:
 
-  ![framework](https://raw.githubusercontent.com/dji-sdk/GSDemo-Part1/master/Tutorial/Images/framework.png)
+  ![framework](../../images/framework.png)
 
 #### **2**. Create Map View
 Now, let's delete the **ViewController.h** and **ViewController.m** files, which were created by Xcode when you create the project. Then create a viewController named as "**DJIRootViewController**", set it as the **Root View Controller** in **Main.storyboard**. Moreover, drag a MKMapView from Object Library to **DJIRootViewController**, setup its AutoLayout constraints, and set its delegate to **DJIRootViewController** as below:
    
-![mkMapView](https://raw.githubusercontent.com/dji-sdk/GSDemo-Part1/master/Tutorial/Images/mkMapView.png)
+![mkMapView](../../images/mkMapView.png)
 
 After it, let's open **DJIRootViewController.h** file, create an IBOutlet for MKMapView, named it as "**mapView**" and link it to the MKMapView in **Main.storyboard**. Import the following header files and implement MKMapView's delegate method:
 
@@ -123,7 +123,7 @@ After it, let's open **DJIRootViewController.h** file, create an IBOutlet for MK
 
 Now let's build and run the project, if everything is fine, you should see the following screenshot:
 
-![mapView](https://raw.githubusercontent.com/dji-sdk/GSDemo-Part1/master/Tutorial/Images/mapView.png)
+![mapView](../../images/mapView.png)
 
 #### **3**. Add Annotations to MapView
 
@@ -214,7 +214,7 @@ Go back to DJIRootViewController.h file, import the DJIMapController.h header fi
 - (IBAction)editBtnAction:(id)sender;
 ~~~
 
-![editButton](https://raw.githubusercontent.com/dji-sdk/GSDemo-Part1/master/Tutorial/Images/editButton.png)
+![editButton](../../images/editButton.png)
 
 
 Once you're done, open **DJIMapController.m** file, init **mapController** and **tapGesture**, then add the **tapGesture** to mapView. Furthermore, we need a boolean variable named as "**isEditingPoints**" to store the edit waypoint state, which will also change **editBtn**'s title. Lastly, implement tapGesture's action method **addWayPoints** as below:
@@ -292,9 +292,9 @@ method to add waypoints to the map. Moreover, we implement **editBtn**'s IBActio
 
 When you are done all the steps above, build and run your project and try to add waypoints on the map. If everything is fine, you will see the following screenshot:
 
-![waypoint1](https://raw.githubusercontent.com/dji-sdk/GSDemo-Part1/master/Tutorial/Images/waypoint1.jpg)
+![waypoint1](../../images/waypoint1.jpg)
 
-![waypoint2](https://raw.githubusercontent.com/dji-sdk/GSDemo-Part1/master/Tutorial/Images/waypoint2.jpg)
+![waypoint2](../../images/waypoint2.jpg)
 
 #### **4**. Focus MKMapView
 
@@ -323,7 +323,7 @@ Open **DJIRootViewController.h** file, import CoreLocation's header file firstly
 
 In the above code, we also add a UIButton named as "**Focus Map**" in DJIRootViewController's scene of **Main.storyboard** and add its IBAction method named as "**focusMapAction**", here is the screenshot of **Main.storyboard**'s scene:
 
-![focusMap](https://raw.githubusercontent.com/dji-sdk/GSDemo-Part1/master/Tutorial/Images/focusMap.png)
+![focusMap](../../images/focusMap.png)
 
 Once you are done, go to **DJIRootViewController.m** file and add the following codes as below:
 
@@ -399,15 +399,15 @@ Firstly, we init userLocation's data to kCLLocationCoordinate2DInvalid in the vi
 
 In iOS8, we must call **locationManager**'s **requestAlwaysAuthorization** first, which was done in **startUpdateLocation** method. Then add a NSLocationAlwaysUsageDescription or NSLocationWhenInUseUsageDescription key to your project’s Info.plist containing the message to be displayed to the user at the prompt to get **CLLocationManagerDelegate** method work. We set the messages empty here:
 
-![infoPlist](https://raw.githubusercontent.com/dji-sdk/GSDemo-Part1/master/Tutorial/Images/infoPlist.png)
+![infoPlist](../../images/infoPlist.png)
 
 It's time to build and run the project to check the focus map feature. If it works well, you should see the following screenshot:
 
-![coreLocation1](https://raw.githubusercontent.com/dji-sdk/GSDemo-Part1/master/Tutorial/Images/coreLocation1.jpg)
+![coreLocation1](../../images/coreLocation1.jpg)
 
 When you launch the app for the first time, it should pop up an alert to ask for your permission to access your location event, just select **Allow** and press the **Focus Map** button. If the map view animate to your current location like the following screenshot, congratulations, you have finish the "Focus Map" feature!
 
-![coreLocation2](https://raw.githubusercontent.com/dji-sdk/GSDemo-Part1/master/Tutorial/Images/coreLocation2.jpg)
+![coreLocation2](../../images/coreLocation2.jpg)
 
 
 #### **5**. Show Aircraft on Map View
@@ -580,7 +580,7 @@ We add an if statement to check if the annotation of the map view's is equal to 
 
 To provide a better user experience, we need to add a status view on top of the mapView to show the aircraft's flight mode type, current GPS satellite count, vertical and horizontal flight speed and the flight altitude. Let's add the UI in **Main.storyboard**'s RootViewController Scene as below:
 
-![statusView](https://raw.githubusercontent.com/dji-sdk/GSDemo-Part1/master/Tutorial/Images/statusView.png)
+![statusView](../../images/statusView.png)
 
 Once that's done, open **DJIRootViewController.h** file, create IBOutlets for the above UI elements. Then import DJISDK's header file and implement **DJIDroneDelegate** and **DJIMainControllerDelegate** protocol, here we use Inspire 1 for the demo, so we need to create a **DJIDrone**'s property and a **DJIInspireMainController**'s property. Also, we need to create a **CLLocationCoordinate2D** property named as "droneLocation" to record the aircraft's location as below:
 
@@ -766,25 +766,25 @@ If it succeeds to connect to the aircraft, call **DJIInspireMainController**'s "
 We've been gone through a long way in this tutorial. Let's test the app now. 
 Build and run the project to install the app in your mobile device. After that, please connect the aircraft to your PC or Virtual Machine running Windows via a Micro USB cable, and then power on the aircraft and the remote controller. Click Display Simulator. You can type in your current location's latitude and longitude data in the Simulator Config if you want. 
 
-![simulatorPreview](https://raw.githubusercontent.com/dji-sdk/GSDemo-Part1/master/Tutorial/Images/simulator_preview.png)
+![simulatorPreview](../../images/simulator_preview.png)
 
 Then run the app and connect your mobile device to the RC using Apple's lighting cable. You may see the following screenshot:
 
-![enterNaviModeFailed](https://raw.githubusercontent.com/dji-sdk/GSDemo-Part1/master/Tutorial/Images/enterNaviModeFailed.jpg)
+![enterNaviModeFailed](../../images/enterNaviModeFailed.jpg)
 
 **Important**: To fix this problem, please switch the Remote Controller's mode selection to the **F** position(Which used to be the A position in the previous version) and press **Retry** button. If the mode selection bar is in the F position when the autopilot is powered on, the user must switch back and forth and press the **Retry** button again.
 
 You are required to do so when using the Ground Station, Hotpoint and Joystick functions in the DJI Mobile SDK.
 
-![switchFlightMode](https://raw.githubusercontent.com/dji-sdk/GSDemo-Part1/master/Tutorial/Images/switchFlightMode.png)
+![switchFlightMode](../../images/switchFlightMode.png)
 
 Next, let's come to the DJI PC Simulator on your PC and press the **Start Simulation** button, now check the app and something magical happen, the tiny red aircraft is shown on the map as below:
 
-![aircraftOnMap1](https://raw.githubusercontent.com/dji-sdk/GSDemo-Part1/master/Tutorial/Images/aircraftOnMap1.jpg)
+![aircraftOnMap1](../../images/aircraftOnMap1.jpg)
 
 If you cannot find the aircraft, you can try to press the "**Focus Map**" button, then the map view will zoom in to center the aircraft like this:
 
-![aircraftOnMap2](https://raw.githubusercontent.com/dji-sdk/GSDemo-Part1/master/Tutorial/Images/aircraftOnMap2.jpg)
+![aircraftOnMap2](../../images/aircraftOnMap2.jpg)
 
 It looks pretty cool, right? Now, if you press the **Stop Simulation** button on the Simulator Config, the aircraft will disappear on the map. Since the simulator stop providing GPS data to the aircraft now.
 

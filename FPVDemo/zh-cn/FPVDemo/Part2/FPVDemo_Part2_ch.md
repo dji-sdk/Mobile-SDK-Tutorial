@@ -3,7 +3,7 @@
 
 ## 如何创建一个航拍相机App: 第二部分
 
-#####在[第一部分](https://github.com/dji-sdk/FPVDemo-Part1/blob/master/Tutorial/FPVDemo_Part1_ch.md)中, 我们实现了一个基本的FPV视图，你可以在这个视图上看到飞行器摄像头的视频画面. 在本教程中, 我们使用Inspire 1进行演示, 你会学到如何在app中添加拍照和录像功能, 我们开始吧!**
+#####在[第一部分](../Part1/FPVDemo_Part1_ch.html)中, 我们实现了一个基本的FPV视图，你可以在这个视图上看到飞行器摄像头的视频画面. 在本教程中, 我们使用Inspire 1进行演示, 你会学到如何在app中添加拍照和录像功能, 我们开始吧!**
 
 ### 1. 实现拍照功能
 
@@ -212,12 +212,12 @@
    
    现在, 我们可以编译运行工程，检查下刚做好的功能. 你可以尝试下 **录像** 和 **切换相机工作模式** 功能, 如果一切顺利，你会看到以下App截屏画面：
    
-   ![Screenshot](https://raw.githubusercontent.com/dji-sdk/FPVDemo-Part2/master/Tutorial/Images/record_screenshot.jpg)
+   ![Screenshot](../../images/record_screenshot.jpg)
    
    恭喜你! 你的FPV航拍App已经大功告成，你现在可以用它来控制Inspire 1的相机了。
 
 ###3. 现在要做什么?
 
-   你可以从这里下载到本教程的最终Demo工程:<https://github.com/dji-sdk/FPVDemo-Part2.git>
+   你可以从这里下载到本教程的最终Demo工程:<https://github.com/DJI-Mobile-SDK/FPVDemo-Part2.git>
    
    你已经完成了整篇教程的学习: 学会如何使用DJI Mobile SDK来开发app，展示飞行器相机的FPV视图，控制DJI 飞行器的相机进行**拍照**和**录像**操作，这两项功能经常被使用到，也是一款航拍app的基本功能点。但是，要开发一款很酷的航拍app，你还有很长的一段路要走。像预览SD卡中的照片和视频，展示飞机的OSD数据等等。请继续关注我们后续的教程，希望你喜欢！    
