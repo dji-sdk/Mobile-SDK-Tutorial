@@ -1,4 +1,4 @@
-# DJI Mobile Android SDK 教程 (2)
+﻿# DJI Mobile Android SDK 教程 (2)
 
 ## 如何创建一个简单的FPV航拍APP: 第二部分
 
@@ -123,12 +123,12 @@
 ~~~
 
 现在，我们可以编译并运行工程，检查我们开始录像，停止录像功能了。如果一切正常，你将看到类似如下的截屏，
-![recordVideoScreenShot](http://gitlab.djicorp.com/jian.zhao/SDK-SampleCodes-Android/raw/master/FPVDemo-Tutorial/images/recordVideo.png)
+![recordVideoScreenShot](https://github.com/dji-sdk/Mobile-SDK-Tutorial/raw/master/Android-FPVDemo/en/images/recordVideo.png)
 
 恭喜你！你的FPV航拍App已经大功告成，你现在可以用它来控制Inspire 1的相机了。
 
 ### 4. Go to Next Tutorial
 
-你可以从这里下载到本教程的最终Demo工程（与第一部分是同一个工程）: <http://gitlab.djicorp.com/jian.zhao/SDK-SampleCodes-Android.git>
+你可以从这里下载到本教程的最终Demo工程（与第一部分是同一个工程）: <https://github.com/DJI-Mobile-SDK/Android-FPVDemo-Part2>
 
 你已经完成了整篇教程的学习: 学会如何使用DJI Mobile SDK来开发app，展示飞行器相机的FPV视图，控制DJI 飞行器的相机进行**拍照**和**录像**操作，这两项功能经常被使用到，也是一款航拍app的基本功能点。但是，要开发一款很酷的航拍app，你还有很长的一段路要走。像预览SD卡中的照片和视频，展示飞机的OSD数据等等。请继续关注我们后续的教程，希望你喜欢！

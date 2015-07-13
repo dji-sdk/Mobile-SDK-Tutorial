@@ -1,4 +1,4 @@
-# DJI Mobile Android SDK 教程 (1)
+﻿# DJI Mobile Android SDK 教程 (1)
 
 ## 如何创建一个简单的FPV航拍App: 第一部分
 
@@ -13,13 +13,13 @@
 
 ### 2.解压SDK并导入Lib到自己的工程
 (1) 解压SDK包，导入文件夹"Lib"到你的eclipse，把它添加为你的工程的库(把鼠标放在你的工程名上右击->选择“Properties”->选择"Android").
-![setLib](http://gitlab.djicorp.com/jian.zhao/SDK-SampleCodes-Android/raw/master/FPVDemo-Tutorial/images/1_importLib.png)
+![setLib](https://github.com/dji-sdk/Mobile-SDK-Tutorial/raw/master/Android-FPVDemo/en/images/1_importLib.png)
 
 (2) 检查库是否已成功导入
 
 查看“Android Private Libraries”，里面有如下jar包时，说明导入成功。
 
-![checkLib](http://gitlab.djicorp.com/jian.zhao/SDK-SampleCodes-Android/raw/master/FPVDemo-Tutorial/images/1_CheckLib.png)
+![checkLib](https://github.com/dji-sdk/Mobile-SDK-Tutorial/raw/master/Android-FPVDemo/en/images/1_CheckLib.png)
 
 
 
@@ -28,10 +28,10 @@
 (1) 激活SDK: 
 
 在工程的AndroidManifest.xml文件中添加以下meta-data元素配置用来激活的APP KEY。
-![appKeyMetaData](http://gitlab.djicorp.com/jian.zhao/SDK-SampleCodes-Android/raw/master/FPVDemo-Tutorial/images/1_appKeyMetaData.png)
+![appKeyMetaData](https://github.com/dji-sdk/Mobile-SDK-Tutorial/raw/master/Android-FPVDemo/en/images/1_appKeyMetaData.png)
 
 请使用你在DJI开发者网站<http://dev.dji.com>上申请的APP KEY填入**android:value=""**。当申请APP KEY的时候，需要在标识码处填入你的工程的包名。
-![appKey](http://gitlab.djicorp.com/jian.zhao/SDK-SampleCodes-Android/raw/master/FPVDemo-Tutorial/images/1_appKey.png)
+![appKey](https://github.com/dji-sdk/Mobile-SDK-Tutorial/raw/master/Android-FPVDemo/en/images/1_appKey.png)
  
 在开始调用SDK APIs之前，需要添加以下代码来进行激活验证，
 
@@ -272,7 +272,7 @@ DJIAoaActivity中有添加如下代码支持AOA,
 你应该注意调用**mDjiGLSurfaceView**的方法**public boolean start()**和设置视频数据回调接口给**mDjiGLSurfaceView**传递视频数据的顺序，以及释放**mDjiGLSurfaceView**和停止传递数据给它的顺序。
 
 (d) 编译并运行你的工程，检查一切是否正常。如果在运行后看到移动端出现如下界面，你就可以开始用你自己的APP连接飞机，并享受飞机实时传回航拍视频的乐趣了！
-![afterCompileScreenShot](http://gitlab.djicorp.com/jian.zhao/SDK-SampleCodes-Android/raw/master/FPVDemo-Tutorial/images/afterComplileScreenShot.png)
+![afterCompileScreenShot](https://github.com/dji-sdk/Mobile-SDK-Tutorial/raw/master/Android-FPVDemo/en/images/afterComplileScreenShot.png)
 
 ### 4. 连接飞行器
 完成以上步骤后, 现在就可以连接你的移动设备到DJI飞行器上，检查是否获取到FPV画面，以下是连接指引：
@@ -303,10 +303,10 @@ DJIAoaActivity中有添加如下代码支持AOA,
 
 ### 5.享受FPV视图
 如果你可以在app中看到飞机的视频流，那么恭喜，你已经完成了第一部分教程的内容了！下图是app的截屏：
-![runAppScreenShot](http://gitlab.djicorp.com/jian.zhao/SDK-SampleCodes-Android/raw/master/FPVDemo-Tutorial/images/runAppScreenShot.png)
+![runAppScreenShot](https://github.com/dji-sdk/Mobile-SDK-Tutorial/raw/master/Android-FPVDemo/en/images/runAppScreenShot.png)
 
 ### 6.下一步
 
-你可以从这里下载到本教程的Demo工程：<http://gitlab.djicorp.com/jian.zhao/SDK-SampleCodes-Android.git>
+你可以从这里下载到本教程的Demo工程：<https://github.com/DJI-Mobile-SDK/Android-FPVDemo-Part1.git>
 
 你已经学会了如何配置DJI Mobile SDK的Android开发环境，并成功用它开发app来展示飞行器相机的FPV画面。在接下来的教程中，我们会在此基础上添加拍照和录像功能. 请关注我们第二部分的教程，希望你喜欢！

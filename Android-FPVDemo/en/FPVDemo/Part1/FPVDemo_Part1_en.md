@@ -1,4 +1,4 @@
-# DJI Mobile SDK for Andriod Tutorial (1)
+﻿# DJI Mobile SDK for Andriod Tutorial (1)
 
 ## Create a FPV app usng Mobile SDK: Part 1/2
 
@@ -14,10 +14,10 @@ Refer to "Updating the Aircraft Firmware" from the URL: <http://download.dji-inn
 
 ### 2.Unzip the SDK package and import Lib 
 (1) Unzip the SDK package. Import the folder **Lib** into eclipse, add it as a library for your own project (Right click on your project->Select "**Properties**"->Select "**Android**").
-![setLib](http://gitlab.djicorp.com/jian.zhao/SDK-SampleCodes-Android/raw/master/FPVDemo-Tutorial/images/1_importLib.png)
+![setLib](https://github.com/dji-sdk/Mobile-SDK-Tutorial/raw/master/Android-FPVDemo/en/images/1_importLib.png)
 
 (2) Locate the imported library.
-![checkLib](http://gitlab.djicorp.com/jian.zhao/SDK-SampleCodes-Android/raw/master/FPVDemo-Tutorial/images/1_CheckLib.png)
+![checkLib](https://github.com/dji-sdk/Mobile-SDK-Tutorial/raw/master/Android-FPVDemo/en/images/1_CheckLib.png)
 
 ### 3.Implementing for FPV View
 
@@ -25,11 +25,11 @@ Refer to "Updating the Aircraft Firmware" from the URL: <http://download.dji-inn
 
 Add the highlighted meta-data elements into your **AndroidManifest** for activation.
 
-![appKeyMetaData](http://gitlab.djicorp.com/jian.zhao/SDK-SampleCodes-Android/raw/master/FPVDemo-Tutorial/images/1_appKeyMetaData.png)
+![appKeyMetaData](https://github.com/dji-sdk/Mobile-SDK-Tutorial/raw/master/Android-FPVDemo/en/images/1_appKeyMetaData.png)
 
 Input the APP KEY that you have applied from <http://dev.dji.com>. Note that the Identification Code is identical to your project's package name.
 
-![appKey](http://gitlab.djicorp.com/jian.zhao/SDK-SampleCodes-Android/raw/master/FPVDemo-Tutorial/images/1_appKey.png)
+![appKey](https://github.com/dji-sdk/Mobile-SDK-Tutorial/raw/master/Android-FPVDemo/en/images/1_appKey.png)
  
 Add the following codes before calling the SDK APIs,
 ~~~java
@@ -259,7 +259,7 @@ After activity is closed, you should first call **DJIDrone.getDjiCamera().setRec
 Be aware of the sequence of the start of **mDjiGLSurfaceView** and the setting of the callback, and the sequence of the destroy of **mDjiGLSurfaceView** and setting the callback using null.
 
 (d) Build and run the project, check if everything is running as desired. If the follow screen can be seen, it means that you have succesfully created an simple app by using the SDK APIs.
-![afterCompileScreenShot](http://gitlab.djicorp.com/jian.zhao/SDK-SampleCodes-Android/raw/master/FPVDemo-Tutorial/images/afterComplileScreenShot.png)
+![afterCompileScreenShot](https://github.com/dji-sdk/Mobile-SDK-Tutorial/raw/master/Android-FPVDemo/en/images/afterComplileScreenShot.png)
 
 ### 4.Connect to your DJI Drones
 
@@ -291,10 +291,10 @@ After you build and run the project successfully, you can now connect your mobil
 
 ### 5.Enjoy the FPV View
 If you can see the live video stream in the app, congratulations! You can move on to the Part 2 of the tutorial now:
-![runAppScreenShot]()
+![runAppScreenShot](https://github.com/dji-sdk/Mobile-SDK-Tutorial/raw/master/Android-FPVDemo/en/images/runAppScreenShot.png)
 
 ### 6.Go to Next Tutorial
 
-You can download the demo project for this tutorial from here: <http://gitlab.djicorp.com/jian.zhao/SDK-SampleCodes-Android.git>
+You can download the demo project for this tutorial from here: <https://github.com/DJI-Mobile-SDK/Android-FPVDemo-Part1.git>
 
 You’ve learned how to setup the DJI Mobile SDK's developmengt environment and use it to show the FPV view from the aircraft's camera. We will add the capture and record functions in the app in next part of this tutorial. Hope you enjoy it!
