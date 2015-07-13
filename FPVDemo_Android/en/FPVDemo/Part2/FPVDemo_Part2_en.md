@@ -2,11 +2,11 @@
 
 ## How to create a simpel FPV app: Part 2/2
 
-In part 1, we have implemented the basic FPV view and can see the live video stream from the drone's camera. In this tutorial, we are using Inspire 1 for demo, you will learn how to add photo taking, video recording features in the app, let's get started!
+In part 1, we have implemented the basic FPV view and can see the live video stream from the the aicraft's camera. In this tutorial, we are using Inspire 1 for demo, you will learn how to implement features such as taking photos and video recoding in this app.
 
 ### 1. Implement the capture function
 
-A **private void captureAction()** function is implemented for taking photos. When a user presses the button "Capture", the function will be called and a photo will be taken. The codes are as follows,
+A **private void captureAction()** function is implemented to taking photos. Whenever the  "Capture" button is pressed, the function will be called and a photo will be taken. The codes are as follows,
 ~~~java
 	 // function for taking photo
     private void captureAction(){
@@ -49,14 +49,14 @@ A **private void captureAction()** function is implemented for taking photos. Wh
                    
     }
 ~~~
-There are two steps in the **captureAction()** method, the first is to set the camera mode, the second is to set the camera capture mode and take a photo. We put the code for the second step in **onResult()** to make sure the second step runs after the first step is executed successfully.
+There are two stages in the **captureAction()** method, the first is to set the camera mode, the second is to set the camera capture mode and take a photo. We presents the code for the second step in **onResult()** to make sure the second stage runs after the first stage is executed successfully.
 
-Build and run the project and try the capture function, if the screen flash after your press the capture button, your capture fuction should work now.
+Build and run the project and try the capture function, if the screen flashes after your press the capture button, it shows that capture feature is functioning. 
 
 
 ### 2. Implement the recording function
 
-Similar with the implementation of the capture function, a **private void recordAction()** function is implemented for recording videos. When a user presses the button "Record", the function will be called and the app starts to record a video. The codes are as follows,
+Similar to the implementation of the capture function, a **private void recordAction()** function is implemented for recording videos. When a user presses the button "Record", the function will be called and the app starts to record a video. The codes are as follows,
 ~~~java
 	 // function for starting recording
     private void recordAction(){
@@ -96,7 +96,7 @@ Similar with the implementation of the capture function, a **private void record
 ~~~   
 ### 3. Implement the stopping recording function
 
-a **private void stopRecord()** function is implemented for stopping recording videos. When a user presses the button "Stop recording", the function will be called and the app stops recording a video. The codes are as follows,
+a **private void stopRecord()** function is implemented to stop the recording of the videos. When a user presses the button "Stop recording", the function will be called and the app stops recording a video. The codes are as follows,
 ~~~java
 	 // function for stopping recording
     private void stopRecord(){
@@ -117,7 +117,7 @@ a **private void stopRecord()** function is implemented for stopping recording v
 
 ~~~
 
-Now, we can build and run the project and check the functions. You can try to play with the Record function, if everything is going well, you should see the screenshot like this:
+Now, we can build and run the project and verify the functions. You may try out the Record function. If a screenshoot similar to 
 ![recordVideoScreenShot](http://gitlab.djicorp.com/jian.zhao/SDK-SampleCodes-Android/raw/master/FPVDemo-Tutorial/images/recordVideo.png)
 
 Congratualtions! Your Aerial FPV Android app is done, you can use this app to control your Inspire 1's camera now.
@@ -126,4 +126,4 @@ Congratualtions! Your Aerial FPV Android app is done, you can use this app to co
 
 You can download the final project for this tutorial here: <http://gitlab.djicorp.com/jian.zhao/SDK-SampleCodes-Android.git>
 
-You’ve come a long way in this tutorial: you’ve learned how to use DJI Mobile SDK to show the FPV View from the drone's camera and control the camera of DJI's drones, they are the most used and basic features in a normal drone mobile app: Capture and Record. But, in order to make a cooler drone app, you still have a long way to go, such as previewing the photo and video in the SD Card, showing the OSD data of the aircraft and so on. Please just follow our next tutorials, hope you enjoy them!
+You’ve come a long way in this tutorial: you’ve learned how to use DJI Mobile SDK to show the FPV View from the drone's camera and control the camera of DJI's drones, they are the most used and basic features in a simple mobile app for the aircraft: Capture and Record. But, in order to make a cooler drone app, you still have a long way to go, such as previewing the photo and video in the SD Card, showing the OSD data of the aircraft and so on.  
