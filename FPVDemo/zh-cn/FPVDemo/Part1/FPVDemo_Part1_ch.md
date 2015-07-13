@@ -20,7 +20,7 @@
 
 **1**. 先拷贝DJISDK.framework到您的工程目录下，再将DJISDK.framework拖到您工程”Frameworks”的目录下，如下图所示:
 
-   ![ImportSDK](https://raw.githubusercontent.com/dji-sdk/FPVDemo-Part1/master/Tutorial/Images/importSDK.png)
+   ![ImportSDK](../../images/importSDK.png)
    
 **2**. 从Xcode的左侧导航栏选择当前工程，进入右侧的 Build Phases -> Link Binary With Libraries. 点击底部的 "+" 按钮添加 libstdc++.6.0.9.dylib 和 libz.dylib 到你的工程中. 编译SDK时需要用到这些动态库。
 
@@ -30,7 +30,7 @@
 
    添加方法：在工程的Supporting Files文件夹下的plist文件添加MFI协议名称，如下图所示：  
    
-   ![MFI](https://raw.githubusercontent.com/dji-sdk/FPVDemo-Part1/master/Tutorial/Images/MFIProtocol.png)
+   ![MFI](../../images/MFIProtocol.png)
    
 ### 3. 激活 SDK
 
@@ -77,7 +77,7 @@
 ---
 **注意**: 你可以在SDK网站上创建属于你自己App的**App Key**: <https://dev.dji.com/cn/user/mobile-sdk>, 如下图所示:
 
-![AppKey](https://raw.githubusercontent.com/dji-sdk/FPVDemo-Part1/master/Tutorial/Images/AppKey_CN.png)
+![AppKey](../../images/AppKey_CN.png)
 
 另外, **App Key** 是和工程的 **Bundle Identifier**相关联的. 所以如果Bundle Identifier不正确的话，你就不能在多个不同工程里面使用同一个App Key。
 
@@ -89,16 +89,16 @@
 ### 4. 实现FPV视图功能
   **1**. 我们使用 FFMPEG 解码库 <http://ffmpeg.org> 对视频流进行解码. 你可以在下载好的SDK开发包中找到 **VideoPreviewer** 文件夹. 将它拷贝到 Xcode 工程的文件夹中, 然后像下图所示添加到工程导航栏的**thirdParty**文件夹下:
   
- ![AppKey](https://raw.githubusercontent.com/dji-sdk/FPVDemo-Part1/master/Tutorial/Images/ffmpegImport.png)
+ ![AppKey](../../images/ffmpegImport.png)
  
   **2**. 接下来来到XCode -> Project -> Build Phases -> Link Binary With Libraries中, 点击“**+**” 添加libiconv.dylib动态库文件. 然后在Build Settings中的Header Search Paths 添加FFMPEG的 include 文件夹路径. 同时在Library Search Paths中添加 FFMPEG的 lib 文件夹的路径，如下图所示:
   
-  ![HeaderSearchPath](https://raw.githubusercontent.com/dji-sdk/FPVDemo-Part1/master/Tutorial/Images/headerSearchPath.png)
-  ![LibrarySearchPath](https://raw.githubusercontent.com/dji-sdk/FPVDemo-Part1/master/Tutorial/Images/librarySearchPath.png)
+  ![HeaderSearchPath](../../images/headerSearchPath.png)
+  ![LibrarySearchPath](../../images/librarySearchPath.png)
   
   **3**. 创建 **DJICameraViewController** 并在 **Main.storyboard** 中设置它为**Root ViewController**, 添加一个 UIView到该viewController中, 设置它的 IBOutlet 为**fpvPreviewView**, 然后在底部添加两个 UIButton 和一个 UISegmentedControl 控件, 设置好它们的IBOutlets 和 IBActions，如下图所示:
   
-  ![Storyboard](https://raw.githubusercontent.com/dji-sdk/FPVDemo-Part1/master/Tutorial/Images/Storyboard.png)
+  ![Storyboard](../../images/Storyboard.png)
   
   打开 **DJICameraViewController.m** 文件 导入 **DJISDK** 和 **VideoPreviewer** 头文件, 然后创建 **DJIDrone** 和 **DJICamera** 实例变量，如下所示实现它们的委托方法:
   
@@ -215,7 +215,7 @@
    
   **5**. 编译运行你的工程, 检查下一切是否正常. 如果你可以看到类似以下截屏画面, 那么你就可以准备启动你的航拍飞机，享受飞机摄像机上的FPV画面了!
   
-  ![Screenshot](https://raw.githubusercontent.com/dji-sdk/FPVDemo-Part1/master/Tutorial/Images/Screenshot.jpg)
+  ![Screenshot](../../images/Screenshot.jpg)
   
 ### 5. 连接飞行器
 完成以上步骤后, 现在就可以连接你的移动设备到DJI飞行器上，检查是否获取到FPV画面，以下是连接指引：
@@ -246,11 +246,11 @@
 
 如果你可以在app中看到飞机的视频流，那么恭喜，你已经完成了第一部分教程的内容了！下图是app的截屏：
 
-  ![fpv](https://raw.githubusercontent.com/dji-sdk/FPVDemo-Part1/master/Tutorial/Images/fpv.jpg)
+  ![fpv](../../images/fpv.jpg)
 
 
 ### 7. 现在要怎么做?
 
-   你可以从这里下载到本教程的Demo工程:<https://github.com/dji-sdk/FPVDemo-Part1.git>
+   你可以从这里下载到本教程的Demo工程:<https://github.com/DJI-Mobile-SDK/FPVDemo-Part1.git>
    
-   你已经学会了如何配置DJI Mobile SDK的iOS开发环境，并成功用它开发app来展示飞行器相机的FPV画面。在接下来的教程中，我们会在此基础上添加拍照和录像功能. 请关注我们[第二部分](https://github.com/dji-sdk/FPVDemo-Part2/blob/master/Tutorial/FPVDemo_Part2_ch.md)的教程，希望你喜欢！
+   你已经学会了如何配置DJI Mobile SDK的iOS开发环境，并成功用它开发app来展示飞行器相机的FPV画面。在接下来的教程中，我们会在此基础上添加拍照和录像功能. 请关注我们[第二部分](../Part2/FPVDemo_Part2_ch.html)的教程，希望你喜欢！

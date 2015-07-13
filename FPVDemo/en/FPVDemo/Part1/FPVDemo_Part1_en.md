@@ -21,7 +21,7 @@ Minimum Requirement: iOS 6.1 or above
 
 **1**. Copy the framework **DJISDK.framework** from the **Lib** folder and copy the file to your Xcode project folder, then drag the framework to the Frameworks folder in Xcode’s project navigator as shown below:
 
-   ![ImportSDK](https://raw.githubusercontent.com/dji-sdk/FPVDemo-Part1/master/Tutorial/Images/importSDK.png)
+   ![ImportSDK](../../images/importSDK.png)
    
 **2**. Select the project target, in this case **FPVDemo**, and go to **Build Phases -> Link Binary With Libraries**. Click the "+" button at the bottom and add two libraries to your project: libstdc++.6.0.9.dylib and libz.dylib. These two libraries are necessay to compile the SDK framework.
 
@@ -31,7 +31,7 @@ Minimum Requirement: iOS 6.1 or above
 
    Let's go the project's plist file in Supporting Files folder, add the MFI protocol names as shown below:
   
-   ![MFI](https://raw.githubusercontent.com/dji-sdk/FPVDemo-Part1/master/Tutorial/Images/MFIProtocol.png)
+   ![MFI](../../images/MFIProtocol.png)
    
 ### 3. Activate the SDK
 
@@ -77,7 +77,7 @@ Minimum Requirement: iOS 6.1 or above
 ---
 **Note**: In the code above, you will need to obtain an App Key from the DJI Developer website **(<https://dev.dji.com/en/user/mobile-sdk>)** and enter it where it says **Enter Your App Key**. You receive an App Key by clicking **Create APP** and filling out the necessary information. Please note that **Identification Code** stands for **Bundle Identifier**. Once you do that, an App Key is generated for you. The **App Key** we generate for you is associated with the Xcode project **Bundle Identifier**, so you will not be able to use the same App Key in a different Xcode project. Each project must be submiteed individually and will receive a unique App Key. This is what you should see once you submit the information:
 
-![AppKey](https://raw.githubusercontent.com/dji-sdk/FPVDemo-Part1/master/Tutorial/Images/AppKey.png)
+![AppKey](../../images/AppKey.png)
 
 ---
 
@@ -87,21 +87,21 @@ Minimum Requirement: iOS 6.1 or above
 ### 4. Implement the FPV View
   **1**. We use the FFMPEG decoding library <found at http://ffmpeg.org> to decode the video stream. You can find the **VideoPreviewer** folder in the downloaded SDK. Copy the entire **VideoPreviewer** folder to your Xcode project's folder and then add it to the Xcode project navigator, as shown below:
   
- ![AppKey](https://raw.githubusercontent.com/dji-sdk/FPVDemo-Part1/master/Tutorial/Images/ffmpegImport.png)
+ ![AppKey](../../images/ffmpegImport.png)
  
  **2**. Go to **XCode -> Project -> Build Phases -> Link Binary With Libraries** and add the **libiconv.dylib** library. Then, set the **Header Search Paths** in **Build Settings** to the path for the **~/include** folder in the **FFMPEG** folder. Then, set the **Library Search Paths** to the path for the **~/lib** folder in the **FFMPEG** folder, as shown below:
  
-  ![HeaderSearchPath](https://raw.githubusercontent.com/dji-sdk/FPVDemo-Part1/master/Tutorial/Images/headerSearchPath.png)
+  ![HeaderSearchPath](../../images/headerSearchPath.png)
   
-  ![LibrarySearchPath](https://raw.githubusercontent.com/dji-sdk/FPVDemo-Part1/master/Tutorial/Images/librarySearchPath.png)
+  ![LibrarySearchPath](../../images/librarySearchPath.png)
   
   **3**. In **Main.storyboard**, add a new View Controller and call it **DJICameraViewController**. Set **DJICameraViewController** as the root View Controller for the new View Controller you just added in **Main.storyboard**:
   
-  ![rootController](https://raw.githubusercontent.com/dji-sdk/FPVDemo-Part1/master/Tutorial/Images/rootController.png)
+  ![rootController](../../images/rootController.png)
   
 Add a UIView inside the View Controller and set it as an IBOutlet called "**fpvPreviewView**". Then, add two UIButtons and one UISegmentedControl at the bottom of the View Control and set their IBOutlets and IBActions, as shown below:
   
-  ![Storyboard](https://raw.githubusercontent.com/dji-sdk/FPVDemo-Part1/master/Tutorial/Images/Storyboard.png)
+  ![Storyboard](../../images/Storyboard.png)
   
   Go to **DJICameraViewController.m** file and import the **DJISDK** and **VideoPreviewer** header files. Then create **DJIDrone** and **DJICamera** instance variables and implement their delegate protocols as below:
   
@@ -218,7 +218,7 @@ Add a UIView inside the View Controller and set it as an IBOutlet called "**fpvP
    
   **5**. Build and Run the project in Xcode to check if everything is okay. If you see the following screenshot as below, then you can start connect to your aircraft and enjoy the video stream from its camera!
   
-  ![Screenshot](https://raw.githubusercontent.com/dji-sdk/FPVDemo-Part1/master/Tutorial/Images/Screenshot.jpg)
+  ![Screenshot](../../images/Screenshot.jpg)
   
 ### 5. Connect to your DJI Aircraft
 After you finish the steps above, you can now connect your mobile device to your DJI Aircraft to use the application, like checking the FPV View. Here are the guidelines:
@@ -252,10 +252,10 @@ After you finish the steps above, you can now connect your mobile device to your
 
 If you can see the live video stream in the application, congratulations! Feel free to move on to Part 2 of this demo application tutorial, where we will finish the application.
 
-  ![fpv](https://raw.githubusercontent.com/dji-sdk/FPVDemo-Part1/master/Tutorial/Images/fpv.jpg)
+  ![fpv](../../images/fpv.jpg)
 
 ### 7. Where To Go From Here?
 
-   You can download the entire project for this tutorial here: <https://github.com/dji-sdk/FPVDemo-Part1.git>
+   You can download the entire project for this tutorial here: <https://github.com/DJI-Mobile-SDK/FPVDemo-Part1.git>
    
-   You’ve learned how to setup the DJI Mobile SDK's development environment and use it to create a camera view that shows the live video stream of the aircraft's camera. We will add the capture photo and record video functionalities of the app in [Part 2](https://github.com/dji-sdk/FPVDemo-Part2/blob/master/Tutorial/FPVDemo_Part2_en.md) of this tutorial. Hope you enjoy! 
+   You’ve learned how to setup the DJI Mobile SDK's development environment and use it to create a camera view that shows the live video stream of the aircraft's camera. We will add the capture photo and record video functionalities of the app in [Part 2](../Part2/FPVDemo_Part2_en.html) of this tutorial. Hope you enjoy! 
