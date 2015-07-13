@@ -12,12 +12,12 @@
 可以依据文档<http://download.dji-innovations.com/downloads/phantom_3/cn/How_to_Update_Firmware_cn.pdf>里的飞行器固件升级步骤升级。
 
 ### 2.解压SDK并导入Lib到自己的工程
-(1) 解压SDK包. 导入文件夹"Lib"到你的eclipse，把它添加为你的工程的库(右击你的工程->选择“Properties”->选择"Android").
+(1) 解压SDK包，导入文件夹"Lib"到你的eclipse，把它添加为你的工程的库(把鼠标放在你的工程名上右击->选择“Properties”->选择"Android").
 ![setLib](http://gitlab.djicorp.com/jian.zhao/SDK-SampleCodes-Android/raw/master/FPVDemo-Tutorial/images/1_importLib.png)
 
 (2) 检查库是否已成功导入
 
-查看“Android Private Libraries”里有如下jar包时，说明导入成功。
+查看“Android Private Libraries”，里面有如下jar包时，说明导入成功。
 
 ![checkLib](http://gitlab.djicorp.com/jian.zhao/SDK-SampleCodes-Android/raw/master/FPVDemo-Tutorial/images/1_CheckLib.png)
 
@@ -34,6 +34,7 @@
 ![appKey](http://gitlab.djicorp.com/jian.zhao/SDK-SampleCodes-Android/raw/master/FPVDemo-Tutorial/images/1_appKey.png)
  
 在开始调用SDK APIs之前，需要添加以下代码来进行激活验证，
+
 ~~~java
 	new Thread(){
 		public void run(){
@@ -54,35 +55,37 @@
 		}
 	}
 ~~~
-只有在激活成功之后，SDK APIs才能被调用成功。激活结果的返回码和相应的描述请见下表，若遇到问题不能成功，请先检查以下几点：1. 在申请APP KEY时，是否是使用工程的包名填入标识码；2. 是否有连接网络； 3. 所使用的APP KEY的最大装机量是否使用完。 若仍为能解决激活问题，可以发邮件给我们Mobile SDK邮箱:<sdk@dji.com>
 
-result  		 | Description 
+只有在激活成功之后，SDK APIs才能被调用成功。激活结果的返回码和相应的描述请见下表，若遇到问题不能成功，请先检查以下几点：1. 在申请APP KEY时，是否是使用工程的包名填入标识码；2. 是否有连接网络； 3. 所使用的APP KEY的最大装机量是否使用完。 若仍未能解决激活问题，可以发邮件给我们Mobile SDK邮箱:<sdk@dji.com>
+
+返回错误码  		 | 错误描述 
 ------------- | -------------
-0   | Check permission successful
--1  | Cannot connect to Internet
--2  | Invalid app key
--3  | Get permission data timeout
--4  | Device uuid not match
--5  | Project package name does not match the app 	   key's identification code
--6  | App key is forbidden
--7  | Activated device number is up to the maximum 		available one
--8  | App key's platform is not correct
--9  | App key does not exist
--10 | App key has no permission
--11 | Server parser failed
--12 | Error in server obtaining uuid
--13 | Server app package name abnormal
--14 | Server parsing activation data failed
--15 | AES 256 encryption unsupported
--16 | AES 256 encryption failed
--17 | Get device uuid failed
--18 | Empty app key
--1000 | Server error 
+0   | 验证成功
+-1  | 没有网络连接
+-2  | 无效的app key
+-3  | 获取授权数据超时
+-4  | 设备uuid不匹配
+-5  | 工程包名和申请app key时的标识码不匹配
+-6  | App key被禁
+-7  | 激活量已经到达最大装机量
+-8  | App key的使用平台不正确
+-9  | App key不存在
+-10 | App key没有权限
+-11 | 服务器解析失败
+-12 | 服务器获取设备uuid错误
+-13 | 服务器app包名不对
+-14 | 服务器解析激活数据失败
+-15 | AES 256加密不支持
+-16 | AES 256加密失败
+-17 | 获取设备uuid失败
+-18 | 空的App keyEmpty app key
+-1000 | 服务器错误 
 
 
 (2) 添加对Android Open Accessory (AOA)的支持:
 
 DJI的遥控器最新的固件将需要app端实现对AOA的支持。在Demo程序中，我们提供了对AOA支持的一个样例。在AndroidManifest.xml文件中，使用DJIAoaActivity作为主activity，即是打开app时第一个执行的activity。并添加intent-filter和meta-data如以下代码所示，
+
 ~~~xml
 	<activity
 		android:name=".DJIAoaActivity"
@@ -158,6 +161,7 @@ DJIAoaActivity中有添加如下代码支持AOA,
 (3) 在APP上实现FPV实时视频显示
 	
 (a) 在使用SDK APIs之前，我们先需要根据连接的飞机的类型来初始化SDK APIs.使用DJIDrone类里的**public static boolean initWithType(Context mContext, DJIDroneType type)**方法来初始化。
+
 ~~~java
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -197,10 +201,13 @@ DJIAoaActivity中有添加如下代码支持AOA,
 	
 	...
 ~~~	
+
 (b) 在初始化SDK APIs之后，我需要使用DJIDrone类里面的**public static boolean connectToDrone()**方法连接飞机，
+
 ~~~java
 	DJIDrone.connectToDrone(); // Connect to the drone
 ~~~	
+
 (c) 现在我们可以实例化一个视频数据的回调接口**DJIReceivedVideoDataCallBack()**, 然后调用API **public public void setReceivedVideoDataCallBack(DJIReceivedVideoDataCallBack mReceivedVideoDataCallBack)**来获取实时视频数据（raw H264格式）。用户可以实现自己的代码去处理该视频数据。这里，我们使用DJI SDK提供的解码器来解码该视频数据，并把解码出来的视频显示在**SurfaceView**。
 
 在 layout **activity_fpv.xml**里面添加surfaceview, 该layout是**FPVActivity**的界面文件，
@@ -210,7 +217,8 @@ DJIAoaActivity中有添加如下代码支持AOA,
 		android:id="@+id/DjiSurfaceView_02"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent" />
-~~~		
+~~~
+		
 添加代码把视频数据发送到类**DjiGLSurfaceView**实例化的一个对象，该对象对其进行解码并进行显示。		
 
 ~~~java
@@ -242,9 +250,11 @@ DJIAoaActivity中有添加如下代码支持AOA,
 		
 	}
 ~~~	
+
 **注意**：需要先调用实例化对象**mDjiGLSurfaceView**的**public boolean start()**方法，然后调用**DJIDrone.getDjiCamera().setReceivedVideoDataCallBack(mReceivedVideoDataCallBack)**把视频数据传递给**mDjiGLSurfaceView**解码并显示视频。
 
 当显示视频的activity关闭时，你需要先调用**DJIDrone.getDjiCamera().setReceivedVideoDataCallBack(null)**停止传递视频数据给**mDjiGLSurfaceView**, 然后再释放**mDjiSurfaceView**。相关代码如下，
+
 ~~~java
 	...
 	
@@ -279,7 +289,8 @@ DJIAoaActivity中有添加如下代码支持AOA,
 
 5. 飞行器相机的实时视频就会显示在你的移动设备上。
 
-连接 DJI Phantom 2 Vision+ or Phantom 2 Vision:
+* 连接 DJI Phantom 2 Vision+ or Phantom 2 Vision:
+
 1. 首先启动遥控器电源, 再启动你的飞行器
 
 2. 确认移动设备有互联网连接，打开应用激活DJI SDK。当激活成功点击“OK”。

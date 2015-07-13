@@ -1,38 +1,37 @@
-# DJI Mobile Android SDK Tutorial (1)
+# DJI Mobile SDK for Andriod Tutorial (1)
 
-## How to create a simple FPV app: Part 1/2
+## Create a FPV app usng Mobile SDK: Part 1/2
 
 ### 1.Preparation
 
-(1) Download the Android SDK:
-You can download the latest Android SDK from here: 
+(1) Download the SDK:
+Download the Mobile SDK for Android from the following URL: 
 <http://dev.dji.com/cn/products/sdk/mobile-sdk/downloads>
 
-(2)Update your drone (Phantom 3 Professional, Phantom 3 Advanced or Inspire 1)'s firmware using that on <http://dev.dji.com/cn/products/sdk/mobile-sdk/downloads>
+(2)Update the firm of the aircraft (Phantom 3 Professional, Phantom 3 Advanced or Inspire 1) through the URL: <http://dev.dji.com/cn/products/sdk/mobile-sdk/downloads>
 
-Please follow the process "Updating the Aircraft Firmware" according to the document here <http://download.dji-innovations.com/downloads/phantom_3/en/How_to_Update_Firmware_en.pdf> to update the firmware.
+Refer to "Updating the Aircraft Firmware" from the URL: <http://download.dji-innovations.com/downloads/phantom_3/en/How_to_Update_Firmware_en.pdf> to update the firmware.
 
-### 2.Unzip the SDK package and import Lib into your project
-(1) Unzip the SDK package. Import the folder Lib into your eclipse, add it as a library for your own project (Right click on your project->Select "Properties"->Select "Android").
+### 2.Unzip the SDK package and import Lib 
+(1) Unzip the SDK package. Import the folder **Lib** into eclipse, add it as a library for your own project (Right click on your project->Select "**Properties**"->Select "**Android**").
 ![setLib](http://gitlab.djicorp.com/jian.zhao/SDK-SampleCodes-Android/raw/master/FPVDemo-Tutorial/images/1_importLib.png)
 
-(2) Check that the library is imported.
-
+(2) Locate the imported library.
 ![checkLib](http://gitlab.djicorp.com/jian.zhao/SDK-SampleCodes-Android/raw/master/FPVDemo-Tutorial/images/1_CheckLib.png)
 
-### 3.Write the codes for FPV View
+### 3.Implementing for FPV View
 
 (1) Activate the SDK: 
 
-Add the following meta-data element in your AndroidManifest as the configuration of APP KEY for activation.
+Add the highlighted meta-data elements into your **AndroidManifest** for activation.
 
 ![appKeyMetaData](http://gitlab.djicorp.com/jian.zhao/SDK-SampleCodes-Android/raw/master/FPVDemo-Tutorial/images/1_appKeyMetaData.png)
 
-Please use the APP KEY you have applied in <http://dev.dji.com> as the value of the meta-data element. When you apply the APP KEY, you should use an Identification Code the same as your project's package name.
+Input the APP KEY that you have applied from <http://dev.dji.com>. Note that the Identification Code is identical to your project's package name.
 
 ![appKey](http://gitlab.djicorp.com/jian.zhao/SDK-SampleCodes-Android/raw/master/FPVDemo-Tutorial/images/1_appKey.png)
  
-Add the following codes before calling SDK APIs,
+Add the following codes before calling the SDK APIs,
 ~~~java
 	new Thread(){
 		public void run(){
@@ -53,9 +52,9 @@ Add the following codes before calling SDK APIs,
 		}
 	}
 ~~~
-The SDK API can only be used when its activation is successful. The error code for the APP KEY activation is as follows. If you run into any problem in activation, please first check the following points:(1) 
-Check whether the mobile device has Internet connections; (2) Check wheter using your project package name as the identification code in applying the app key; (3) Check whether the installed capacity of the app key
-has run over. If you have further questions, please contact our mobile SDK support by sending emails to <sdk@dji.com>
+Complete the activate procedure before using the SDK API for the first time. The error code for the APP KEY activation is as follows.Follow the instruction below to troubleshoot the activation procedure:(1) 
+Esnure you have access to the internet; (2) Ensure the project package name is identical to the Identification Code when applying the APP KEY; (3) Ensure that APP KEY has not reach its installed capacity limit.
+If you have further questions, contact our mobile SDK support by sending emails to <sdk@dji.com>
 
 result  	  | Description 
 ------------- | -------------
@@ -83,7 +82,7 @@ result  	  | Description
 
 (2) Add the Android Open Accessory (AOA) support:
 
-We need AOA to support DJI's new Remote Controller firmware. In AndroidManifest.xml, use DJIAoaActivity as the main activity, which will be the entry point as the application is open. 
+In order to support the new remote controller from DJI, AOA is required. Modify **AndroidManifest.xml** to set **DJIAoaActivity** as the main activity, which is served the entry point when the application is initiated. 
 ~~~xml
 	<activity
 		android:name=".DJIAoaActivity"
@@ -105,7 +104,7 @@ We need AOA to support DJI's new Remote Controller firmware. In AndroidManifest.
 	</activity>
 ~~~
 
-DJIAoaActivity include the following code for supporting AOA. 
+Added the following code in DJIAoaActivity to enable the support of AOA.
 ~~~java
 	private static boolean isStarted = false;
 	...
@@ -138,7 +137,7 @@ DJIAoaActivity include the following code for supporting AOA.
 	...
 ~~~ 
 
-OK. The next step is to add codes for pausing or resuming the Service for AOA data connection when an Activity's **onPause()** or **onResume()** lifecycle callback is called. You can use DemoBaseActivity as the base activity, which includes the following codes,
+Add the following codes to pause or resume the AOA data connection service when the **onPause()** or **onResume()** lifecycle callback is called. Set the **DemoBaseActivity** as the base activity, which contains the following codes:
 ~~~java
 	...
 	@Override
@@ -154,9 +153,9 @@ OK. The next step is to add codes for pausing or resuming the Service for AOA da
 	}
 ~~~	
 	
-(3) Implement the FPV View
+(3) Implementing the FPV View
 	
-(a) To use the SDK APIs, we first need to initiate the SDK APIs according to the type of drones. We have different APIs for different types of drones.
+(a) Initiate the SDK API according to the type of the aircraft.  
 ~~~java
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -196,13 +195,13 @@ OK. The next step is to add codes for pausing or resuming the Service for AOA da
 	
 	...
 ~~~	
-(b) After initiating the SDK APIs, we need to use the following line of code to connect to the drone,
+(b) Connect to the aircraft using the following codes:
 ~~~java
 	DJIDrone.connectToDrone(); // Connect to the drone
 ~~~	
-(c) Now we can implement the code for FPV view by using the API **public void setReceivedVideoDataCallBack(DJIReceivedVideoDataCallBack mReceivedVideoDataCallBack)** to obtain the live view video data(raw H264 format). The video data can be processed by writing codes for specific applications. Here, we use the decoder provided by DJI to decode the video data and show the live view using **SurfaceView**.
+(c) Implement the FPV view by using the SDK API **public void setReceivedVideoDataCallBack(DJIReceivedVideoDataCallBack mReceivedVideoDataCallBack)** to obtain the live preview video data(raw H264 format). The video data can then be processed by using codes for specific purpose. Here, we use the decoder provided by DJI to decode the video data and display them to the live view using **SurfaceView**.
 
-Add the surfaceview in the layout activity_fpv.xml in the sample code） which is used as the **FPVActivity**'s view,
+Add the **surfaceview** in the layout activity_fpv.xml in the sample code, which is used as the **FPVActivity**'s view,
 ~~~xml
 	<dji.sdk.widget.DjiGLSurfaceView
 		android:id="@+id/DjiSurfaceView_02"
@@ -240,9 +239,10 @@ Add the code to send video data to **DjiGLSurfaceView** for decoding and display
 		
 	}
 ~~~	
-Note that you should start **mDjiGLSurfaceView** first, then call **DJIDrone.getDjiCamera().setReceivedVideoDataCallBack(mReceivedVideoDataCallBack)** to send the video data to mDjiGLSurfaceView for decoding and displaying.
+Note  **mDjiGLSurfaceView** should be started first, follow by calling the  **DJIDrone.getDjiCamera().setReceivedVideoDataCallBack(mReceivedVideoDataCallBack)** to send the video data to 
+**mDjiGLSurfaceView** for decoding and displaying.
 
-When the activity is closed, you should first call **DJIDrone.getDjiCamera().setReceivedVideoDataCallBack(null)** to reset the callback using null, and then destroy **mDjiGLSurfaceView**. Codes are as follows,
+After activity is closed, you should first call **DJIDrone.getDjiCamera().setReceivedVideoDataCallBack(null)** to reset the callback and then destroy **mDjiGLSurfaceView** to complete the life cycle.
 ~~~java
 	...
 	
@@ -256,42 +256,41 @@ When the activity is closed, you should first call **DJIDrone.getDjiCamera().set
 		...
 	}
 ~~~
-You should pay attention to the sequence of the start of mDjiGLSurfaceView and the setting of the callback, and the sequence of the destroy of mDjiGLSurfaceView and setting the callback using null.
+Be aware of the sequence of the start of **mDjiGLSurfaceView** and the setting of the callback, and the sequence of the destroy of **mDjiGLSurfaceView** and setting the callback using null.
 
-(d) Build and Run the project, check if everything is OK. if you see the following screenshot, then you can start connecting to your aircraft and enjoy the Video Stream from its camera!
-
+(d) Build and run the project, check if everything is running as desired. If the follow screen can be seen, it means that you have succesfully created an simple app by using the SDK APIs.
 ![afterCompileScreenShot](http://gitlab.djicorp.com/jian.zhao/SDK-SampleCodes-Android/raw/master/FPVDemo-Tutorial/images/afterComplileScreenShot.png)
 
 ### 4.Connect to your DJI Drones
 
-After you build and run the project successfully, you can now connect your mobile device to your DJI Drones to check the FPV View, here are the guides:
+After you build and run the project successfully, you can now connect your mobile device to the aircraft to check the FPV View. Follow the instruction to check your FPV View app:
 
 * Connect to a DJI Inspire 1 or Phantom 3 Professional/Advanced:
 
-1. Firstly, start your remote controller, then power on your aircraft
+1. Turn on your remote controller, then turn on your aircraft
 
-2. Connect your mobile device to the remote controller using a USB cable. Select your own app when a window "Choose an app for the USB device" pops up.
+2. Connect your mobile device to the remote controller using a USB cable. Tap your own app and a message windows of "Choose an app for the USB device" prompts.
 
-3. Click "OK" when a window asking "Allow the app to access the USB accessory" pops up.
+3. Tap "OK" when the messagte window prompts "Allow the app to access the USB accessory".
 
-4. Click "OK" when the activation alert pops up.
+4. Tap "OK" when the activation alert displays.
 
-5. Now you can enjoy the FPV of your drone.
+5. Now you start using FPV View app. 
 
 * Connect to a DJI Phantom 2 Vision+ or Phantom 2 Vision:
 	
-1. Power on your remote control firstly, and then start your aircraft
+1. Turn on your remote controller, then turn on your aircraft.
 
-2. Make sure the mobile device has Internet connection, open the app to activate the app. Click "OK" when the activation is successful. 
+2. Ensure that the mobile device have access to the Internet. Tap the app to activate and select "OK" when the activation is done.
 
-3. Power on the Wi-Fi range extender
+3. Turn on the Wi-Fi range extender
 
-4. Turn on the Wi-Fi on your mobile device and connect to the network named Phantom-xxxxxx (where xxxxxx is your range extender’s SSID number)
+4. Turn on the Wi-Fi on your mobile device and connect to the Wi-Fi network named Phantom-xxxxxx (where xxxxxx is your range extender’s SSID number)
 
-5. Now you can enjoy the FPV of your drone.
+5. Now you start using FPV View app.
 
 ### 5.Enjoy the FPV View
-If you can see the live video stream in the app, congratulations! You can start the Part 2 tutorial now:
+If you can see the live video stream in the app, congratulations! You can move on to the Part 2 of the tutorial now:
 ![runAppScreenShot]()
 
 ### 6.Go to Next Tutorial
