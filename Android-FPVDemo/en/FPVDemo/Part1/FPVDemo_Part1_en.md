@@ -8,7 +8,7 @@
 Download the Mobile SDK for Android from the following URL: 
 <http://dev.dji.com/cn/products/sdk/mobile-sdk/downloads>
 
-(2)Update the firm of the aircraft (Phantom 3 Professional, Phantom 3 Advanced or Inspire 1) through the URL: <http://dev.dji.com/cn/products/sdk/mobile-sdk/downloads>
+(2)Update the firmware of the aircraft (Phantom 3 Professional, Phantom 3 Advanced or Inspire 1) through the URL: <http://dev.dji.com/cn/products/sdk/mobile-sdk/downloads>
 
 Refer to "Updating the Aircraft Firmware" from the URL: <http://download.dji-innovations.com/downloads/phantom_3/en/How_to_Update_Firmware_en.pdf> to update the firmware.
 
@@ -32,7 +32,6 @@ Input the APP KEY that you have applied from <http://dev.dji.com>. Note that the
 ![appKey](https://github.com/dji-sdk/Mobile-SDK-Tutorial/raw/master/Android-FPVDemo/en/images/1_appKey.png)
  
 Add the following codes before calling the SDK APIs,
-
 ~~~java
 	new Thread(){
 		public void run(){
@@ -42,20 +41,16 @@ Add the following codes before calling the SDK APIs,
 					public void onGetPermissionResult(int result){
 						if(result == 0) {
 							// show success
-							Log.e(TAG, "onGetPermissionResult ="+result);
-							Log.e(TAG, "onGetPermissionResultDescription="+DJIError.getCheckPermissionErrorDescription(result));
+							Toast.makeText(FPVActivity.this, "activation success", Toast.LENGTH_SHORT).show();
 						}else {
-							// show error															
-							Log.e(TAG, "onGetPermissionResult ="+result);
-							Log.e(TAG, "onGetPermissionResultDescription="+DJIError.getCheckPermissionErrorDescription(result));
+							// show errors
+							Toast.makeText(FPVActivity.this, "error: "+result, Toast.LENGTH_SHORT).show();
 						}
 					}
 				});
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
 		}
-	}.start();
+	}
 ~~~
 Complete the activate procedure before using the SDK API for the first time. The error code for the APP KEY activation is as follows.Follow the instruction below to troubleshoot the activation procedure:(1) 
 Esnure you have access to the internet; (2) Ensure the project package name is identical to the Identification Code when applying the APP KEY; (3) Ensure that APP KEY has not reach its installed capacity limit.
@@ -270,7 +265,7 @@ Be aware of the sequence of the start of **mDjiGLSurfaceView** and the setting o
 
 After you build and run the project successfully, you can now connect your mobile device to the aircraft to check the FPV View. Follow the instruction to check your FPV View app:
 
-* Connect to a DJI Inspire 1 or Phantom 3 Professional/Advanced:
+#### Connect to a DJI Inspire 1 or Phantom 3 Professional/Advanced:
 
 1. Turn on your remote controller, then turn on your aircraft
 
@@ -282,7 +277,7 @@ After you build and run the project successfully, you can now connect your mobil
 
 5. Now you start using FPV View app. 
 
-* Connect to a DJI Phantom 2 Vision+ or Phantom 2 Vision:
+#### Connect to a DJI Phantom 2 Vision+ or Phantom 2 Vision:
 	
 1. Turn on your remote controller, then turn on your aircraft.
 
@@ -290,15 +285,15 @@ After you build and run the project successfully, you can now connect your mobil
 
 3. Turn on the Wi-Fi range extender
 
-4. Turn on the Wi-Fi on your mobile device and connect to the Wi-Fi network named Phantom-xxxxxx (where xxxxxx is your range extender’s SSID number)
+4. Turn on the Wi-Fi on your mobile device and connect to the Wi-Fi network of Phantom-xxxxxx (where xxxxxx is your range extender’s SSID number)
 
 5. Now you start using FPV View app.
 
-### 5.Enjoy the FPV View
+### 5.Check the result of FPV View
 If you can see the live video stream in the app, congratulations! You can move on to the Part 2 of the tutorial now:
 ![runAppScreenShot](https://github.com/dji-sdk/Mobile-SDK-Tutorial/raw/master/Android-FPVDemo/en/images/runAppScreenShot.png)
 
-### 6.Go to Next Tutorial
+### 6.Where to Go From Here?
 
 You can download the demo project for this tutorial from here: <https://github.com/DJI-Mobile-SDK/Android-FPVDemo-Part1.git>
 
