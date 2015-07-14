@@ -31,7 +31,7 @@
 ![appKeyMetaData](https://github.com/dji-sdk/Mobile-SDK-Tutorial/raw/master/Android-FPVDemo/en/images/1_appKeyMetaData.png)
 
 请使用你在DJI开发者网站<http://dev.dji.com>上申请的APP KEY填入**android:value=""**。当申请APP KEY的时候，需要在标识码处填入你的工程的包名。
-![appKey](https://github.com/dji-sdk/Mobile-SDK-Tutorial/raw/master/Android-FPVDemo/en/images/1_appKey.png)
+![appKey](https://github.com/mrjzhao/Mobile-SDK-Tutorial/raw/master/Android-FPVDemo/zh-cn/images/appKey_cn.png)
  
 在开始调用SDK APIs之前，需要添加以下代码来进行激活验证，
 
@@ -47,7 +47,8 @@
 							Log.e(TAG, "onGetPermissionResult ="+result);
 							Log.e(TAG, "onGetPermissionResultDescription="+DJIError.getCheckPermissionErrorDescription(result));
 						}else {
-							// show error									Log.e(TAG, "onGetPermissionResult ="+result);
+							// show error									
+							Log.e(TAG, "onGetPermissionResult ="+result);
 							Log.e(TAG, "onGetPermissionResultDescription="+DJIError.getCheckPermissionErrorDescription(result));
 						}
 					}
