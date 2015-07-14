@@ -85,7 +85,7 @@ Minimum Requirement: iOS 6.1 or above
 
 
 ### 4. Implement the FPV View
-  **1**. We use the FFMPEG decoding library <found at http://ffmpeg.org> to decode the video stream. You can find the **VideoPreviewer** folder in the downloaded SDK. Copy the entire **VideoPreviewer** folder to your Xcode project's folder and then add it to the Xcode project navigator, as shown below:
+  **1**. We use the FFMPEG decoding library (found at http://ffmpeg.org) to decode the video stream. You can find the **VideoPreviewer** folder in the downloaded SDK. Copy the entire **VideoPreviewer** folder to your Xcode project's folder and then add it to the Xcode project navigator, as shown below:
   
  ![AppKey](../../images/ffmpegImport.png)
  
