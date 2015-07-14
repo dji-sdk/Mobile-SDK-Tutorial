@@ -45,7 +45,8 @@ Add the following codes before calling the SDK APIs,
 							Log.e(TAG, "onGetPermissionResult ="+result);
 							Log.e(TAG, "onGetPermissionResultDescription="+DJIError.getCheckPermissionErrorDescription(result));
 						}else {
-							// show error									Log.e(TAG, "onGetPermissionResult ="+result);
+							// show error															
+							Log.e(TAG, "onGetPermissionResult ="+result);
 							Log.e(TAG, "onGetPermissionResultDescription="+DJIError.getCheckPermissionErrorDescription(result));
 						}
 					}
