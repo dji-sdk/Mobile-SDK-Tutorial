@@ -41,10 +41,14 @@ Add the following codes before calling the SDK APIs,
 					public void onGetPermissionResult(int result){
 						if(result == 0) {
 							// show success
-							Toast.makeText(FPVActivity.this, "activation success", Toast.LENGTH_SHORT).show();
+							Log.e(TAG, "onGetPermissionResult ="+result);
+							Log.e(TAG, 
+"onGetPermissionResultDescription="+DJIError.getCheckPermissionErrorDescription(result));
 						}else {
 							// show errors
-							Toast.makeText(FPVActivity.this, "error: "+result, Toast.LENGTH_SHORT).show();
+							Log.e(TAG, "onGetPermissionResult ="+result);
+							Log.e(TAG, 
+"onGetPermissionResultDescription="+DJIError.getCheckPermissionErrorDescription(result));
 						}
 					}
 				});
@@ -84,24 +88,34 @@ result  	  | Description
 
 In order to support the new remote controller from DJI, AOA is required. Modify **AndroidManifest.xml** to set **DJIAoaActivity** as the main activity, which is served the entry point when the application is initiated. And add **<uses-feature android:name="android.hardware.usb.accessory" android:required="false"/>**, **<uses-feature android:name="android.hardware.usb.host" android:required="false"/>** in **AndroidManifest.xml**. Add **<uses-library android:name="com.android.future.usb.accessory"/>** under element <application></application>.
 ~~~xml
-	<activity
-		android:name=".DJIAoaActivity"
-		android:configChanges="orientation|screenSize|keyboardHidden|keyboard"
-		android:screenOrientation="sensorLandscape" >
+	...
+	
+	<uses-feature android:name="android.hardware.usb.accessory" android:required="false" />
+	<uses-feature android:name="android.hardware.usb.host" android:required="false" />
+	<application
+		android:label="@string/app_name"
+		android:theme="@style/AppTheme">
 		
-		<intent-filter>
-			<action android:name="android.intent.action.MAIN" />
-			<category android:name="android.intent.category.LAUNCHER" />
-		</intent-filter>
-		
-		<intent-filter>
-			<action android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED" />
-		</intent-filter>
-		
-		<meta-data
-			android:name = "android.hardware.usb.action.USB_ACCESSORY_ATTACHED"
-			android:resource = "@xml/accessory_filter" />
-	</activity>
+		<uses-library android:name="com.android.future.usb.accessory" />
+	...
+		<activity
+			android:name=".DJIAoaActivity"
+			android:configChanges="orientation|screenSize|keyboardHidden|keyboard"
+			android:screenOrientation="sensorLandscape" >
+			
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+			
+			<intent-filter>
+				<action android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED" />
+			</intent-filter>
+			
+			<meta-data
+				android:name = "android.hardware.usb.action.USB_ACCESSORY_ATTACHED"
+				android:resource = "@xml/accessory_filter" />
+		</activity>
 ~~~
 
 Added the following code in DJIAoaActivity to enable the support of AOA.
