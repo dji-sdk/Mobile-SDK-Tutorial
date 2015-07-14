@@ -298,7 +298,7 @@ After you build and run the project successfully, you can now connect your mobil
 If you can see the live video stream in the app, congratulations! You can move on to the Part 2 of the tutorial now:
 ![runAppScreenShot](https://github.com/dji-sdk/Mobile-SDK-Tutorial/raw/master/Android-FPVDemo/en/images/runAppScreenShot.png)
 
-### 6.Go to Next Tutorial
+### 6.Where to Go From Here
 
 You can download the demo project for this tutorial from here: <https://github.com/DJI-Mobile-SDK/Android-FPVDemo-Part1.git>
 
