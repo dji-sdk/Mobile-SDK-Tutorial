@@ -44,16 +44,19 @@
 					public void onGetPermissionResult(int result){
 						if(result == 0) {
 							// show success
-							Toast.makeText(FPVActivity.this, "activation success", Toast.LENGTH_SHORT).show();
+							Log.e(TAG, "onGetPermissionResult ="+result);
+							Log.e(TAG, "onGetPermissionResultDescription="+DJIError.getCheckPermissionErrorDescription(result));
 						}else {
-							// show errors
-							Toast.makeText(FPVActivity.this, "error: "+result, Toast.LENGTH_SHORT).show();
+							// show error									Log.e(TAG, "onGetPermissionResult ="+result);
+							Log.e(TAG, "onGetPermissionResultDescription="+DJIError.getCheckPermissionErrorDescription(result));
 						}
 					}
 				});
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
-	}
+	}.start();
 ~~~
 
 只有在激活成功之后，SDK APIs才能被调用成功。激活结果的返回码和相应的描述请见下表，若遇到问题不能成功，请先检查以下几点：1. 在申请APP KEY时，是否是使用工程的包名填入标识码；2. 是否有连接网络； 3. 所使用的APP KEY的最大装机量是否使用完。 若仍未能解决激活问题，可以发邮件给我们Mobile SDK邮箱:<sdk@dji.com>
