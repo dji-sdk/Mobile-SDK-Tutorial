@@ -127,7 +127,7 @@
 
 恭喜你！你的FPV航拍App已经大功告成，你现在可以用它来控制Inspire 1的相机了。
 
-### 4. Go to Next Tutorial
+### 4. 现在要怎么做?
 
 你可以从这里下载到本教程的最终Demo工程（与第一部分是同一个工程）: <https://github.com/DJI-Mobile-SDK/Android-FPVDemo-Part2>
 
