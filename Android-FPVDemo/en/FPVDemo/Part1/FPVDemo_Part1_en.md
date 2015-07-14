@@ -32,6 +32,7 @@ Input the APP KEY that you have applied from <http://dev.dji.com>. Note that the
 ![appKey](https://github.com/dji-sdk/Mobile-SDK-Tutorial/raw/master/Android-FPVDemo/en/images/1_appKey.png)
  
 Add the following codes before calling the SDK APIs,
+
 ~~~java
 	new Thread(){
 		public void run(){
@@ -41,16 +42,20 @@ Add the following codes before calling the SDK APIs,
 					public void onGetPermissionResult(int result){
 						if(result == 0) {
 							// show success
-							Toast.makeText(FPVActivity.this, "activation success", Toast.LENGTH_SHORT).show();
+							Log.e(TAG, "onGetPermissionResult ="+result);
+							Log.e(TAG, "onGetPermissionResultDescription="+DJIError.getCheckPermissionErrorDescription(result));
 						}else {
-							// show errors
-							Toast.makeText(FPVActivity.this, "error: "+result, Toast.LENGTH_SHORT).show();
+							// show error															
+							Log.e(TAG, "onGetPermissionResult ="+result);
+							Log.e(TAG, "onGetPermissionResultDescription="+DJIError.getCheckPermissionErrorDescription(result));
 						}
 					}
 				});
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
-	}
+	}.start();
 ~~~
 Complete the activate procedure before using the SDK API for the first time. The error code for the APP KEY activation is as follows.Follow the instruction below to troubleshoot the activation procedure:(1) 
 Esnure you have access to the internet; (2) Ensure the project package name is identical to the Identification Code when applying the APP KEY; (3) Ensure that APP KEY has not reach its installed capacity limit.
