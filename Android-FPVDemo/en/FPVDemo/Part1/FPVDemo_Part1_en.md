@@ -86,7 +86,7 @@ result  	  | Description
 
 (2) Add the Android Open Accessory (AOA) support:
 
-In order to support the new remote controller from DJI, AOA is required. Modify **AndroidManifest.xml** to set **DJIAoaActivity** as the main activity, which is served the entry point when the application is initiated. And add **<uses-feature android:name="android.hardware.usb.accessory" android:required="false"/>**, **<uses-feature android:name="android.hardware.usb.host" android:required="false"/>** in **AndroidManifest.xml**. Add **<uses-library android:name="com.android.future.usb.accessory"/>** under element <application></application>.
+In order to support the new remote controller from DJI, AOA is required. Modify **AndroidManifest.xml** to set **DJIAoaActivity** as the main activity, which is served the entry point when the application is initiated. And add **uses-feature android:name="android.hardware.usb.accessory" android:required="false"**, **uses-feature android:name="android.hardware.usb.host" android:required="false"** in **AndroidManifest.xml**. Add **uses-library android:name="com.android.future.usb.accessory"** under element application.
 ~~~xml
 	...
 	
