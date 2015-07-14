@@ -88,27 +88,37 @@
 
 (2) 添加对Android Open Accessory (AOA)的支持:
 
-DJI的遥控器最新的固件将需要app端实现对AOA的支持。在Demo程序中，我们提供了对AOA支持的一个样例。在AndroidManifest.xml文件中，使用DJIAoaActivity作为主activity，即是打开app时第一个执行的activity。并添加intent-filter和meta-data如以下代码所示，
+DJI的遥控器最新的固件将需要app端实现对AOA的支持。在Demo程序中，我们提供了对AOA支持的一个样例。在AndroidManifest.xml文件中，使用DJIAoaActivity作为主activity，即是打开app时第一个执行的activity。并添加intent-filter和meta-data。以及在**AndroidManifest.xml**中添加 **uses-feature android:name="android.hardware.usb.accessory" android:required="false"**, **uses-feature android:name="android.hardware.usb.host" android:required="false"**， 和在**application**标签下添加 **uses-library android:name="com.android.future.usb.accessory"**。
 
 ~~~xml
-	<activity
-		android:name=".DJIAoaActivity"
-		android:configChanges="orientation|screenSize|keyboardHidden|keyboard"
-		android:screenOrientation="sensorLandscape" >
+	...
+	
+	<uses-feature android:name="android.hardware.usb.accessory" android:required="false" />
+	<uses-feature android:name="android.hardware.usb.host" android:required="false" />
+	<application
+		android:label="@string/app_name"
+		android:theme="@style/AppTheme">
 		
-		<intent-filter>
-			<action android:name="android.intent.action.MAIN" />
-			<category android:name="android.intent.category.LAUNCHER" />
-		</intent-filter>
-		
-		<intent-filter>
-			<action android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED" />
-		</intent-filter>
-		
-		<meta-data
-			android:name = "android.hardware.usb.action.USB_ACCESSORY_ATTACHED"
-			android:resource = "@xml/accessory_filter" />
-	</activity>
+		<uses-library android:name="com.android.future.usb.accessory" />
+	...
+		<activity
+			android:name=".DJIAoaActivity"
+			android:configChanges="orientation|screenSize|keyboardHidden|keyboard"
+			android:screenOrientation="sensorLandscape" >
+			
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+			
+			<intent-filter>
+				<action android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED" />
+			</intent-filter>
+			
+			<meta-data
+				android:name = "android.hardware.usb.action.USB_ACCESSORY_ATTACHED"
+				android:resource = "@xml/accessory_filter" />
+		</activity>
 ~~~
 
 DJIAoaActivity中有添加如下代码支持AOA,
