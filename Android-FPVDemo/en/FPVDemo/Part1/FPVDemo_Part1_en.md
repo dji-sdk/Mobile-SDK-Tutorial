@@ -1,6 +1,6 @@
-﻿# DJI Mobile SDK for Andriod Tutorial (1)
+﻿# DJI Mobile Android SDK Tutorial
 
-## Create a FPV app usng Mobile SDK: Part 1/2
+## How to create a Camera Application: Part 1/2
 
 ### 1.Preparation
 

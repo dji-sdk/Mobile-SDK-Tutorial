@@ -1,6 +1,6 @@
-﻿# DJI Mobile Android SDK 教程 (2)
+﻿# DJI Mobile Android SDK 教程
 
-## 如何创建一个简单的FPV航拍APP: 第二部分
+## 如何创建一个航拍相机App: 第二部分
 
 在第一部分中，我们实现了一个基本的FPV视图，你可以在这个视图上看到飞行器摄像头的视频画面。在本教程中，我们使用Phantom 3 Professional进行演示，你会学到如何在app中添加拍照和录像功能，我们开始吧！
 

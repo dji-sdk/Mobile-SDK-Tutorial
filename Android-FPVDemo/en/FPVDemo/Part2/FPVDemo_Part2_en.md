@@ -1,6 +1,6 @@
-﻿# DJI Mobile Android SDK Tutorial (2)
+﻿# DJI Mobile Android SDK Tutorial
 
-## How to create a simpel FPV app: Part 2/2
+## How to create a Camera Application: Part 2/2
 
 In Part 1, we implemented the basic FPV view which allowed us to see live video stream from our aircraft's camera. In this tutorial, we use the Inspire 1 as an example to show you how to add photo taking and video recording features to the app. Let's get started!
 
@@ -122,8 +122,10 @@ Now, we can build and run the project to verify the functions. You may try out t
 
 Then congratualtions! Your Aerial FPV Android app is complete. You can use this app to control the camera of your Inspire 1.
 
+
 ### 4.Where to Go From Here?
 
 You can download the final project for this tutorial here: <https://github.com/DJI-Mobile-SDK/Android-FPVDemo-Part2.git>
 
 You’ve come a long way in this tutorial: you’ve learned how to use the DJI Mobile SDK to show the FPV view of the aircraft's camera and control the camera of a DJI platform. These are the most basic and common features in a typical drone mobile app: **Capture** and **Record**. However, if you want to create a drone app that is more fancy, you still have a long way to go. More advanced features would include previewing the photo and video in the SD Card, showing the OSD data of the aircraft and so on. Hope you enjoy this tutorial, and stay tuned for our next one!
+

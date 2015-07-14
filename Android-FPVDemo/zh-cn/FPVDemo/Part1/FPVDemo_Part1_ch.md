@@ -1,6 +1,6 @@
-﻿# DJI Mobile Android SDK 教程 (1)
+﻿# DJI Mobile Android SDK 教程
 
-## 如何创建一个简单的FPV航拍App: 第一部分
+## 如何创建一个航拍相机App: 第一部分
 
 ### 1.准备工作
 
