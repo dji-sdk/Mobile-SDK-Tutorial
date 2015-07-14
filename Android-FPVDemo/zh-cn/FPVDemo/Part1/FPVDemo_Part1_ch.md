@@ -309,7 +309,7 @@ DJIAoaActivity中有添加如下代码支持AOA,
 如果你可以在app中看到飞机的视频流，那么恭喜，你已经完成了第一部分教程的内容了！下图是app的截屏：
 ![runAppScreenShot](https://github.com/dji-sdk/Mobile-SDK-Tutorial/raw/master/Android-FPVDemo/en/images/runAppScreenShot.png)
 
-### 6.下一步
+### 6.现在要怎么做?
 
 你可以从这里下载到本教程的Demo工程：<https://github.com/DJI-Mobile-SDK/Android-FPVDemo-Part1.git>
 
