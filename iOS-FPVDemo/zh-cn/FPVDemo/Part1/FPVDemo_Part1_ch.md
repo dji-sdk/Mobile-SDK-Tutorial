@@ -83,6 +83,38 @@
 
 ---
 
+如果注册App失败, 你可以通过检查以下委托方法的 **error** 变量值来寻找原因:
+
+~~~objc
+-(void)appManagerDidRegisterWithError:(int)error;
+~~~
+
+APP KEY 激活失败码如下所示:
+ 
+ result  	  | Description 
+------------- | -------------
+0   | Check permission successful
+-1  | Cannot connect to Internet
+-2  | Invalid app key
+-3  | Get permission data timeout
+-4  | Device uuid not match
+-5  | Project package name does not match the app 	   key's identification code
+-6  | App key is forbidden
+-7  | Activated device number is up to the maximum 		available one
+-8  | App key's platform is not correct
+-9  | App key does not exist
+-10 | App key has no permission
+-11 | Server parser failed
+-12 | Error in server obtaining uuid
+-13 | Server app package name abnormal
+-14 | Server parsing activation data failed
+-15 | AES 256 encryption unsupported
+-16 | AES 256 encryption failed
+-17 | Get device uuid failed
+-18 | Empty app key
+-1000 | Server error 
+
+
 **3**. 现在运行你的Xcode工程, 如果一切顺利, 你可以看到 "Register App Successed!" 的提示！
 
 
