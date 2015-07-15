@@ -119,7 +119,7 @@ APP KEY 激活失败码如下所示:
 
 
 ### 4. 实现FPV视图功能
-  **1**. 我们使用 FFMPEG 解码库 <http://ffmpeg.org> 对视频流进行解码. 你可以在下载好的SDK开发包中找到 **VideoPreviewer** 文件夹. 将它拷贝到 Xcode 工程的文件夹中, 然后像下图所示添加到工程导航栏的**thirdParty**文件夹下:
+  **1**. 我们使用 FFMPEG 解码库 (http://ffmpeg.org) 对视频流进行解码. 你可以在下载好的SDK开发包中找到 **VideoPreviewer** 文件夹. 将它拷贝到 Xcode 工程的文件夹中, 然后像下图所示添加到工程导航栏的**thirdParty**文件夹下:
   
  ![AppKey](../../images/ffmpegImport.png)
  
