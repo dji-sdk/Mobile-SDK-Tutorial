@@ -3,7 +3,7 @@
 
 ## How to create a Camera Application: Part 2/2
 
-In [Part 1](../Part1/FPVDemo_Part1_en.html), we have implemented the basic FPV view which allowed us to see the live video stream from the aircraft's camera. In this tutorial, we use the Inspire 1 as an example to show you how to add photo taking and video recording features in the app, let's get started!
+In [Part 1](../Part1/FPVDemo_Part1_en.md), we have implemented the basic FPV view which allowed us to see the live video stream from the aircraft's camera. In this tutorial, we use the Inspire 1 as an example to show you how to add photo taking and video recording features in the app, let's get started!
 
 ### 1. Implement the Capture function
 
