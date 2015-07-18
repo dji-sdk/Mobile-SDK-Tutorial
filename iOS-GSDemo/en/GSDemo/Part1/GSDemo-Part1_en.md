@@ -103,7 +103,7 @@ Regardless of what aircraft you are using, you can check whether or not the firm
 
 #### **1**. **Import The Framework and Libraries**
 
-Now that you've finished the steps above, we can start working on the application. In our previous tutorial [**How to create a Camera Application**](http://gitlab.djicorp.com/SDKDemo/FPVDemo-Part1/blob/master/Tutorial/FPVDemo_Part1_en.md), you learned how to import and activate the DJI Mobile SDK into your Xcode project. If you haven't read that previously, please take a look at it. Once you've done that, we will set up the map view. 
+Now that you've finished the steps above, we can start working on the application. In our previous tutorial [**How to create a Camera Application**](https://github.com/dji-sdk/Mobile-SDK-Tutorial/blob/master/iOS-FPVDemo/en/FPVDemo/Part1/FPVDemo_Part1_en.md), you learned how to import and activate the DJI Mobile SDK into your Xcode project. If you haven't read that previously, please take a look at it. Once you've done that, we will set up the map view. 
 
 **1**. Create a new project in Xcode and name it "**GSDemo**", copy the **DJISDK.framework** to your Xcode project's folder. Then, select the project target and go to Build Phases -> Link Binary With Libraries. Click the "+" button at the bottom and add two libraries to your project: libstdc++.6.0.9.dylib and libz.dylib. Take a look at the screenshot below:
 
@@ -799,8 +799,8 @@ Now, if you press the **Stop Simulation** button on the Simulator Config, the ai
 
 ## 4. Where To Go From Here?
 
-   You can download the demo project for this tutorial from here: <https://github.com/dji-sdk/GSDemo-Part1.git>
+   You can download the demo project for this tutorial from here: <https://github.com/DJI-Mobile-SDK/iOS-GSDemo-Part1.git>
    
    You’ve learned how to setup and use the DJI PC Simulator to test your groundStation application, upgrade your aircraft's firmware to the developer version, use the DJI Mobile SDK to create a simple map view, modify annotations of the map view, show the aircraft on the map view by using GPS data from the DJI PC Simulator, and much more.
    
-   In the next tutorial, we will implement the basic functionality of waypoints in the groundStation. Your aircraft will be able to fly automatically on the map view based on the waypoints you set. Please move on to the second part of this tutorial. Hope you enjoy it!
+   In the [next tutorial](../Part2/GSDemo-Part2_en.md), we will implement the basic functionality of waypoints in the groundStation. Your aircraft will be able to fly automatically on the map view based on the waypoints you set. Please move on to the second part of this tutorial. Hope you enjoy it!

@@ -220,6 +220,6 @@ Add the following codes to the **captureAction** IBAction method:
 
 ### 3. Where To Go From Here?
 
-   You can download the final project for this tutorial here: <https://github.com/DJI-Mobile-SDK/FPVDemo-Part2.git>
+   You can download the final project for this tutorial here: <https://github.com/DJI-Mobile-SDK/iOS-FPVDemo-Part2.git>
    
    You’ve come a long way in this tutorial: you’ve learned how to use DJI Mobile SDK to show the FPV View from the aircraft's camera and control the camera of DJI's Aircraft. These are the most basic and common features in a typical drone mobile app: **Capture** and **Record**. However, if you want to create a drone app that is more fancy, you still have a long way to go. More advanced features would include previewing the photo and video in the SD Card, showing the OSD data of the aircraft and so on. Hope you enjoy this tutorial, and stay tuned for our next one!
