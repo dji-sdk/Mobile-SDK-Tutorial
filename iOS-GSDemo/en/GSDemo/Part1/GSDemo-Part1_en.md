@@ -4,6 +4,8 @@
 # How to create a MapView and Waypoint Application: Part 1/2
 In this tutorial, you will learn how to setup the DJI PC Simulator, upgrade your Inspire 1, Phantom 3 Professional and Phantom 3 Advanced's firmware to the beta version, and how to test the GroundStation API with DJI PC Simulator. Also, you will get comfortable with the basic process of using DJI GroundStation's Waypoint feature. So let's get started!
 
+   You can download the demo project for this tutorial from here: <https://github.com/DJI-Mobile-SDK/iOS-GSDemo-Part1.git>
+
 ## 1. Using The DJI PC Simulator
 
 #### **1**. **Introduction**
@@ -798,8 +800,6 @@ If you cannot find the aircraft, press the "**Focus Map**" button and the map vi
 Now, if you press the **Stop Simulation** button on the Simulator Config, the aircraft will disappear on the map, since the simulator stops providing GPS data to the aircraft.
 
 ## 4. Where To Go From Here?
-
-   You can download the demo project for this tutorial from here: <https://github.com/DJI-Mobile-SDK/iOS-GSDemo-Part1.git>
    
    You’ve learned how to setup and use the DJI PC Simulator to test your groundStation application, upgrade your aircraft's firmware to the developer version, use the DJI Mobile SDK to create a simple map view, modify annotations of the map view, show the aircraft on the map view by using GPS data from the DJI PC Simulator, and much more.
    

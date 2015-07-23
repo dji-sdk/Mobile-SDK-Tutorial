@@ -1,6 +1,8 @@
-﻿# DJI Mobile Android SDK Tutorial
+# DJI Mobile Android SDK Tutorial
 
 ## How to create a Camera Application: Part 1/2
+
+You can download the demo project for this tutorial from here: <https://github.com/DJI-Mobile-SDK/Android-FPVDemo-Part1.git>
 
 ### 1.Preparation
 
@@ -308,7 +310,5 @@ If you can see the live video stream in the app, congratulations! You can move o
 ![runAppScreenShot](https://github.com/dji-sdk/Mobile-SDK-Tutorial/raw/master/Android-FPVDemo/en/images/runAppScreenShot.png)
 
 ### 6.Where to Go From Here?
-
-You can download the demo project for this tutorial from here: <https://github.com/DJI-Mobile-SDK/Android-FPVDemo-Part1.git>
 
 You’ve learned how to setup the DJI Mobile SDK's developmengt environment and use it to show the FPV view from the aircraft's camera. We will add the capture and record functions in the app in next part of this tutorial. Hope you enjoy it!

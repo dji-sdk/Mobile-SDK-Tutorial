@@ -1,9 +1,10 @@
 # DJI Mobile iOS SDK Tutorial
 
-
 # How to create a MapView and Waypoint Application: Part 2/2
 In this tutorial, you will learn how to implement the basic processes of using Waypoints in the GroundStation. Of the three features(waypoint, hotpoint, and follow me), waypoint is the most complicated feature and commonly used in GroundStation. If you haven't read Part 1 of this tutorial, please take a look at it [here](../Part1/GSDemo-Part1_en.md) before moving forward. Let's get started!
 
+   You can download the demo project for this tutorial from here: <https://github.com/DJI-Mobile-SDK/iOS-GSDemo-Part2.git>
+   
 ## 1. Refactor the UI
 In Part 1 of this tutorial, the project's code structure was simple and not robust. In order to develop it further in this tutorial, it will need to be refactored and we will need to add more UI elements. 
 #### **1**. Add & Handle The New UIButtons
@@ -851,8 +852,6 @@ The remote controller will start beeping, and the **Go Home** button on the remo
 The inspire 1 will eventually go home, land, and the beeping from the remote controller will stop. The application will go back to its normal status. If you press the **Clear** button, all the waypoints you previously set will be cleared and another waypoint waypoint mission will be started. During the mission, if you'd ever like to stop the groundStation task, you can do so by pressing the **Stop** button.
 
 ## 5. Where To Go From Here?
-
-   You can download the demo project for this tutorial from here: <https://github.com/DJI-Mobile-SDK/iOS-GSDemo-Part2.git>
    
    In this tutorial, you learned how to configure both **DJIGroundStationWaypoint** and **DJIGroundStationTask**. Moreover, you learned how to use **DJIGroundStationTask** to add waypoints by using the ability to **upload** to, **start** and **stop** the ground station task by using methods from **DJIInspireMainController**(since we're using an Inspire 1). Also, you learned how to use the **DJINavigationDelegate** and **GroundStationDelegate** methods to obtain information from the ground station task.
       

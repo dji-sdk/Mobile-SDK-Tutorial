@@ -5,6 +5,8 @@
 
 This tutorial is designed for you to gain a basic understanding of the DJI Mobile SDK. It will implement the FPV view and two basic camera functionalities: **Take Photo** and **Record video**.
 
+   You can download the entire project for this tutorial here: <https://github.com/DJI-Mobile-SDK/iOS-FPVDemo-Part1.git>
+
 ### 1. Download the SDK
 
 You can download the latest iOS SDK from here: <https://dev.dji.com/en/products/sdk/mobile-sdk/downloads>
@@ -286,7 +288,5 @@ If you can see the live video stream in the application, congratulations! Feel f
   ![fpv](../../images/fpv.jpg)
 
 ### 7. Where To Go From Here?
-
-   You can download the entire project for this tutorial here: <https://github.com/DJI-Mobile-SDK/iOS-FPVDemo-Part1.git>
    
    You’ve learned how to setup the DJI Mobile SDK's development environment and use it to create a camera view that shows the live video stream of the aircraft's camera. We will add the capture photo and record video functionalities of the app in [Part 2](../Part2/FPVDemo_Part2_en.md) of this tutorial. Hope you enjoy! 

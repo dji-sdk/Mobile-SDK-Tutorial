@@ -1,6 +1,8 @@
-﻿# DJI Mobile Android SDK 教程
+# DJI Mobile Android SDK 教程
 
 ## 如何创建一个航拍相机App: 第一部分
+
+你可以从这里下载到本教程的Demo工程：<https://github.com/DJI-Mobile-SDK/Android-FPVDemo-Part1.git>
 
 ### 1.准备工作
 
@@ -320,7 +322,5 @@ DJIAoaActivity中有添加如下代码支持AOA,
 ![runAppScreenShot](https://github.com/dji-sdk/Mobile-SDK-Tutorial/raw/master/Android-FPVDemo/en/images/runAppScreenShot.png)
 
 ### 6.现在要怎么做?
-
-你可以从这里下载到本教程的Demo工程：<https://github.com/DJI-Mobile-SDK/Android-FPVDemo-Part1.git>
 
 你已经学会了如何配置DJI Mobile SDK的Android开发环境，并成功用它开发app来展示飞行器相机的FPV画面。在接下来的教程中，我们会在此基础上添加拍照和录像功能. 请关注我们第二部分的教程，希望你喜欢！
