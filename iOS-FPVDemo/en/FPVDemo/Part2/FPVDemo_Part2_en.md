@@ -213,6 +213,40 @@ Add the following codes to the **captureAction** IBAction method:
 }
 ~~~
    
+   Next, add the following codes to the **recordAction** IBAction method as follows:
+   
+~~~objc
+- (IBAction)recordAction:(id)sender {
+    
+    __weak DJICameraViewController *weakSelf = self;
+    
+    if (self.isRecording) {
+        
+        [_camera stopRecord:^(DJIError *error) {
+            
+            if (error.errorCode != ERR_Successed) {
+                UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Stop Record Error" message:error.errorDescription delegate:weakSelf cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [errorAlert show];
+            }
+        }];
+        
+    }else
+    {
+        [_camera startRecord:^(DJIError *error) {
+            
+            if (error.errorCode != ERR_Successed) {
+                UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Start Record Error" message:error.errorDescription delegate:weakSelf cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [errorAlert show];
+            }
+        }];
+
+    }
+
+}  
+~~~
+
+   In the code above, we implement the **startRecord** and **stopRecord** methods of the **DJICamera** class based on the **isRecording** property value. And show an alertView when an error occurs.
+   
    Now, we can build and run the project and check the functions. You can try to play with the **Record** and **Switch Camera WorkMode** functions, if everything is going well, you should see the screenshot like this:
    
    ![Screenshot](../../images/record_screenshot.jpg)

@@ -211,6 +211,40 @@
     return formattedTimeString;
 }
 ~~~
+
+   接着, 添加以下代码到 **recordAction** 方法中:
+   
+~~~objc
+- (IBAction)recordAction:(id)sender {
+    
+    __weak DJICameraViewController *weakSelf = self;
+    
+    if (self.isRecording) {
+        
+        [_camera stopRecord:^(DJIError *error) {
+            
+            if (error.errorCode != ERR_Successed) {
+                UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Stop Record Error" message:error.errorDescription delegate:weakSelf cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [errorAlert show];
+            }
+        }];
+        
+    }else
+    {
+        [_camera startRecord:^(DJIError *error) {
+            
+            if (error.errorCode != ERR_Successed) {
+                UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Start Record Error" message:error.errorDescription delegate:weakSelf cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [errorAlert show];
+            }
+        }];
+
+    }
+
+}  
+~~~
+
+   在上面的代码中, 我们通过判断**isRecording**布尔值变量的值，实现了**DJICamera**类的**startRecord** 和 **stopRecord**方法. 并在出现错误时弹框提醒用户.
    
    现在, 我们可以编译运行工程，检查下刚做好的功能. 你可以尝试下 **录像** 和 **切换相机工作模式** 功能, 如果一切顺利，你会看到以下App截屏画面：
    
