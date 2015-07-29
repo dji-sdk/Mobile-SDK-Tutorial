@@ -40,6 +40,8 @@ Refer to "Updating the Aircraft Firmware": <http://download.dji-innovations.com/
 (1) Start a new Android Studio Project. Give the application any name you like. Hit 'next' until you reach the 'Customize the Activity' page, where you should name your activity 'FPVActivity'. The layout name should automatically fill out with 'activity_fpv'. Press 'Finish'.
 
 (2) Unzip the SDK package downloaded from the DJI website. Go to File -> New -> Import Module, and find the DJI-SDK-LIB folder location in the 'Source Directory' field (Android Studio\DJI-SDK-Android-V2.1.0\Lib\DJI-SDK-LIB). Press Finish.
+
+*Note: The folder 'Android Studio' is found in the SDK package downloaded from the DJI website. The library used in the demo project code is from the 'Eclipse' folder in the same SDK package, so if you are working in Android Studio make sure that you are using the correct library. For your convenience the SDK package download link is reproduced here <http://dev.dji.com/cn/products/sdk/mobile-sdk/downloads>*
 ![importModule](https://raw.githubusercontent.com/alexanderwangus/Mobile-SDK-Tutorial/master/Android-FPVDemo/en/images/importModuleScreenshot.png)
 Next, right click on 'app' in the file directly on the left, and click 'Open Module Settings". Navigate to the 'Dependencies' tab. Press the green plus sign, click 'Module Dependency', and select ':DJI-SDK-LIB'. Press 'OK' to confirm. After Gradle finishes rebuilding, you're environment will be ready!
 
