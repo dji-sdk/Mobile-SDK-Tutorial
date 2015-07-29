@@ -92,7 +92,7 @@ Run your project code on an Android device or Android emulator to complete the a
 
 Check the 'LogCat' panel at the bottom of the Eclipse window for a return message.
 
-![logcat](https://raw.githubusercontent.com/alexanderwangus/Mobile-SDK-Tutorial/master/Android-FPVDemo/en/images/Capture3%20edit.png)
+![logcat](https://raw.githubusercontent.com/alexanderwangus/Mobile-SDK-Tutorial/master/Android-FPVDemo/en/images/logcatScreenshot.png)
 
 Check the error code against the table below:
 
