@@ -56,7 +56,7 @@ Next, right click on the 'app' module in the file directory to the left, and cli
 
 Copy both the 'uses-permission' lines of code and the highlighted meta-data element into your **AndroidManifest.xml** file for activation, as shown below.  
 
-![appKeyMetaData](https://github.com/dji-sdk/Mobile-SDK-Tutorial/raw/master/Android-FPVDemo/en/images/1_appKeyMetaData.png)
+![appKeyMetaData](https://github.com/dji-sdk/Mobile-SDK-Tutorial/raw/master/Android-FPVDemo/en/images/1_appKeyMetaData2.png)
 
 Fill in the 'android:value' field with the APP KEY that you have applied for from <http://dev.dji.com>.
 
