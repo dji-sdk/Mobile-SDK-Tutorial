@@ -54,7 +54,7 @@ Next, right click on the 'app' module in the file directory to the left, and cli
 
 (2) Activate the SDK: 
 
-Copy the highlighted meta-data elements into your **AndroidManifest.xml** file for activation.
+Copy both the 'uses-permission' lines of code and the highlighted meta-data element into your **AndroidManifest.xml** file for activation, as shown below.  
 
 ![appKeyMetaData](https://github.com/dji-sdk/Mobile-SDK-Tutorial/raw/master/Android-FPVDemo/en/images/1_appKeyMetaData.png)
 
@@ -98,7 +98,7 @@ Run your project code on an Android device or Android emulator to complete the a
 
 Check the 'LogCat' panel at the bottom of your coding environment window for a return message.
 
-![logcat](https://raw.githubusercontent.com/alexanderwangus/Mobile-SDK-Tutorial/master/Android-FPVDemo/en/images/logcatScreenshot.png)
+![logcat](https://github.com/dji-sdk/Mobile-SDK-Tutorial/raw/master/Android-FPVDemo/en/images/logcatScreenshot.png)
 
 Check the error code against the table below:
 
