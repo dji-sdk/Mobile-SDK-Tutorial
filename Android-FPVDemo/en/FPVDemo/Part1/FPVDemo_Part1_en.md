@@ -22,7 +22,7 @@ Refer to "Updating the Aircraft Firmware": <http://download.dji-innovations.com/
 
 (3) Set up an Android development environment (if you do not yet have one). Throughout this tutorial we will be using Eclipse 4.2.2, which you can download here: <https://eclipse.org/downloads/packages/eclipse-classic-422/junosr2>. Once Eclipse is installed, you will then have to install the Eclipse Android Development Tool Plug-In, found here: http://developer.android.com/intl/zh-TW/sdk/installing/installing-adt.html
 
-*Note: Google's support for Android Development Tools in Eclipse is ending. If you would like to complete this demo using Eclipse as we have, or if you have already completed this demo in Eclipse, you can find instructions to migrate your project into Android Studio here: <https://developer.android.com/intl/zh-TW/sdk/installing/migrate.html>. If you would like to follow this tutorial using Android Studio, the mobile SDK folder contains an Android Studio library as well as an Eclipse one. Instructions on how to import the SDK library are given for both Eclipse and Android Studio below.*
+*Note: Google's support for Android Development Tools in Eclipse is ending. If you would like to complete this demo using Eclipse as we have, or if you have already completed this demo in Eclipse, you can find instructions to migrate your project into Android Studio here: <https://developer.android.com/intl/zh-TW/sdk/installing/migrate.html>. If you would like to follow this tutorial using Android Studio, the mobile SDK folder contains an Android Studio library as well as an Eclipse one. Instructions on how to import the SDK library are given for both Eclipse and Android Studio below. However, we recommend that you follow this guide using the provided installation of Eclipse, and migrate your project afterwards, as we cannot ensure that results in Android Studio will be identical to those displayed in this tutorial.*
 
 ### 2.Setting up your Programming Environment
 
@@ -54,7 +54,7 @@ Next, right click on the 'app' module in the file directory to the left, and cli
 
 (2) Activate the SDK: 
 
-Copy the highlighted meta-data elements into your **AndroidManifest.xml** file for activation.
+Copy both the 'uses-permission' lines of code and the highlighted meta-data element into your **AndroidManifest.xml** file for activation, as shown below.  
 
 ![appKeyMetaData](https://github.com/dji-sdk/Mobile-SDK-Tutorial/raw/master/Android-FPVDemo/en/images/1_appKeyMetaData.png)
 
@@ -62,7 +62,11 @@ Fill in the 'android:value' field with the APP KEY that you have applied for fro
 
 ![appKey](https://github.com/dji-sdk/Mobile-SDK-Tutorial/raw/master/Android-FPVDemo/en/images/1_appKey.png)
 
-In your FPVActivity.java file, in your onCreate method, add the following code.
+In your FPVActivity.java file, add the following variable in the FPVActivity class.
+~~~java
+private static final String TAG = "FPVActivity";
+~~~
+In your onCreate method, add the following code.
 ~~~java
 	new Thread(){
 		public void run(){
@@ -94,7 +98,7 @@ Run your project code on an Android device or Android emulator to complete the a
 
 Check the 'LogCat' panel at the bottom of your coding environment window for a return message.
 
-![logcat](https://raw.githubusercontent.com/alexanderwangus/Mobile-SDK-Tutorial/master/Android-FPVDemo/en/images/logcatScreenshot.png)
+![logcat](https://github.com/dji-sdk/Mobile-SDK-Tutorial/raw/master/Android-FPVDemo/en/images/logcatScreenshot.png)
 
 Check the error code against the table below:
 
@@ -136,11 +140,11 @@ If you have further questions, contact our mobile SDK support by sending emails 
 In order to support the new remote controller from DJI, AOA is required. Modify **AndroidManifest.xml** to set **.DJIAoaActivity** as the main activity, which is served the entry point when the application is initiated. 
 
 Under the 'manifest' element in your **AndroidManifest.xml** file, add the following lines of code: 
-- **<uses-feature android:name="android.hardware.usb.accessory" android:required="false"/>**
-- **<uses-feature android:name="android.hardware.usb.host" android:required="false"/>**
+- **uses-feature android:name="android.hardware.usb.accessory" android:required="false"**
+- **uses-feature android:name="android.hardware.usb.host" android:required="false"**
 
 Under the 'application' element, add the following line of code:
-- **<uses-library android:name="com.android.future.usb.accessory"/>**
+- **uses-library android:name="com.android.future.usb.accessory"**
 ~~~xml
 	...
 	
@@ -207,7 +211,7 @@ Create a new Android Activity Page, using 'DJIAoaActivity' as the activity name.
 
 Create a new Android Activity Page called '**DemoBaseActivity**', and add the following code. This code allows you to pause or resume the AOA data connection service when the **onPause()** or **onResume()** lifecycle callbacks are called.
 
-This will be our project's base activity. Change your 'FPVActivity' and 'DJIAoaActivity' class headers so that they now extend 'DemoBaseActivity', rather than 'Activity'.
+This will be our project's base activity. Change your 'FPVActivity' class header so that it now extends 'DemoBaseActivity', rather than 'Activity'.
 ~~~java
 	...
 	@Override
@@ -227,7 +231,15 @@ This will be our project's base activity. Change your 'FPVActivity' and 'DJIAoaA
 	
 (1) Initiate the SDK API according to the type of the aircraft.
 
-In 'FPVActivity.java', add two lines of code in the 'onCreate' method as shown below. Additionally, within the 'FPVActivity' class, copy the 'onInitSDK' method shown below.
+In 'FPVActivity.java', in the FPVActivity class, add the variable below.
+~~~java
+private int DroneCode;
+~~~
+Import the following package.
+~~~java
+import dji.sdk.api.DJIDroneTypeDef.DJIDroneType;
+~~~
+Add two lines of code in the 'onCreate' method as shown below. Additionally, within the 'FPVActivity' class, copy the 'onInitSDK' method shown below.
 ~~~java
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -263,10 +275,11 @@ In 'FPVActivity.java', add two lines of code in the 'onCreate' method as shown b
 			default:{
 				break;
 			}
+		}
 	}
 	
 	...
-~~~	
+~~~
 (2) In the 'onCreate' method, use the following line of code to connect to the aircraft. Make sure call this method only after the code that activates your APP key.
 ~~~java
 	DJIDrone.connectToDrone(); // Connect to the drone
@@ -278,7 +291,11 @@ In 'FPVActivity.java', add two lines of code in the 'onCreate' method as shown b
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent" />
 ~~~	
-In your 'FPVActivity.java' file, create a **private DjiGLSurfaceView mDjiGLSurfaceView** element as shown below. Add the following code in the 'onCreate' method, making sure to insert it after where you call the connectToDrone() method. This code implements the the FPV view by using the SDK API **public void setReceivedVideoDataCallBack(DJIReceivedVideoDataCallBack mReceivedVideoDataCallBack)** to obtain the live preview video data(raw H264 format) which can then be processed using code. Here, we use the decoder provided by DJI to decode the video data and display it to the live view using **SurfaceView**. Adding the code below sends video data to **DjiGLSurfaceView** for decoding and displaying. 
+In your 'FPVActivity.java' file, in the FPVActivity class, add the variable below.
+~~~java
+private DJIReceivedVideoDataCallBack mReceivedVideoDataCallBack = null;
+~~~
+Create a **private DjiGLSurfaceView mDjiGLSurfaceView** element as shown below. Add the following code in the 'onCreate' method, making sure to insert it after where you call the connectToDrone() method. This code implements the the FPV view by using the SDK API **public void setReceivedVideoDataCallBack(DJIReceivedVideoDataCallBack mReceivedVideoDataCallBack)** to obtain the live preview video data(raw H264 format) which can then be processed using code. Here, we use the decoder provided by DJI to decode the video data and display it to the live view using **SurfaceView**. Adding the code below sends video data to **DjiGLSurfaceView** for decoding and displaying. 
 ~~~java
 	...
 	
