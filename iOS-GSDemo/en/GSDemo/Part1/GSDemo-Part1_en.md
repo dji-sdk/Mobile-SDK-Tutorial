@@ -296,11 +296,10 @@ In the above code, we also added an NSNotification observer to check the DJI Mob
      - (void)addPoint:(CGPoint)point withMapView:(MKMapView *)mapView
 method to add waypoints to the map. Next, we implement the IBAction method **editBtn**, which will update the button's title and clean up waypoints based on the value of **isEditingPoints**. Finally, we implement MKMapViewDelegate's method to change the pin color to purple.
 
-When you are done with all the steps above, build and run your project and try to add waypoints on the map. If everything is fine, you will see the following screenshot:
+When you are done with all the steps above, build and run your project and try to add waypoints on the map. If everything is fine, you will see the following animation:
 
-![waypoint1](../../images/waypoint1.jpg)
+![addWaypoint](../../images/addWaypoint.gif)
 
-![waypoint2](../../images/waypoint2.jpg)
 
 #### **4**. Focus The MKMapView
 
@@ -407,13 +406,9 @@ In iOS8, we must call **locationManager**'s **requestAlwaysAuthorization** first
 
 ![infoPlist](../../images/infoPlist.png)
 
-It's time to build and run the project to check the focus map feature. If it works well, you should see the following screenshot:
+It's time to build and run the project to check the focus map feature. When you launch the app for the first time, a pop up alert asking for your permission to access your location will appear. Select **Allow** and press the **Focus Map** button. If the map view animates to your current location like the following animation, congratulations, you have finished the **Focus Map** feature!
 
-![coreLocation1](../../images/coreLocation1.jpg)
-
-When you launch the app for the first time, a pop up alert asking for your permission to access your location will appear. Select **Allow** and press the **Focus Map** button. If the map view animates to your current location like the following screenshot, congratulations, you have finished the **Focus Map** feature!
-
-![coreLocation2](../../images/coreLocation2.jpg)
+![focusMap](../../images/focusMap.gif)
 
 
 #### **5**. Show The Aircraft on Map View
@@ -793,9 +788,9 @@ Next, let's go to the DJI PC Simulator on your PC and press the **Start Simulati
 
 ![aircraftOnMap1](../../images/aircraftOnMap1.jpg)
 
-If you cannot find the aircraft, press the "**Focus Map**" button and the map view will zoom in to center the aircraft on the center of the map view region as seen below:
+If you cannot find the aircraft, press the "**Focus Map**" button and the map view will zoom in to center the aircraft on the center of the map view region as shown below:
 
-![aircraftOnMap2](../../images/aircraftOnMap2.jpg)
+![focusAircraft](../../images/focusAircraft.gif)
 
 Now, if you press the **Stop Simulation** button on the Simulator Config, the aircraft will disappear on the map, since the simulator stops providing GPS data to the aircraft.
 

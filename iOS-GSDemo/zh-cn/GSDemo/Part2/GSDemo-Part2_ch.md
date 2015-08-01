@@ -1,23 +1,27 @@
 # DJI Mobile iOS SDK 教程
 
-# 如何创建一个地图和地面站航点功能App: 第二部分
-在此教程里，泥浆学会如何实行地面站中航点的基本过程. 在三个功能(航点，热点，跟随我), 航点是地面站中最复杂也是最常用的功能. 如果你还没有阅读此教程的第一部分，请在进行下一步之前阅读 [here](../Part1/GSDemo-Part1_en.md). 让我们开始吧!
+# 如何创建一个地图和地面站预设航点功能App: 第二部分
 
-   你可以在此处下载此教程的demo[here](https://github.com/DJI-Mobile-SDK/iOS-GSDemo-Part2.git)
+在此教程里，你将学会如何实现地面站预设航点功能. 在地面站的三个功能中(预设航点，热点环绕，跟随), 预设航点是地面站中最复杂也是最常用的功能. 如果你还没有阅读本教程的第一部分，请先从[这里](../Part1/GSDemo-Part1_en.md)阅读. 我们开始吧!
+
+   你可以在[此处](https://github.com/DJI-Mobile-SDK/iOS-GSDemo-Part2.git)下载到本教程第二部分的demo工程.
    
-## 1. UI重构
-在此教程第一部分中，代码的结构比较简单并且不够健壮. 为了此教程以后的开发，代码需要被重组并且我们需要加入更多的UI元素. 
-#### **1**. 加入并操作新的UIButtons
-首先，我们将创建一个新的文件名为 **DJIGSButtonController**的**UIViewController**的子类. 确保你在创建文件时在 **Also create XIB file** 旁打钩. 然后打开 **DJIGSButtonController.xib** 文件并将其的大小设为**Simulated Metrics**部分**Size**菜单里的 **Freeform** .在显示部分，将宽改为 **110** 并将高改为 **260**. 请看下面的改变:
+## 1. 重构UI
 
-![freeform](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/freeform.png)
-![changeSize](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/changeSize.png)
+在本教程第一部分中，代码的结构比较简单而且不够健壮. 为了便于本教程代码工程的继续开发，这里需要重构下代码，而且加入更多的UI元素. 
 
-接下来，拖动六个按钮到显示屏上并将它们的名字改为 **Edit**, **Back**, **Clear**, **Focus Map**, **Start** 和 **Stop**. **Edit** 在 **Back**上面, 而 **Focus Map** 在 **Clear**上面. 确保 **Back**, **Clear**, **Start** 和 **Stop** 按钮是隐藏状态.
+#### **1**. 添加新的UIButton
 
-![gsButtons](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/gsButtons.png)
+首先，我们新建一个的名为**DJIGSButtonController**的**UIViewController**的子类. 确保你在创建文件时勾选上 **Also create XIB file**. 然后打开 DJIGSButtonController.xib 文件，并在Simulated Metrics部分的**Size**选项中选择 **Freeform** .在View部分，调整宽度为 **110**， 高为 **260**. 请看下面的效果图:
 
- 然后在为六个按钮**DJIGSButtonViewController.h**文件里加入IBOutlets 和 IBActions. 同时，我们我们将加入一个 Enum名为 **DJIGSViewMode** 与应用的两种不同的模式. 下一步，我们加入几个当按钮的IBAction方法运行时将会被delegate viewcontroller实现的 delegate 方法. 最后，加入一个 **- (void)switchToMode:(DJIGSViewMode)mode inGSButtonVC:(DJIGSButtonViewController *)GSBtnVC;** 方法来更新按钮的状态当 **DJIGSViewMode** 改变的时候changed. 请看下面的代码:
+![freeform](../../images/freeform.png)
+![changeSize](../../images/changeSize.png)
+
+接下来，拖动六个按钮到**DJIGSButtonViewController.xib**上，并将它们的名字改为 **Edit**, **Back**, **Clear**, **Focus Map**, **Start** 和 **Stop**. Edit 覆盖在Back上面, Focus Map覆盖在Clear上面. 并且确保 **Back**, **Clear**, **Start** 和 **Stop** 按钮是隐藏状态.
+
+![gsButtons](../../images/gsButtons.png)
+
+ 然后在**DJIGSButtonViewController.h**文件里为六个按钮添加IBOutlets 和 IBActions. 同时，我们将加入一个名为 **DJIGSViewMode**的枚举值，用来记录app的两种工作模式(View和Edit). 接着，我们添加几个delegate方法，用于响应IBAction的方法调用. 最后，加入一个 **- (void)switchToMode:(DJIGSViewMode)mode inGSButtonVC:(DJIGSButtonViewController *)GSBtnVC;** 方法，当DJIGSViewMode的值改变时，更新多个按钮的状态. 请看下面的代码:
  
  ~~~objc
  #import <UIKit/UIKit.h>
@@ -61,7 +65,7 @@
 @end
  ~~~
  
- 当你完成了以后，打开 **DJIGSButtonViewController.m** 文件用下面的代码来取代已有的代码:
+ 当你完成后，打开 **DJIGSButtonViewController.m** 文件，替换已有的代码为以下代码:
  
  ~~~objc
  #import "DJIGSButtonViewController.h"
@@ -137,13 +141,13 @@
 @end
  ~~~
  
- 这些改变是的代码建构更加简洁与健壮，这将会方便以后的维护.
+ 这些改变使得代码架构变得更加简洁与健壮，这将会方便以后的维护.
  
- 现在，让我们来到 **DJIRootViewController.h** 文件并删除 **editButton** IBOutlet,  **resetPointsAction** 方法, 以及  **focusMapAction** 方法. 删除这些以后，创造一个UIView IBOutlet 名为 "topBarView" 并将其连接到 **Main.storyboard**的 RootViewController的黄面, 如下所示:
+ 现在，我们回到 **DJIRootViewController.h** 文件并删除 **editButton** IBOutlet,  **resetPointsAction** 方法, 以及  **focusMapAction** 方法. 删除这些以后，创建一个名为 "topBarView" 的UIView IBOutlet并将其连接到 **Main.storyboard**的 RootViewController的对应View上, 如下所示:
  
- ![topBarView](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/topBarView.png)
+ ![topBarView](../../images/topBarView.png)
  
- 然后打开 **DJIRootViewController.m** 文件, 导入 **DJIGSButtonViewController.h** 头文件. 创造一个 **DJIGSButtonViewController**类型的属性并命名为 **gsButtonVC** 然后在类里实现 **DJIGSButtonViewController**的 **DJIGSButtonViewControllerDelegate** 协议:
+ 然后打开 DJIRootViewController.m 文件, 导入**DJIGSButtonViewController.h**头文件. 接着创建一个DJIGSButtonViewController类型的属性并命名为 **gsButtonVC**，然后在类里实现 DJIGSButtonViewController的 **DJIGSButtonViewControllerDelegate** 协议:
  
 ~~~objc
 #import "DJIRootViewController.h"
@@ -157,7 +161,7 @@
 @end
 ~~~
 
-下一步，初始化**initUI**方法里的 **gsButtonVC** 属性并将原本的 **focusMapAction** 方法的内容移到一个名为 **focusMap**的方法里, 如下所示:
+下一步，初始化**initUI**方法里的 **gsButtonVC** 属性并将原来的 **focusMapAction** 方法中的代码移到一个名为 **focusMap**的新方法里, 如下所示:
 
 ~~~objc
 self.gsButtonVC = [[DJIGSButtonViewController alloc] initWithNibName:@"DJIGSButtonViewController" bundle:[NSBundle mainBundle]];
@@ -209,51 +213,49 @@ self.gsButtonVC.delegate = self;
         [self focusMap];
     }else
     {
-         self.isEditingPoints = YES;
+         self.isEditingPoints = NO;
     }
 }
 ~~~
 
-在 **- (void)switchToMode:(DJIGSViewMode)mode inGSButtonVC:(DJIGSButtonViewController *)GSBtnVC** delegate方法里, 我们运行 **focusMap** 方法. 这样的话，我们呢挂在按下edit见识将地图焦点集中在飞机的位置，免去用户每次都需要放大到edit并使其更容易使用. 同时，当应用在edit 模式下,  **isEditingPoints**属性被设置为 **YES**. 
+在 **- (void)switchToMode:(DJIGSViewMode)mode inGSButtonVC:(DJIGSButtonViewController *)GSBtnVC** delegate方法里, 我们调用 **focusMap** 方法. 进行这样的操作，我们可以实现在按下edit按钮时，将地图定位到飞机的位置，省去用户每次都需要放大地图才能编辑的麻烦，提升用户体验. 同时，当应用在edit模式下,  **isEditingPoints**属性的值会被设置为 **YES**. 
 
-现在，让我们建造并运行此project并尝试按下**Edit** 以及 **Back** 按钮. 以下是当你按下按钮是的截图:
+现在，我们编译并运行该工程，并尝试按下**Edit** 和 **Back** 按钮. 以下是当你按下按钮时的动画:
 
-![GSButtons1](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/GSButtons1.jpg)
-![GSButtons2](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/GSButtons2.jpg)
+![pressEditBtn](/Users/zlinoliver/Documents/DJI-SDK-Github/Mobile-SDK-Tutorial/iOS-GSDemo/en/images/pressEditBtn.gif)
 
-## 2. 调试 DJIGroundStationWaypoint 和 The DJIGroundStationTask
+## 2. 设置 DJIGroundStationWaypoint 和 DJIGroundStationTask
 
 #### **1**. DJIGroundStationWaypoint
 
-让我们来到 **DJIGroundStationWaypoint.h** 文件看一看. 比如说，你可以使用: 
+我们先看下 **DJIGroundStationWaypoint.h** 文件. 比如说，你可以使用: 
 
 ~~~objc
 -(id) initWithCoordinate:(CLLocationCoordinate2D)coordinate;
 ~~~
-来创造一个航点实例与一个详细的坐标. 当你创造了航点时，你可以向其添加一个 **DJIWaypointAction** 如果你运行下面的代码:
+来创建一个有特定坐标的waypoint对象. 当你创建了waypoint后，可以通过调用以下代码，向其添加一个**DJIWaypointAction**:
 
 ~~~objc
 -(BOOL) addWaypointAction:(DJIWaypointAction*)action;
 ~~~
 
-更多的是，有了航点，你可以设置坐标，高度，方向，水平速度还有很多很多东西. 更多细节，请查看*DJIGroundStationWaypoint.h** 头文件.
+更进一步的，有了waypoints，你可以设置坐标，高度，朝向，水平速度甚至更多参数. 要了解更多细节，请查看*DJIGroundStationWaypoint.h** 头文件.
 
 #### **2**. DJIGroundStationTask
 
-当你想要开始一个GroundStation Waypoint 工作时，**DJIGroundStationTask** 将被使用. Y你可以运它的类方法 **+(id) newTask;** 来直接创建一个新的任务. 当你创造了任务，你可以使用下面的方法来加入 **DJIGroundStationWaypoint** 类型的航点: 
+当你想要开始一个GroundStation Waypoint 任务（Task）时，你需要使用**DJIGroundStationTask**. 你可以调用它的类方法 **+(id) newTask;** 来直接创建一个新任务. 一旦你创建好了任务，你可以使用下面的方法来添加 **DJIGroundStationWaypoint** 类型的waypoint: 
 
 ~~~objc
 -(void) addWaypoint:(DJIGroundStationWaypoint*)waypoint;
 ~~~
 
-On the contrary, you can also delete waypoints from a task by using the method: 
+相反地, 你也可以调用以下方法来删除任务中的waypoint:
 
 ~~~objc
 -(void) removeWaypoint:(DJIGroundStationWaypoint*)waypoint;
 ~~~
- method.
  
- 更多的是。你可以设置**DJIGroundStationTask**的 **isLoop** 属性来决定是否循环执行任务. 同时，你可以设置**DJIGSTaskFinishedAction** enum 类型的 **finishedAction** 属性来调整飞机的动作当任务完成以后. 最后，你可以设置**DJIGSHeadingMode** enum类型的 **headingMode** 属性来调整飞机执行任务时的方向. 下面是一部分头文件:
+ 更多的, 你可以设置**DJIGroundStationTask**的 **isLoop** 属性来决定是否循环执行任务. 同时，你可以设置类型为**DJIGSTaskFinishedAction**枚举值的**finishedAction** 属性，来设置飞机完成任务后要进行的动作. 最后，你可以设置类型为**DJIGSHeadingMode**枚举值的 **headingMode** 属性来设置飞机执行任务时的机头朝向. 下面是一部分头文件内容:
  
 ~~~objc
 /**
@@ -337,21 +339,21 @@ typedef NS_ENUM(NSUInteger, DJIGSHeadingMode){
 
 ~~~
  
-更多细节，请在DJI Mobile SDK查看 **DJIGroundStationTask.h** 头文件.
+更多细节，请在DJI Mobile SDK中查看 **DJIGroundStationTask.h** 头文件.
 
 #### **3**. 创建 DJIWaypointConfigViewController
 
-在此demo中，我们假设所有加入地图中的航点的参数都是一样的. 
+在此demo中，我们假设所有加入地图中的waypoint的参数设置都是一样的. 
 
-现在，让我们创造一个新的ViewController来让用户设置航点的参数. 去Xcode的project navigator，邮件 **GSDemo** 目录, 选择 **New File...**, 将它的子类设为 **UIViewController**, 命名其为 **DJIWaypointConfigViewController**, 然后确保 "Also create XIB file" 为已选状态. 下一步，打开 **DJIWaypointConfigViewController.xib** 文件并实现UI, 如下所示:
+现在，我们创建一个新的ViewController来让用户设置waypoint的参数. 来到Xcode的project navigator，右键点击 **GSDemo** 文件夹, 选择 **New File...**, 将它的子类设置为 **UIViewController**, 命名其为 "DJIWaypointConfigViewController", 然后确保 "Also create XIB file" 为已选状态. 接着，打开 **DJIWaypointConfigViewController.xib** 文件并实现UI, 如下所示:
 
-![wayPointConfig](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/wayPointConfig.png)
+![wayPointConfig](../../images/wayPointConfig.png)
 
-在Waypoint Configuration ViewController里, 我们使用UITextField来时用户设置**DJIGroundStationWaypoint** 实例的**altitude** 属性. 然后，一个UISwitcher来调整**DJIGroundStationTask** 实例的**isLoop** 属性, 它将会让你打开或关闭，当任务重复时. 接下来，有三个UISegmentedControls 来调整**DJIGroundStationWaypoint** object的 **horizontalVelocity** 属性, **DJIGroundStationTask** 实例的 **finishedAction** 属性,以及**DJIGroundStationTask** 实例的 **headingMode** 属性. 
+在Waypoint Configuration ViewController里, 我们使用UITextField来让用户设置DJIGroundStationWaypoint实例的**altitude**属性. 然后，用一个UISwitcher来设置DJIGroundStationTask 实例的**isLoop** 属性, 它会用来开启或关闭任务是否重复执行的设定. 接下来，有三个UISegmentedControl控件来设置三个实例的属性，包括DJIGroundStationWaypoint实例的 **horizontalVelocity** 属性, DJIGroundStationTask实例的 **finishedAction** 属性,以及**DJIGroundStationTask** 实例的 **headingMode** 属性. 
 
-在最下面，我们加入了两个UIButtons为了**Cancel** 和 **Finish** 功能. 更多细节，比如框架位置，框架大小，以及每个UI 元素的背景色，请查看在下载了的project的源代码里的 **DJIWaypointConfigViewController.xib** 文件.
+在最下面，我们加入了两个UIButton响应 **Cancel** 和 **Finish** 方法. 更多设置的细节，比如视图Frame的位置，Frame的大小，以及每个UI元素的背景颜色，请查看本教程源代码里的 **DJIWaypointConfigViewController.xib** 文件.
 
-吸纳在，让我们为**DJIWaypointConfigViewController.h**文件里的每一个UI院所创造一个 IBOutlets 和 IBActions, 如下所示:
+现在，我们为**DJIWaypointConfigViewController.h**文件里的每一个UI元素创建对应的IBOutlets 和 IBActions, 如下所示:
 
 ~~~objc
 #import <UIKit/UIKit.h>
@@ -381,9 +383,9 @@ typedef NS_ENUM(NSUInteger, DJIGSHeadingMode){
 @end
 ~~~
 
-这里，我们我们同时创造两个 **DJIWaypointConfigViewControllerDelegate** delegate 方法为了当 **Cancel** 和 **Finish** 两个按钮被按下时.
+这里，我们还创建了两个 **DJIWaypointConfigViewControllerDelegate** delegate 方法，用来响应 **Cancel** 和 **Finish** 两个按钮被按下的事件.
 
-下载，让我们用一下的代码来取代 ** DJIWaypointConfigViewController.m** 文件里的代码:
+接着，我们用以下代码替换掉** DJIWaypointConfigViewController.m** 文件里的代码:
 
 ~~~objc
 #import "DJIWaypointConfigViewController.h"
@@ -432,12 +434,13 @@ typedef NS_ENUM(NSUInteger, DJIGSHeadingMode){
 @end
 ~~~
 
-在以上代码中, 我们创造一个用默认数据来初始化UI控制的**initUI** 方法, 他在**viewDidload**方法里运行. 比如说，我们将 **altitudeTextField** 的默认文字调为 **50**, 使用户不需要再第一次打开程序时输入高度数值. 不需要在开始前改变设置。他们可以马上按下 **Finish** 键.
+在以上代码中, 我们创建了一个用来初始化UI控件的 **initUI** 方法, 它会在**viewDidload**方法里被调用. 比如说，我们将 **altitudeTextField** 的默认文本设置为 **50**, 这样用户就不需要在第一次打开程序时输入自定义的高度数值. 他们可以马上按下 **Finish** 键，而不需要在开始前做设定操作。
 
 ## 3. 设置地面站任务
 
-#### **1**.加入一个 **DJIWaypointConfigViewController** to和 **DJIRootViewController**
-现在，让我们来到 **DJIRootViewController.m** 文件, 在上方加入 **DJIWaypointConfigViewController.h** 头文件, 以及创造一个**DJIWaypointConfigViewController**类型的属性名为**waypointConfigVC**. 然后，实现 **DJIWaypointConfigViewControllerDelegate** 协议, 如下所示:
+#### **1**. 添加 **DJIWaypointConfigViewController** 到 **DJIRootViewController**中
+
+现在，我们来到 **DJIRootViewController.m** 文件中, 在顶部添加 **DJIWaypointConfigViewController.h** 头文件, 然后创建一个类型为**DJIWaypointConfigViewController**的属性，将它命名为“waypointConfigVC”. 然后，实现 **DJIWaypointConfigViewControllerDelegate** 协议, 如下所示:
 
 ~~~objc
 #import "DJIRootViewController.h"
@@ -453,7 +456,7 @@ typedef NS_ENUM(NSUInteger, DJIGSHeadingMode){
 @end
 ~~~
 
-接下来，让我们加入一些代码来初始化**waypointConfigVC**实例变量并将其delegate在**initUI**方法下方设置为 **DJIRootViewController** :
+接下来，我们加入一些代码来初始化**waypointConfigVC**实例变量并在 initUI 方法的底部将它的delegate设置为**DJIRootViewController**:
 
 ~~~objc
 -(void) initUI
@@ -478,9 +481,9 @@ typedef NS_ENUM(NSUInteger, DJIGSHeadingMode){
 }
 ~~~
 
-在以上代码中，我们将**waypointConfigVC**的画面的 **alpha** 属性为零来在开始时隐藏画面. 接下来，将它的位置设置在 **DJIRootViewController**的画面的中心.
+在以上代码中，我们将**waypointConfigVC**的view的 **alpha** 属性设置为零，来隐藏该view. 接下来，将它的位置设置为 **DJIRootViewController**的view的中心.
 
-更进一步，实现 **DJIWaypointConfigViewControllerDelegate** 方法, 如下所示:
+更进一步的，实现 **DJIWaypointConfigViewControllerDelegate** 的两个方法, 如下所示:
 
 ~~~objc
 #pragma mark - DJIWaypointConfigViewControllerDelegate Methods
@@ -505,7 +508,7 @@ typedef NS_ENUM(NSUInteger, DJIGSHeadingMode){
 }
 ~~~
 
-在第一个delegate方法中, 我们用一个UIView中的类方法来动画化**waypointConfigVC**的画面的变化的**alpha**数值:
+在第一个delegate方法中, 我们用一个UIView的类方法，来动态改变waypointConfigVC的view的**alpha**数值:
 
 ~~~objc
 + (void)animateWithDuration:(NSTimeInterval)duration animations:(void (^)(void))animations NS_AVAILABLE_IOS(4_0);
@@ -518,7 +521,7 @@ typedef NS_ENUM(NSUInteger, DJIGSHeadingMode){
 ~~~objc
 - (void)startBtnActionInGSButtonVC:(DJIGSButtonViewController *)GSBtnVC;
 ~~~
-方法里的代码取代为下面的代码来在用户按下**start** 按钮是显示**waypointConfigVC**的画面:
+方法里的代码替换为以下代码，实现在用户按下**start** 按钮时显示**waypointConfigVC**的view的功能:
 
 ~~~objc
 - (void)startBtnActionInGSButtonVC:(DJIGSButtonViewController *)GSBtnVC
@@ -532,13 +535,13 @@ typedef NS_ENUM(NSUInteger, DJIGSHeadingMode){
 }
 ~~~
 
-当这些都完成了，让我们来创建并运行此project. 尝试按下**Edit** 按钮 and **Start** 按钮来显示**waypointConfigVC**的画面:
+当这些都完成后，我们来编译运行下工程. 尝试按下**Edit** 按钮和 **Start** 按钮来显示**waypointConfigVC**的view:
 
-![waypointConfigView](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/waypointConfigView.png)
+![waypointConfigView](../../images/waypointConfigView.png)
 
 #### **2**. 操作地面站任务
 
-现在，让我们回到 **DJIRootViewController.h** 文件. 首先，在interface里实现 **GroundStationDelegate** 和 **DJINavigationDelegate** 协议. 然后，创造一个**DJIGroundStationTask**类型的属性并将其命名为 **gsTask**. 同时，创造一个**UIAlertView**类型的属性并将其命名为**uploadProgressView**. UIAlertView将会显示地面站任务的状态. 完整的**DJIRootViewController**头文件将看起来像下面的代码:
+现在，我们回到 **DJIRootViewController.h** 文件. 首先，在interface里实现 **GroundStationDelegate** 和 **DJINavigationDelegate** 协议. 然后，创造一个**DJIGroundStationTask**类型的属性并将其命名为 “gsTask”. 同时，创建一个**UIAlertView**类型的属性并将其命名为”uploadProgressView“. UIAlertView将会被用来显示地面站任务的执行状态. 完整的DJIRootViewController头文件代码如下所示:
 
 ~~~objc
 #import <UIKit/UIKit.h>
@@ -573,7 +576,7 @@ typedef NS_ENUM(NSUInteger, DJIGSHeadingMode){
 @end
 ~~~
 
-家下来，来到 **DJIRootViewController.m** 文件并设置 **inspireMainController** 实例变量的 **groundStationDelegate** 和 **navigationDelegate** 为 **DJIRootViewController**， 如下所示:
+接下来，来到 DJIRootViewController.m 文件并设置 **inspireMainController** 实例变量的 **groundStationDelegate** 和 **navigationDelegate** 为 DJIRootViewController， 如下所示:
 
 ~~~objc
 - (void)initDrone
@@ -587,7 +590,7 @@ typedef NS_ENUM(NSUInteger, DJIGSHeadingMode){
 }
 ~~~
 
-更进一步，在**startBtnActionInGSButtonVC** delegate方法下方加入以下代码:
+更进一步地，在**startBtnActionInGSButtonVC** delegate方法下方加入以下代码:
 
 ~~~objc
 - (void)startBtnActionInGSButtonVC:(DJIGSButtonViewController *)GSBtnVC
@@ -617,23 +620,23 @@ typedef NS_ENUM(NSUInteger, DJIGSHeadingMode){
 }
 ~~~
 
-以上新加入的代码中, 我们创造一个局部 **NSArray** 变量命名为 **wayPoints** 并将其数值定为 **mapController**的 **wayPoints** 数组. 接下来，查看数组是否存在或者数组是否为空白. 如果它是空白的或者不存在, 显示UIAlertView使用户知道此任务里没有航点. 
+以上新加入的代码中, 我们创建了一个局部 **NSArray** 变量，并命名它为 “wayPoints”， 并将它的数值设置为 mapController 的 **wayPoints** 数组. 接下来，查看数组是否存在或者数组是否为空. 如果它为空或者不存在, 显示UIAlertView告知用户知道此任务里没有航点. 
 
-#####重要事项: 为了安全，在任务开始前加入逻辑来查看GPS卫星的数量非常重要，此事项已在此教程的第一部分中提到过. 如果卫星数量小于6，你应该防止用户开始地面站任务并且显示警告. 因为这里我们在用 DJI PC 模拟器, 我们在一个完美的环境下测试应用，GPS卫星数量将一直是10.
+#####重要事项: 为了安全，在任务开始前加入逻辑来查看GPS卫星的数量非常重要，此操作已在本教程的第一部分中提到过. 如果卫星数量小于6，你应该阻止用户开始地面站任务并且显示警告信息. 因为这里我们用 DJI PC 模拟器, 我们在一个完美的条件下测试应用，GPS卫星数量会一直是10.
 
-下一步，我们用**DJIGroundStationTask**的**newTask**类方法来初始化**gsTask** 实例变量. 接下来，我们用一个for循环来获取每一个**wayPoints**数组的航点的**CLLocation** 并且用一下方法检查其 **coordinate** 是否有效:
+下一步，我们用DJIGroundStationTask的**newTask**类方法来初始化**gsTask** 实例变量. 然后，我们用一个for循环来获取每一个wayPoints数组的waypoint的**CLLocation**参数，并且用以下方法检查它的 **coordinate** 是否有效:
 
 ~~~objc
 BOOL CLLocationCoordinate2DIsValid(CLLocationCoordinate2D coord);
 ~~~
 
-最后，如果坐标有效，我们建立一个**DJIGroundStationWaypoint**类型的航点并将其加入到**gsTask**用以下的方法:
+最后，如果coordinate（坐标）有效，我们会创建一个**DJIGroundStationWaypoint**类型的waypoint，并用以下方法将其加入到**gsTask**中:
 
 ~~~objc
 -(void) addWaypoint:(DJIGroundStationWaypoint*)waypoint;
 ~~~
 
-当你完成以上任务是, 让我们来到 DJIWaypointConfigViewController delegate 方法的 **finishBtnActionInDJIWaypointConfigViewController** and 并将**gsTask**有关的代码加入到此方法的下方:
+当你完成以上任务是, 让我们来到 DJIWaypointConfigViewController 的delegate方法 **finishBtnActionInDJIWaypointConfigViewController** 并在该方法的底部，添加和**gsTask**有关的以下代码:
 
 ~~~objc
 - (void)finishBtnActionInDJIWaypointConfigViewController:(DJIWaypointConfigViewController *)waypointConfigVC
@@ -658,9 +661,9 @@ BOOL CLLocationCoordinate2DIsValid(CLLocationCoordinate2D coord);
 }
 ~~~
 
-以上代码中，我们用for循环来设置**gsTask**航点数组的**DJIGroundStationWaypoint**的  **altitude** 以及 **horizontalVelocity** 属性根据**DJIWaypointConfigViewController**中的设置. 当你完成这些事，我们更新**gsTask**的 **isLoop**, **headingMode** 和 **finishedAction** 属性 . 最后，我们运行**DJIInspireMainController**的 **uploadGroundStationTask** 方法(因为我们在此教程使用Inspirel)来上传地面站任务.
+以上代码中，我们用for循环来设置gsTask航点数组的DJIGroundStationWaypoint的 **altitude** 以及 **horizontalVelocity** 属性根据DJIWaypointConfigViewController中的设置. 当你完成这些事，我们更新gsTask的 **isLoop**, **headingMode** 和 **finishedAction** 属性 . 最后，我们运行DJIInspireMainController的 **uploadGroundStationTask** 方法(因为我们在此教程使用Inspirel)来上传地面站任务.
 
-更进一步，我们创造一个新方法命名为 **hideProgressView**，它将会隐藏 **uploadProgressView** 并且实现 **GroundStationDelegate** 方法来更新任务状态, 如下所示:
+更进一步的，我们创建了一个命名为**hideProgressView**的新方法，用来隐藏 **uploadProgressView**， 然后在GroundStationDelegate方法中调用，去更新任务的状态, 如下所示:
 
 ~~~objc
 -(void) hideProgressView
@@ -699,11 +702,11 @@ BOOL CLLocationCoordinate2DIsValid(CLLocationCoordinate2D coord);
 }
 ~~~
 
-在上面的代码中，第一个delegate方法运行时获取地面站结果. 我们运行 **hideProgressView** 方法来隐藏 **uploadProgressView** 当我们在**GroundStationExecuteResult*里检查 **currentAction** 和 **executeStatus** 以后.
+在上面的代码中，第一个delegate方法是用来获取地面站任务执行的结果. 在我们检查GroundStationExecuteResult里的 **currentAction** 和 **executeStatus** 属性的值后，调用 **hideProgressView** 方法来隐藏 **uploadProgressView** .
 
-第二个delegate方法运行时检查上传航点任务的进程. 这里，我们初始化 **uploadProgressView** 实例变量并将它的**message** property设置为delegate方法的 **progress** 变量 . 更多细节，请查看 **DJIGroundStation.h** 文件.
+第二个delegate方法用来检查上传waypoint任务的进度. 这里，我们初始化 **uploadProgressView** 实例变量并将它的**message** 属性设置为delegate方法的 **progress** 变量. 要了解更多细节，请查看 **DJIGroundStation.h** 文件.
 
-最后，让我们实现 **DJINavigationDelegate** 方法，如下所示:
+最后，我们来实现 **DJINavigationDelegate** 方法，如下所示:
 
 ~~~objc
 -(void) onNavigationMissionStatusChanged:(DJINavigationMissionStatus*)missionStatus
@@ -735,7 +738,7 @@ BOOL CLLocationCoordinate2DIsValid(CLLocationCoordinate2D coord);
 }
 ~~~
 
-第一个delegate被用于检查任务状态. 你可以使用**missionStatus** 变量的 **missionType** 属性来检查任务类型, 此属性在**DJINavigation.h**里被定义, 如**DJINavigationMissionType**类型enum所示:
+第一个delegate方法被用来检查任务状态. 你可以访问 **missionStatus** 变量的 **missionType** 属性来检查任务(mission)的类型, 此属性在**DJINavigation.h**文件里被定义了, 如下**DJINavigationMissionType**枚举值类型所示:
 
 ~~~objc
 typedef NS_ENUM(uint8_t, DJINavigationMissionType)
@@ -763,7 +766,7 @@ typedef NS_ENUM(uint8_t, DJINavigationMissionType)
 };
 ~~~
 
-第二个delegate方法被用来检查现在的任务. 你可以查看 **event** 变量的 **eventType** 属性来得知现在的任务目前在哪一部分. **DJINavigationEventType** 在**DJINavigation.h** 头文件里被定义了，如下所示:
+第二个delegate方法被用来检查现在的任务. 你可以查看 **event** 变量的 **eventType** 属性来获取任务当前所属的事件. **DJINavigationEventType** 被定义在 **DJINavigation.h** 头文件里，如下所示:
 
 ~~~objc
 /**
@@ -784,13 +787,13 @@ typedef NS_ENUM(uint8_t, DJINavigationEventType){
     NavigationEventWaypointReached,
 };
 ~~~
-在第二个delegate方法中, 当eventType等于 **NavigationEventMissionUploadFinished**, 因为since **DJINavigationMissionUploadFinishedEvent** 是 **DJINavigationEvent**的子类, 我们用方法里的**event** 变量创造一个 **DJINavigationMissionUploadFinishedEvent** 变量. 然后更新 **uploadProgressView** 的标题为 "Mission Upload Finished". 接下来，如果 **finishedEvent**的 **isMissionValid** bool 数值为 false, 我们设置 **uploadProgressView**的**message** 为 "Mission Invalid!". 不然的话, 我们设置**uploadProgressView**的 **message** 为一个排版过的 **NSString** 实例使用**finishedEvent**的 **eatimateTime** 属性. 
+在第二个delegate方法中, 当eventType等于 NavigationEventMissionUploadFinished时, 因为DJINavigationMissionUploadFinishedEvent 是 **DJINavigationEvent**的子类, 我们通过强制转换方法里面的event变量，获得了 DJINavigationMissionUploadFinishedEvent 变量. 然后更新uploadProgressView的标题为 "Mission Upload Finished". 接下来，如果finishedEvent的 **isMissionValid** 布尔值为false时, 我们设置uploadProgressView的**message** 为 "Mission Invalid!". 否则, 我们设置uploadProgressView的 **message** 为一个formatted **NSString** 实例变量, 该变量使用**finishedEvent**对象的 **eatimateTime** 属性值进行format处理。
 
-接下来，运行**inspireMainController**的 **startGroundStationTask** 方法来开始一个航点地面站任务! 然后，我们运行 **performSelector** 方法并且通过 **hideProgressView** 在3秒延迟来隐藏过程画面.
+接下来，调用inspireMainController的 **startGroundStationTask** 方法来开始一个waypoint地面站任务! 然后，我们调用 performSelector 方法，传入 **hideProgressView** selector方法，在延迟3秒后隐藏progress view.
 
-当eventType等于 **NavigationEventMissionExecuteFinished**, 我们显示 **UIAlertView** 来告诉用户航点地面站任务完成了!
+当eventType等于 **NavigationEventMissionExecuteFinished**时, 我们显示UIAlertView来告诉用户航点地面站任务完成了!
 
-最后，让我们实现 **stopBtnActionInGSButtonVC** 方法, 他是一个 **DJIGSButtonViewController** delegate 方法来停止地面站任务, 如下所示:
+最后，我们来实现stopBtnActionInGSButtonVC方法, 它是一个 **DJIGSButtonViewController** delegate方法，用来停止地面站任务, 如下所示:
 
 ~~~objc
 - (void)stopBtnActionInGSButtonVC:(DJIGSButtonViewController *)GSBtnVC
@@ -799,60 +802,52 @@ typedef NS_ENUM(uint8_t, DJINavigationEventType){
 }
 ~~~
 
-## 4. 演出时间
+## 4. Demo演示
 
-你已经在此教程中做了很多, 现在是时候测试你的成果了.
+你已经在本教程中做了很多操作, 现在是时候测试你的app了.
 
-#####重要事项: 确保你飞机的电池量高于10%, 不然地面站任务将会失败!
+#####重要事项: 请确保你飞机的电池量高于10%, 否则地面站任务将会失败!
 
-建造并运行此 project 来安装应用到你的移动设备上. 之后，请用usb线将你的飞机连接上使用Windows的PC或者虚拟机器. 然后，启动飞机再启动遥控器. 接下来，在DJI PC 模拟器按下 **Display Simulator** 按钮并且你可以输入你当前位置的经纬度信息到模拟器如果你喜欢.
+编译并运行此工程，安装应用到你的移动设备上. 之后，请用Micro USB线将你的飞机连接上运行着Windows系统的PC或者虚拟机. 然后，启动遥控器和飞机. 接下来，在DJI PC 模拟器中按下 **Display Simulator** 按钮，你可以按需要输入你当前位置的经纬度信息到模拟器中.
 
-![simulatorPreview](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/simulator_preview.png)
+![simulatorPreview](../../images/simulator_preview.png)
 
-然后将你的遥控器连接上你的移动设备并且运行应用. 你将会看到下面的截图:
+然后使用苹果数据线，将你的移动设备连接上遥控器，并且运行app. 你将会看到下面的截图:
 
-![enterNaviModeFailed](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/enterNaviModeFailed.jpg)
+![enterNaviModeFailed](../../images/enterNaviModeFailed.jpg)
 
-如果你晕倒这个问题，请在此教程的第一部分查看解决方案. 接下来，让我们回到DJI PC 模拟器在你的PC上并且按下 **Start Simulation** 按钮. 一个小型红色飞机将会在地图上显示如下图所示:
+如果你遇到这个问题，请在此教程的[第一部分](../Part1/GSDemo-Part1_en.md)中查看解决方案. 接下来，我们回到DJI PC 模拟器，按下 **Start Simulation** 按钮. 一架小型红色飞机会出现在地图上，如下图所示:
 
-![aircraftOnMap1](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/aircraftOnMap1.jpg)
+![aircraftOnMap1](../../images/aircraftOnMap1.jpg)
 
-按下 "**Edit**" 按钮, 并且点图将会放大到你所在的地区以你的飞机为中心:
+按下 "**Edit**" 按钮, 地图会自动放大并且定位到当前飞机的坐标位置:
 
-![aircraftOnMap2](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/aircraftOnMap2.jpg)
+![locateAircraft](../../images/locateAircraft.gif)
 
-接下来，轻拍地图上任何地点来测试航点功能. 你拍的地方将会产生一个航点以及一个紫色的图钉, 如下图:
+接下来，点击地图上任何位置，测试下添加航点的功能. 在每一个你点击地图的地方，都会出现一个紫色的图钉，代表你设置的航点位置, 如下动画所示:
 
-![waypoints](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/waypoints.jpg)
+![addWayPoints](/Users/zlinoliver/Documents/DJI-SDK-Github/Mobile-SDK-Tutorial/iOS-GSDemo/en/images/addWaypoints_part2.gif)
 
-当年下 **Start** 按钮， **Waypoint Configuration** 画面将会出现. 当你做完适当的改变时，按下 **Finish** 按钮.
+你一旦按下 **Start** 按钮， **Waypoint Configuration** view就会出现. 当你做完适当的设置操作后，按下 **Finish** 按钮. 航点任务会开始上传并且在上传结束时，任务会被处理. 这时你会看到飞机开始朝你之前设置好的航点位置移动, 如下动画所示:
 
-![waypointConfigStart](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/waypointConfigStart.jpg)
+![flying](../../images/flying.gif)
 
-航点任务将开始上传并且当其借宿是，任务将会被处理. 你将会看到飞机朝你之前设置的航点开始移动, 如下所示:
+同时，你也可以在DJI PC 模拟器上目睹Inspire 1 自动起飞并以及飞行的过程.
 
-![missionUploadFinished](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/missionUploadFinished.jpg)
+![takeOff] (../../images/takeOff.gif)
 
-![missionStart1](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/missionStart1.jpg)
+当航点任务结束时，会出现一个标题为**Mission Finished**的警告栏，然后Inspire 1将开始返航！
 
-![missionStart2](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/missionStart2.jpg)
+![missionFinished](../../images/missionFinished.jpg) 
 
-同时，你将能够在DJI PC 模拟器上目睹Inspire 1 起飞并且开始自动飞行.
+遥控器会开始发出滴滴声，同时遥控器上的 **Go Home** 键会开始闪烁白灯. 现在我们来看下DJI PC 模拟器的情景:
 
-![simulatorMissionStart](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/simulatorMissionStart.jpg)
+![landing](../../images/landing.gif)
 
-当航点任务结束时，一个名为**Mission Finished**的警告栏将会出现并且Inspire 1将开始返航！
+Inspire 1最后会回到Home点，着陆，并且遥控器的滴滴声会停止. 然后app会回到普通状态. 如果你按下 **Clear** 按钮，之前设置的全部航点都会消失并且另一个航点任务将会开始. 在任务过程中。如果你想要停止地面站任务，你可以按下 **Stop** 按钮.
 
-![missionFinished](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/missionFinished.jpg) 
-
-遥控器将开始发出哔声，然后遥控器上的 **Go Home** 键将开始闪烁白灯. 让我们看看现在的DJI PC 模拟器:
-
-![landing](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/landing.jpg)
- 
-Inspire 1最终会回到起点，着陆，并且遥控器的哔声将会停止. 应用将会回到普通状态. 如果你按下 **Clear** 按钮，之前设置的全部航点都将会消失并且另外一个航点任务将会开始. 在任务过程中。如果你想要停止地面站任务，你可以按下 **Stop** 按钮.
-
-## 5. 下一步是什么?
+## 5. 现在要怎么做?
    
-   在此教程中，你学会了如何修改 **DJIGroundStationWaypoint** 和 **DJIGroundStationTask**. 更进一步, 你学会了如何使用 **DJIGroundStationTask** 来加入航点因为你可以用**DJIInspireMainController**(因为我们在使用 Inspire 1)中的方法来 **upload** 至, **start** 和 **stop** 地面站的任务. 同时，你学习了如何使用 **DJINavigationDelegate** 和 **GroundStationDelegate** 方法来获取地面站任务的信息.
+   在此教程中，你学会了如何设置 **DJIGroundStationWaypoint** 和 **DJIGroundStationTask**. 更进一步地, 你学会了如何使用 DJIGroundStationTask 来添加waypoint. 你可以用DJIInspireMainController(我们在使用 Inspire 1)中的方法来 **upload** , **start** 和 **stop** 地面站任务. 同时，你学习了如何使用 **DJINavigationDelegate** 和 **GroundStationDelegate** 方法来获取地面站任务的信息.
       
-   恭喜你! 现在你完成了demo，你可以在现有的基础上创建你自己的地面站应用. 你可以改善加入航点的方法(比如说在地图上画线以自动生成航点), 尝试调整航点的属性 (比如说方向，水平速度等), 以及加入更多功能. 想要做出一个好玩的地面站应用，你还有很长的路要走. 祝你好运并且希望你喜欢我们的教程!
+   恭喜! 你已经完成了本教程的demo工程，你可以在现有基础上创建你自己的地面站应用. 你可以改善加入航点的方法(比如说在地图上画线自动生成航点), 单独设置航点的属性 (比如说机头朝向，水平速度等), 以及加入更多功能. 想要开发出一个好玩的地面站应用，你还有很长的路要走. 祝你好运，也希望你能喜欢我们的教程!

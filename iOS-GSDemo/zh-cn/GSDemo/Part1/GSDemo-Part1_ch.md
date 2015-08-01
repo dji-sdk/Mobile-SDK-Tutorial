@@ -1,7 +1,8 @@
 # DJI Mobile iOS SDK 教程
  
-# 如何创建一个地图和地面站航点功能App: 第一部分
-在本教程中, 你将学到如何安装使用 DJI PC 模拟器, 如何升级你的 Inspire 1, Phantom 3 Professional 和 Phantom 3 Advanced的固件到Beta版本, 以及如何使用DJI PC 模拟器去测试地面站的API. 同时, 你将学到地面站航点功能的基本使用流程. 现在开始学习吧!
+# 如何创建一个地图和地面站预设航点功能App: 第一部分
+
+在本教程中, 你将学到如何安装使用 DJI PC 模拟器, 如何升级你的 Inspire 1, Phantom 3 Professional 和 Phantom 3 Advanced的固件到Beta版本, 以及如何使用DJI PC 模拟器去测试地面站的API. 同时, 你将学到地面站预设航点功能的基本使用流程. 现在开始学习吧!
 
    你可以在这里下载到本教程的全部代码: <https://github.com/DJI-Mobile-SDK/iOS-GSDemo-Part1.git>
 
@@ -29,7 +30,7 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 
 **1**. 运行DJI PC模拟器时，会首先弹出**Simulator Config**对话框. 设置好 **Latitude（纬度）** 和 **Longitude(经度)** 的值. **SN** 代表连接到PC模拟器上的飞机序列号. 如果 **SN** 的值为空, 请检查你的飞机是否和PC连接好，或者你的飞机的固件版本是否属于开发版本.
 
- ![Config](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/simulator_config.png)
+ ![Config](../../images/simulator_config.png)
 
 ---
 **Note**: 
@@ -38,13 +39,13 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 
 - 在Log Settings选项中勾选**show log window**, 可以弹出log调试界面:
 
- ![showLog](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/showLog.png)
+ ![showLog](../../images/showLog.png)
 
 ---
 
 **2**. 通过Micro-USB线将你的飞机连接到PC上, 启动遥控器然后启动飞机。 点击**Display Simulator**, 会出现以下界面(它会显示你正在使用的飞机). 当前使用的是Inspire 1:
 
- ![display](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/display.png)
+ ![display](../../images/display.png)
 
 ---
 **注意**: 
@@ -59,9 +60,9 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 
 **4**. 单击和拖曳鼠标可以调整观测飞行器的角度。滚动鼠标可以放大或缩小飞行视图。
 
- ![zoomIn](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/zoomIn.png)
+ ![zoomIn](../../images/zoomIn.png)
  
- ![zoomOut](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/zoomout.png)
+ ![zoomOut](../../images/zoomout.png)
 
 **5**. 点击 Stop Simulation 结束模拟飞行。使用完毕后关闭飞行器、遥控器和模拟器。 
 
@@ -93,9 +94,9 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 
 根据你目前使用的飞机, 你可以通过检查升级过程生成的 **txt** 文件来获取固件升级结果。 对于Phantom 3 Professional, txt文件的名字为 **"P3X_FW_RESULT_AB.txt"**. 对于Inspire 1, txt文件的名字为 **"WM610_FW_RESULT_AB.txt"**. 以下是 **txt** 文件内容例子:
 
-  ![upgradeP3XSuccess](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/upgradeP3XSuccess.png)
+  ![upgradeP3XSuccess](../../images/upgradeP3XSuccess.png)
   
-  ![upgradeInspire1Success](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/upgradeInspire1Success.png)
+  ![upgradeInspire1Success](../../images/upgradeInspire1Success.png)
 
 ## 3. 创建Map View
 
@@ -105,12 +106,12 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 
 **1**. 在Xcode中创建一个工程并命名为 "**GSDemo**", 复制 **DJISDK.framework** 到你的 Xcode 工程文件夹中. 然后, 选择工程，并进入 Build Phases -> Link Binary With Libraries. 点击底部的 "+" 按钮添加以下两个库文件到工程中: libstdc++.6.0.9.dylib 和 libz.dylib. 以下是截图:
 
-  ![framework](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/framework.png)
+  ![framework](../../images/framework.png)
 
 #### **2**. 创建Map View
-接着, 我们删除 **ViewController.h** 和 **ViewController.m** 文件, 他们在你创建Xcode工程时，自动帮你生成了. 然后, 创建一个名字为"DJIRootViewController"的viewController，并在**Main.storyboard**中将它设置为 **Root View Controller**. 接着, 从Object Library中拖一个 **MKMapView** 到 **DJIRootViewController**中, 设置它的AutoLayout constraints, 以及它的delegate到**DJIRootViewController**, 如下图所示:
+接着, 我们删除 **ViewController.h** 和 **ViewController.m** 文件, 他们在你创建Xcode工程时，自动帮你生成了. 然后, 创建一个名字为"DJIRootViewController"的viewController，并在**Main.storyboard**中将它设置为 Root View Controller. 接着, 从Object Library中拖一个 **MKMapView** 到 **DJIRootViewController**中, 设置它的AutoLayout constraints, 以及它的delegate到**DJIRootViewController**, 如下图所示:
    
-![mkMapView](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/mkMapView.png)
+![mkMapView](../../images/mkMapView.png)
 
 紧接着, 打开**DJIRootViewController.h**文件, 为MKMapView创建一个IBOutlet, 命名为 "mapView", 然后把它连接到**Main.storyboard**的“MKMapView”. 导入以下头文件并实现MKMapView的delegate方法:
 
@@ -127,11 +128,11 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 
 现在, 编译运行下工程. 如果一切正常, 你会看到以下截屏画面:
 
-![mapView](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/mapView.png)
+![mapView](../../images/mapView.png)
 
 #### **3**. 添加Annotations到MapView中
 
-目前的map view比较简单. 我们给它加点有趣的东西吧. 新建一个**NSObject**文件并命名为"DJIMapController", 它会被用来处理地图上的MKAnnotations(对于本教程来说,是航点设置)逻辑. 打开 **DJIMapController.h** 文件，然后添加以下代码:
+目前的map view比较简单. 我们给它加点有趣的东西吧. 新建一个**NSObject**文件并命名为"DJIMapController", 它会被用来处理地图上的MKAnnotations(对于本教程来说,是预设航点设置)逻辑. 打开 **DJIMapController.h** 文件，然后添加以下代码:
 
 ~~~objc
 #import <UIKit/UIKit.h>
@@ -205,9 +206,9 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 
 @end
 ~~~
-首先, 我们在**init**方法中初始化**editPoints**数组对象, 然后从**CGPoint**创建 **MKPointAnnotation** 对象并把它添加到我们的 **mapView**上, 最后实现 **cleanAllPointsWithMapView** 方法来清空 **eidtPoints** 数组，以及mapview上的annotations对象.
+首先, 我们在init方法中初始化**editPoints**数组对象, 然后从CGPoint创建 **MKPointAnnotation** 对象并把它添加到我们的 **mapView**上, 最后实现 **cleanAllPointsWithMapView** 方法来清空eidtPoints数组，以及mapview上的annotations对象.
 
-回到**DJIRootViewController.h**文件, 导入DJIMapController.h头文件, 然后创建一个叫“mapController”的**DJIMapController** 属性. 因为我们希望通过点击地图来添加航点标注钉, 我们还需要创建一个叫"**tapGesture**"的 **UITapGestureRecognizer** 属性. 最后, 添加一个 **UIButton** 到 **Main.storyboard** 的 **DJIRootViewController** 视图中, 设置它的IBOutlet名字为 "**editBtn**", 然后为它添加一个名为"**editBtnAction**"的IBAction方法, 如下所示:
+回到**DJIRootViewController.h**文件, 导入DJIMapController.h头文件, 然后创建一个叫“mapController”的**DJIMapController** 属性. 因为我们希望通过点击地图来添加航点标注钉, 我们还需要创建一个叫"tapGesture"的 **UITapGestureRecognizer** 属性. 最后, 添加一个 UIButton 到 **Main.storyboard** 的 **DJIRootViewController** 视图中, 设置它的IBOutlet名字为 "**editBtn**", 然后为它添加一个名为"**editBtnAction**"的IBAction方法, 如下所示:
 
 ~~~objc
 @property (nonatomic, strong) DJIMapController *mapController;
@@ -217,9 +218,9 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 - (IBAction)editBtnAction:(id)sender;
 ~~~
 
-![editButton](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/editButton.png)
+![editButton](../../images/editButton.png)
 
-完成以上步骤后, 打开**DJIMapController.m**文件, 初始化**mapController** 和 **tapGesture** 变量, 然后添加 **tapGesture** 到 mapView 上用于航点添加手势. 进一步的, 我们需要一个命名为"**isEditingPoints**"的布尔值去存储编辑 waypoint 的状态, 它也会用来判断修改**editBtn**的标题. 最后, 实现 **tapGesture**的action方法 **addWayPoints**, 如下图所示:
+完成以上步骤后, 打开DJIMapController.m文件, 初始化**mapController** 和 **tapGesture** 变量, 然后添加 **tapGesture** 到 mapView 上用于航点添加手势. 进一步的, 我们需要一个命名为"**isEditingPoints**"的布尔值去存储编辑 waypoint 的状态, 它也会用来判断修改**editBtn**的标题. 最后, 实现 **tapGesture**的action方法 **addWayPoints**, 如下图所示:
 
 ~~~objc
 #import "DJIRootViewController.h"
@@ -292,17 +293,15 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
      - (void)addPoint:(CGPoint)point withMapView:(MKMapView *)mapView
 方法来实现**addWaypoints** gesture action 以添加 waypoints 到map上. 接着, 我们实现了IBAction方法**editBtn**, 更新按钮的标题，并且根据**isEditingPoints**的布尔值去清空waypoints. 最后, 我们实现 MKMapViewDelegate的方法来修改pin（航点钉）的颜色为紫色.
 
-完成以上步骤后, 编译运行工程，尝试通过点击屏幕添加航点到地图上. 如果一切顺利, 你会看到以下截图信息: //TODO:Use GIF HERE
+完成以上步骤后, 编译运行工程，尝试通过点击屏幕添加航点到地图上. 如果一切顺利, 你会看到以下动画:
 
-![waypoint1](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/waypoint1.jpg)
-
-![waypoint2](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/waypoint2.jpg)
+![addWaypoint](../../images/addWaypoint.gif)
 
 #### **4**. 定位MKMapView到特定位置
 
 你也许发现了地图的位置和你当前的坐标位置不一致，而且很难找到你在地图上的当前位置。如果有一个功能，能让我们迅速定位到你在地图上的当前位置，app会人性化很多。 要实现该功能，我们需要使用**CLLocationManager**.
 
-打开**DJIRootViewController.h**文件并且导入CoreLocation的头文件. 创建一个命名为"**locationManager**"的 **CLLocationManager** 属性. 然后创建一个命名为"**userLocation**"的**CLLocationCoordinate2D**的属性来存储用户当前的坐标位置信息. 接着, 在类里面实现**CLLocationManager**的 **CLLocationManagerDelegate**协议, 如下图所示:
+打开**DJIRootViewController.h**文件并且导入CoreLocation的头文件. 创建一个命名为"locationManager"的 **CLLocationManager** 属性. 然后创建一个命名为"userLocation"的**CLLocationCoordinate2D**的属性来存储用户当前的坐标位置信息. 接着, 在类里面实现CLLocationManager的 **CLLocationManagerDelegate**协议, 如下图所示:
 
 ~~~objc
 #import <DJISDK/DJISDK.h>
@@ -323,9 +322,9 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 @end
 ~~~
 
-这里我们在**Main.storyboard**的DJIRootViewController中添加了一个命名为"**Focus Map**"的UIButton, 并且添加了一个叫"**focusMapAction**"的IBAction方法. 以下是**Main.storyboard**的截图:
+这里我们在**Main.storyboard**的DJIRootViewController中添加了一个命名为"Focus Map"的UIButton, 并且添加了一个叫"focusMapAction"的IBAction方法. 以下是**Main.storyboard**的截图:
 
-![focusMap](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/focusMap.png)
+![focusMap](../../images/focusMap.png)
 
 完成以上步骤后, 打开**DJIRootViewController.m**文件并添加以下代码：
 
@@ -397,19 +396,15 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 
 ~~~
 
-首先, 我们在viewDidLoad方法中初始化 **userLocation** 的值为 kCLLocationCoordinate2DInvalid. 然后我们添加了一个新的方法 **startUpdateLocation** 来初始化 **locationManger**, 设置好它的参数值并且开始更新位置信息. 如果app的定位服务不可用, 我们可以添加一个UIAlertView来展示警告信息. 在**viewWillAppear**方法中调用**startUpdateLocation**，然后在 **viewWillDisappear**方法中停止它. 进一步的, 我们需要实现 CLLocationManagerDelegate 方法来更新 **userLocation** 属性. 最后, 我们实现 **focusMapAction** 方法来定位地图到用户当前的坐标位置.
+首先, 我们在viewDidLoad方法中初始化 **userLocation** 的值为 kCLLocationCoordinate2DInvalid. 然后我们添加了一个新的方法 startUpdateLocation 来初始化 **locationManger**, 设置好它的参数值并且开始更新位置信息. 如果app的定位服务不可用, 我们可以添加一个UIAlertView来展示警告信息. 在**viewWillAppear**方法中调用**startUpdateLocation**，然后在 viewWillDisappear方法中停止它. 进一步的, 我们需要实现 CLLocationManagerDelegate 方法来更新 **userLocation** 属性. 最后, 我们实现 **focusMapAction** 方法来定位地图到用户当前的坐标位置.
 
-在iOS8中, 我们必须首先调用 **locationManager**的 **requestAlwaysAuthorization** 方法, 我们在**startUpdateLocation** 方法中实现了该调用. 接着, 在工程的Info.plist中添加 NSLocationAlwaysUsageDescription 或者 NSLocationWhenInUseUsageDescription key, 你可以对这两个key设置具体的值。当出现提示信息，询问你是否允许应用程序使用你当前的地理位置信息时，你对这两个key设置的值也会出现。这里我们设置两个key的值为空:
+在iOS8中, 我们必须首先调用 locationManager的 **requestAlwaysAuthorization** 方法, 我们在**startUpdateLocation** 方法中实现了该调用. 接着, 在工程的Info.plist中添加 NSLocationAlwaysUsageDescription 或者 NSLocationWhenInUseUsageDescription key, 你可以对这两个key设置具体的值。当出现提示信息，询问你是否允许应用程序使用你当前的地理位置信息时，你对这两个key设置的值也会出现。这里我们设置两个key的值为空:
 
-![infoPlist](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/infoPlist.png)
+![infoPlist](../../images/infoPlist.png)
 
-编译运行工程，检查下地图定位的功能. 如果一切正常, 你可以看到以下截图信息:
+编译运行工程，检查下地图定位的功能. 当你第一次启动app时, app会弹出一个对话框，询问是否允许访问你的地理位置信息. 选择**允许** 然后点击 **Focus Map** 按钮. 如果效果和以下动画一样，地图自动定位到你当前的位置, 恭喜, 你已经完成了Focus Map功能!
 
-![coreLocation1](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/coreLocation1.jpg)
-
-当你第一次启动app时, app会弹出一个对话框，询问是否允许访问你的地理位置信息. 选择**允许** 然后点击 **Focus Map** 按钮. 如果地图像以下截图一样，定位到你当前的位置, 恭喜, 你已经完成了 **Focus Map** 功能!  //TODO:Use GIF HERE
-
-![coreLocation2](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/coreLocation2.jpg)
+![focusMap](../../images/focusMap.gif)
 
 #### **5**. 在地图上显示飞机
 
@@ -514,19 +509,19 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 
 **DJIAircraftAnnotation** 类实现了 **MKAnnotation** 协议. 它被用来储存并更新CLLocationCoordinate2D属性. 同时，我们用**updateHeading** 来改变DJIAircraftAnnotationView的方向.
 
-当你完成以上条件是。打开 **DJIMapController.h** 文件并导入 **DJIAircraftAnnotation.h** 文件:
+当你完成以上操作后，打开 **DJIMapController.h** 文件并导入 **DJIAircraftAnnotation.h** 文件:
 
 ~~~objc
 #import "DJIAircraftAnnotation.h"
 ~~~
 
-Then create a property of an instance of DJIAircraftAnnotation and name it **aircraftAnnotation**. 
+然后创建一个**DJIAircraftAnnotation**的属性，命名为**aircraftAnnotation**. 
 
 ~~~objc
 @property (nonatomic, strong) DJIAircraftAnnotation* aircraftAnnotation;
 ~~~
 
-Furthermore, add two new methods to update the aircraft's location and it's heading on the map.
+进一步的, 添加以下两个新方法来更新飞机在地图上的位置和头部转向:
 
 ~~~objc
 /**
@@ -540,7 +535,7 @@ Furthermore, add two new methods to update the aircraft's location and it's head
 -(void)updateAircraftHeading:(float)heading;
 ~~~
 
-接下来，让我们回到 **DJIMapController.m** 文件并实现我们刚加入的两个方法:
+接下来，回到 **DJIMapController.m** 文件并实现我们刚加入的两个方法:
 
 ~~~objc
 -(void)updateAircraftLocation:(CLLocationCoordinate2D)location withMapView:(MKMapView *)mapView
@@ -561,7 +556,7 @@ Furthermore, add two new methods to update the aircraft's location and it's head
 }
 ~~~
 
-同时，因为我们不想 DJIMapController.m 文件里的**cleanAllPointsWithMapView** 方法删除**aircraftAnnotation**,我们需要修改它，如下所示:
+这里，因为我们不希望DJIMapController.m文件里的**cleanAllPointsWithMapView** 方法将**aircraftAnnotation**（它代表在地图上面的飞机）删除掉,我们需要修改它，如下所示:
 
 ~~~objc
 - (void)cleanAllPointsWithMapView:(MKMapView *)mapView
@@ -577,13 +572,13 @@ Furthermore, add two new methods to update the aircraft's location and it's head
     }   
 }
 ~~~
-我们加入一个if句来检查地图的annotation是否等于**aircraftAnnotation** 属性, 如果不等于，我们将移除它. 这样做，我们能防止飞机的annotation被移除.
+我们加入一个if语句来检查地图的annotation是否等于**aircraftAnnotation** 属性, 如果不等于，我们移除它. 这样做，可以防止飞机的annotation被移除.
 
-为了提供一个更好的用户体验，我们需要在地图的上方加入一个信息栏来显示飞机当前的模式，当前的GPS卫星书，垂直于水平的飞行速度以及飞机的高度. 让我们在*Main.storyboard**的 RootViewController Scene画面里加入UI，如下显示:
+为了提供一个更好的用户体验，我们需要在地图的上方加入一个信息栏来显示飞机当前的状态：当前的GPS卫星数，垂直飞行速度，水平飞行速度以及飞机的高度. 让我们在*Main.storyboard**的 RootViewController Scene画面里加入UI，如下所示:
 
-![statusView](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/statusView.png)
+![statusView](../../images/statusView.png)
 
-当以上任务完成时。打开 **DJIRootViewController.h** 文件, 为以上UI元素创建IBOutlets冰倩导入DJISDK的头文件并且实现 **DJIDroneDelegate** and **DJIMainControllerDelegate** 协议. 我们在demo里使用的是Inspire 1，所以我们需要创建连个属性，一个是 **DJIDrone**的属性另外一个是 **DJIInspireMainController**的属性. 同事我们需要创建一个 **CLLocationCoordinate2D** 属性名为 **droneLocation** 来记录飞机的位置, 如下所示:
+当以上任务完成时。打开 DJIRootViewController.h 文件, 为以上UI元素创建IBOutlets， 导入DJISDK的头文件并且实现 **DJIDroneDelegate** and **DJIMainControllerDelegate** 协议. 我们在demo里使用的是Inspire 1，所以我们需要创建两个属性，一个是 **DJIDrone**的属性另外一个是 **DJIInspireMainController**的属性. 同时我们需要创建一个名为 “droneLocation”的**CLLocationCoordinate2D** 属性来记录飞机的位置, 如下所示:
 
 ~~~objc
 #import <DJISDK/DJISDK.h>
@@ -600,7 +595,7 @@ Furthermore, add two new methods to update the aircraft's location and it's head
 @property(nonatomic, assign) CLLocationCoordinate2D droneLocation;
 ~~~
 
-现在，让我们来到e **DJIRootViewController.m** 文件并在**initUI**方法里初始化UI元素的值. 同时加入一个 **initDrone** 方法来初始化 **inspireDrone**的属性. 在**viewDidLoad** 方法里运行 **initUI** 以及 **initDrone** 方法 :
+现在，我们来到 DJIRootViewController.m 文件并在**initUI**方法里初始化UI元素的值. 同时加入一个 **initDrone** 方法来初始化 **inspireDrone**属性. 在viewDidLoad 方法里运行 **initUI** 以及 **initDrone** 方法 :
 
 ~~~objc
 
@@ -622,9 +617,9 @@ Furthermore, add two new methods to update the aircraft's location and it's head
 }
 ~~~
 
-**DJIMainController**的子类**DJIInspireMainController** 是一个用来控制飞机并在起飞，着陆，以及其他时候获取DJIMCSystemState的主控制器.你可以在SDK里查看它的头文件以获取更多资料. 在 **initDrone** 方法中, 我们设置 **inspireDrone** 和 **inspireMainController** delegates 为自身.
+**DJIMainController**的子类**DJIInspireMainController** 是一个可以用来控制飞机，在飞机起飞，着陆，以及其他时候获取DJIMCSystemState的主控制器.你可以在SDK里查看它的头文件以获取更多资料. 在 initDrone 方法中, 我们设置 **inspireDrone** 和 **inspireMainController** 的delegate为self.
 
-记得我们之前加入的 **registerAppSuccess** 方法吗? 让我们把这个方法变成这样:
+记得我们之前加入的 **registerAppSuccess** 方法吗? 我们把这个方法修改下:
 
 ~~~objc
 #pragma mark NSNotification Selector Method
@@ -635,7 +630,7 @@ Furthermore, add two new methods to update the aircraft's location and it's head
 }
 ~~~
 
-在以上的方法中，当app成功注册时，我们可以运行 **connectToDrone** 方法来连接飞机, 并且运行 **startUpdateMCSystemState** 方法来更新飞机的系统状态, 这些信息会被用来更新我们飞机的位置及方向g. 更进一步，在 **viewWillDisappear** 方法里, 我们需要与飞机中断连接, 如下所示:
+在以上方法中，当app成功注册时，我们可以运行 **connectToDrone** 方法来连接飞机, 并且运行 **startUpdateMCSystemState** 方法来更新飞机的系统状态, 这些信息会被用来更新我们飞机的位置及方向. 更进一步，在 **viewWillDisappear** 方法里, 我们需要中断与飞机的连接, 如下所示:
 
 ~~~objc
 - (void)viewWillDisappear:(BOOL)animated
@@ -669,7 +664,7 @@ Furthermore, add two new methods to update the aircraft's location and it's head
 }
 ~~~
 
-接下来，我们需要将 **MKMapViewDelegate** 方法修改成下面的样子. 他会检查 annotation variable的类并将其 annotationView 设置为一个 **DJIAircraftAnnotationView** 类的实例:
+接下来，我们需要将 **MKMapViewDelegate** 方法修改成下面的样子. 它会检查 annotation 变量的类并将它的annotationView属性设置为一个 **DJIAircraftAnnotationView** 类的实例:
 
 ~~~objc
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation
@@ -690,7 +685,7 @@ Furthermore, add two new methods to update the aircraft's location and it's head
 }
 ~~~
 
-再下一步，让我们来实现 **DJIMainControllerDelegate** 方法:
+接着，我们来实现 **DJIMainControllerDelegate** 方法:
 
 ~~~objc
 #pragma mark - DJIMainControllerDelegate Method
@@ -722,12 +717,12 @@ Furthermore, add two new methods to update the aircraft's location and it's head
 首先，他会更新 **droneLocation**，将其变为飞机当前的位置. 然后它会禁用 inspireMainController的 IOC 功能.
 
 ***
-**重要事项**: 因为 DJI Mobile SDK的 GroundStation 和 IOC之间的矛盾, 你无法同事使用两者. 请确保你关闭IOC功能后在使用GroundStation，不然你讲面临错误报告. 
+**重要事项**: 因为 DJI Mobile SDK的 GroundStation 和 IOC之间存在使用上的冲突, 你无法同时使用他们. 请确保你关闭IOC功能后再使用GroundStation，不然你将会遇到错误. 
 ***
 
-接下来，更新DJIMCSystemState的状态标签的文字. 下一步，用**DJIMapController**里的方法来更新飞机的位置以及方向.
+接下来，更新DJIMCSystemState的状态Label的文字. 用**DJIMapController**里的相关方法来更新飞机的位置以及方向.
 
-最后，让我们来实现DJIDroneDelegate 方法，如下所示:
+最后，实现DJIDroneDelegate 方法，如下所示:
 
 ~~~objc
 #pragma mark - DJIDroneDelegate Method
@@ -747,7 +742,7 @@ Furthermore, add two new methods to update the aircraft's location and it's head
 }
 ~~~
 
-如果它成功连接上飞机，运行 **DJIInspireMainController**的 **enterNavigationModeWithResult** 方法来检查飞机是否成功进入巡航模式. 如果没有成功，将 UIAlertView 显示给用户. 我们需要实现 UIAlertView的 delegate 方法如下所示:
+如果它成功连接上飞机，运行 **DJIInspireMainController**的 **enterNavigationModeWithResult** 方法来检查飞机是否成功进入地面站模式. 如果没有成功，弹出UIAlertView提醒用户. 这里我们实现UIAlertView的delegate方法，如下所示:
 
 ~~~objc
 #pragma mark - UIAlertViewDelegate
@@ -769,35 +764,35 @@ Furthermore, add two new methods to update the aircraft's location and it's head
 }
 ~~~
 
-让我们来测试这个应用吧! 
-创造并运行这个project来将此app安装到你的移动设备上. 然后，用usb连接线将你的飞机连接上你使用Windows的PC 或者虚拟机器, 并且启动飞机以及遥控器. 按下Display Simulator. 如果你喜欢，你可以在Simulator Config里输入你当前位置的经纬度. 
+现在我们测试下这个应用吧! 
+编译运行工程，将此app安装到你的移动设备上。 然后，用Micro-USB连接线将你的飞机连接上装有Windows系统的PC或者虚拟机, 并且启动飞机和遥控器. 按下Display Simulator按钮. 如果你喜欢，可以在Simulator Config里输入你当前位置的经纬度. 
 
-![simulatorPreview](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/simulator_preview.png)
+![simulatorPreview](../../images/simulator_preview.png)
 
-然后运行app，并且将你的移动设备连接到你的遥控器上. 你将看到下面的截图:
+然后运行app，并且将你的移动设备连接到你的遥控器上. 以下是截图画面:
 
-![enterNaviModeFailed](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/enterNaviModeFailed.jpg)
+![enterNaviModeFailed](../../images/enterNaviModeFailed.jpg)
 
-**重要事项**: 为了解决这个问题，将遥控器的模式调的 **F** 位置上 (在之前的版本中，模式在A位置上) 并且按下 **Retry** 按钮. 如果当自动巡航开始时模式选择条已在F位置，用户需要调到其他位置再调回 **F** 位置，然后按下 **Retry** 按键.
+**重要事项**: 为了解决以上提醒框的问题，将遥控器上的模式到 **F** 位置上 (在之前的版本中，模式在A位置上) 并且按下 **Retry** 按钮. 如果当自动巡航开始时模式选择已在F位置，用户需要拨动其他位置再调回 **F** 位置，然后按下 **Retry** 按键.
 
-在DJI Mobile SDK里使用地面站，热点，以及摇杆都必须在 **F** 位置.
+在DJI Mobile SDK里使用地面站，热点环绕，以及JoyStick功能都必须将模式调到 **F** 位置.
 
-![switchFlightMode](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/switchFlightMode.png)
+![switchFlightMode](../../images/switchFlightMode.png)
 
-接下来，让我们来到你的PC上的DJI PC 模拟器并按下 **Start Simulation** 按键. 如果你现在查看应用，一个小型红色飞机将会在地图上显示:
+接着，打开PC上的DJI PC 模拟器并按下 **Start Simulation** 按键. 如果你现在查看app，一架小型红色飞机将会在地图上显示:
 
-![aircraftOnMap1](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/aircraftOnMap1.jpg)
+![aircraftOnMap1](../../images/aircraftOnMap1.jpg)
 
-如果你无法找到飞机，按下 "**Focus Map**" 按钮，然后地图会以飞机为中心放大至地图中心，如下图:
+如果你无法找到飞机，按下 "**Focus Map**" 按钮，然后地图会以飞机为中心放大定位显示，如下动画所示:
 
-![aircraftOnMap2](https://raw.githubusercontent.com/dji-sdk/Mobile-SDK-Tutorial/master/iOS-GSDemo/en/images/aircraftOnMap2.jpg)
+![focusAircraft](../../images/focusAircraft.gif)
 
-现在，如果你在Simulator Config里按下 **Stop Simulation** ，飞机将会从地图上消失，因为模拟器将停止向飞机输送GPS信息.
+现在，如果你在Simulator Config里按下 **Stop Simulation** ，飞机会从地图上消失，因为模拟器停止向飞机传送GPS模拟信息.
 
-## 4. 下一步怎么办?
+## 4. 现在要怎么做?
 
-   你可以在此处下载此教程的demo: <https://github.com/dji-sdk/GSDemo-Part1.git>
+   你可以在这里下载到此教程的demo工程: <https://github.com/dji-sdk/GSDemo-Part1.git>
    
-   你已经学会了如何设置并使用DJI PC Simulator来测试你的地面站应用，将你的飞机的固件升级为开发者版本，使用DJI Mobile SDK来创造简单的地图，修改地图的annotation，在地图上使用DJI PC Simulator的GPS 信息来显示飞机，以及更多更多.
+   你已经学会了如何设置并使用DJI PC Simulator来测试你的地面站应用，如何将你的飞机的固件升级为开发者版本，如何使用DJI Mobile SDK来创建简单的地图，如何修改地图的annotation，以及如何在地图上使用DJI PC Simulator传送过来的的GPS模拟信息来更新飞机的位置等。
    
-   下一个教程里，我们将实现地面站航点的基本功能。你的飞机将能够根据您设定的航点在地图上自动巡航. 请移步至下一教程. 希望你能喜欢!
+   在下一篇教程里，我们将实现地面站预设航点的基本功能。你的飞机将能够根据您设定的航点在地图上自动巡航飞行. 请移步至下一篇教程. 希望你能喜欢!

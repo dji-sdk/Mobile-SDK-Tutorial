@@ -1,6 +1,7 @@
 # DJI Mobile iOS SDK Tutorial
 
 # How to create a MapView and Waypoint Application: Part 2/2
+
 In this tutorial, you will learn how to implement the basic processes of using Waypoints in the GroundStation. Of the three features(waypoint, hotpoint, and follow me), waypoint is the most complicated feature and commonly used in GroundStation. If you haven't read Part 1 of this tutorial, please take a look at it [here](../Part1/GSDemo-Part1_en.md) before moving forward. Let's get started!
 
    You can download the demo project for this tutorial from here: <https://github.com/DJI-Mobile-SDK/iOS-GSDemo-Part2.git>
@@ -209,17 +210,16 @@ Finally, implement **DJIGSButtonViewController**'s delegate methods, as shown be
         [self focusMap];
     }else
     {
-         self.isEditingPoints = YES;
+         self.isEditingPoints = No;
     }
 }
 ~~~
 
 In the **- (void)switchToMode:(DJIGSViewMode)mode inGSButtonVC:(DJIGSButtonViewController *)GSBtnVC** delegate method, we call the **focusMap** method. By doing this, we can focus the map view to the aircraft's location when the edit button is pressed, making it user friendly by preventing the user from having to zoom in to edit. Moreover, when the application is in edit mode, the  **isEditingPoints** property value is set to **YES**. 
 
-Now, let's build and run the project and try to press the **Edit** and **Back** Buttons. Here are the screenshots when you press them:
+Now, let's build and run the project and try to press the **Edit** and **Back** Buttons. Here are the animation when you press them:
 
-![GSButtons1](../../images/GSButtons1.jpg)
-![GSButtons2](../../images/GSButtons2.jpg)
+![pressEditBtn](/Users/zlinoliver/Documents/DJI-SDK-Github/Mobile-SDK-Tutorial/iOS-GSDemo/en/images/pressEditBtn.gif)
 
 ## 2. Configure The DJIGroundStationWaypoint and The DJIGroundStationTask
 
@@ -253,7 +253,7 @@ On the contrary, you can also delete waypoints from a task by using the method:
 ~~~
  method.
  
- Moreover, you can set the **isLoop** property of a **DJIGroundStationTask** to decide whether to execute the task looply. Also, you can set the **finishedAction** property which is of **DJIGSTaskFinishedAction** enum type to configure what the aircraft does when the task is finished. Finally, you can set the **headingMode** property which is a **DJIGSHeadingMode** enum type to configure what the aircraft's heading is while executing a task. Below, you can find dome parts of the header file:
+ Moreover, you can set the **isLoop** property of a **DJIGroundStationTask** to decide whether to execute the task looply. Also, you can set the **finishedAction** property which is of **DJIGSTaskFinishedAction** enum type to configure what the aircraft does when the task is finished. Finally, you can set the **headingMode** property which is a **DJIGSHeadingMode** enum type to configure what the aircraft's heading is while executing a task. Below, you can find some parts of the header file:
  
 ~~~objc
 /**
@@ -619,7 +619,7 @@ Moreover, add the following code to the bottom of the **startBtnActionInGSButton
 
 In the code being added above, we create a local **NSArray** variable named **wayPoints** and assign its value as the **mapController**'s **wayPoints** array. Next, check whether or not the array exists or whether or not it's empty. If it is empty or does not exist, show a UIAlertView letting the user know there are no waypoints for the mission. 
 
-#####Important: For safety, it's important you add logic to check the GPS satellite count, which was discussed in Part 1 of this tutorial, before the start of the mission. If the satellite count is less than 6, you should prevent the user from starting the ground station mission and show a warning. Since we are using the DJI PC Simulator here, we are testing the application under a perfect situation, where the GPS satellite count is always 10.
+#####Important: For safety, it's important to add logic to check the GPS satellite count, which was discussed in Part 1 of this tutorial, before the start of the mission. If the satellite count is less than 6, you should prevent the user from starting the ground station mission and show a warning. Since we are using the DJI PC Simulator here, we are testing the application under a perfect situation, where the GPS satellite count is always 10.
 
 Next, we initialize the **gsTask** instance variable by calling the **newTask** class method of **DJIGroundStationTask**. Furthermore, we use a for loop to get the **CLLocation** for each waypoint from the **wayPoints** array and check if its **coordinate** is valid by using the method:
 
@@ -805,7 +805,7 @@ You've come a long way in this tutorial, and it's time to test the whole applica
 
 #####Important: Make sure the battery level of your aircraft is more than 10%, otherwise the ground station mission may fail!
 
-Build and run the project to install the application into your mobile device. After that, please connect the aircraft to your PC or Virtual Machine running Windows via a Micro USB cable. Then, power on the aircraft and the remote controller, in that order. Next, press the **Display Simulator** button in the DJI PC Simulator and feel free to type in your current location's latitude and longitude data into the simulator.
+Build and run the project to install the application into your mobile device. After that, please connect the aircraft to your PC or Virtual Machine running Windows via a Micro USB cable. Then, power on the remote controller and the aircraft, in that order. Next, press the **Display Simulator** button in the DJI PC Simulator and feel free to type in your current location's latitude and longitude data into the simulator.
 
 ![simulatorPreview](../../images/simulator_preview.png)
 
@@ -819,27 +819,19 @@ If you encounter this issue, check the solution to this problem in Part 1 of thi
 
 Press the "**Edit**" button, and the map view will zoom in to the region you are in and will center the aircraft:
 
-![aircraftOnMap2](../../images/aircraftOnMap2.jpg)
+![locateAircraft](../../images/locateAircraft.gif)
 
 Next, test the waypoint feature by tapping wherever you'd like on the map view. Wherever you do tap, a waypoint will be added and a purple pin will appear exactly at the location of the waypoint, as shown below:
 
-![waypoints](../../images/waypoints.jpg)
+![addWayPoints](/Users/zlinoliver/Documents/DJI-SDK-Github/Mobile-SDK-Tutorial/iOS-GSDemo/en/images/addWaypoints_part2.gif)
 
-Once you press the **Start** button, the **Waypoint Configuration** view will appear. After you're satisfied with the changes, press the **Finish** button.
+Once you press the **Start** button, the **Waypoint Configuration** view will appear. After you're satisfied with the changes, press the **Finish** button. The waypoint mission will start to upload and when it finishes, the mission will start to be processed. You will start to see the aircraft move towards the waypoints you set previously on the map view, as shown below:
 
-![waypointConfigStart](../../images/waypointConfigStart.jpg)
-
-The waypoint mission will start to upload and when it finishes, the mission will start to be processed. You will start to see the aircraft move towards the waypoints you set previously on the map view, as shown below:
-
-![missionUploadFinished](../../images/missionUploadFinished.jpg)
-
-![missionStart1](../../images/missionStart1.jpg)
-
-![missionStart2](../../images/missionStart2.jpg)
+![flying](../../images/flying.gif)
 
 At the same time, you will be able to see the Inspire 1 take off and start to fly automatically in the DJI PC Simulator.
 
-![simulatorMissionStart](../../images/simulatorMissionStart.jpg)
+![takeOff] (../../images/takeOff.gif)
 
 When the waypoint mission finishes, an alert view titled **Mission Finished** will appear, and the Inspire 1 will start to go home!
 
@@ -847,12 +839,12 @@ When the waypoint mission finishes, an alert view titled **Mission Finished** wi
 
 The remote controller will start beeping, and the **Go Home** button on the remote controller will start to flash a white light. Let's take a look at the DJI PC Simulator now:
 
-![landing](../../images/landing.jpg)
+![landing](../../images/landing.gif)
  
 The inspire 1 will eventually go home, land, and the beeping from the remote controller will stop. The application will go back to its normal status. If you press the **Clear** button, all the waypoints you previously set will be cleared and another waypoint waypoint mission will be started. During the mission, if you'd ever like to stop the groundStation task, you can do so by pressing the **Stop** button.
 
 ## 5. Where To Go From Here?
    
-   In this tutorial, you learned how to configure both **DJIGroundStationWaypoint** and **DJIGroundStationTask**. Moreover, you learned how to use **DJIGroundStationTask** to add waypoints by using the ability to **upload** to, **start** and **stop** the ground station task by using methods from **DJIInspireMainController**(since we're using an Inspire 1). Also, you learned how to use the **DJINavigationDelegate** and **GroundStationDelegate** methods to obtain information from the ground station task.
+   In this tutorial, you learned how to configure both **DJIGroundStationWaypoint** and **DJIGroundStationTask**. Moreover, you learned how to use DJIGroundStationTask to add waypoints, how to use **upload**, **start** and **stop** methods to configure the ground station task, which are the methods from DJIInspireMainController(since we're using an Inspire 1). Also, you learned how to use the **DJINavigationDelegate** and **GroundStationDelegate** methods to obtain information from the ground station task.
       
    Congratulations! Now that you've finished the demo project, you can build on what you've learned and start to build your own ground station application. You can improve the way waypoints are added(such as drawing a line on the map and generating waypoints automatically), play around with the properties of a waypoint (such as heading, horizontal speed, etc.), and adding more functionality. In order to make a cool ground station application, you still have a long way to go. Good luck and hope you enjoy this tutorial!
