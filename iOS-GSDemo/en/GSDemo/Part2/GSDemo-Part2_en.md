@@ -219,7 +219,7 @@ In the **- (void)switchToMode:(DJIGSViewMode)mode inGSButtonVC:(DJIGSButtonViewC
 
 Now, let's build and run the project and try to press the **Edit** and **Back** Buttons. Here are the animation when you press them:
 
-![pressEditBtn](/Users/zlinoliver/Documents/DJI-SDK-Github/Mobile-SDK-Tutorial/iOS-GSDemo/en/images/pressEditBtn.gif)
+![pressEditBtn](../../images/pressEditBtn.gif)
 
 ## 2. Configure The DJIGroundStationWaypoint and The DJIGroundStationTask
 
@@ -823,7 +823,7 @@ Press the "**Edit**" button, and the map view will zoom in to the region you are
 
 Next, test the waypoint feature by tapping wherever you'd like on the map view. Wherever you do tap, a waypoint will be added and a purple pin will appear exactly at the location of the waypoint, as shown below:
 
-![addWayPoints](/Users/zlinoliver/Documents/DJI-SDK-Github/Mobile-SDK-Tutorial/iOS-GSDemo/en/images/addWaypoints_part2.gif)
+![addWayPoints](../../images/addWaypoints_part2.gif)
 
 Once you press the **Start** button, the **Waypoint Configuration** view will appear. After you're satisfied with the changes, press the **Finish** button. The waypoint mission will start to upload and when it finishes, the mission will start to be processed. You will start to see the aircraft move towards the waypoints you set previously on the map view, as shown below:
 

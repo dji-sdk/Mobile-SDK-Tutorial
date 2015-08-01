@@ -222,7 +222,7 @@ self.gsButtonVC.delegate = self;
 
 现在，我们编译并运行该工程，并尝试按下**Edit** 和 **Back** 按钮. 以下是当你按下按钮时的动画:
 
-![pressEditBtn](/Users/zlinoliver/Documents/DJI-SDK-Github/Mobile-SDK-Tutorial/iOS-GSDemo/en/images/pressEditBtn.gif)
+![pressEditBtn](../../images/pressEditBtn.gif)
 
 ## 2. 设置 DJIGroundStationWaypoint 和 DJIGroundStationTask
 
@@ -826,7 +826,7 @@ typedef NS_ENUM(uint8_t, DJINavigationEventType){
 
 接下来，点击地图上任何位置，测试下添加航点的功能. 在每一个你点击地图的地方，都会出现一个紫色的图钉，代表你设置的航点位置, 如下动画所示:
 
-![addWayPoints](/Users/zlinoliver/Documents/DJI-SDK-Github/Mobile-SDK-Tutorial/iOS-GSDemo/en/images/addWaypoints_part2.gif)
+![addWayPoints](../../images/addWaypoints_part2.gif)
 
 你一旦按下 **Start** 按钮， **Waypoint Configuration** view就会出现. 当你做完适当的设置操作后，按下 **Finish** 按钮. 航点任务会开始上传并且在上传结束时，任务会被处理. 这时你会看到飞机开始朝你之前设置好的航点位置移动, 如下动画所示:
 
