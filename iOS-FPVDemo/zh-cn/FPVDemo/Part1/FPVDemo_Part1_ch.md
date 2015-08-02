@@ -3,6 +3,8 @@
 
 ## 如何创建一个航拍相机App: 第一部分
 
+*注意: 本教程中的代码是针对iPad开发的. 请确保在iPad或者iPad模拟器上运行本教程代码。*
+
 你可以从这里下载到本教程的Demo工程:<https://github.com/DJI-Mobile-SDK/FPVDemo-Part1.git>
 
 ### 1. 下载SDK

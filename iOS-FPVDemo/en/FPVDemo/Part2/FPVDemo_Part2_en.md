@@ -3,6 +3,8 @@
 
 ## How to create a Camera Application: Part 2/2
 
+*Note: The code in this tutorial has been written to be run on the iPad. Please make sure you run this code on an iPad or an iPad simulator.*
+
 In [Part 1](../Part1/FPVDemo_Part1_en.md), we have implemented the basic FPV view which allowed us to see the live video stream from the aircraft's camera. In this tutorial, we use the Inspire 1 as an example to show you how to add photo taking and video recording features in the app, let's get started!
 
    You can download the final project for this tutorial here: <https://github.com/DJI-Mobile-SDK/iOS-FPVDemo-Part2.git>

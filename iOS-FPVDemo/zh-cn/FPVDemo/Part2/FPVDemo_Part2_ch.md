@@ -3,6 +3,8 @@
 
 ## 如何创建一个航拍相机App: 第二部分
 
+*注意: 本教程中的代码是针对iPad开发的. 请确保在iPad或者iPad模拟器上运行本教程代码。*
+
 #####在[第一部分](../Part1/FPVDemo_Part1_ch.html)中, 我们实现了一个基本的FPV视图，你可以在这个视图上看到飞行器摄像头的视频画面. 在本教程中, 我们使用Inspire 1进行演示, 你会学到如何在app中添加拍照和录像功能, 我们开始吧!
 
  你可以从这里下载到本教程的最终Demo工程:<https://github.com/DJI-Mobile-SDK/FPVDemo-Part2.git>
