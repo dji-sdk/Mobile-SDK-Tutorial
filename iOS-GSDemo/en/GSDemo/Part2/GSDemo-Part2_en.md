@@ -438,7 +438,7 @@ In the code above, we create an **initUI** method, which is called in the **view
 
 ## 3. Setup The GroundStation Task
 
-#### **1**. Add The **DJIWaypointConfigViewController** to **DJIRootViewController**
+#### **1**. Add The DJIWaypointConfigViewController to DJIRootViewController
 Now,let's go to **DJIRootViewController.m** file, add the **DJIWaypointConfigViewController.h** header file at the top, and create a property of type **DJIWaypointConfigViewController** with the name **waypointConfigVC**. Then, implement the **DJIWaypointConfigViewControllerDelegate** protocol, as shown below:
 
 ~~~objc
