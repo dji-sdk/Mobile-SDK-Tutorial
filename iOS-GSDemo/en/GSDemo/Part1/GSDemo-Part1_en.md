@@ -11,7 +11,7 @@ In this tutorial, you will learn how to setup the DJI PC Simulator, upgrade your
 
 ## 1. Using The DJI PC Simulator
 
-#### **1**. **Introduction**
+#### **1**. Introduction
 
 The DJI PC Simulator is a flight simulator designed for SDK developers. The simulator creates a virtual 3D environment and provides data analysis from flight data transmitted to the PC via the UDP protocol.
 
@@ -19,7 +19,7 @@ The DJI PC Simulator is a flight simulator designed for SDK developers. The simu
 
 **Supported DJI Platforms**: Matrice 100, Inspire 1, Phantom 3 Professional, and Phantom 3 Advanced
 
-#### **2**. **Install and setup the DJI PC Simulator**
+#### **2**. Install and setup the DJI PC Simulator
 
 First, you should download the DJI PC Simulator and WIN Driver from here: <http://dev.dji.com/en/products/sdk/onboard-sdk/downloads> :
 
@@ -106,7 +106,7 @@ Regardless of what aircraft you are using, you can check whether or not the firm
 
 ## 3. Setup The Map View
 
-#### **1**. **Import The Framework and Libraries**
+#### **1**. Import The Framework and Libraries
 
 Now that you've finished the steps above, we can start working on the application. In our previous tutorial [**How to create a Camera Application**](https://github.com/dji-sdk/Mobile-SDK-Tutorial/blob/master/iOS-FPVDemo/en/FPVDemo/Part1/FPVDemo_Part1_en.md), you learned how to import and activate the DJI Mobile SDK into your Xcode project. If you haven't read that previously, please take a look at it. Once you've done that, we will set up the map view. 
 
