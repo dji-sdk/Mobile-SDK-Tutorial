@@ -1,1 +1,1 @@
-# Mobile-SDK-Tutorial
+# DJI Mobile SDK Tutorial
