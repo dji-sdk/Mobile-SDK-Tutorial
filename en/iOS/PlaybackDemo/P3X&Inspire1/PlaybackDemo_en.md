@@ -1260,7 +1260,7 @@ Let's build and run the project. Try to download photos in Single Preview Mode a
 ![downloadFiles2](../../../images/iOS/PlaybackDemo/downloadFiles2.gif)
 
 
-### 5. Where To Go From Here?
+### 4. Where To Go From Here?
    
    In this tutorial, you learned how to preview photos and videos in Single Preview Mode and Multiple Preview Mode, how to enter multiple edit mode and select files for deleting. You also learned how to download and save photos to the iOS Photo Album. 
    

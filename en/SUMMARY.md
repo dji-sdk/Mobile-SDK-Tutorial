@@ -9,7 +9,7 @@
 		* [Part 1](iOS/GSDemo/Part1/GSDemo_Part1_en.md)
 		* [Part 2](iOS/GSDemo/Part2/GSDemo_Part2_en.md)
 	* [PlaybackDemo](iOS/PlaybackDemo/README.md)
-		* [Part 1](iOS/PlaybackDemo/P3X&Inspire1/PlaybackDemo_en.md)
+		* [Phantom3Pro&Inspire1](iOS/PlaybackDemo/P3X&Inspire1/PlaybackDemo_en.md)
  
 * [Android](Android/README.md)
 	* [FPVDemo](Android/FPVDemo/README.md)
