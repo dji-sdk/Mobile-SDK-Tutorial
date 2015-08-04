@@ -1,2 +1,0 @@
-# GS
-GroundStation View
