@@ -102,7 +102,7 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 
 #### **1**. 导入Framework 和 库文件
 
-你已经完成了以上步骤, 可以开始开发应用程序了. 在之前的教程 [**如何创建一个航拍相机App**](http://gitlab.djicorp.com/SDKDemo/FPVDemo-Part1/blob/master/Tutorial/FPVDemo_Part1_en.md), 你学会了如何导入DJI Mobile SDK到你的Xcode工程中，并进行激活操作。如果你还没有阅读, 请先看下再进行以下操作。 
+你已经完成了以上步骤, 可以开始开发应用程序了. 在之前的教程[**如何创建一个航拍相机App**](../../../iOS/FPVDemo/Part1/FPVDemo_Part1_ch.md), 你学会了如何导入DJI Mobile SDK到你的Xcode工程中，并进行激活操作。如果你还没有阅读, 请先看下再进行以下操作。 
 
 **1**. 在Xcode中创建一个工程并命名为 "**GSDemo**", 复制 **DJISDK.framework** 到你的 Xcode 工程文件夹中. 然后, 选择工程，并进入 Build Phases -> Link Binary With Libraries. 点击底部的 "+" 按钮添加以下两个库文件到工程中: libstdc++.6.0.9.dylib 和 libz.dylib. 以下是截图:
 

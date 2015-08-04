@@ -290,4 +290,4 @@ If you can see the live video stream in the application, congratulations! Feel f
 
 ### 7. Where To Go From Here?
    
-   You’ve learned how to setup the DJI Mobile SDK's development environment and use it to create a camera view that shows the live video stream of the aircraft's camera. We will add the capture photo and record video functionalities of the app in [Part 2](../Part2/FPVDemo_Part2_en.md) of this tutorial. Hope you enjoy! 
+   You’ve learned how to setup the DJI Mobile SDK's development environment and use it to create a camera view that shows the live video stream of the aircraft's camera. We will add the capture photo and record video functionalities of the app in [Part 2](../../../iOS/FPVDemo/Part2/FPVDemo_Part2_en.md) of this tutorial. Hope you enjoy! 

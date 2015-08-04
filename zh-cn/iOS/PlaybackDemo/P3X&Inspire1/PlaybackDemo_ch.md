@@ -5,7 +5,7 @@
 
 在此教程中，你将会学到如何使用DJI Mobile SDK去访问飞机相机上的SD卡媒体资源。当你完成本教程后，你将开发出一款app，具备预览照片，播放视频，下载或者删除文件等功能.
 
-但是，为了能够在App里面对照片和视频进行管理，你首先必须能够用app进行拍照和录像. 幸好，在我们之前的教程[如何创建一个航拍相机App](https://github.com/dji-sdk/Mobile-SDK-Tutorial/blob/master/iOS-FPVDemo/zh-cn/FPVDemo/Part1/FPVDemo_Part1_ch.md)中，我们演示了如何实现 **拍照** 和 **录像** 功能. 因此，请确保你在开始本教程之前, 先阅读该教程。
+但是，为了能够在App里面对照片和视频进行管理，你首先必须能够用app进行拍照和录像. 幸好，在我们之前的教程[如何创建一个航拍相机App](../../../iOS/FPVDemo/Part1/FPVDemo_Part1_ch.md)中，我们演示了如何实现 **拍照** 和 **录像** 功能. 因此，请确保你在开始本教程之前, 先阅读该教程。
 
 你可以从[这里](https://github.com/DJI-Mobile-SDK/iOS-PlaybackDemo.git)下载到本教程的demo工程。
 
@@ -15,7 +15,7 @@
 
 #### 1.1. 导入Framework和库
 
-  在Xcode中创建一个新工程并将其命名为 "PlaybackDemo", 复制 **DJISDK.framework** 到你的Xcode工程文件夹中. 接下来，在下载好的SDK中找到 "VideoPreviewer" 文件夹。 将整个"VideoPreviewer"文件夹拷贝到Xcode工程的 "ThirdParty" 文件夹中. 在**Build Settings**里设置好**FFMPEG**的 **Header Search Paths** 和 **Library Search Paths**。 如果这有一点难懂，请看我们之前的教程 [**如何创建一个航拍相机App**](https://github.com/dji-sdk/Mobile-SDK-Tutorial/blob/master/iOS-FPVDemo/en/FPVDemo/Part1/FPVDemo_Part1_en.md) 来获得更多的解释。 接着，选择工程的target并来到 Build Phases -> Link Binary With Libraries. 按下下方的 "+" 按钮，然后添加这两个library到你的工程中: **libstdc++.6.0.9.dylib** 和 **libz.dylib**。 请看以下截图:
+  在Xcode中创建一个新工程并将其命名为 "PlaybackDemo", 复制 **DJISDK.framework** 到你的Xcode工程文件夹中. 接下来，在下载好的SDK中找到 "VideoPreviewer" 文件夹。 将整个"VideoPreviewer"文件夹拷贝到Xcode工程的 "ThirdParty" 文件夹中. 在**Build Settings**里设置好**FFMPEG**的 **Header Search Paths** 和 **Library Search Paths**。 如果这有一点难懂，请看我们之前的教程 [如何创建一个航拍相机App](../../../iOS/FPVDemo/Part1/FPVDemo_Part1_ch.md) 来获得更多的解释。 接着，选择工程的target并来到 Build Phases -> Link Binary With Libraries. 按下下方的 "+" 按钮，然后添加这两个library到你的工程中: **libstdc++.6.0.9.dylib** 和 **libz.dylib**。 请看以下截图:
 
   ![navigator](../../../images/iOS/PlaybackDemo/navigator.png)
 

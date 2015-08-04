@@ -7,7 +7,7 @@
 
 In this tutorial, you will learn how to use DJI Mobile SDK to access the media resources in the SD card of the aircraft's camera. By the end of this tutorial you will have an app that you can use to preview photos, play videos, download or delete files and so on.
 
-In order for our app to manage photos and videos, however, it must first be able to take and record them. Fortunately, in our previous tutorial [How to create a Camera Application](https://github.com/dji-sdk/Mobile-SDK-Tutorial/blob/master/iOS-FPVDemo/en/FPVDemo/Part1/FPVDemo_Part1_en.md) we show you how to implement **Capture** and **Record** functions. Make sure you have read through that tutorial first before embarking on this one.
+In order for our app to manage photos and videos, however, it must first be able to take and record them. Fortunately, in our previous tutorial [How to create a Camera Application](../../../iOS/FPVDemo/Part1/FPVDemo_Part1_en.md) we show you how to implement **Capture** and **Record** functions. Make sure you have read through that tutorial first before embarking on this one.
 
 You can download the demo project for this tutorial from here: <https://github.com/DJI-Mobile-SDK/iOS-PlaybackDemo.git>
 
@@ -17,7 +17,7 @@ Let's get started!
 
 #### 1.1. Importing the Framework and Libraries
 
-  Create a new project in Xcode and name it "**PlaybackDemo**", copy the **DJISDK.framework** into your Xcode project's folder. Next, find the "VideoPreviewer" folder in the downloaded SDK. Copy the entire "VideoPreviewer" folder into your Xcode project's "ThirdParty" folder. Set the **Header Search Paths** and **Library Search Paths** for **FFMPEG** in the **Build Settings**. If this is a bit confusing, just check our previous tutorial  [**How to create a Camera Application**](https://github.com/dji-sdk/Mobile-SDK-Tutorial/blob/master/iOS-FPVDemo/en/FPVDemo/Part1/FPVDemo_Part1_en.md) for further explanation. Then, select the project target and go to Build Phases -> Link Binary With Libraries. Click the "+" button at the bottom and add two libraries to your project: **libstdc++.6.0.9.dylib** and **libz.dylib**. Take a look at the screenshot below:
+  Create a new project in Xcode and name it "**PlaybackDemo**", copy the **DJISDK.framework** into your Xcode project's folder. Next, find the "VideoPreviewer" folder in the downloaded SDK. Copy the entire "VideoPreviewer" folder into your Xcode project's "ThirdParty" folder. Set the **Header Search Paths** and **Library Search Paths** for **FFMPEG** in the **Build Settings**. If this is a bit confusing, just check our previous tutorial  [**How to create a Camera Application**](../../../iOS/FPVDemo/Part1/FPVDemo_Part1_en.md) for further explanation. Then, select the project target and go to Build Phases -> Link Binary With Libraries. Click the "+" button at the bottom and add two libraries to your project: **libstdc++.6.0.9.dylib** and **libz.dylib**. Take a look at the screenshot below:
 
   ![navigator](../../../images/iOS/PlaybackDemo/navigator.png)
   
