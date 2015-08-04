@@ -1,5 +1,6 @@
 ## How to create a Camera Application: Part 2/2
 
+<!-- toc -->
 
 *Note: The code in this tutorial has been written to be run on the iPad. Please make sure you run this code on an iPad or an iPad simulator.*
 

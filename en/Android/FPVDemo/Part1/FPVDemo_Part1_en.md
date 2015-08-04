@@ -54,11 +54,11 @@ Next, right click on the 'app' module in the file directory to the left, and cli
 
 (2) Copy both the **<uses-permission ... >** lines of code and the highlighted meta-data element into your **AndroidManifest.xml** file for activation, as shown below.  
 
-![appKeyMetaData](https://github.com/dji-sdk/Mobile-SDK-Tutorial/raw/master/Android-FPVDemo/en/images/1_appKeyMetaData2.png)
+![appKeyMetaData](../../../images/Android/FPVDemo/1_appKeyMetaData2.png)
 
 Fill in the **android:value** field with the APP KEY that you have applied for from <http://dev.dji.com>.
 
-![appKey](https://github.com/dji-sdk/Mobile-SDK-Tutorial/raw/master/Android-FPVDemo/en/images/1_appKey.png)
+![appKey](../../../images/Android/FPVDemo/1_appKey.png)
 
 In your FPVActivity.java file, add the following variable in the FPVActivity class.
 ~~~java
@@ -119,7 +119,7 @@ public void onGetPermissionResult(int result){
 
 Check the 'LogCat' panel at the bottom of your coding environment window for a return message. You will be able to identify the return message by its 'Tag' field, where it should say "MyApp".
 
-![logcat](https://github.com/dji-sdk/Mobile-SDK-Tutorial/raw/master/Android-FPVDemo/en/images/logcatScreenshot.png)
+![logcat](../../../images/Android/FPVDemo/logcatScreenshot.png)
 
 Check the error code against the table below:
 
@@ -173,6 +173,7 @@ Under the 'application' element, add the following line of code:
 uses-library android:name="com.android.future.usb.accessory"
 ~~~
 Your **AndroidManifest.xml** file should look something like this:
+
 ~~~xml
 	...
 	
@@ -205,6 +206,7 @@ Your **AndroidManifest.xml** file should look something like this:
 ~~~
 
 (2) Create a new Android Activity Page, using **DJIAoaActivity** as the activity name. (Right click on your package -> New -> Other -> Android -> Android Activity). In your newly created **DJIAoaActivity.java** file, locate the '**onCreate()** method, and replace the code inside with the following code to enable AOA support.
+
 ~~~java
 	private static boolean isStarted = false;
 	...
@@ -240,6 +242,7 @@ Your **AndroidManifest.xml** file should look something like this:
 Let's run through this code bit by bit.
 
 We created the variable **isStarted** so that the set up only occurs when the app starts up.
+
 ~~~java
 	private static boolean isStarted = false;
 ~~~
@@ -254,14 +257,18 @@ We created the variable **isStarted** so that the set up only occurs when the ap
 		startActivity(intent);
 	}
 ~~~
+
 If the app is being started up, we set up an intent that will take us to our main activity **FPVActivity**, as shown in these two lines of code:
+
 ~~~java
 Intent intent = new Intent(DJIAoaActivity.this, FPVActivity.class);
 startActivity(intent);
 ~~~
+
 *Note: In the future when you are adding AOA support for your own apps to use with the DJI remote, you will want to replace "FPVActivity.class" with the name of your own class. Additionally, if you haven't named your first activity 'FPVActivity', you'll need to put the name you chose here instead.*
 
 Next we have the code responsible for sending a broadcast to connect to the remote.
+
 ~~~java
 Intent aoaIntent = getIntent();
 if(aoaIntent != null) {
@@ -273,7 +280,9 @@ if(aoaIntent != null) {
 	}
 }
 ~~~
+
 This code first gets the action of the intent that brought us here. This allows us to check if the app is being opened, or if the device the app is on has just been plugged into a DJI remote. If so, we send a broadcast to set up the connection between the app and the DJI remote.
+
 ~~~java
 if (action==UsbManager.ACTION_USB_ACCESSORY_ATTACHED || action == Intent.ACTION_MAIN){
 	// Send broadcast
@@ -286,6 +295,7 @@ if (action==UsbManager.ACTION_USB_ACCESSORY_ATTACHED || action == Intent.ACTION_
 Create a new Android Activity Page called **DemoBaseActivity**, and add the following code. This code allows you to pause or resume the AOA data connection service when the **onPause()** or **onResume()** lifecycle callbacks are called.
 
 This will be our project's base activity. Change your **FPVActivity** class header so that it now extends **DemoBaseActivity**, rather than **Activity**.
+
 ~~~java
 	...
 	@Override
@@ -308,14 +318,19 @@ We're almost there! We've activated our app and set up a verification mechanism,
 (1) Before we start using the SDK API, we have to initiate it according to the type of the aircraft we are using. Unfortunately, as of now, there exists no way to automatically detect what type of aircraft the app is connected to. This means that we must either hardcode in which type of drone we are using, or have some sort of user input. For the purposes of this tutorial, we will be hardcoding in that we are using the Inspire 1. However, our method includes a **switch()** statement that allows us to change a simple variable **DroneCode** in our code if other drones are to be used.
 
 In 'FPVActivity.java', in the FPVActivity class, add the variable below.
+
 ~~~java
 private int DroneCode;
 ~~~
+
 Import the following package.
+
 ~~~java
 import dji.sdk.api.DJIDroneTypeDef.DJIDroneType;
 ~~~
+
 Add two lines of code in the 'onCreate' method as shown below. Additionally, within the 'FPVActivity' class, copy the 'onInitSDK' method shown below.
+
 ~~~java
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -356,25 +371,33 @@ Add two lines of code in the 'onCreate' method as shown below. Additionally, wit
 	
 	...
 ~~~
+
 (2) After initiating the SDK API, we have to connect to the drone. In the 'onCreate' method, use the following line of code to connect to the aircraft. Make sure to call this method only after the code that activates your APP key.
+
 ~~~java
 	DJIDrone.connectToDrone(); // Connect to the drone
 ~~~	
+
 (3) Now that the API has been initiated and we have connected to the drone, we can connect a video feed. If these two processes are not carried out first, calling API functions will have no result. Locate the **activity_fpv.xml** file (res/layout/activity_fpv.xml) and add the following **DjiGLSurfaceView** element code in the **activity_fpv.xml** file.
+
 ~~~xml
 	<dji.sdk.widget.DjiGLSurfaceView
 		android:id="@+id/DjiSurfaceView_02"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent" />
 ~~~	
+
 This view is responsible for displaying the video stream from the DJI drone.
 
 In your 'FPVActivity.java' file, in the FPVActivity class, add the objects as shown below.
+
 ~~~java
 private DJIReceivedVideoDataCallBack mReceivedVideoDataCallBack = null;
 private DjiGLSurfaceView mDjiGLSurfaceView;
 ~~~
+
 Add the following code in the 'onCreate' method, making sure to insert it after where you call the connectToDrone() method.
+
 ~~~java
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -395,14 +418,18 @@ Add the following code in the 'onCreate' method, making sure to insert it after 
 		DJIDrone.getDjiCamera().setReceivedVideoDataCallBack(mReceivedVideoDataCallBack);
 	}
 ~~~	
+
 Let's work our way through this chunk of code.
 
 Firstly, we associate our object **mDjiGLSurfaceView** with the **DjiSurfaceView_02** element we created in our **activity_fpv.xml** file just before.
+
 ~~~java
 mDjiGLSurfaceView = (DjiGLSurfaceView)findViewById(R.id.DjiSurfaceView_02);
 mDjiGLSurfaceView.start();
 ~~~
+
 We then set our callback function **mReceivedVideoDataCallBack** that we just declared above.
+
 ~~~java
 mReceivedVideoDataCallBack = new DJIReceivedVideoDataCallBack(){
 @Override
@@ -411,14 +438,17 @@ public void onResult(byte[] videoBuffer, int size){
 	}
 };
 ~~~
+
 **mReceivedVideoDataCallBack** will now take the raw video data (raw H264 format) from the Drone's camera and feed it to our **DjiGLSurfaceView** element to handle, where a decoder provided by DJI will decode the raw data, upon which the **DjiGLSurfaceView** element will display it in our app window!
 
 Finally, we set this callback function to be called when we receive data from the Drone's camera.
+
 ~~~java
 DJIDrone.getDjiCamera().setReceivedVideoDataCallBack(mReceivedVideoDataCallBack);
 ~~~
 
 (4) Finally, when the app is closed, we must terminate the data decoding process, then destroy our **DjiGLSurfaceView** element. If an **onDestroy()** method does not already exist, create the method using the code below. Otherwise, copy the code below into your existing **onDestroy()** method.
+
 ~~~java
 	...
 	
@@ -432,6 +462,7 @@ DJIDrone.getDjiCamera().setReceivedVideoDataCallBack(mReceivedVideoDataCallBack)
 		...
 	}
 ~~~
+
 It is extremely important that in the **onDestroy()** method, you first terminate the video data processing operation by setting the callback function to **null** before you destroy the **DjiGLSurfaceView** object, as shown above. If you destroy the surface view first, the callback function will continue to send data to an object that does not exist, which could crash your app.
 
 Conversely, in your **onCreate()** method, you must start the **DjiGLSurfaceView** object before assigning the callback function, for the same reason (refer to the beginning of step (3) where we modify the **onCreate()** method for an example of where we have already done this).
@@ -466,7 +497,8 @@ After you have built and run the project successfully, you can now connect your 
 
 ### 7. Checking your results
 If you can see the live video stream in the app, congratulations! You've succesfully implemented a First Person View!
-![runAppScreenShot](https://github.com/dji-sdk/Mobile-SDK-Tutorial/raw/master/Android-FPVDemo/en/images/runAppScreenShot.png)
+
+![runAppScreenShot](../../../images/Android/FPVDemo/runAppScreenShot.png)
 
 ### 8. Where to Go From Here?
 

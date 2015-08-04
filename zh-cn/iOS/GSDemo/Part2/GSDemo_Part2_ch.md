@@ -10,7 +10,7 @@
 
 在本教程第一部分中，代码的结构比较简单而且不够健壮. 为了便于本教程代码工程的继续开发，这里需要重构下代码，而且加入更多的UI元素. 
 
-#### **1**. 添加新的UIButton
+#### 1. 添加新的UIButton
 
 首先，我们新建一个的名为**DJIGSButtonController**的**UIViewController**的子类. 确保你在创建文件时勾选上 **Also create XIB file**. 然后打开 DJIGSButtonController.xib 文件，并在Simulated Metrics部分的**Size**选项中选择 **Freeform** .在View部分，调整宽度为 **110**， 高为 **260**. 请看下面的效果图:
 
@@ -226,7 +226,7 @@ self.gsButtonVC.delegate = self;
 
 ## 2. 设置 DJIGroundStationWaypoint 和 DJIGroundStationTask
 
-#### **1**. DJIGroundStationWaypoint
+#### 1. DJIGroundStationWaypoint
 
 我们先看下 **DJIGroundStationWaypoint.h** 文件. 比如说，你可以使用: 
 
@@ -241,7 +241,7 @@ self.gsButtonVC.delegate = self;
 
 更进一步的，有了waypoints，你可以设置坐标，高度，朝向，水平速度甚至更多参数. 要了解更多细节，请查看*DJIGroundStationWaypoint.h** 头文件.
 
-#### **2**. DJIGroundStationTask
+#### 2. DJIGroundStationTask
 
 当你想要开始一个GroundStation Waypoint 任务（Task）时，你需要使用**DJIGroundStationTask**. 你可以调用它的类方法 **+(id) newTask;** 来直接创建一个新任务. 一旦你创建好了任务，你可以使用下面的方法来添加 **DJIGroundStationWaypoint** 类型的waypoint: 
 
@@ -341,7 +341,7 @@ typedef NS_ENUM(NSUInteger, DJIGSHeadingMode){
  
 更多细节，请在DJI Mobile SDK中查看 **DJIGroundStationTask.h** 头文件.
 
-#### **3**. 创建 DJIWaypointConfigViewController
+#### 3. 创建 DJIWaypointConfigViewController
 
 在此demo中，我们假设所有加入地图中的waypoint的参数设置都是一样的. 
 
@@ -438,7 +438,7 @@ typedef NS_ENUM(NSUInteger, DJIGSHeadingMode){
 
 ## 3. 设置地面站任务
 
-#### **1**. 添加 DJIWaypointConfigViewController 到 DJIRootViewController中
+#### 1. 添加 DJIWaypointConfigViewController 到 DJIRootViewController中
 
 现在，我们来到 **DJIRootViewController.m** 文件中, 在顶部添加 **DJIWaypointConfigViewController.h** 头文件, 然后创建一个类型为**DJIWaypointConfigViewController**的属性，将它命名为“waypointConfigVC”. 然后，实现 **DJIWaypointConfigViewControllerDelegate** 协议, 如下所示:
 
@@ -539,7 +539,7 @@ typedef NS_ENUM(NSUInteger, DJIGSHeadingMode){
 
 ![waypointConfigView](../../../images/iOS/GSDemo/waypointConfigView.png)
 
-#### **2**. 操作地面站任务
+#### 2. 操作地面站任务
 
 现在，我们回到 **DJIRootViewController.h** 文件. 首先，在interface里实现 **GroundStationDelegate** 和 **DJINavigationDelegate** 协议. 然后，创造一个**DJIGroundStationTask**类型的属性并将其命名为 “gsTask”. 同时，创建一个**UIAlertView**类型的属性并将其命名为”uploadProgressView“. UIAlertView将会被用来显示地面站任务的执行状态. 完整的DJIRootViewController头文件代码如下所示:
 
