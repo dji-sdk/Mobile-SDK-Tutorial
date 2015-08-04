@@ -621,7 +621,7 @@ Moreover, add the following code to the bottom of the **startBtnActionInGSButton
 
 In the code being added above, we create a local **NSArray** variable named **wayPoints** and assign its value as the **mapController**'s **wayPoints** array. Next, check whether or not the array exists or whether or not it's empty. If it is empty or does not exist, show a UIAlertView letting the user know there are no waypoints for the mission. 
 
-#####Important: For safety, it's important to add logic to check the GPS satellite count, which was discussed in Part 1 of this tutorial, before the start of the mission. If the satellite count is less than 6, you should prevent the user from starting the ground station mission and show a warning. Since we are using the DJI PC Simulator here, we are testing the application under a perfect situation, where the GPS satellite count is always 10.
+**Important**: For safety, it's important to add logic to check the GPS satellite count, which was discussed in Part 1 of this tutorial, before the start of the mission. If the satellite count is less than 6, you should prevent the user from starting the ground station mission and show a warning. Since we are using the DJI PC Simulator here, we are testing the application under a perfect situation, where the GPS satellite count is always 10.
 
 Next, we initialize the **gsTask** instance variable by calling the **newTask** class method of **DJIGroundStationTask**. Furthermore, we use a for loop to get the **CLLocation** for each waypoint from the **wayPoints** array and check if its **coordinate** is valid by using the method:
 
@@ -805,7 +805,7 @@ Finally, let's implement the **stopBtnActionInGSButtonVC** method, which is a  *
 
 You've come a long way in this tutorial, and it's time to test the whole application.
 
-#####Important: Make sure the battery level of your aircraft is more than 10%, otherwise the ground station mission may fail!
+**Important**: Make sure the battery level of your aircraft is more than 10%, otherwise the ground station mission may fail!
 
 Build and run the project to install the application into your mobile device. After that, please connect the aircraft to your PC or Virtual Machine running Windows via a Micro USB cable. Then, power on the remote controller and the aircraft, in that order. Next, press the **Display Simulator** button in the DJI PC Simulator and feel free to type in your current location's latitude and longitude data into the simulator.
 
