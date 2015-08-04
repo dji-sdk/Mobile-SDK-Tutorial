@@ -10,14 +10,14 @@
 
 ## 1. 使用DJI PC 模拟器
 
-#### **1**. **介绍**
+#### **1**. 介绍
 DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方式传输飞行器模拟的参数, 在 PC 端实现飞行器的 3D 虚拟显示,并且可以进行数据分析。
 
 **适用操作系统**: Windows 7, Windows 8, 和 Windows 8.1
 
 **适用飞行器型号**: Matrice 100, Inspire 1, Phantom 3 Professional 和 Phantom 3 Advanced
 
-#### **2**. **安装DJI PC模拟器**
+#### **2**. 安装DJI PC模拟器
 
 首先, 请从这里下载DJI PC模拟器和DJI WIN 驱动程序: <http://dev.dji.com/cn/products/sdk/onboard-sdk/downloads> :
 
@@ -102,7 +102,7 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 
 ## 3. 创建Map View
 
-#### **1**. **导入Framework 和 库文件**
+#### **1**. 导入Framework 和 库文件
 
 你已经完成了以上步骤, 可以开始开发应用程序了. 在之前的教程 [**如何创建一个航拍相机App**](http://gitlab.djicorp.com/SDKDemo/FPVDemo-Part1/blob/master/Tutorial/FPVDemo_Part1_en.md), 你学会了如何导入DJI Mobile SDK到你的Xcode工程中，并进行激活操作。如果你还没有阅读, 请先看下再进行以下操作。 
 
