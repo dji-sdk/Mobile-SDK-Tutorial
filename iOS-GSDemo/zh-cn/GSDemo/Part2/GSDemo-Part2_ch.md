@@ -440,7 +440,7 @@ typedef NS_ENUM(NSUInteger, DJIGSHeadingMode){
 
 ## 3. 设置地面站任务
 
-#### **1**. 添加 **DJIWaypointConfigViewController** 到 **DJIRootViewController**中
+#### **1**. 添加 DJIWaypointConfigViewController 到 DJIRootViewController中
 
 现在，我们来到 **DJIRootViewController.m** 文件中, 在顶部添加 **DJIWaypointConfigViewController.h** 头文件, 然后创建一个类型为**DJIWaypointConfigViewController**的属性，将它命名为“waypointConfigVC”. 然后，实现 **DJIWaypointConfigViewControllerDelegate** 协议, 如下所示:
 
@@ -624,7 +624,7 @@ typedef NS_ENUM(NSUInteger, DJIGSHeadingMode){
 
 以上新加入的代码中, 我们创建了一个局部 **NSArray** 变量，并命名它为 “wayPoints”， 并将它的数值设置为 mapController 的 **wayPoints** 数组. 接下来，查看数组是否存在或者数组是否为空. 如果它为空或者不存在, 显示UIAlertView告知用户知道此任务里没有航点. 
 
-#####重要事项: 为了安全，在任务开始前加入逻辑来查看GPS卫星的数量非常重要，此操作已在本教程的第一部分中提到过. 如果卫星数量小于6，你应该阻止用户开始地面站任务并且显示警告信息. 因为这里我们用 DJI PC 模拟器, 我们在一个完美的条件下测试应用，GPS卫星数量会一直是10.
+**重要事项**: 为了安全，在任务开始前加入逻辑来查看GPS卫星的数量非常重要，此操作已在本教程的第一部分中提到过. 如果卫星数量小于6，你应该阻止用户开始地面站任务并且显示警告信息. 因为这里我们用 DJI PC 模拟器, 我们在一个完美的条件下测试应用，GPS卫星数量会一直是10.
 
 下一步，我们用DJIGroundStationTask的**newTask**类方法来初始化**gsTask** 实例变量. 然后，我们用一个for循环来获取每一个wayPoints数组的waypoint的**CLLocation**参数，并且用以下方法检查它的 **coordinate** 是否有效:
 
@@ -808,7 +808,7 @@ typedef NS_ENUM(uint8_t, DJINavigationEventType){
 
 你已经在本教程中做了很多操作, 现在是时候测试你的app了.
 
-#####重要事项: 请确保你飞机的电池量高于10%, 否则地面站任务将会失败!
+**重要事项**: 请确保你飞机的电池量高于10%, 否则地面站任务将会失败!
 
 编译并运行此工程，安装应用到你的移动设备上. 之后，请用Micro USB线将你的飞机连接上运行着Windows系统的PC或者虚拟机. 然后，启动遥控器和飞机. 接下来，在DJI PC 模拟器中按下 **Display Simulator** 按钮，你可以按需要输入你当前位置的经纬度信息到模拟器中.
 
