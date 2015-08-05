@@ -237,14 +237,14 @@ You can now add a 'Record' and 'Stop Recording' button to your app, and have the
 
 Then congratulations! Your Aerial First Person View Android app is complete, capable of viewing your DJI Drone's video feed, as well as remotely taking picture and videos!
 
-### 5.Viewing your images
+### 5. Viewing your images
 
 Unfortunately, this tutorial does not include guidance on viewing photos and videos onboard your DJI Drone's SD card. However, if you would like to see the pictures and videos you took through your brand new app, you can download DJI's Pilot App, found here:
 <https://play.google.com/store/apps/details?id=dji.pilot&hl=en>
 Alternatively, you can search for the app in the Google Play Store under the name 'DJI Pilot'. 
 
 
-### 6.Where to Go From Here?
+### 6. Where to Go From Here?
 
 You’ve come a long way in this tutorial: you’ve learned how to use the DJI Mobile SDK to show the FPV view of the aircraft's camera and control the camera of a DJI platform. These features, **Capture** and **Record** are the most basic and common features in a typical drone mobile app. However, if you want to create a drone app that is more fancy, you still have a long way to go. More advanced features would include previewing the photo and video in the SD Card, showing the OSD data of the aircraft and so on. Hope you enjoyed this tutorial, stay tuned for our next one!
 

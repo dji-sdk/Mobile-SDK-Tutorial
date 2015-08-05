@@ -1,4 +1,4 @@
-#  How to create a simple GroundStation App
+# How to create a MapView and Waypoint Application
 
 ## Part 2/2
 
