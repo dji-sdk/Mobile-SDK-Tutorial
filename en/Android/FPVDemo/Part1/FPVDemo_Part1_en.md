@@ -42,7 +42,9 @@ In part 1 of this tutorial, we will cover how to set up your programming environ
 (2) Unzip the SDK package downloaded from the DJI website. Go to File -> New -> Import Module. In the 'Source Directory' field, find the DJI-SDK-LIB folder location (Android Studio\DJI-SDK-Android-V2.1.0\Lib\DJI-SDK-LIB). Press Finish.
 
 *Note: The folder 'Android Studio' is found in the SDK package downloaded from the DJI website. The library used in the demo project code is from the 'Eclipse' folder in the same SDK package, so if you are working in Android Studio make sure that you are using the correct library, found in the 'Android Studio' folder. For your convenience the SDK package download link is reproduced here <http://dev.dji.com/cn/products/sdk/mobile-sdk/downloads>*
+
 ![importModule](../../../images/Android/FPVDemo/importModuleScreenshot.png)
+
 Next, right click on the 'app' module in the file directory to the left, and click 'Open Module Settings". Navigate to the 'Dependencies' tab. Press the green plus sign, click 'Module Dependency', and select ':DJI-SDK-LIB'. Press 'OK' to confirm. After Gradle finishes rebuilding, you're environment will be ready!
 
 ![addDependency](../../../images/Android/FPVDemo/addDependencyScreenshot.png)
@@ -61,12 +63,15 @@ Fill in the **android:value** field with the APP KEY that you have applied for f
 ![appKey](../../../images/Android/FPVDemo/1_appKey.png)
 
 In your FPVActivity.java file, add the following variable in the FPVActivity class.
+
 ~~~java
 private static final String TAG = "MyApp";
 ~~~
+
 We'll be using this string to identify log errors that are relevant to our activation.
 
 In your onCreate method, add the following code. It looks like a lot, but the bulk of it is a single method called **DJIDrone.checkPermission()**. This method will verify your app by checking the information we just added to our **AndroidManifest.xml** file against DJI's servers. If this if your first time running your app, and the verification comes through, the app will also be activated.
+
 ~~~java
 	new Thread(){
 		public void run(){
@@ -94,9 +99,11 @@ In your onCreate method, add the following code. It looks like a lot, but the bu
 		}
 	}.start();
 ~~~
+
 Let's break this chunk of code down. You'll notice that we place all our code inside of a thread. The reason for this is because **checkPermission()** performs network operations, and such processes must be handled in a thread, lest the whole app freezes up while waiting for the network operation to complete.
 
 **checkPermission()** takes in two parameters: a context, and a **DJIGerneralListener()** object. **DJIGerneralListener()** is an interface containing one method: **onGetPermissionResult()**, which acts as a callback function that handles what to do when **checkPermission()** receives a response. 
+
 ~~~java
 @Override
 public void onGetPermissionResult(int result){
@@ -113,6 +120,7 @@ public void onGetPermissionResult(int result){
 	}
 }
 ~~~
+
 **onGetPermissionResult()** takes in an integer **result**. **result** is an error code returned to your app. If the error code is 0 the app has been successfully verified. If not, **onGetPermissionResult()** prints out the appropriate error message using the Log. When developing your own apps, you can decide whether this is how you'd like to handle the error code.
 
 (3) Run your project code on an Android device or Android emulator to complete the activation procedure. Instructions for running your code can be found here: <http://developer.android.com/intl/zh-TW/tools/building/building-eclipse.html>
@@ -246,6 +254,7 @@ We created the variable **isStarted** so that the set up only occurs when the ap
 ~~~java
 	private static boolean isStarted = false;
 ~~~
+
 ~~~java
 	if (isStarted) {
 		//Do nothing

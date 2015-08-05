@@ -15,5 +15,8 @@
 	* [FPVDemo](Android/FPVDemo/README.md)
 		* [Part 1](Android/FPVDemo/Part1/FPVDemo_Part1_en.md)
 		* [Part 2](Android/FPVDemo/Part2/FPVDemo_Part2_en.md)
- 
+   * [GSDemo](Android/GSDemo/README.md)
+		* [Part 1](Android/GSDemo/Part1/GSDemo_Part1_en.md)
+		* [Part 2](Android/GSDemo/Part2/GSDemo_Part2_en.md)
+
  
