@@ -1,4 +1,4 @@
-# DJI Mobile SDK Tutorial
+# DJI Mobile SDK 教程
  
 
 * [iOS](iOS/README.md)
