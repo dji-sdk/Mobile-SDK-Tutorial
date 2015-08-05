@@ -1,4 +1,1 @@
-# DJI Mobile SDK Tutorial
-
- 
-{{ file.mtime }}
+# DJI Mobile SDK Tutorials
