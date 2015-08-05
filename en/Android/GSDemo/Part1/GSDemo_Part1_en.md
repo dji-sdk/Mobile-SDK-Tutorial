@@ -10,7 +10,7 @@ You can download the demo project for this tutorial from: <https://github.com/DJ
 
 ### 1. Using DJI PC Simulator
 
-#### (1) Introduction
+#### 1. Introduction
 
 The DJI PC Simulator is a flight simulator dedicated for SDK developers. The simulator creates a virtual 3D environment and transfer the flight data to the PC via the UDP protocol for data analysis purpose.
 
@@ -18,7 +18,7 @@ The DJI PC Simulator is a flight simulator dedicated for SDK developers. The sim
 
 **Supported DJI Platforms**: Matrice 100, Inspire 1, Phantom 3 Professional and Advanced
 
-#### (2) Install and setup DJI PC Simulator
+#### 2. Install and setup DJI PC Simulator
 
 Download the DJI PC Simulator installation files and WIN Driver from : <http://dev.dji.com/en/products/sdk/onboard-sdk/downloads>
 - DJI PC Simulator Installer & User Manual V1.0
@@ -28,7 +28,7 @@ You must install the WIN driver before installing the simulator. For Mac users, 
 
 Finally, double click the **DJISimulator-Installer.exe** file and follow the on-screen instruction to complete the installation. 
 
-#### (3) How to use DJI PC Simulator
+#### 3. How to use DJI PC Simulator
 **1.** The Simulator Config window will display upon the launching of the DJI PC Simulator. Set appropriate  Latitude and Longitude values as the home point. The "SN" denotes the connected aircraft's serial number.
 
 ![Config](../../../images/Android/GSDemo/simulator_config.png)

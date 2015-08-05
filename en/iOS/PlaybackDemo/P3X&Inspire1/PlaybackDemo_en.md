@@ -14,13 +14,13 @@ Let's get started!
 
 ## 1. Previewing Photos and Videos
 
-### 1.1. Importing the Framework and Libraries
+### 1. Importing the Framework and Libraries
 
   Create a new project in Xcode and name it "**PlaybackDemo**", copy the **DJISDK.framework** into your Xcode project's folder. Next, find the "VideoPreviewer" folder in the downloaded SDK. Copy the entire "VideoPreviewer" folder into your Xcode project's "ThirdParty" folder. Set the **Header Search Paths** and **Library Search Paths** for **FFMPEG** in the **Build Settings**. If this is a bit confusing, just check our previous tutorial  [**How to create a Camera Application**](../../../iOS/FPVDemo/Part1/FPVDemo_Part1_en.md) for further explanation. Then, select the project target and go to Build Phases -> Link Binary With Libraries. Click the "+" button at the bottom and add two libraries to your project: **libstdc++.6.0.9.dylib** and **libz.dylib**. Take a look at the screenshot below:
 
   ![navigator](../../../images/iOS/PlaybackDemo/navigator.png)
   
-### 1.2 Switching Playback Modes
+### 2. Switching Playback Modes
 
   Now, let's delete the **ViewController.h** and **ViewController.m** files, which were created by Xcode when you created the project. Then, create a viewController named "DJIRootViewController" and set it as the **Root View Controller** in Main.storyboard**. This demo and its code was written to be used with the iPad, so we'll have to adjust the User Interface of **Main.storyboard** accordingly. We'll change the **Root View Controller**'s frame. Let's set its size to **Freeform** under the **Size** dropdown in the **Simulated Metrics** section. In the view section, change the width to **1024** and height to **768**. Take a look at the changes made below:
 
@@ -257,7 +257,7 @@ Create a new method named **initData** for data initialization and call it in th
   
  ![singlePreview](../../../images/iOS/PlaybackDemo/singlePreview.jpg)
   
-### 1.3 Previewing Single Files
+### 3. Previewing Single Files
 
 We can switch to the **Playback** mode now. Let's add two **UISwipeGestureRecognizer**s to preview the previous and the next media files in the SD Card.
 
@@ -416,7 +416,7 @@ Playing your video through the playback app:
 
  ![playVideo](../../../images/iOS/PlaybackDemo/playVideo.gif)
 
-### 1.4 Previewing Multiple Files
+### 4. Previewing Multiple Files
 
 Before we move forward, let's explain the **Playback mode**. There are multiple playback modes in the camera, and we can check the **CameraPlaybackMode** enum type in the **DJICameraPlaybackState.h** file as follows:
 
@@ -898,7 +898,7 @@ Build and run the project, and try the select multiple files, delete single and 
 
 ## 3. Downloading And Saving Photos
 
-### 3.1 Downloading Photos
+### 1. Downloading Photos
 
 Let's implement the download photo feature now. First, go to the **Main.storyboard** file and drag a **UIButton** object to the **playbackBtnsView** and name it "Download". Then position it as shown below:
 
@@ -1147,7 +1147,7 @@ In the second block dataBlock, we append the **downloadedImageData** with the do
 In the third block completion, we increase the **downloadedFileCount** variable. We then create an UIImage object with **downloadedImageData**. Next, we reset downloadedImageData's data and currentDownloadSize's value. Moreover, we update **statusAlertView** with the image download info. 
 
 
-### 3.2 Saving downloaded photos to Photo Album
+### 2. Saving downloaded photos to Photo Album
 
 Now, we have implemented the download photos features, but if we want to save the downloaded photos to the iOS Photo Album?
 

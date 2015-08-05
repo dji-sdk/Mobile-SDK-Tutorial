@@ -480,7 +480,7 @@ Conversely, in your **onCreate()** method, you must start the **DjiGLSurfaceView
 
 After you have built and run the project successfully, you can now connect your mobile device to an aircraft to check the FPV. Follow the appropriate instructions for your specific aircraft model:
 
-#### 6.1 Connecting to a DJI Inspire 1 or Phantom 3 Professional/Advanced:
+#### 1. Connecting to a DJI Inspire 1 or Phantom 3 Professional/Advanced:
 
 1. Turn on your remote controller, then turn on your aircraft
 
@@ -492,7 +492,7 @@ After you have built and run the project successfully, you can now connect your 
 
 5. You are ready to use the FPV View app. 
 
-#### 6.2 Connecting to a DJI Phantom 2 Vision+ or Phantom 2 Vision:
+#### 2. Connecting to a DJI Phantom 2 Vision+ or Phantom 2 Vision:
 	
 1. Turn on your remote controller, then turn on your aircraft.
 
