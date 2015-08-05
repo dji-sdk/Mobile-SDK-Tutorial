@@ -2,6 +2,8 @@
 
 ## Part 2/2
 
+<!-- toc -->
+
 In this tutorial, you will learn how to implement the basic processes of using Waypoints in the GroundStation.  Waypoint is a complicated feature and commonly used in GroundStation. If you haven't read Part 1 of this tutorial, please take a look at it here before moving forward. Let's get started!
 
 You can download the demo project for this tutorial from here: <https://github.com/DJI-Mobile-SDK/Android-GSDemo-Part2-GoogleMap.git>
