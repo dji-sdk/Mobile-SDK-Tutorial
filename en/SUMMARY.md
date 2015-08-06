@@ -18,5 +18,6 @@
     * [MapView and Waypoint App](Android/GSDemo/README.md)
 		* [Part 1](Android/GSDemo/Part1/GSDemo_Part1_en.md)
 		* [Part 2](Android/GSDemo/Part2/GSDemo_Part2_en.md)
-
+    * [Android Studio Migration](Android/AndroidStudioMigration/README.md)
+		* [Content](Android/AndroidStudioMigration/Android_Studio_Migration_Tutorial_en.md)
  

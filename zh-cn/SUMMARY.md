@@ -14,5 +14,6 @@
 	* [航拍相机应用](Android/FPVDemo/README.md)
 		* [第一部分](Android/FPVDemo/Part1/FPVDemo_Part1_ch.md)
 		* [第二部分](Android/FPVDemo/Part2/FPVDemo_Part2_ch.md)
- 
+ 	* [Android Studio工程导入](Android/AndroidStudioMigration/README.md)
+		* [内容](Android/AndroidStudioMigration/Android_Studio_Migration_Tutorial_ch.md) 
  
