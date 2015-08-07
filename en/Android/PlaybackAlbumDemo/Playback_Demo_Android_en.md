@@ -11,9 +11,9 @@ We **strongly** recommend that you have the source code for the demo project ope
 
 ### 1. Camera Modes
 
-Before developing the album app, we should briefly cover the capabilities the SDK has in each camera mode. For the Inspire 1, Phantom 3 Professional and M100, there are four camera modes, **Capture Mode, Record Mode, Playback Mode** and **Download Mode**. In **Capture Mode**, users are allowed to use capture functions, such as taking photos and setting up the parameters for the camera. In the **Record Mode**, these capture functions are blocked and users can only start and stop recording video. **Playback Mode** allows the user to preview the media files in the SD card. **Download Mode** lets the user download media files, but must be set up correctly beforehand.
+Before developing the album app, we should briefly cover the capabilities the SDK has in each camera mode. For the Inspire 1, Phantom 3 Professional and M100, there are four camera modes, **Capture Mode, Record Mode, Playback Mode** and **Download Mode**. In **Capture Mode**, users are allowed to use capture functions, such as taking photos and setting up parameters for the camera. In the **Record Mode**, these capture functions are blocked and users can only start and stop recording video. **Playback Mode** allows the user to preview the media files in the SD card. **Download Mode** lets the user download media files, but must be set up correctly beforehand.
 
-**However, the Phantom 3 Advanced is quite different in that it has only three camera modes: Capture Mode, Record Mode and Download Mode. This will be discussed in a later tutorial.**
+**However, the Phantom 3 Advanced is different in that it has only three camera modes: Capture Mode, Record Mode and Download Mode. This will be discussed in a later tutorial.**
 
 In Mobile Android SDK, developers can invoke the method `setCameraMode` to switch between camera modes, and the method  `getCameraMode` to get the camera mode. (Please note that the Phantom 2 Series is unique in that it only has two modes: `CameraMode.Camera_Camera_Mode` and `Camera.Camera_USB_Mode`, which are not supported by other more recent drones.)
 
@@ -25,9 +25,9 @@ In Mobile Android SDK, developers can invoke the method `setCameraMode` to switc
 	DJIDrone.getDjiCamera().getCameraMode(DJICameraModeCallBack)
 ~~~
 
-### 2. Distinguish The Camera's Playback Status
+### 2. Distinguishing the Camera's Playback Status
 
-As the introduced above, there are four or three camera modes (depending on the drone you are using). How to correctly recognize the mode you are in is the keys to developing a good Photo Album application. In the mobile android SDK, there is a callback function that returns  current status of the camera's playback status. Developers can set up a callback function that executes when the status has been changed. This callback will be invoked 10 times per second.
+As the introduced above, there are four or three camera modes (depending on the drone you are using). How to correctly recognize the mode you are in is key to developing a good Photo Album application. In the mobile android SDK, there is a callback function that returns  current status of the camera's playback status. Developers can set up a callback function that executes when the status has been changed. This callback will be invoked 10 times per second.
 
 ~~~java
 	DJIDrone.getDjiCamera().setDJICameraPlayBackStateCallBack(new DJICameraPlayBackStateCallBack() {
@@ -52,11 +52,17 @@ Whenever the SDK receives the playback status information, it will package the i
 </tr>
 <tr>
 <td>currentSelectedFileIndex</td>
-<td>The index of currently selected file. Can be used to identify which media file is currently being previewed by the user.</td>
+<td>The index of the currently selected file. Can be used to identify which media file is currently being previewed by the user.</td>
 </tr>
 <tr>
 <td>fileDeleteStatus</td>
-<td>Reflects the status of a media file being deleted. There are three possible statuses (<b>Media_File_Delete_Failed</b>, <b>Media_File_Delete_Successed</b> and <b>Media_File_Deleting</b>). Developers can use this enum to notify users of deletion progress.</td>
+<td>Reflects the status of a media file being deleted. There are three possible statuses:
+<ul>
+<li><b>Media_File_Delete_Failed</b></li>
+<li><b>Media_File_Delete_Successed</b></li>
+<li><b>Media_File_Deleting</b></li>
+</ul>
+Developers can use this enum to notify users of deletion progress.</td>
 </tr>
 <tr>
 <td>isAllFilesInPageSelected</td>
@@ -72,7 +78,13 @@ Whenever the SDK receives the playback status information, it will package the i
 </tr>
 <tr>
 <td>mediaFileType</td>
-<td>Reflects the file type of the currently previewed media file. There are three types of media files: <b>Media_File_DNG</b>, <b>Media_File_JPEG</b> and <b>Media_File_VIDEO</b>.</td>
+<td>Reflects the file type of the currently previewed media file. There are three types of media files: 
+<ul>
+<li><b>Media_File_DNG</b></li>
+<li><b>Media_File_JPEG</b></li>
+<li><b>Media_File_VIDEO</b></li>
+</ul>
+</td>
 </tr>
 <tr>
 <td>numbersOfMediaFiles</td>
@@ -112,7 +124,7 @@ Whenever the SDK receives the playback status information, it will package the i
 </tr>
 <tr>
 <td>playbackMode</td>
-<td>An enum for identifying the current playback mode: <b><ul><li>Media_Files_Download</li> <li>Multiple_Media_Files_Delete</li> <li>Multiple_Media_Files_Display</li> <li>Single_Photo_Playback</li> <li>Single_Photo_Zoom</li> <li>Single_Video_Playback_Start</li> <li>Single_Video_Playback_Stop</li></ul></b> UI elements and logical settings should be adjusted according to the current playback mode.</td>
+<td>An enum for identifying the current playback mode. There are 7 possible values: <b><ul><li>Media_Files_Download</li> <li>Multiple_Media_Files_Delete</li> <li>Multiple_Media_Files_Display</li> <li>Single_Photo_Playback</li> <li>Single_Photo_Zoom</li> <li>Single_Video_Playback_Start</li> <li>Single_Video_Playback_Stop</li></ul></b> UI elements and logical settings should be adjusted according to the current playback mode.</td>
 </tr>
 <tr>
 <td>videoDuration</td>
@@ -310,7 +322,7 @@ We've just finished the framework of our application! Now set `PlaybackProtocolA
 
 #### 2. Camera mode UI 
 
-Before we get started with this subsection, we've got to make some adjustments:
+Before we get started with this subsection, we've got to first make some adjustments:
 
 1. Follow the [FPVDemo tutorial](https://github.com/dji-sdk/Mobile-SDK-Tutorial/blob/master/Android-FPVDemo/en/FPVDemo/Part1/FPVDemo_Part1_en.md) to set up Android Open Accessory (AOA) support
 2. Change your main activity from `PlaybackProtocolActivity` to `DJIAoaActivity`
@@ -318,7 +330,7 @@ Before we get started with this subsection, we've got to make some adjustments:
 4. Add item feature `android:visibility="Gone"` to our gridview in `activity_playback_protocol.xml`
 5. Adjust the button color by replacing `android:background="@android:color/yellow"` with `android:background="@android:color/transparent"` in `button_gridview_item.xml`.
 
-Now we can continue. As we known from section 1, there are four camera modes and each of them allows or prevents certain functions to be invoked. To increase clarity for users, developers should adjust the UI components based on the current camera status. Let's add some buttons in `activity_playback_protocol.xml`.
+Now we can continue. As we know from section 1, there are four camera modes and each of them allows or prevents certain functions to be invoked. To increase clarity for users, developers should adjust the UI components based on the current camera status. Let's add some buttons in `activity_playback_protocol.xml`.
 
 ~~~xml
 	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -434,7 +446,7 @@ Now we can continue. As we known from section 1, there are four camera modes and
 	</RelativeLayout>
 ~~~
 
-The **Capture**, **Record** and **Playback** buttons, which allow the user to navigate between these different modes, will always be present. Within the **Playback** mode, however, there are three submodes **Single Preview**, **Multiple Preview** and **Multiple Edition**. Entering **Playback** mode places the user in **Single Preview** mode. In **Multiple Preview** mode, users can press any image to enter **Single Preview** mode. **Multiple Edition** playback mode is different from **Multiple Preview** in that it allows users to select, download and delete files. Take a look below for screenshots outlining which specific buttons and features should be included in each mode, as well as a state switch diagram outlining the relationship between modes:
+The **Capture**, **Record** and **Playback** buttons, which allow the user to navigate between these three modes, will always be present. Within the **Playback** mode, however, there are three submodes **Single Preview**, **Multiple Preview** and **Multiple Edition**. Entering **Playback** mode places the user in **Single Preview** mode. In **Multiple Preview** mode, users can press any image to enter **Single Preview** mode. **Multiple Edition** playback mode is different from **Multiple Preview** in that it allows users to select, download and delete files. Take a look below for screenshots outlining which specific buttons and features should be included in each mode, as well as a state switch diagram outlining the relationship between modes:
 
 ![Capture Mode](../../images/Android/PlaybackAlbumDemo/capturemode.jpg)
 
@@ -510,7 +522,7 @@ Now the gridview `onItemClick` logic needs to be adjusted based on the current p
     }
 ~~~
 
-This method classifies the UI status into four parts (capture, record, playback and multipleplayback). When camera mode changes, this routine will adjust the visibility of the UI components.
+This method classifies the UI status into four parts (capture, record, playback and multipleplayback). When camera mode changes, this routine will adjust the visibility of the individual UI components.
 
 Besides adjusting the UI, we should also send a request from our app to the drone to change the camera mode. Remember the method `setCameraMode(CameraMode mode)` in Section 1? Now we put it to use:
 
@@ -605,7 +617,7 @@ To keep the UI logic consistent, we also detect the current status of the camera
         }.start();
 ~~~
 
-The Inspire 1, Phantom 3 Professional and M100's remote controllers have buttons for capturing, recording and entering the playback mode. Once these buttons have been pressed, the camera status will be changed directly. It would be great if our application could listen to the buttons at the remote controller and could adjust the UI automatically, wouldn't it?
+The Inspire 1, Phantom 3 Professional and M100's remote controllers have buttons for capturing, recording and entering the playback mode. Once these buttons have been pressed, the camera status will be changed directly. Would be great if our application could listen to the buttons at the remote controller and automatically adjust the UI?
 
 To listen to the remote controller, we set up `DJIRemoteControllerUpdateAttitudeCallBack`. Add the code below to the onCreate() function, but make sure to declare the variable `mRemoteControllerUpdateAttitudeCallBack` first.
 
@@ -694,7 +706,7 @@ Nice! Some predefined gestures have been added to your app and have made your ap
 
 #### 4. Playing Video
 
-DJI Camera provides a video preview function for users to enjoy their recorded videos. In the current state of our app, users can enter the single preview playback mode and navigate to their video file by swiping left and right. We also like them to be able to click a play or pause button to control video playback when previewing a video file. To implement this, first add two buttons to your `activity.xml` file.
+DJI Camera provides a video preview function for users to enjoy their recorded videos. In the current state of our app, users can enter the single preview playback mode and navigate to their video file by swiping left and right. We would also like for them to be able to click a play or pause button to control video playback when previewing a video file. To implement this, first add two buttons to your `activity.xml` file.
 
 ~~~xml
 	 <RelativeLayout 
@@ -784,7 +796,7 @@ Now the app will automatically detect whether the camera is in video single prev
 
 ![Pause the video](../../images/Android/PlaybackAlbumDemo/pausebutton.jpg)
 
-You've successfuly implemented all the UI features that this tutorial has to offer! Give your app another go.
+You have successfuly implemented all the UI features that this tutorial has to offer! Give your app another go.
 
 ### 4. Downloading and Deleting media files
 
@@ -905,7 +917,7 @@ We create a `DJIFileDownloadCallBack` object to be added in the `onCreate()` fun
         };
 ~~~
 
-For multiple preview downloads, developers should firstly invoke `enterMultipleEditMode(DJIExecuteResultCallback)` to enter the multiple edition playback mode so that the users can select the media files they want to delete or download. To support selecting media files and entering single preview playback status, the following code should be added in the `getView(int position, View convertView, ViewGroup parent)` function of `ButtonAdapter`.
+For multiple preview downloads, developers should first invoke `enterMultipleEditMode(DJIExecuteResultCallback)` to enter the multiple edition playback mode so that the users can select the media files they want to delete or download. To support selecting media files and entering single preview playback status, the following code should be added in the `getView(int position, View convertView, ViewGroup parent)` function of `ButtonAdapter`.
 
 ~~~java
 	mBtn.setOnClickListener(new OnClickListener() {
@@ -1033,20 +1045,20 @@ You can invoke `handler.sendEmptyMessage(STARTAUTODOWNLOAD)` to automatically do
 
 In summary, developers should follow the following steps to allow users to download multiple files:
 
-Step 1: `setCameraMode` to switch the camera status into the playback mode.
+1. `setCameraMode` to switch the camera status into the playback mode.
 
-Step 2: `enterMultiplePreviewMode` to prepare for downloading multiple media files.
+2. `enterMultiplePreviewMode` to prepare for downloading multiple media files.
 
-Step 3: `enterMultipleEditMode` to enter the multiple edition playback status so that the users can browse through images they may want to download.
+3. `enterMultipleEditMode` to enter the multiple edition playback status so that the users can browse through images they may want to download.
 
-Step 2: Once the `enterMultipleEditMode` succeeds and return an ack, use the `selectFileAtIndex`, `selectAllFiles` and `selectAllFilesInPage` functions to select files based on user input.
+4. Once the `enterMultipleEditMode` succeeds and return an ack, use the `selectFileAtIndex`, `selectAllFiles` and `selectAllFilesInPage` functions to select files based on user input.
 
-Step 3: Once the selection methods succeed and return an ack, invoke `downloadAllSelectedFiles`.
+5. Once the selection methods succeed and return an ack, invoke `downloadAllSelectedFiles`.
 
-Step 4: The app has successfully downloaded the files. `finishDownloadAllSelectedFiles` should be invoked while the ack comes to ensure camera returns to playback mode.
+6. The app has successfully downloaded the files. `finishDownloadAllSelectedFiles` should be invoked while the ack comes to ensure camera returns to playback mode.
 
 ### 5. Where To Go From Here?
 
-Over the course of this tutorial, you have learned how to switch and get the current camera mode, download and delete media files, implement gesture control, and much more to create a Photo and Video Album application for the Inspire 1, Phantom 3 Professional and M100.
+Over the course of this tutorial, you have learned how to switch and get the current camera mode, download and delete media files, implement gesture control, and much more to create a Photo and Video Album application for the Inspire 1, Phantom 3 Professional and M100!
 
 In the next tutorial, we will be implementing the album app for Phantom 3 Advanced. 
