@@ -7,7 +7,7 @@
 ### Summary
 In this tutorial, you will familiarize yourself with the various Camera Modes the Inspire 1, Phantom 3 Professional and M100 have, how to switch and get the Camera Mode, how to build a friendly UI for a Photo and Video Album app, and how to select and download media files. Let's get started!
 
-You can download the demo project for this tutorial from here: ___link___
+You can download the demo project for this tutorial from here: <https://github.com/DJI-Mobile-SDK/Android-PlaybackDemo>
 
 We **strongly** recommend that you have the source code for the demo project open while working your way through this tutorial.
 
