@@ -1011,7 +1011,7 @@ Here's the code to implement automatic downloading, the developer could use `han
                 }
                 
                 case SELECTFIRSTFILE : {
-					/** There are a lot of selection methods in our SDK, developers could use them to handle which one they want to download.
+					// There are a lot of selection methods in our SDK, developers could use them to handle which one they want to download.
                     DJIDrone.getDjiCamera().selectFileAtIndex(0, new DJIExecuteResultCallback() {
                         
                         @Override
