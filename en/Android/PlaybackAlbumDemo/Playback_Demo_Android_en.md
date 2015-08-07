@@ -4,14 +4,14 @@
 
 <!-- toc -->
 
-### Summary
+### Introduction
 In this tutorial, you will familiarize yourself with the various Camera Modes the Inspire 1, Phantom 3 Professional and M100 have, how to switch and get the Camera Mode, how to build a friendly UI for a Photo and Video Album app, and how to select and download media files. Let's get started!
 
 You can download the demo project for this tutorial from here: <https://github.com/DJI-Mobile-SDK/Android-PlaybackDemo>
 
 We **strongly** recommend that you have the source code for the demo project open while working your way through this tutorial.
 
-#### 1. Camera Modes
+### 1. Camera Modes
 
 Before developing the album app, we should briefly cover the capabilities the SDK has in each camera mode. For the Inspire 1, Phantom 3 Professional and M100, there are four camera modes, **Capture Mode, Record Mode, Playback Mode** and **Download Mode**. In **Capture Mode**, users are allowed to use capture functions, such as taking photos and setting up the parameters for the camera. In the **Record Mode**, these capture functions are blocked and users can only start and stop recording video. **Playback Mode** allows the user to preview the media files in the SD card. **Download Mode** lets the user download media files, but must be set up correctly beforehand.
 
@@ -25,7 +25,7 @@ In Mobile Android SDK, developers can invoke the method `setCameraMode` to switc
 	//Get the Camera Mode
 	DJIDrone.getDjiCamera().getCameraMode(DJICameraModeCallBack)
 
-#### 2. Distinguish the camera's playback status
+### 2. Distinguish the camera's playback status
 
 As the introduced above, there are four or three camera modes (depending on the drone you are using). How to correctly recognize the mode you are in is the keys to developing a good Photo Album application. In the mobile android SDK, there is a callback function that returns  current status of the camera's playback status. Developers can set up a callback function that executes when the status has been changed. This callback will be invoked 10 times per second.
 
@@ -131,9 +131,9 @@ As you can see, there are a lot of attributes in this class. Some of them contai
 
 Now that you are familiar with the playback information provided by the SDK we can begin to build our album application.
 
-#### 3. UI Components for the Photo Album application ####
+### 3. UI Components for the Photo Album application
 
-##### 1. GridView for Multiple preview playback mode #####
+#### 1. GridView for Multiple preview playback mode
 
 In our official drone companion app, DJI Pilot, you can see that there are eight thumbnails in the app view while the camera is in the multiple playback mode (if you don't yet have DJI Pilot installed on your Android device [click here to install it now](https://play.google.com/store/apps/details?id=dji.pilot&hl=en)). To achieve a comfortable user experience, we will provide a similar UI component for developers to include in their apps. The first thing we will implement is the Gridview (for further information on GridView from the official Android tutorial [click here](http://developer.android.com/reference/android/widget/GridView.html)).
 
@@ -298,7 +298,7 @@ Congratulations! You have now collected all the components required to build a m
 
 We've just finished the framework of our application! Now set `PlaybackProtocolActivity` as the main activity in your `AndroidManifest.xml` file. Run your project to enjoy the fruits of your labor!
 
-##### 2. Camera mode UI 
+#### 2. Camera mode UI 
 
 Before we get started with this subsection, we've got to make some adjustments:
 
@@ -613,7 +613,7 @@ To listen to the remote controller, we set up `DJIRemoteControllerUpdateAttitude
 
 You have finished implementing the adaptive UI. Build and run your app, and enjoy!
 
-##### 3. Album gesture control
+#### 3. Album gesture control
 
 For a better user experience, we will be adding gestures to our application. In **Multiple Preview** mode, if the user swipes up or down, the view will display the previous or next page of images. In **Single Preview** mode, if the user swipes left or right, the view will display the previous or next media file. We use GestureDetector to implement this function.
 
@@ -663,7 +663,7 @@ Nice! Some predefined gestures have been added to your app and have made your ap
 
 ![Multiple swipe gesture](../../images/Android/PlaybackAlbumDemo/multipleslide.jpg)
 
-##### 4. Playing Video
+#### 4. Playing Video
 
 DJI Camera provides a video preview function for users to enjoy their recorded videos. In the current state of our app, users can enter the single preview playback mode and navigate to their video file by swiping left and right. We also like them to be able to click a play or pause button to control video playback when previewing a video file. To implement this, first add two buttons to your `activity.xml` file.
 
@@ -749,9 +749,9 @@ Now the app will automatically detect whether the camera is in video single prev
 
 You've successfuly implemented all the UI features that this tutorial has to offer! Give your app another go.
 
-#### 4. Downloading and Deleting media files
+### 4. Downloading and Deleting media files
 
-##### 1. Finishing the Download feature
+#### 1. Finishing the Download feature
 
 In previous sections, we discussed and implemented three out of four camera modes. In this section we will cover the final camera mode, **Download Mode**.
 
@@ -898,7 +898,7 @@ Now try selecting some media files and downloading them!
 
 ![Downloading](../../images/Android/PlaybackAlbumDemo/download.jpg)
 
-##### 2. Automatically downloading media files
+#### 2. Automatically downloading media files
 
 Some developers might want to download the media files from their drone automatically. This subsection will introduce exactly how to do this. First of all, developers should understand that **all the methods involved with downloading are asynchronous, which means some routines should wait for the ack from the drone to continue its execution.**
 
@@ -1000,7 +1000,7 @@ Step 3: Once the selection methods succeed and return an ack, invoke `downloadAl
 
 Step 4: The app has successfully downloaded the files. `finishDownloadAllSelectedFiles` should be invoked while the ack comes to ensure camera returns to playback mode.
 
-#### 5. Where To Go From Here?
+### 5. Where To Go From Here?
 
 Over the course of this tutorial, you have learned how to switch and get the current camera mode, download and delete media files, implement gesture control, and much more to create a Photo and Video Album application for the Inspire 1, Phantom 3 Professional and M100.
 
