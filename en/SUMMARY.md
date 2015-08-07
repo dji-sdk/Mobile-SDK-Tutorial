@@ -20,4 +20,5 @@
 		* [Part 2](Android/GSDemo/Part2/GSDemo_Part2_en.md)
     * [Android Studio Migration](Android/AndroidStudioMigration/README.md)
 		* [Content](Android/AndroidStudioMigration/Android_Studio_Migration_Tutorial_en.md)
- 
+    * [Photo and Video Playback App](Android/PlaybackAlbumDemo/README.md)
+		* [Phantom 3 Pro & Inspire 1](Android/PlaybackAlbumDemo/Playback_Demo_Android_en.md)
