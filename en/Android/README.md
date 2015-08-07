@@ -6,5 +6,5 @@
 
 - **How to Import DJI SDK Demo to Android Studio**：There are two methods we can use to import the DJI SDK Demo library into Android Studio. The first is to import the Android Studio version of the DJI SDK Demo Library to Android Studio; the second is to import the Eclipse version of the DJI SDK Demo into Android Studio.
 
-- **How to create a playback album**
+- **How to create a Photo and Video Playback Application**
 Teaches you how to construct a playback app, which allows you to preview the media files, such as imagine and video, and to download as well as delete the files in your drone. 

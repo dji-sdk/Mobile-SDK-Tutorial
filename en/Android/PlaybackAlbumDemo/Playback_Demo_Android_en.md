@@ -1,4 +1,4 @@
-## How to create a Photo and Video Album App: Part 1/2
+## How to create a Photo and Video Playback Application (For Phantom 3 Professional and Inspire 1)
 
 <!-- toc -->
 
