@@ -35,90 +35,8 @@ Minimum Requirement: iOS 6.1 or above
    Let's go the project's plist file in Supporting Files folder, add the MFI protocol names as shown below:
   
    ![MFI](../../../images/iOS/FPVDemo/MFIProtocol.png)
-   
-### 3. Activate the SDK
 
-**1**. Import the SDK header file by adding the following code to the top of your AppDelegate.mm file:
-
-~~~objc
-   #import <DJISDK/DJISDK.h>
-~~~
-
-**2**. Implement the **DJIAppManagerDelegate** protocol method and have it show a notification when the application registers successfully, as shown below:
-
-~~~objc
-@interface AppDelegate ()<DJIAppManagerDelegate>
-
-@end
-
-@implementation AppDelegate
-
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
-    NSString *appKey = @"Enter Your App Key";
-    [DJIAppManager registerApp:appKey withDelegate:self];
-    
-    return YES;
-}
-
-#pragma mark DJIAppManagerDelegate Method
--(void)appManagerDidRegisterWithError:(int)error
-{
-    NSString* message = @"Register App Successed!";
-    if (error != RegisterSuccess) {
-        message = @"Register App Failed!";
-    }else
-    {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"RegisterAppSuccess" object:nil];
-    }
-    
-    UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Register App" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];	
-    [alertView show];
-}
-~~~
-
----
-**Note**: In the code above, you will need to obtain an App Key from the DJI Developer website **(<https://dev.dji.com/en/user/mobile-sdk>)** and enter it where it says **Enter Your App Key**. You receive an App Key by clicking **Create APP** and filling out the necessary information. Please note that **Identification Code** stands for **Bundle Identifier**. Once you do that, an App Key is generated for you. The **App Key** we generate for you is associated with the Xcode project **Bundle Identifier**, so you will not be able to use the same App Key in a different Xcode project. Each project must be submiteed individually and will receive a unique App Key. This is what you should see once you submit the information:
-
-![AppKey](../../../images/iOS/FPVDemo/AppKey.png)
-
----
-
-If you register app failed, you can check the **error** variable's value in the following delegate method to figure out the problem:
-
-~~~objc
--(void)appManagerDidRegisterWithError:(int)error;
-~~~
-
- The error code for the APP KEY activation is shown as below:
- 
- result  	  | Description 
-------------- | -------------
-0   | Check permission successful
--1  | Cannot connect to Internet
--2  | Invalid app key
--3  | Get permission data timeout
--4  | Device uuid not match
--5  | Project package name does not match the app 	   key's identification code
--6  | App key is forbidden
--7  | Activated device number is up to the maximum 		available one
--8  | App key's platform is not correct
--9  | App key does not exist
--10 | App key has no permission
--11 | Server parser failed
--12 | Error in server obtaining uuid
--13 | Server app package name abnormal
--14 | Server parsing activation data failed
--15 | AES 256 encryption unsupported
--16 | AES 256 encryption failed
--17 | Get device uuid failed
--18 | Empty app key
--1000 | Server error 
-
-**3**. Now run your Xcode project. If everything is OK, you will see a "Register App Successed!" alert once the application loads. Congrats for making it this far! Now we're going to walk through setting up the user interface and functionality.
-
-
-### 4. Implement the FPV View
+### 3. Implement the FPV View
   **1**. We use the FFMPEG decoding library (found at http://ffmpeg.org) to decode the video stream. You can find the **VideoPreviewer** folder in the downloaded SDK. Copy the entire **VideoPreviewer** folder to your Xcode project's folder and then add it to the Xcode project navigator, as shown below:
   
  ![AppKey](../../../images/iOS/FPVDemo/ffmpegImport.png)
@@ -150,31 +68,18 @@ Add a UIView inside the View Controller and set it as an IBOutlet called "**fpvP
 }
 
 ~~~
-**4**. Initialize the **DJIDrone** instance and set its type as **DJIDrone_Inspire** (you can change this type based on the UAV you have). Set the **_drone** and **_camera** instances' delegate to **self** and call the **start** method of **VideoPreviewer**'s instance in the **ViewDidLoad** method. Also, you should add an observer of **NSNotificationCenter** to check the **RegisterAppSuccess** notification, as shown below:
+**4**. Initialize the **DJIDrone** instance and set its type as **DJIDrone_Inspire** (you can change this type based on the UAV you have). Set the **_drone** and **_camera** instances' delegate to **self** as shown below:
   
 ~~~objc
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(registerAppSuccess:) name:@"RegisterAppSuccess" object:nil];
     _drone = [[DJIDrone alloc] initWithType:DJIDrone_Inspire];
     _drone.delegate = self;
     _camera = _drone.camera;
     _camera.delegate = self;
-    
-    [[VideoPreviewer instance] start];
-    
+        
 }
-
-- (void)registerAppSuccess:(NSNotification *)notification
-{
-    
-    NSLog(@"registerAppSuccess");
-    [_drone connectToDrone];
-    [_camera startCameraSystemStateUpdates];
-    
-}
-
 ~~~
   
  Moreover, in the **viewWillAppear** method, set **fpvPreviewView** instance as a View of **VideoPreviewer** to show the Video Stream and reset it to nil in the **viewWillDisappear** method:
@@ -183,9 +88,6 @@ Add a UIView inside the View Controller and set it as an IBOutlet called "**fpvP
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    [_drone connectToDrone];
-    [_camera startCameraSystemStateUpdates];
     [[VideoPreviewer instance] setView:self.fpvPreviewView];
     
 }
@@ -196,6 +98,7 @@ Add a UIView inside the View Controller and set it as an IBOutlet called "**fpvP
     [super viewWillDisappear:animated];
     [_camera stopCameraSystemStateUpdates];
     [_drone disconnectToDrone];
+    [_drone destroy];
     [[VideoPreviewer instance] setView:nil];
     
 }
@@ -249,11 +152,105 @@ Add a UIView inside the View Controller and set it as an IBOutlet called "**fpvP
    -(void) camera:(DJICamera*)camera didUpdateSystemState:(DJICameraSystemState*)systemState method is used to get the camera state from the camera on your aircraft. It will be called frequently, so you can update your user interface or camera settings accordingly here.
    
    -(void) droneOnConnectionStatusChanged:(DJIConnectionStatus)status method is used to check the drone's connection.
-   
-  **5**. Build and Run the project in Xcode to check if everything is okay. If you see the following screenshot as below, then you can start connect to your aircraft and enjoy the video stream from its camera!
+ 
+### 4. Activate the SDK
+
+**1**. Implement the **DJIAppManagerDelegate** protocol method in the DJICameraViewController.m file's extension part:
+
+~~~objc
+@interface DJICameraViewController ()<DJICameraDelegate, DJIDroneDelegate,DJIAppManagerDelegate>
+{
+    DJIDrone *_drone;
+    DJICamera* _camera;
+}
+~~~
+
+Then create a new method named **registerApp** and invoke it in the viewDidLoad method as shown below:
+
+~~~objc
+- (void)registerApp
+{
+    NSString *appKey = @"Enter Your App Key Here";
+    [DJIAppManager registerApp:appKey withDelegate:self];
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    _drone = [[DJIDrone alloc] initWithType:DJIDrone_Inspire];
+    _drone.delegate = self;
+    _camera = _drone.camera;
+    _camera.delegate = self;
+    
+    [self registerApp];    
+}
+~~~
+---
+**Note**: In the code above, you will need to obtain an App Key from the DJI Developer website **(<https://dev.dji.com/en/user/mobile-sdk>)** and enter it where it says **Enter Your App Key**. You receive an App Key by clicking **Create APP** and filling out the necessary information. Please note that **Identification Code** stands for **Bundle Identifier**. Once you do that, an App Key is generated for you. The **App Key** we generate for you is associated with the Xcode project **Bundle Identifier**, so you will not be able to use the same App Key in a different Xcode project. Each project must be submiteed individually and will receive a unique App Key. This is what you should see once you submit the information:
+
+![AppKey](../../../images/iOS/FPVDemo/AppKey.png)
+
+---
+
+If you register app failed, you can check the **error** variable's value in the following delegate method to figure out the problem:
+
+~~~objc
+-(void)appManagerDidRegisterWithError:(int)error;
+~~~
+
+ The error code for the APP KEY activation is shown as below:
+ 
+ result  	  | Description 
+------------- | -------------
+0   | Check permission successful
+-1  | Cannot connect to Internet
+-2  | Invalid app key
+-3  | Get permission data timeout
+-4  | Device uuid not match
+-5  | Project package name does not match the app 	   key's identification code
+-6  | App key is forbidden
+-7  | Activated device number is up to the maximum 		available one
+-8  | App key's platform is not correct
+-9  | App key does not exist
+-10 | App key has no permission
+-11 | Server parser failed
+-12 | Error in server obtaining uuid
+-13 | Server app package name abnormal
+-14 | Server parsing activation data failed
+-15 | AES 256 encryption unsupported
+-16 | AES 256 encryption failed
+-17 | Get device uuid failed
+-18 | Empty app key
+-1000 | Server error 
+
+**2**. Next, let's implement the DJIAppManagerDelegate method as shown below:
+
+~~~objc
+#pragma mark DJIAppManagerDelegate Method
+-(void)appManagerDidRegisterWithError:(int)error
+{
+    NSString* message = @"Register App Successed!";
+    if (error != RegisterSuccess) {
+        message = @"Register App Failed! Please enter your App Key and check the network.";
+    }else
+    {
+        NSLog(@"registerAppSuccess");
+        [_drone connectToDrone];
+        [_camera startCameraSystemStateUpdates];
+        [[VideoPreviewer instance] start];
+
+    }
+    UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Register App" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alertView show];
+}
+~~~
+
+In the code above, we call the **connectToDrone** method of DJIDrone to start connection with the drone, and invoke the **startCameraSystemStateUpdates** method of DJICamera to update the camera system state. Moreover we call the **start** method of **VideoPreviewer**'s instance when register app success to start the video decode. Finally, we create a UIAlertView to inform the register app state to the user.
+
+**3**. Build and Run the project in Xcode. If everything is OK, you will see a "Register App Successed!" alert once the application loads. Also, if you see the following screenshot as below, then you can start connect to your aircraft and enjoy the video stream from its camera!
   
   ![Screenshot](../../../images/iOS/FPVDemo/Screenshot.jpg)
-  
+
 ### 5. Connect to your DJI Aircraft
 After you finish the steps above, you can now connect your mobile device to your DJI Aircraft to use the application, like checking the FPV View. Here are the guidelines:
 

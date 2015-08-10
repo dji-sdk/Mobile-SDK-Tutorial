@@ -31,94 +31,8 @@
    添加方法：在工程的Supporting Files文件夹下的plist文件添加MFI协议名称，如下图所示：  
    
    ![MFI](../../../images/iOS/FPVDemo/MFIProtocol.png)
-   
-### 3. 激活 SDK
 
-**1**. 在 **AppDelegate.mm** 文件中导入SDK头文件:
-
-~~~objc
-   #import <DJISDK/DJISDK.h>
-~~~
-
-**2**. 实现 **DJIAppManagerDelegate** 的委托方法，并且在注册App成功后，发送通知，如下图所示：
-
-~~~objc
-@interface AppDelegate ()<DJIAppManagerDelegate>
-
-@end
-
-@implementation AppDelegate
-
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
-    NSString *appKey = @"Enter Your App Key";
-    [DJIAppManager registerApp:appKey withDelegate:self];
-    
-    return YES;
-}
-
-#pragma mark DJIAppManagerDelegate Method
--(void)appManagerDidRegisterWithError:(int)error
-{
-    NSString* message = @"Register App Successed!";
-    if (error != RegisterSuccess) {
-        message = @"Register App Failed!";
-    }else
-    {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"RegisterAppSuccess" object:nil];
-    }
-    
-    UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Register App" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];	
-    [alertView show];
-}
-
-~~~
-
----
-**注意**: 你可以在SDK网站上创建属于你自己App的**App Key**: <https://dev.dji.com/cn/user/mobile-sdk>, 如下图所示:
-
-![AppKey](../../../images/iOS/FPVDemo/AppKey_CN.png)
-
-另外, **App Key** 是和工程的 **Bundle Identifier**相关联的. 所以如果Bundle Identifier不正确的话，你就不能在多个不同工程里面使用同一个App Key。
-
----
-
-如果注册App失败, 你可以通过检查以下委托方法的 **error** 变量值来寻找原因:
-
-~~~objc
--(void)appManagerDidRegisterWithError:(int)error;
-~~~
-
-APP KEY 激活失败码如下所示:
- 
- result  	  | Description 
-------------- | -------------
-0   | Check permission successful
--1  | Cannot connect to Internet
--2  | Invalid app key
--3  | Get permission data timeout
--4  | Device uuid not match
--5  | Project package name does not match the app 	   key's identification code
--6  | App key is forbidden
--7  | Activated device number is up to the maximum 		available one
--8  | App key's platform is not correct
--9  | App key does not exist
--10 | App key has no permission
--11 | Server parser failed
--12 | Error in server obtaining uuid
--13 | Server app package name abnormal
--14 | Server parsing activation data failed
--15 | AES 256 encryption unsupported
--16 | AES 256 encryption failed
--17 | Get device uuid failed
--18 | Empty app key
--1000 | Server error 
-
-
-**3**. 现在运行你的Xcode工程, 如果一切顺利, 你可以看到 "Register App Successed!" 的提示！
-
-
-### 4. 实现FPV视图功能
+### 3. 实现FPV视图功能
   **1**. 我们使用 FFMPEG 解码库 (http://ffmpeg.org) 对视频流进行解码. 你可以在下载好的SDK开发包中找到 **VideoPreviewer** 文件夹. 将它拷贝到 Xcode 工程的文件夹中, 然后像下图所示添加到工程导航栏的**thirdParty**文件夹下:
   
  ![AppKey](../../../images/iOS/FPVDemo/ffmpegImport.png)
@@ -244,8 +158,104 @@ APP KEY 激活失败码如下所示:
    -(void) camera:(DJICamera*)camera didUpdateSystemState:(DJICameraSystemState*)systemState 委托方法用来获取相机的状态信息, 它会被频繁调用, 所以你可以在这个委托方法中更新你的App界面状态和相机参数设置.
    
    -(void) droneOnConnectionStatusChanged:(DJIConnectionStatus)status 委托方法用来检查飞行器的连接状态.
-   
-  **5**. 编译运行你的工程, 检查下一切是否正常. 如果你可以看到类似以下截屏画面, 那么你就可以准备启动你的航拍飞机，享受飞机摄像机上的FPV画面了!
+  
+### 4. 激活 SDK
+
+**1**. 在DJICameraViewController.m文件的类扩展部分实现**DJIAppManagerDelegate**协议:
+
+~~~objc
+@interface DJICameraViewController ()<DJICameraDelegate, DJIDroneDelegate,DJIAppManagerDelegate>
+{
+    DJIDrone *_drone;
+    DJICamera* _camera;
+}
+~~~
+
+然后创建一个新方法，命名为**registerApp**，并且在viewDidLoad方法中调用它，如下所示:
+
+~~~objc
+- (void)registerApp
+{
+    NSString *appKey = @"Enter Your App Key Here";
+    [DJIAppManager registerApp:appKey withDelegate:self];
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    _drone = [[DJIDrone alloc] initWithType:DJIDrone_Inspire];
+    _drone.delegate = self;
+    _camera = _drone.camera;
+    _camera.delegate = self;
+    
+    [self registerApp];    
+}
+~~~
+---
+**注意**: 你可以在SDK网站上创建属于你自己App的**App Key**: <https://dev.dji.com/cn/user/mobile-sdk>, 如下图所示:
+
+![AppKey](../../../images/iOS/FPVDemo/AppKey_CN.png)
+
+另外, **App Key** 是和工程的 **Bundle Identifier**相关联的. 所以如果Bundle Identifier不正确的话，你就不能在多个不同工程里面使用同一个App Key。
+
+---
+
+如果注册App失败, 你可以通过检查以下委托方法的 **error** 变量值来寻找原因:
+
+~~~objc
+-(void)appManagerDidRegisterWithError:(int)error;
+~~~
+
+APP KEY 激活失败码如下所示:
+ 
+ result  	  | Description 
+------------- | -------------
+0   | Check permission successful
+-1  | Cannot connect to Internet
+-2  | Invalid app key
+-3  | Get permission data timeout
+-4  | Device uuid not match
+-5  | Project package name does not match the app 	   key's identification code
+-6  | App key is forbidden
+-7  | Activated device number is up to the maximum 		available one
+-8  | App key's platform is not correct
+-9  | App key does not exist
+-10 | App key has no permission
+-11 | Server parser failed
+-12 | Error in server obtaining uuid
+-13 | Server app package name abnormal
+-14 | Server parsing activation data failed
+-15 | AES 256 encryption unsupported
+-16 | AES 256 encryption failed
+-17 | Get device uuid failed
+-18 | Empty app key
+-1000 | Server error 
+
+**2**. 接着, 我们来实现 DJIAppManagerDelegate 方法:
+
+~~~objc
+#pragma mark DJIAppManagerDelegate Method
+-(void)appManagerDidRegisterWithError:(int)error
+{
+    NSString* message = @"Register App Successed!";
+    if (error != RegisterSuccess) {
+        message = @"Register App Failed! Please enter your App Key and check the network.";
+    }else
+    {
+        NSLog(@"registerAppSuccess");
+        [_drone connectToDrone];
+        [_camera startCameraSystemStateUpdates];
+        [[VideoPreviewer instance] start];
+
+    }
+    UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Register App" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alertView show];
+}
+~~~
+
+在以上代码中, 当注册app成功后，我们调用了DJIDrone的**connectToDrone**的方法, 启动DJIDrone和飞行器的连接, 然后调用DJICamera的**startCameraSystemStateUpdates** 方法来更新camera system state. 进一步的，调用**VideoPreviewer** 实例变量的start方法来开始视频流解码。 最后，我们创建一个UIAlertView来提醒用户注册app的状态.
+
+**3**. 现在运行你的Xcode工程, 如果一切顺利, 你可以看到 "Register App Successed!" 的提示！同时，如果你可以看到类似以下截屏画面, 那么你就可以准备启动你的航拍飞机，享受飞机摄像机上的FPV画面了!
   
   ![Screenshot](../../../images/iOS/FPVDemo/Screenshot.jpg)
   

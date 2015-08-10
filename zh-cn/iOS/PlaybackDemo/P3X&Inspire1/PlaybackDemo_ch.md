@@ -37,7 +37,7 @@
 #import <DJISDK/DJISDK.h>
 #import "VideoPreviewer.h"
 
-@interface DJIRootViewController ()<DJICameraDelegate, DJIDroneDelegate>
+@interface DJIRootViewController ()<DJICameraDelegate, DJIDroneDelegate, DJIAppManagerDelegate>
 @property (strong, nonatomic) DJIDrone *drone;
 @property (strong, nonatomic) DJIInspireCamera* camera;
 @property (weak, nonatomic) IBOutlet UIButton *recordBtn;
@@ -52,15 +52,13 @@
 
 ~~~
 
-建造一个新方法，命名为 **initData**，用于数据的初始化设置，并在ViewDidLoad方法里面调用它. 接下来，初始化 **DJIDrone** 实例并将它的类型设置为 **DJIDrone_Inspire** (你可以根据你的飞机型号来更改此类型). 设置 **drone** 和 **camera** 实例的 delegate 为 **self** 并且在ViewDidLoad方法里调用**VideoPreviewer**实例的 **start** 方法. 另外，你需要添加一个NSNotificationCenter的observer来检查 "RegisterAppSuccess" 消息并且实现它的selector方法:
+建造一个新方法，命名为 **initData**，用于数据的初始化设置，并在ViewDidLoad方法里面调用它. 接下来，初始化 **DJIDrone** 实例并将它的类型设置为 **DJIDrone_Inspire** (你可以根据你的飞机型号来更改此类型). 设置 **drone** 和 **camera** 实例的 delegate 为 **self**. 接着，创建一个新方法，命名为"registerApp", 然后在viewDidLoad方法中调用它. 同时，实现DJIAppManagerDelegate方法，在app注册成功后，进行初始化设置:
 
 ~~~objc
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(registerAppSuccess:) name:@"RegisterAppSuccess" object:nil];
     [self initData];    
-    [[VideoPreviewer instance] start];
+    [self registerApp];
     
 }
 
@@ -72,31 +70,40 @@
     self.camera.delegate = self;
 }
 
-- (void)registerAppSuccess:(NSNotification *)notification
+- (void)registerApp
 {
-    
-    NSLog(@"registerAppSuccess");
-    [self.drone connectToDrone];
-    [self.camera startCameraSystemStateUpdates];
-    
+    NSString *appKey = @"Enter Your App Key Here";
+    [DJIAppManager registerApp:appKey withDelegate:self];
 }
+
+#pragma mark DJIAppManagerDelegate Method
+-(void)appManagerDidRegisterWithError:(int)error
+{
+    NSString* message = @"Register App Successed!";
+    if (error != RegisterSuccess) {
+        message = @"Register App Failed! Please enter your App Key and check the network.";
+    }else
+    {
+        NSLog(@"registerAppSuccess");
+        [_drone connectToDrone];
+        [_camera startCameraSystemStateUpdates];
+        [[VideoPreviewer instance] start];
+        
+    }
+    UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Register App" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alertView show];
+}
+
+
 ~~~
 
- 更进一步的，在 viewWillAppear 方法里, 设置 **fpvPreviewView** 实例为**VideoPreviewer**的view，来显示Video Stream, 并且在viewWillDisappear方法里将其重置为nil , 然后在**dealloc**方法里调用DJIDrone类的 **destroy** 方法来销毁drone实例对象:
+ 更进一步的，在 viewWillAppear 方法里, 设置 **fpvPreviewView** 实例为**VideoPreviewer**的view，来显示Video Stream, 并且在viewWillDisappear方法里将其重置为nil , 然后在同一个方法里调用DJIDrone类的 **destroy** 方法来销毁drone实例对象:
  
 ~~~objc
-- (void)dealloc
-{
-    [self.drone destroy];
-}
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    [self.drone connectToDrone];
-    [self.camera startCameraSystemStateUpdates];
-
     [[VideoPreviewer instance] setView:self.fpvPreviewView];
     
 }
@@ -108,7 +115,7 @@
     [self.camera stopCameraSystemStateUpdates];
     [self.drone.mainController stopUpdateMCSystemState];
     [self.drone disconnectToDrone];
-
+    [self.drone destroy];
     [[VideoPreviewer instance] setView:nil];
     
 }
@@ -640,8 +647,8 @@ typedef NS_ENUM(uint8_t, CameraPlaybackMode){
     [super viewDidLoad];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(registerAppSuccess:) name:@"RegisterAppSuccess" object:nil];
     [self initData];
+    [self registerApp];
     [self initPlaybackMultiSelectVC];
-    [[VideoPreviewer instance] start];
 }
 
 - (void)initPlaybackMultiSelectVC

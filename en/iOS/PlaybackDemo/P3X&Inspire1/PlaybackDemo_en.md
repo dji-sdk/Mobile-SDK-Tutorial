@@ -16,7 +16,7 @@ Let's get started!
 
 ### 1. Importing the Framework and Libraries
 
-  Create a new project in Xcode and name it "**PlaybackDemo**", copy the **DJISDK.framework** into your Xcode project's folder. Next, find the "VideoPreviewer" folder in the downloaded SDK. Copy the entire "VideoPreviewer" folder into your Xcode project's "ThirdParty" folder. Set the **Header Search Paths** and **Library Search Paths** for **FFMPEG** in the **Build Settings**. If this is a bit confusing, just check our previous tutorial  [**How to create a Camera Application**](../../../iOS/FPVDemo/Part1/FPVDemo_Part1_en.md) for further explanation. Then, select the project target and go to Build Phases -> Link Binary With Libraries. Click the "+" button at the bottom and add two libraries to your project: **libstdc++.6.0.9.dylib** and **libz.dylib**. Take a look at the screenshot below:
+  Create a new project in Xcode and name it "**PlaybackDemo**", copy the **DJISDK.framework** into your Xcode project's folder. Next, find the "VideoPreviewer" folder in the downloaded SDK. Copy the entire "VideoPreviewer" folder into your Xcode project's "ThirdParty" folder. Set the **Header Search Paths** and **Library Search Paths** for **FFMPEG** in the **Build Settings**. If this is a bit confusing, just check our previous tutorial [**How to create a Camera Application**](../../../iOS/FPVDemo/Part1/FPVDemo_Part1_en.md) for further explanation. Then, select the project target and go to Build Phases -> Link Binary With Libraries. Click the "+" button at the bottom and add two libraries to your project: **libstdc++.6.0.9.dylib** and **libz.dylib**. Take a look at the screenshot below:
 
   ![navigator](../../../images/iOS/PlaybackDemo/navigator.png)
   
@@ -38,7 +38,7 @@ Then, add a UIView inside the **Root View Controller** and set it as an IBOutlet
 #import <DJISDK/DJISDK.h>
 #import "VideoPreviewer.h"
 
-@interface DJIRootViewController ()<DJICameraDelegate, DJIDroneDelegate>
+@interface DJIRootViewController ()<DJICameraDelegate, DJIDroneDelegate, DJIAppManagerDelegate>
 @property (strong, nonatomic) DJIDrone *drone;
 @property (strong, nonatomic) DJIInspireCamera* camera;
 @property (weak, nonatomic) IBOutlet UIButton *recordBtn;
@@ -53,16 +53,13 @@ Then, add a UIView inside the **Root View Controller** and set it as an IBOutlet
 
 ~~~
 
-Create a new method named **initData** for data initialization and call it in the ViewDidLoad method. Next, initialize the **DJIDrone** instance and set its type as **DJIDrone_Inspire** (you can change this type based on the UAV you have). Set the **drone** and **camera** instances' delegate to **self** and call the **start** method of **VideoPreviewer**'s instance in the ViewDidLoad method. You should also add an observer of NSNotificationCenter to check the "RegisterAppSuccess" notification and implement its selector method:
+Create a new method named **initData** for data initialization and call it in the ViewDidLoad method. Next, initialize the **DJIDrone** instance and set its type as **DJIDrone_Inspire** (you can change this type based on the UAV you have). Set the **drone** and **camera** instances' delegate to **self**. Moreover, create a new method named "registerApp" and invoke it in the viewDidLoad method. Also, implement the DJIAppManagerDelegate method to do initial setup after register app success:
 
 ~~~objc
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(registerAppSuccess:) name:@"RegisterAppSuccess" object:nil];
-    [self initData];    
-    [[VideoPreviewer instance] start];
-    
+    [self initData];     
+    [self registerApp];
 }
 
 - (void)initData
@@ -73,31 +70,39 @@ Create a new method named **initData** for data initialization and call it in th
     self.camera.delegate = self;
 }
 
-- (void)registerAppSuccess:(NSNotification *)notification
+- (void)registerApp
 {
-    
-    NSLog(@"registerAppSuccess");
-    [self.drone connectToDrone];
-    [self.camera startCameraSystemStateUpdates];
-    
+    NSString *appKey = @"Enter Your App Key Here";
+    [DJIAppManager registerApp:appKey withDelegate:self];
 }
+
+#pragma mark DJIAppManagerDelegate Method
+-(void)appManagerDidRegisterWithError:(int)error
+{
+    NSString* message = @"Register App Successed!";
+    if (error != RegisterSuccess) {
+        message = @"Register App Failed! Please enter your App Key and check the network.";
+    }else
+    {
+        NSLog(@"registerAppSuccess");
+        [_drone connectToDrone];
+        [_camera startCameraSystemStateUpdates];
+        [[VideoPreviewer instance] start];
+        
+    }
+    UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Register App" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alertView show];
+}
+
 ~~~
 
- Moreover, in the viewWillAppear method, set the **fpvPreviewView** instance as a View of **VideoPreviewer** to show the Video Stream and reset it to nil in the viewWillDisappear method, then call the **destroy** method of DJIDrone class in the **dealloc** method:
+ Moreover, in the viewWillAppear method, set the **fpvPreviewView** instance as a View of **VideoPreviewer** to show the Video Stream and reset it to nil in the viewWillDisappear method, also call the **destroy** method of DJIDrone class in the same method:
  
 ~~~objc
-- (void)dealloc
-{
-    [self.drone destroy];
-}
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    [self.drone connectToDrone];
-    [self.camera startCameraSystemStateUpdates];
-
     [[VideoPreviewer instance] setView:self.fpvPreviewView];
     
 }
@@ -109,7 +114,7 @@ Create a new method named **initData** for data initialization and call it in th
     [self.camera stopCameraSystemStateUpdates];
     [self.drone.mainController stopUpdateMCSystemState];
     [self.drone disconnectToDrone];
-
+    [self.drone destroy];
     [[VideoPreviewer instance] setView:nil];
     
 }
@@ -641,8 +646,9 @@ Then import the DJIPlaybackMultiSelectViewController.h header file and create a 
     [super viewDidLoad];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(registerAppSuccess:) name:@"RegisterAppSuccess" object:nil];
     [self initData];
+    [self registerApp];
     [self initPlaybackMultiSelectVC];
-    [[VideoPreviewer instance] start];
+
 }
 
 - (void)initPlaybackMultiSelectVC
