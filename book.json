@@ -7,12 +7,15 @@
     "extension": null,
     "github": null,
     "githubHost": "https://github.com/",
-    "plugins": ["toc"],
+    "plugins": ["toc", "disqus"],
     "pluginsConfig": {
         "fontSettings": {
             "theme": "white",
             "family": "sans",
             "size": 2
+        },
+        "disqus": {
+            "shortName": "djisdk"
         }
     },
 
