@@ -1,4 +1,4 @@
-## How to create a Camera Application: Part 2/2
+# How to create a Camera Application: Part 2/2
 
 <!-- toc -->
 
@@ -8,7 +8,7 @@ In [Part 1](../../../iOS/FPVDemo/Part1/FPVDemo_Part1_en.md), we have implemented
 
    You can download the final project for this tutorial here: <https://github.com/DJI-Mobile-SDK/iOS-FPVDemo-Part2.git>
 
-### 1. Implement the Capture function
+## 1. Implement the Capture function
 
 Add the following codes to the **captureAction** IBAction method:
 
@@ -67,9 +67,9 @@ Add the following codes to the **captureAction** IBAction method:
   Build and run your project and then try the capture function. If the screen flash after your press the **capture** button, your capture fuction should be working.
   
   
-### 2. Implement the Record function
+## 2. Implement the Record function
   
-#### 1. Switching Camera Mode
+### 1. Switching Camera Mode
    Before we implementing the record function, we need to switch the camera work mode firstly.
    
    Let's check the **DJICameraSettingsDef.h** file.
@@ -164,7 +164,7 @@ Add the following codes to the **captureAction** IBAction method:
 ~~~
  Here we add two UIAlertViews to get a warning when the user set CameraWorkMode failed.
  
-#### 2. Add Record Action
+### 2. Add Record Action
 
   Firstly, we need a BOOL variable to save the status of the record action and a UILabel to show the current record time. So let's go to **Main.storyboard** and drag a UILabel on top of the screen, set up the Autolayout for it and create an IBOutlet named "**currentRecordTimeLabel**" to the **DJICameraViewController.m** file. Moreover, create an IBOutlet called "**recordBtn**" for the Record Button.
   
@@ -255,6 +255,6 @@ Add the following codes to the **captureAction** IBAction method:
    Congratulations! Your Aerial FPV iOS app is complete, you can now use this app to control the camera of your Inspire 1. 
 
 
-### 3. Where To Go From Here?
+## 3. Where To Go From Here?
    
    You’ve come a long way in this tutorial: you’ve learned how to use DJI Mobile SDK to show the FPV View from the aircraft's camera and control the camera of DJI's Aircraft. These are the most basic and common features in a typical drone mobile app: **Capture** and **Record**. However, if you want to create a drone app that is more fancy, you still have a long way to go. More advanced features would include previewing the photo and video in the SD Card, showing the OSD data of the aircraft and so on. Hope you enjoy this tutorial, and stay tuned for our next one!

@@ -1,10 +1,10 @@
-## 如何创建一个航拍相机App: 第一部分
+# 如何创建一个航拍相机App: 第一部分
 
 *注意: 本教程中的代码是针对iPad开发的. 请确保在iPad或者iPad模拟器上运行本教程代码。*
 
 你可以从这里下载到本教程的Demo工程:<https://github.com/DJI-Mobile-SDK/FPVDemo-Part1.git>
 
-### 1. 下载SDK
+## 1. 下载SDK
 
 你可以从这里下载到最新的SDK <https://dev.dji.com/cn/products/sdk/mobile-sdk/downloads>
 
@@ -16,7 +16,7 @@
 
 支持平台：支持iOS 6.1 及以上版本
 
-### 2. 解压SDK并导入到自己的工程
+## 2. 解压SDK并导入到自己的工程
 
 **1**. 先拷贝DJISDK.framework到您的工程目录下，再将DJISDK.framework拖到您工程”Frameworks”的目录下，如下图所示:
 
@@ -32,7 +32,7 @@
    
    ![MFI](../../../images/iOS/FPVDemo/MFIProtocol.png)
 
-### 3. 实现FPV视图功能
+## 3. 实现FPV视图功能
   **1**. 我们使用 FFMPEG 解码库 (http://ffmpeg.org) 对视频流进行解码. 你可以在下载好的SDK开发包中找到 **VideoPreviewer** 文件夹. 将它拷贝到 Xcode 工程的文件夹中, 然后像下图所示添加到工程导航栏的**thirdParty**文件夹下:
   
  ![AppKey](../../../images/iOS/FPVDemo/ffmpegImport.png)
@@ -159,7 +159,7 @@
    
    -(void) droneOnConnectionStatusChanged:(DJIConnectionStatus)status 委托方法用来检查飞行器的连接状态.
   
-### 4. 激活 SDK
+## 4. 激活 SDK
 
 **1**. 在DJICameraViewController.m文件的类扩展部分实现**DJIAppManagerDelegate**协议:
 
@@ -259,7 +259,7 @@ APP KEY 激活失败码如下所示:
   
   ![Screenshot](../../../images/iOS/FPVDemo/Screenshot.jpg)
   
-### 5. 连接飞行器
+## 5. 连接飞行器
 完成以上步骤后, 现在就可以连接你的移动设备到DJI飞行器上，检查是否获取到FPV画面，以下是连接指引：
 
 * 连接 Inspire 1, Phantom 3 Professional or Phantom 3 Advanced:
@@ -284,13 +284,13 @@ APP KEY 激活失败码如下所示:
   **4**. 使用app来控制飞机的相机
   
   
-### 6. 享受FPV视图
+## 6. 享受FPV视图
 
 如果你可以在app中看到飞机的视频流，那么恭喜，你已经完成了第一部分教程的内容了！下图是app的截屏：
 
   ![fpv](../../../images/iOS/FPVDemo/fpv.jpg)
 
 
-### 7. 现在要怎么做?
+## 7. 现在要怎么做?
    
    你已经学会了如何配置DJI Mobile SDK的iOS开发环境，并成功用它开发app来展示飞行器相机的FPV画面。在接下来的教程中，我们会在此基础上添加拍照和录像功能. 请关注我们[第二部分](../../../iOS/FPVDemo/Part2/FPVDemo_Part2_ch.md)的教程，希望你喜欢！

@@ -10,7 +10,7 @@ In this tutorial, you will learn how to implement the basic processes of using W
    
 ## 1. Refactor the UI
 In Part 1 of this tutorial, the project's code structure was simple and not robust. In order to develop it further in this tutorial, it will need to be refactored and we will need to add more UI elements. 
-#### 1. Add & Handle The New UIButtons
+### 1. Add & Handle The New UIButtons
 First, we will create a new file named **DJIGSButtonController**, which will be subclass of **UIViewController**. Make sure the check box saying **Also create XIB file** is selected when creating the file. Then open the **DJIGSButtonController.xib** file and set its size to **Freeform** under the **Size** dropdown in the **Simulated Metrics** section. In the view section, change the width to **110** and height to **260**. Take a look at the changes made below:
 
 ![freeform](../../../images/iOS/GSDemo/freeform.png)
@@ -225,7 +225,7 @@ Now, let's build and run the project and try to press the **Edit** and **Back** 
 
 ## 2. Configure The DJIGroundStationWaypoint and The DJIGroundStationTask
 
-#### 1. DJIGroundStationWaypoint
+### 1. DJIGroundStationWaypoint
 
 Let's go to **DJIGroundStationWaypoint.h** file and check it out. For example, you can use: 
 
@@ -240,7 +240,7 @@ to create a waypoint object with a specific coordinate. Once you create a waypoi
 
 Moreover, with waypoints, you have the ability to set the coordinate, altitude, heading, horizontalVelocity and much more. For more details, please check the **DJIGroundStationWaypoint.h** header file.
 
-#### 2. DJIGroundStationTask
+### 2. DJIGroundStationTask
 
 A **DJIGroundStationTask** is used when you want to start a GroundStation Waypoint task. You can call its class method **+(id) newTask;** directly to create a new task. Once you create the task, you can add waypoints of type **DJIGroundStationWaypoint** using the method: 
 
@@ -341,7 +341,7 @@ typedef NS_ENUM(NSUInteger, DJIGSHeadingMode){
  
 For more details, please check the **DJIGroundStationTask.h** header file in the DJI Mobile SDK.
 
-#### 3. Create The DJIWaypointConfigViewController
+### 3. Create The DJIWaypointConfigViewController
 
 For this demo, we will assume that the parameters of each waypoint being added to the map view are the same. 
 
@@ -438,7 +438,7 @@ In the code above, we create an **initUI** method, which is called in the **view
 
 ## 3. Setup The GroundStation Task
 
-#### 1. Add The DJIWaypointConfigViewController to DJIRootViewController
+### 1. Add The DJIWaypointConfigViewController to DJIRootViewController
 Now,let's go to **DJIRootViewController.m** file, add the **DJIWaypointConfigViewController.h** header file at the top, and create a property of type **DJIWaypointConfigViewController** with the name **waypointConfigVC**. Then, implement the **DJIWaypointConfigViewControllerDelegate** protocol, as shown below:
 
 ~~~objc
@@ -538,7 +538,7 @@ Once that's done, let's build and run the project. Try to show the **waypointCon
 
 ![waypointConfigView](../../../images/iOS/GSDemo/waypointConfigView.png)
 
-#### 2. Handle The GroundStation Task
+### 2. Handle The GroundStation Task
 
 Now let's go back to **DJIRootViewController.h** file. First, implement the **GroundStationDelegate** and **DJINavigationDelegate** protocols in the interface. Then, create a property of type **DJIGroundStationTask** and named it as **gsTask**. Also, create a property of type **UIAlertView** and named it **uploadProgressView**. The UIAlertView will be used to show the status of GroundStation task. The complete header file of **DJIRootViewController** will look as shown below:
 
@@ -801,7 +801,7 @@ Finally, let's implement the **stopBtnActionInGSButtonVC** method, which is a  *
 }
 ~~~
 
-## 4. Showtime
+## 4. Test The Application
 
 You've come a long way in this tutorial, and it's time to test the whole application.
 

@@ -1,5 +1,5 @@
  
-# 如何创建一个照片和视频回放应用 (针对Phantom 3 Professional和Inspire 1)
+# 如何创建一个照片和视频回放App (针对Phantom 3 Professional和Inspire 1)
 
 *提醒: 此教程中的代码是为iPad而写的. 请确保你在iPad或者iPad模拟器上运行此代码.*
 
@@ -11,15 +11,15 @@
 
 让我们开始吧!
 
-### 1. 预览照片和视频
+## 1. 预览照片和视频
 
-#### 1.1 导入Framework和库
+### 1.1 导入Framework和库
 
   在Xcode中创建一个新工程并将其命名为 "PlaybackDemo", 复制 **DJISDK.framework** 到你的Xcode工程文件夹中. 接下来，在下载好的SDK中找到 "VideoPreviewer" 文件夹。 将整个"VideoPreviewer"文件夹拷贝到Xcode工程的 "ThirdParty" 文件夹中. 在**Build Settings**里设置好**FFMPEG**的 **Header Search Paths** 和 **Library Search Paths**。 如果这有一点难懂，请看我们之前的教程 [如何创建一个航拍相机App](../../../iOS/FPVDemo/Part1/FPVDemo_Part1_ch.md) 来获得更多的解释。 接着，选择工程的target并来到 Build Phases -> Link Binary With Libraries. 按下下方的 "+" 按钮，然后添加这两个library到你的工程中: **libstdc++.6.0.9.dylib** 和 **libz.dylib**。 请看以下截图:
 
   ![navigator](../../../images/iOS/PlaybackDemo/navigator.png)
 
-#### 1.2 切换到回放模式
+### 1.2 切换到回放模式
 
   现在，我们删除 **ViewController.h** 和 **ViewController.m** 文件, 它们在你一开始创建工程时就Xcode就自动帮你生成了. 接着，创建一个 viewController 并命名为 "DJIRootViewController", 在**Main.storyboard**中把它设置为 **Root View Controller**. 因为本教程和Demo代码是针对iPad编写的，所以我们需要相应地调整**Main.storyboard**的用户界面. 这里我们改变下 **Root View Controller**的frame. 我们在**Simulated Metrics**部分的**Size**中将它的尺寸设置为 **Freeform**. 在view部分中，将它的宽修改为**1024**，并将它的高修改为**768**. 如下图所示:
 
@@ -263,7 +263,7 @@
   
  ![singlePreview](../../../images/iOS/PlaybackDemo/singlePreview.jpg)
   
-#### 1.3 预览单个文件
+### 1.3 预览单个文件
 
 现在我们切换到 **Playback** 模式. 添加两个 **UISwipeGestureRecognizer**来预览SD卡里上一个和下一个多媒体文件.
 
@@ -422,7 +422,7 @@
 
  ![playVideo](../../../images/iOS/PlaybackDemo/playVideo.gif)
 
-#### 1.4 预览多个文件
+### 1.4 预览多个文件
 
 在进行下一步前, 我们先解释下**Playback mode**。 相机里有多种回放模式，可以在**DJICameraPlaybackState.h**文件中查看 **CameraPlaybackMode** 枚举 类型的定义，如下所示:
 
@@ -702,7 +702,7 @@ typedef NS_ENUM(uint8_t, CameraPlaybackMode){
 
 ![multiPre](../../../images/iOS/PlaybackDemo/multiPre.jpg)
 
-### 2. 删除照片和录像
+## 2. 删除照片和录像
 
 你现在可以在单张预览和多张预览模式下预览照片和视频了. 但是如果你想要删除一个不喜欢的文件呢? 让我们来实现删除文件的功能吧!
 
@@ -901,9 +901,9 @@ typedef NS_ENUM(uint8_t, CameraPlaybackMode){
 
 ![deleteMultiFiles](../../../images/iOS/PlaybackDemo/deleteMultiFiles.gif)
 
-### 3. 下载和保存照片
+## 3. 下载和保存照片
 
-#### 3.1 下载照片
+### 3.1 下载照片
 
 我们现在来实现图片下载的功能. 首先，来到 **Main.storyboard** 文件中，拖拽一个 **UIButton** 对象到 **playbackBtnsView**中，将其命名为 "Download". 然后按下图所示设置好位置:
 
@@ -1151,7 +1151,7 @@ typedef NS_ENUM(uint8_t, CameraPlaybackMode){
 
 在第三个block completion中，我们增加 **downloadedFileCount** 变量的值. 然后使用**downloadedImageData** 创建一个UIImage实例对象. 接着，重设 downloadedImageData的数据和 currentDownloadSize的值。进一步地，根据图片的下载信息更新 **statusAlertView** . 
 
-#### 3.2 将下载好的照片保存到相册中
+### 3.2 将下载好的照片保存到相册中
 
 现在，我们已经实现了下载照片的功能，但如果我们想将下载好的照片保存到iOS的相册，要怎么操作?
 
@@ -1263,7 +1263,7 @@ completionBlock:^{
 ![downloadFiles2](../../../images/iOS/PlaybackDemo/downloadFiles2.gif)
 
 
-### 4. 现在要怎么做?
+## 4. 现在要怎么做?
    
    在本教程中, 你学会了如何在单张预览模式和多张预览模式中预览照片和视频，如何进入多张编辑模式，选择文件并进行删除操作. 你还学会了如何下载和保存照片到iOS相册中.
    

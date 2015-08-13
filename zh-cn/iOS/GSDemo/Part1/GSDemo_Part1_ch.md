@@ -1,4 +1,4 @@
-# 如何创建一个地图和地面站预设航点功能App: 第一部分
+# 如何创建智能飞行预设航点功能App: 第一部分
 
 *注意: 本教程中的代码是针对iPad开发的. 请确保在iPad或者iPad模拟器上运行本教程代码。*
 
@@ -8,14 +8,14 @@
 
 ## 1. 使用DJI PC 模拟器
 
-#### 1. 介绍
+### 1. 介绍
 DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方式传输飞行器模拟的参数, 在 PC 端实现飞行器的 3D 虚拟显示,并且可以进行数据分析。
 
 **适用操作系统**: Windows 7, Windows 8, 和 Windows 8.1
 
 **适用飞行器型号**: Matrice 100, Inspire 1, Phantom 3 Professional 和 Phantom 3 Advanced
 
-#### 2. 安装DJI PC模拟器
+### 2. 安装DJI PC模拟器
 
 首先, 请从这里下载DJI PC模拟器和DJI WIN 驱动程序: <http://dev.dji.com/cn/products/sdk/onboard-sdk/downloads> :
 
@@ -26,7 +26,7 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 
 接着, 双击 **DJISimulator-Installer.exe** 文件并按指引安装好模拟器即可。 
 
-#### 3. **如何使用DJI PC模拟器**
+### 3. 使用DJI PC模拟器
 
 **1**. 运行DJI PC模拟器时，会首先弹出**Simulator Config**对话框. 设置好 **Latitude（纬度）** 和 **Longitude(经度)** 的值. **SN** 代表连接到PC模拟器上的飞机序列号. 如果 **SN** 的值为空, 请检查你的飞机是否和PC连接好，或者你的飞机的固件版本是否属于开发版本.
 
@@ -100,7 +100,7 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 
 ## 3. 创建Map View
 
-#### 1. 导入Framework 和 库文件
+### 1. 导入Framework 和 库文件
 
 你已经完成了以上步骤, 可以开始开发应用程序了. 在之前的教程[**如何创建一个航拍相机App**](../../../iOS/FPVDemo/Part1/FPVDemo_Part1_ch.md), 你学会了如何导入DJI Mobile SDK到你的Xcode工程中，并进行激活操作。如果你还没有阅读, 请先看下再进行以下操作。 
 
@@ -108,7 +108,7 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 
   ![framework](../../../images/iOS/GSDemo/framework.png)
 
-#### 2. 创建Map View
+### 2. 创建Map View
 接着, 我们删除 **ViewController.h** 和 **ViewController.m** 文件, 他们在你创建Xcode工程时，自动帮你生成了. 然后, 创建一个名字为"DJIRootViewController"的viewController，并在**Main.storyboard**中将它设置为 Root View Controller. 接着, 从Object Library中拖一个 **MKMapView** 到 **DJIRootViewController**中, 设置它的AutoLayout constraints, 以及它的delegate到**DJIRootViewController**, 如下图所示:
    
 ![mkMapView](../../../images/iOS/GSDemo/mkMapView.png)
@@ -130,7 +130,7 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 
 ![mapView](../../../images/iOS/GSDemo/mapView.png)
 
-#### 3. 添加Annotations到MapView中
+###3. 添加Annotations到MapView中
 
 目前的map view比较简单. 我们给它加点有趣的东西吧. 新建一个**NSObject**文件并命名为"DJIMapController", 它会被用来处理地图上的MKAnnotations(对于本教程来说,是预设航点设置)逻辑. 打开 **DJIMapController.h** 文件，然后添加以下代码:
 
@@ -297,7 +297,7 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 
 ![addWaypoint](../../../images/iOS/GSDemo/addWaypoint.gif)
 
-#### 4. 定位MKMapView到特定位置
+### 4. 定位MKMapView到特定位置
 
 你也许发现了地图的位置和你当前的坐标位置不一致，而且很难找到你在地图上的当前位置。如果有一个功能，能让我们迅速定位到你在地图上的当前位置，app会人性化很多。 要实现该功能，我们需要使用**CLLocationManager**.
 
@@ -406,7 +406,7 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 
 ![focusMap](../../../images/iOS/GSDemo/focusMap.gif)
 
-#### 5. 在地图上显示飞机
+### 5. 在地图上显示飞机
 
 现在, 我们可以定位地图到我们当前的位置, 这是一个好的开端! 让我们来做一些更有趣的事情吧. 我们将用DJI PC 模拟器来模拟飞机的GPS位置并将其显示在地图上.
 

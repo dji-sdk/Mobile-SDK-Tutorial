@@ -10,7 +10,7 @@ In this tutorial, you will learn how to setup the DJI PC Simulator, upgrade your
 
 ## 1. Using The DJI PC Simulator
 
-#### 1. Introduction
+### 1. Introduction
 
 The DJI PC Simulator is a flight simulator designed for SDK developers. The simulator creates a virtual 3D environment and provides data analysis from flight data transmitted to the PC via the UDP protocol.
 
@@ -18,7 +18,7 @@ The DJI PC Simulator is a flight simulator designed for SDK developers. The simu
 
 **Supported DJI Platforms**: Matrice 100, Inspire 1, Phantom 3 Professional, and Phantom 3 Advanced
 
-#### 2. Install and setup the DJI PC Simulator
+### 2. Install and setup the DJI PC Simulator
 
 First, you should download the DJI PC Simulator and WIN Driver from here: <http://dev.dji.com/en/products/sdk/onboard-sdk/downloads> :
 
@@ -29,7 +29,7 @@ You must install the driver before running the simulator. Since the simulator on
 
 Then, double click the **DJISimulator-Installer.exe** file and follow the instructions to install the program. 
 
-#### 3. How to use the DJI PC Simulator
+### 3. How to use the DJI PC Simulator
 
 **1**. The **Simulator Config** window will appear once you launch the DJI PC Simulator. Set the **Latitude** and **Longitude** values based on your preference. The **SN** represents the connected aircraft's SN number. If you do not see the **SN**, your aircraft is not connected properly to the PC or there is an issues with your firmware.
 
@@ -105,7 +105,7 @@ Regardless of what aircraft you are using, you can check whether or not the firm
 
 ## 3. Setup The Map View
 
-#### 1. Import The Framework and Libraries
+### 1. Import The Framework and Libraries
 
 Now that you've finished the steps above, we can start working on the application. In our previous tutorial [**How to create a Camera Application**](../../../iOS/FPVDemo/Part1/FPVDemo_Part1_en.md), you learned how to import and activate the DJI Mobile SDK into your Xcode project. If you haven't read that previously, please take a look at it. Once you've done that, we will set up the map view. 
 
@@ -113,7 +113,7 @@ Now that you've finished the steps above, we can start working on the applicatio
 
   ![framework](../../../images/iOS/GSDemo/framework.png)
 
-#### 2. Create The Map View
+### 2. Create The Map View
 Now, let's delete the **ViewController.h** and **ViewController.m** files, which were created by Xcode when you created the project. Then, create a viewController named "**DJIRootViewController**" and set it as the **Root View Controller** in Main.storyboard. Moreover, drag a **MKMapView** from Object Library to **DJIRootViewController**, setup its AutoLayout constraints, and set its delegate to **DJIRootViewController**, as seen below:
    
 ![mkMapView](../../../images/iOS/GSDemo/mkMapView.png)
@@ -135,7 +135,7 @@ Now, let's build and run the project. If everything is as it should be, you shou
 
 ![mapView](../../../images/iOS/GSDemo/mapView.png)
 
-#### 3. Add Annotations to The MapView
+### 3. Add Annotations to The MapView
 
 Currently, the map view is simple. Let's add something interesting to it. Create a new **NSObject** file named **DJIMapController**, which will be used to deal with the MKAnnotations(or for our purposes, Waypoints) logic on the map. Open the **DJIMapController.h** file and add the following code to it:
 
@@ -303,7 +303,7 @@ When you are done with all the steps above, build and run your project and try t
 ![addWaypoint](../../../images/iOS/GSDemo/addWaypoint.gif)
 
 
-#### 4. Focus The MKMapView
+### 4. Focus The MKMapView
 
 You may be wondering why the map's location is different from your current location and why it is difficult to find your location on the map. Focusing the map to your current location quickly would be helpful for the application. To implement that feature, we need to use **CLLocationManager**.
 
@@ -413,7 +413,7 @@ It's time to build and run the project to check the focus map feature. When you 
 ![focusMap](../../../images/iOS/GSDemo/focusMap.gif)
 
 
-#### 5. Show The Aircraft on Map View
+### 5. Show The Aircraft on Map View
 
 Now, we can focus the mapView to our current location, which is a good start! However, let's do something more interesting. We're going to simulate the aircraft's GPS location using the DJI PC Simulator and show it on our map view.
 

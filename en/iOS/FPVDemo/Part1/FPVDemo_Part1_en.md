@@ -1,4 +1,4 @@
-## How to create a Camera Application: Part 1/2
+# How to create a Camera Application: Part 1/2
 
 <!-- toc -->
 
@@ -8,7 +8,7 @@ This tutorial is designed for you to gain a basic understanding of the DJI Mobil
 
    You can download the entire project for this tutorial here: <https://github.com/DJI-Mobile-SDK/iOS-FPVDemo-Part1.git>
 
-### 1. Download the SDK
+## 1. Download the SDK
 
 You can download the latest iOS SDK from here: <https://dev.dji.com/en/products/sdk/mobile-sdk/downloads>
 
@@ -20,7 +20,7 @@ The development package includes:
 
 Minimum Requirement: iOS 6.1 or above
 
-### 2. Unzip the SDK framework and import it into your project
+## 2. Unzip the SDK framework and import it into your project
 
 **1**. Copy the framework **DJISDK.framework** from the **Lib** folder and copy the file to your Xcode project folder, then drag the framework to the Frameworks folder in Xcode’s project navigator as shown below:
 
@@ -36,7 +36,7 @@ Minimum Requirement: iOS 6.1 or above
   
    ![MFI](../../../images/iOS/FPVDemo/MFIProtocol.png)
 
-### 3. Implement the FPV View
+## 3. Implement the FPV View
   **1**. We use the FFMPEG decoding library (found at http://ffmpeg.org) to decode the video stream. You can find the **VideoPreviewer** folder in the downloaded SDK. Copy the entire **VideoPreviewer** folder to your Xcode project's folder and then add it to the Xcode project navigator, as shown below:
   
  ![AppKey](../../../images/iOS/FPVDemo/ffmpegImport.png)
@@ -153,7 +153,7 @@ Add a UIView inside the View Controller and set it as an IBOutlet called "**fpvP
    
    -(void) droneOnConnectionStatusChanged:(DJIConnectionStatus)status method is used to check the drone's connection.
  
-### 4. Activate the SDK
+## 4. Activate the SDK
 
 **1**. Implement the **DJIAppManagerDelegate** protocol method in the DJICameraViewController.m file's extension part:
 
@@ -251,7 +251,7 @@ In the code above, we call the **connectToDrone** method of DJIDrone to start co
   
   ![Screenshot](../../../images/iOS/FPVDemo/Screenshot.jpg)
 
-### 5. Connect to your DJI Aircraft
+## 5. Connect to Your DJI Aircraft
 After you finish the steps above, you can now connect your mobile device to your DJI Aircraft to use the application, like checking the FPV View. Here are the guidelines:
 
 * In order to connect to a DJI Inspire 1, Phantom 3 Professional or Phantom 3 Advanced:
@@ -279,12 +279,12 @@ After you finish the steps above, you can now connect your mobile device to your
   **5**. Now, you will able to view the live video stream from your aircraft's camera based on what we've finished of the application so far!
   
   
-### 6. Enjoy the FPV View
+## 6. Enjoy the First Person View
 
 If you can see the live video stream in the application, congratulations! Feel free to move on to Part 2 of this demo application tutorial, where we will finish the application.
 
   ![fpv](../../../images/iOS/FPVDemo/fpv.jpg)
 
-### 7. Where To Go From Here?
+## 7. Where To Go From Here?
    
    You’ve learned how to setup the DJI Mobile SDK's development environment and use it to create a camera view that shows the live video stream of the aircraft's camera. We will add the capture photo and record video functionalities of the app in [Part 2](../../../iOS/FPVDemo/Part2/FPVDemo_Part2_en.md) of this tutorial. Hope you enjoy! 
