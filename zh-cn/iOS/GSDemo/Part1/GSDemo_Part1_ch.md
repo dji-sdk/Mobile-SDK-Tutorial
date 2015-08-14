@@ -130,7 +130,7 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 
 ![mapView](../../../images/iOS/GSDemo/mapView.png)
 
-###3. 添加Annotations到MapView中
+### 3. 添加Annotations到MapView中
 
 目前的map view比较简单. 我们给它加点有趣的东西吧. 新建一个**NSObject**文件并命名为"DJIMapController", 它会被用来处理地图上的MKAnnotations(对于本教程来说,是预设航点设置)逻辑. 打开 **DJIMapController.h** 文件，然后添加以下代码:
 
