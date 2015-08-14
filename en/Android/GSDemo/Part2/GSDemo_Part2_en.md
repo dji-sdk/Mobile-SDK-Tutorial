@@ -1,6 +1,4 @@
-# How to create a MapView and Waypoint Application
-
-## Part 2/2
+# How to create a MapView and Waypoint Application - Part 2/2
 
 <!-- toc -->
 
@@ -8,7 +6,7 @@ In this tutorial, you will learn how to implement the basic processes of using W
 
 You can download the demo project for this tutorial from here: <https://github.com/DJI-Mobile-SDK/Android-GSDemo-Part2-GoogleMap.git>
 
-### 1. Configure the added waypoints and the DJIGroundStationTask
+## 1. Configure the added waypoints and the DJIGroundStationTask
 
 In Part 1 of this tutorial, the project's code structure was simple and not robust. In order to develop it further in this tutorial, it will need to be re-factored and we will need to add more UI elements. 
 
@@ -32,7 +30,7 @@ We use a dialog to load the configuration setting view. The settings include the
     }
 ```
 
-### 2. Upload the task to the aircraft
+## 2. Upload the task to the aircraft
 
 We have configured the **DJIGroundStationTask**. However, the task is currently stored on the mobile device. We need to upload the task to the aircraft before imitate the task. Click "Upload" button to upload the task to aircraft. The following function will be executed when "Upload" button is clicked:
 
@@ -77,7 +75,7 @@ When all waypoints are uploaded successfully , the DJI PC Simulator log will pro
 
 ![uploadwaypointsLog](../../../images/Android/GSDemo/uploadwaypointsLog.png)
 
-### 3. Start and stop the DJIGroundStationTask
+## 3. Start and stop the DJIGroundStationTask
 
 After uploading the task to the aircraft, execute the **DJIGroundStationTask**. When the  "Start" button is clicked, the following codes will be executed, in which the function **public void startGroundStationTask(final DJIGroundStationTakeOffCallBack mCallBack)** will be called.
 
@@ -125,7 +123,7 @@ The DJIGroundStationTask can be stopped during execution by calling function **p
     }
 ``` 
 
-### 4. Where To Go From Here?
+## 4. Where To Go From Here?
 
 In this tutorial, you have learned how to configure both **DJIGroundStationWaypoint** and **DJIGroundStationTask**. Moreover, you have now mastered how to manipulate waypoints and task by using **DJIGroundStationTask** and **DJIInspireGroundStation**.
 

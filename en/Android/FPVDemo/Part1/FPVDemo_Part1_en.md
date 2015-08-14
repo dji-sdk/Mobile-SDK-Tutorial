@@ -1,5 +1,4 @@
-## How to create a Camera Application: Part 1/2
-
+# How to create a Camera Application: Part 1/2
 
 <!-- toc -->
 
@@ -8,11 +7,10 @@ You can download the demo project for this tutorial from here:
 
 We **strongly** recommend that you have the demo project open as reference as you work through this tutorial.
 
-### Overview
+## Overview
 In part 1 of this tutorial, we will cover how to set up your programming environment, apply for and activate your DJI app, and create a live First Person View of your drone's camera visible through your app.
 
-### 1. Preparation
-
+## 1. Preparation
 
 (1) Download the Mobile SDK for Android from the following URL: 
 <http://dev.dji.com/cn/products/sdk/mobile-sdk/downloads>
@@ -24,9 +22,9 @@ In part 1 of this tutorial, we will cover how to set up your programming environ
 
 *Note: Google's support for Android Development Tools in Eclipse is ending. If you would like to complete this demo using Eclipse as we have, or if you have already completed this demo in Eclipse, you can find instructions to migrate your project into Android Studio here: <https://developer.android.com/intl/zh-TW/sdk/installing/migrate.html>. If you would like to follow this tutorial using Android Studio, the mobile SDK folder contains an Android Studio library as well as an Eclipse one. Instructions on how to import the SDK library are given for both Eclipse and Android Studio below. However, we recommend that you follow this guide using the provided installation of Eclipse, and migrate your project afterwards, as we cannot ensure that results in Android Studio will be identical to those displayed in this tutorial.*
 
-### 2. Setting up your Programming Environment
+## 2. Setting up your Programming Environment
 
-#### Eclipse
+### Eclipse
 
 (1) Create a new 'Android Application Project'. Name the Application, Project and Package as you please. Under the 'Create Activity' page of the project set-up, create a blank activity, and name it 'FPVActivity'. The layout activity should automatically fill out with 'activity_fpv'.
 
@@ -36,7 +34,8 @@ In part 1 of this tutorial, we will cover how to set up your programming environ
 (3) The imported library should now be located as shown below:
 ![checkLib](../../../images/Android/FPVDemo/1_CheckLib.png)
 
-#### Android Studio
+### Android Studio
+
 (1) Start a new Android Studio Project. Give the application any name you like. Hit 'next' until you reach the 'Customize the Activity' page, where you should name your activity 'FPVActivity'. The layout name should automatically fill out with 'activity_fpv'. Press 'Finish'.
 
 (2) Unzip the SDK package downloaded from the DJI website. Go to File -> New -> Import Module. In the 'Source Directory' field, find the DJI-SDK-LIB folder location (Android Studio\DJI-SDK-Android-V2.1.0\Lib\DJI-SDK-LIB). Press Finish.
@@ -50,7 +49,7 @@ Next, right click on the 'app' module in the file directory to the left, and cli
 ![addDependency](../../../images/Android/FPVDemo/addDependencyScreenshot.png)
 
 
-### 3. Activating your App
+## 3. Activating your App
 
 (1) Register for an account at <http://dev.dji.com>. Once registered, click on your name in the upper right corner. Click on 'Mobile SDK', then 'Create APP' and fill out the creation form. Type in your project's package name in the 'Identification Code' field.
 
@@ -164,7 +163,7 @@ If you have further questions, contact our mobile SDK support by sending emails 
 
 
 
-### 4. Adding Android Open Accessory (AOA) support
+## 4. Adding Android Open Accessory (AOA) support
 
 The latest firmware on DJI's newest remote controllers connect to external devices using USB Accessory, rather than USB Debugging older models do. This requires Android Open Accessory (AOA) support. In the future, when you go on to create your own apps to use with DJI drones, you will need to add AOA support as shown below. This set up is also backwards compatible with older remotes.
 
@@ -320,7 +319,7 @@ This will be our project's base activity. Change your **FPVActivity** class head
 	}
 ~~~	
 	
-### 5. Implementing the First Person View (FPV)
+## 5. Implementing the First Person View (FPV)
 
 We're almost there! We've activated our app and set up a verification mechanism, as well as established a data connection between our app and the DJI remote controller. All that's left to do is create a live video feed of the Drone's camera to be viewed through the app.
 
@@ -476,11 +475,11 @@ It is extremely important that in the **onDestroy()** method, you first terminat
 
 Conversely, in your **onCreate()** method, you must start the **DjiGLSurfaceView** object before assigning the callback function, for the same reason (refer to the beginning of step (3) where we modify the **onCreate()** method for an example of where we have already done this).
 
-### 6. Connecting to your DJI Drones
+## 6. Connecting to your DJI Drones
 
 After you have built and run the project successfully, you can now connect your mobile device to an aircraft to check the FPV. Follow the appropriate instructions for your specific aircraft model:
 
-#### 1. Connecting to a DJI Inspire 1 or Phantom 3 Professional/Advanced:
+### 1. Connecting to a DJI Inspire 1 or Phantom 3 Professional/Advanced:
 
 1. Turn on your remote controller, then turn on your aircraft
 
@@ -492,7 +491,7 @@ After you have built and run the project successfully, you can now connect your 
 
 5. You are ready to use the FPV View app. 
 
-#### 2. Connecting to a DJI Phantom 2 Vision+ or Phantom 2 Vision:
+### 2. Connecting to a DJI Phantom 2 Vision+ or Phantom 2 Vision:
 	
 1. Turn on your remote controller, then turn on your aircraft.
 
@@ -504,11 +503,11 @@ After you have built and run the project successfully, you can now connect your 
 
 5. You are ready to use the FPV View app.
 
-### 7. Checking your results
+## 7. Checking your results
 If you can see the live video stream in the app, congratulations! You've succesfully implemented a First Person View!
 
 ![runAppScreenShot](../../../images/Android/FPVDemo/runAppScreenShot.png)
 
-### 8. Where to Go From Here?
+## 8. Where to Go From Here?
 
 You have learned how to setup the DJI Mobile SDK's development environment and use it to display a live First Person View from the aircraft's camera. In part 2 of this tutorial, we will be adding Capture and Record functionality to the app! Good luck!

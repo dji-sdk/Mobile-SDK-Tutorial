@@ -2,1271 +2,1063 @@
 
 <!-- toc -->
 
-*Note: The code in this tutorial has been written to be run on the iPad. Please make sure you run this code on an iPad or an iPad simulator.*
+## Introduction
+In this tutorial, you will familiarize yourself with the various Camera Modes the Inspire 1, Phantom 3 Professional and M100 have, how to switch and get the Camera Mode, how to build a friendly UI for a Photo and Video Album app, and how to select and download media files. Let's get started!
 
-In this tutorial, you will learn how to use DJI Mobile SDK to access the media resources in the SD card of the aircraft's camera. By the end of this tutorial you will have an app that you can use to preview photos, play videos, download or delete files and so on.
+You can download the demo project for this tutorial from here: <https://github.com/DJI-Mobile-SDK/Android-PlaybackDemo>
 
-In order for our app to manage photos and videos, however, it must first be able to take and record them. Fortunately, in our previous tutorial [How to create a Camera Application](../../../iOS/FPVDemo/Part1/FPVDemo_Part1_en.md) we show you how to implement **Capture** and **Record** functions. Make sure you have read through that tutorial first before embarking on this one.
+We **strongly** recommend that you have the source code for the demo project open while working your way through this tutorial.
 
-You can download the demo project for this tutorial from here: <https://github.com/DJI-Mobile-SDK/iOS-PlaybackDemo.git>
+## 1. Camera Modes
 
-Let's get started!
+Before developing the album app, we should briefly cover the capabilities the SDK has in each camera mode. For the Inspire 1, Phantom 3 Professional and M100, there are four camera modes, **Capture Mode, Record Mode, Playback Mode** and **Download Mode**. In **Capture Mode**, users are allowed to use capture functions, such as taking photos and setting up parameters for the camera. In the **Record Mode**, these capture functions are blocked and users can only start and stop recording video. **Playback Mode** allows the user to preview the media files in the SD card. **Download Mode** lets the user download media files, but must be set up correctly beforehand.
 
-## 1. Previewing Photos and Videos
+**However, the Phantom 3 Advanced is different in that it has only three camera modes: Capture Mode, Record Mode and Download Mode. This will be discussed in a later tutorial.**
 
-### 1. Importing the Framework and Libraries
+In Mobile Android SDK, developers can invoke the method `setCameraMode` to switch between camera modes, and the method  `getCameraMode` to get the camera mode. (Please note that the Phantom 2 Series is unique in that it only has two modes: `CameraMode.Camera_Camera_Mode` and `Camera.Camera_USB_Mode`, which are not supported by other more recent drones.)
 
-  Create a new project in Xcode and name it "**PlaybackDemo**", copy the **DJISDK.framework** into your Xcode project's folder. Next, find the "VideoPreviewer" folder in the downloaded SDK. Copy the entire "VideoPreviewer" folder into your Xcode project's "ThirdParty" folder. Set the **Header Search Paths** and **Library Search Paths** for **FFMPEG** in the **Build Settings**. If this is a bit confusing, just check our previous tutorial [**How to create a Camera Application**](../../../iOS/FPVDemo/Part1/FPVDemo_Part1_en.md) for further explanation. Then, select the project target and go to Build Phases -> Link Binary With Libraries. Click the "+" button at the bottom and add two libraries to your project: **libstdc++.6.0.9.dylib** and **libz.dylib**. Take a look at the screenshot below:
-
-  ![navigator](../../../images/iOS/PlaybackDemo/navigator.png)
-  
-### 2. Switching Playback Modes
-
-  Now, let's delete the **ViewController.h** and **ViewController.m** files, which were created by Xcode when you created the project. Then, create a viewController named "DJIRootViewController" and set it as the **Root View Controller** in Main.storyboard**. This demo and its code was written to be used with the iPad, so we'll have to adjust the User Interface of **Main.storyboard** accordingly. We'll change the **Root View Controller**'s frame. Let's set its size to **Freeform** under the **Size** dropdown in the **Simulated Metrics** section. In the view section, change the width to **1024** and height to **768**. Take a look at the changes made below:
-
-  ![freeform](../../../images/iOS/PlaybackDemo/freeform.png)
-  ![changeSize](../../../images/iOS/PlaybackDemo/changeSize.png)
-  
-Then, add a UIView inside the **Root View Controller** and set it as an IBOutlet called **fpvPreviewView**. Add two UIButtons and one UISegmentedControl at the bottom of the View Control and set their IBOutlets and IBActions. Here we set three segments in the UISegmentedControl: **Capture**, **Record** and **Playback**. Lastly, drag a UILabel to the top, horizontally center it in the view controller and hide it first.
-
-  ![RootViewController1](../../../images/iOS/PlaybackDemo/rootViewController_1.png)
-  
- Once that's done, enter the **DJIRootViewController.m** file and import the **DJISDK** and **VideoPreviewer** header files. Then create a property of the **DJIDrone** class and one of the **DJICamera** class and implement their protocols in the class extension. Next, add the two **UIButtons**, the **UISegmentedControl** and the **UILabel**'s IBOutlet properties. Add a boolean property named "isRecording" to check the record state. Lastly, add the IBAction methods for all the UI controls as below:
-
-~~~objc
-#import "DJIRootViewController.h"
-#import <DJISDK/DJISDK.h>
-#import "VideoPreviewer.h"
-
-@interface DJIRootViewController ()<DJICameraDelegate, DJIDroneDelegate, DJIAppManagerDelegate>
-@property (strong, nonatomic) DJIDrone *drone;
-@property (strong, nonatomic) DJIInspireCamera* camera;
-@property (weak, nonatomic) IBOutlet UIButton *recordBtn;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *changeWorkModeSegmentControl;
-@property (weak, nonatomic) IBOutlet UIView *fpvPreviewView;
-@property (weak, nonatomic) IBOutlet UILabel *currentRecordTimeLabel;
-@property (assign, nonatomic) BOOL isRecording;
-
-- (IBAction)captureAction:(id)sender;
-- (IBAction)recordAction:(id)sender;
-- (IBAction)changeWorkModeAction:(id)sender;
-
+~~~java
+	//Set up the Camera Mode. 
+    DJIDrone.getDjiCamera().setCameraMode(CameraMode, DJIExecuteResultCallback)
+	
+	//Get the Camera Mode
+	DJIDrone.getDjiCamera().getCameraMode(DJICameraModeCallBack)
 ~~~
 
-Create a new method named **initData** for data initialization and call it in the ViewDidLoad method. Next, initialize the **DJIDrone** instance and set its type as **DJIDrone_Inspire** (you can change this type based on the UAV you have). Set the **drone** and **camera** instances' delegate to **self**. Moreover, create a new method named "registerApp" and invoke it in the viewDidLoad method. Also, implement the DJIAppManagerDelegate method to do initial setup after register app success:
+## 2. Distinguishing the Camera's Playback Status
 
-~~~objc
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [self initData];     
-    [self registerApp];
-}
+As the introduced above, there are four or three camera modes (depending on the drone you are using). How to correctly recognize the mode you are in is key to developing a good Photo Album application. In the mobile android SDK, there is a callback function that returns  current status of the camera's playback status. Developers can set up a callback function that executes when the status has been changed. This callback will be invoked 10 times per second.
 
-- (void)initData
-{
-    self.drone = [[DJIDrone alloc] initWithType:DJIDrone_Inspire];
-    self.drone.delegate = self;
-    self.camera = (DJIInspireCamera *)self.drone.camera;
-    self.camera.delegate = self;
-}
+~~~java
+	DJIDrone.getDjiCamera().setDJICameraPlayBackStateCallBack(new DJICameraPlayBackStateCallBack() {
+		@Override
+		public void onResult(DJICameraPlaybackState state) {
+			....
+			
+			Some statements..
 
-- (void)registerApp
-{
-    NSString *appKey = @"Enter Your App Key Here";
-    [DJIAppManager registerApp:appKey withDelegate:self];
-}
-
-#pragma mark DJIAppManagerDelegate Method
--(void)appManagerDidRegisterWithError:(int)error
-{
-    NSString* message = @"Register App Successed!";
-    if (error != RegisterSuccess) {
-        message = @"Register App Failed! Please enter your App Key and check the network.";
-    }else
-    {
-        NSLog(@"registerAppSuccess");
-        [_drone connectToDrone];
-        [_camera startCameraSystemStateUpdates];
-        [[VideoPreviewer instance] start];
-        
-    }
-    UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Register App" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    [alertView show];
-}
-
+			....
+		}
+	});
 ~~~
 
- Moreover, in the viewWillAppear method, set the **fpvPreviewView** instance as a View of **VideoPreviewer** to show the Video Stream and reset it to nil in the viewWillDisappear method, also call the **destroy** method of DJIDrone class in the same method:
- 
-~~~objc
+Whenever the SDK receives the playback status information, it will package the information and create a `DJICameraPlaybackState` object to transfer the information from the SDK to the app. In order to further understand the status notifications, we've briefly explained `DJICameraPlaybackState`'s attributes in the table below.
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [[VideoPreviewer instance] setView:self.fpvPreviewView];
-    
-}
+<table>
+<tbody>
+<tr>
+<td><b>Attribute</b></td>
+<td><b>Description</b></td>
+</tr>
+<tr>
+<td>currentSelectedFileIndex</td>
+<td>The index of the currently selected file. Can be used to identify which media file is currently being previewed by the user.</td>
+</tr>
+<tr>
+<td>fileDeleteStatus</td>
+<td>Reflects the status of a media file being deleted. There are three possible statuses:
+<ul>
+<li><b>Media_File_Delete_Failed</b></li>
+<li><b>Media_File_Delete_Successed</b></li>
+<li><b>Media_File_Deleting</b></li>
+</ul>
+Developers can use this enum to notify users of deletion progress.</td>
+</tr>
+<tr>
+<td>isAllFilesInPageSelected</td>
+<td>Returns whether all the media files in the current page have been selected.</td>
+</tr>
+<tr>
+<td>isFileDownloaded</td>
+<td>Notifies users, while the camera is in single preview mode, if the media file they are previewing has already been downloaded. Prevents files from being unintentionally being repeatedly downloaded.</td>
+</tr>
+<tr>
+<td>isSelectedFileValid</td>
+<td>Downloading 4K video or DNG images is not allowed. This attribute returns whether a selected file is valid to download.</td>
+</tr>
+<tr>
+<td>mediaFileType</td>
+<td>Reflects the file type of the currently previewed media file. There are three types of media files: 
+<ul>
+<li><b>Media_File_DNG</b></li>
+<li><b>Media_File_JPEG</b></li>
+<li><b>Media_File_VIDEO</b></li>
+</ul>
+</td>
+</tr>
+<tr>
+<td>numbersOfMediaFiles</td>
+<td>The number of the media files on the SDcard. Useful for displaying the album's basic information.</td>
+</tr>
+<tr>
+<td>numbersOfPhotos</td>
+<td>The number of the image files on the SDcard (DNG and JPEG files).</td>
+</tr>
+<tr>
+<td>numbersOfSelected</td>
+<td>The number of currently selected files. Can be used to show and confirm the number of files the user wants to delete or download.</td>
+</tr>
+<tr>
+<td>numbersOfThumbnail</td>
+<td>The number of the thumbnails that can be downloaded from the SDcard.</td>
+</tr>
+<tr>
+<td>numbersOfVideos</td>
+<td>Similar to numberOfPhotos, reflects the number of the video files.</td>
+</tr>
+<tr>
+<td>photoCenterCoordinateX</td>
+<td>The x-coordinate of the center of the photo.</td>
+</tr>
+<tr>
+<td>photoCenterCoordinateY</td>
+<td>The y-coordinate of the center of the photo.</td>
+</tr>
+<tr>
+<td>photoHeight</td>
+<td>The height of the photo.</td>
+</tr>
+<tr>
+<td>photoWidth</td>
+<td>The width of the photo.</td>
+</tr>
+<tr>
+<td>playbackMode</td>
+<td>An enum for identifying the current playback mode. There are 7 possible values: <b><ul><li>Media_Files_Download</li> <li>Multiple_Media_Files_Delete</li> <li>Multiple_Media_Files_Display</li> <li>Single_Photo_Playback</li> <li>Single_Photo_Zoom</li> <li>Single_Video_Playback_Start</li> <li>Single_Video_Playback_Stop</li></ul></b> UI elements and logical settings should be adjusted according to the current playback mode.</td>
+</tr>
+<tr>
+<td>videoDuration</td>
+<td>This attribute is related only to video previews. Shows the length of the video.</td>
+</tr>
+<tr>
+<td>videoPlayPosition</td>
+<td>The current position of the video.</td>
+</tr>
+<tr>
+<td>videoPlayProgress</td>
+<td>This attribute can be used to update the video progress bar. </td>
+</tr>
+</tbody>
+</table>
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    
-    [super viewWillDisappear:animated];
-    [self.camera stopCameraSystemStateUpdates];
-    [self.drone.mainController stopUpdateMCSystemState];
-    [self.drone disconnectToDrone];
-    [self.drone destroy];
-    [[VideoPreviewer instance] setView:nil];
-    
-}
+As you can see, there are a lot of attributes in this class. Some of them contain basic information about media files and others provide important information for developers to identify what camera mode is being used and how the application should act accordingly. For example, developers can us the information from DJICameraPlaybackState to choose with UI elements to display.
+
+Now that you are familiar with the playback information provided by the SDK we can begin to build our album application.
+
+## 3. UI Components For The Photo Album Application
+
+### 1. GridView for Multiple preview playback mode
+
+In our official drone companion app, DJI Pilot, you can see that there are eight thumbnails in the app view while the camera is in the multiple playback mode (if you don't yet have DJI Pilot installed on your Android device [click here to install it now](https://play.google.com/store/apps/details?id=dji.pilot&hl=en)). To achieve a comfortable user experience, we will provide a similar UI component for developers to include in their apps. The first thing we will implement is the Gridview (for further information on GridView from the official Android tutorial [click here](http://developer.android.com/reference/android/widget/GridView.html)).
+
+Below is a rough outline for the multiple preview UI. Each of these eight picture previews is a button. We implement these buttons through GridView. 
+
+![Multiple playback view](../../images/Android/PlaybackAlbumDemo/gridview.jpg)
+
+There are two features of the grid view we should be aware of before we start:
+
+- The grid view is scrollable.
+- The object in each block can be designed by the user.
+
+We override the base Gridview to satisfy our requirements (an unscrollable gridview with 8 transparent buttons). The following code block shows how we override GridView. Since it's quite basic, feel free to add more features in your own future apps.
+
+~~~java
+	public class PlaybackGridView extends GridView {
+		public PlaybackGridView(Context context) {
+			super(context);
+		}
+
+		public PlaybackGridView(Context context, AttributeSet attrs) {
+			supper(context, attrs);
+		}
+
+		public PlaybackGridView(Context context, AttributeSet attrs, int defStyle) {
+			super(context, attrs, defStyle);
+		}
+
+		@Override
+		public boolean dispatchTouchEvent(MotionEvent ev) {
+			if (ev.getAction() == MotionEvent.ACTION_MOVE) {
+				return true;
+			}
+			return super.dispatchTouchEvent(ev);
+		}
+	}
 ~~~
 
-  Furthermore, implement the **DJICameraDelegate** methods, as shown below:
-  
-~~~objc
-#pragma mark - DJICameraDelegate
+The method `dispatchTouchEvent(MotionEvent ev)` sets up the unscrollable property of the gridview. To use this to override GridView, developers should use the full path as the item tag. Take our file `activity_playback_protocol.xml` from our demo project as example:
 
--(void) camera:(DJICamera*)camera didReceivedVideoData:(uint8_t*)videoBuffer length:(int)length
-{
-    uint8_t* pBuffer = (uint8_t*)malloc(length);
-    memcpy(pBuffer, videoBuffer, length);
-    [[VideoPreviewer instance].dataQueue push:pBuffer length:length];
-}
-
--(void) camera:(DJICamera*)camera didUpdateSystemState:(DJICameraSystemState*)systemState
-{
-     if (self.drone.droneType == DJIDrone_Inspire) {
-        
-        //Update currentRecordTimeLabel State
-        self.isRecording = systemState.isRecording;
-        [self.currentRecordTimeLabel setHidden:!self.isRecording];
-        [self.currentRecordTimeLabel setText:[self formattingSeconds:systemState.currentRecordingTime]];
-        
-        //Update recordBtn State
-        if (self.isRecording) {
-            [self.recordBtn setTitle:@"Stop Record" forState:UIControlStateNormal];
-        }else
-        {
-            [self.recordBtn setTitle:@"Start Record" forState:UIControlStateNormal];
-        }
-        
-        //Update UISegmented Control's state
-        if (systemState.workMode == CameraWorkModeCapture) {
-            [self.changeWorkModeSegmentControl setSelectedSegmentIndex:0];
-        }else if (systemState.workMode == CameraWorkModeRecord){
-            [self.changeWorkModeSegmentControl setSelectedSegmentIndex:1];
-        }else if (systemState.workMode == CameraWorkModePlayback){
-            [self.changeWorkModeSegmentControl setSelectedSegmentIndex:2];
-        }
-    }
-}
-
--(void) droneOnConnectionStatusChanged:(DJIConnectionStatus)status
-{
-    if (status == ConnectionSuccessed) {
-        NSLog(@"Connection Successed");
-    }
-    else if(status == ConnectionStartConnect)
-    {
-        NSLog(@"Start Reconnect");
-    }
-    else if(status == ConnectionBroken)
-    {
-        NSLog(@"Connection Broken");
-    }
-    else if (status == ConnectionFailed)
-    {
-        NSLog(@"Connection Failed");
-    }
-}
-
-- (NSString *)formattingSeconds:(int)seconds
-{
-    NSDate *date = [NSDate dateWithTimeIntervalSince1970:seconds];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"mm:ss"];
-    [formatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-    
-    NSString *formattedTimeString = [formatter stringFromDate:date];
-    return formattedTimeString;
-}
-
+~~~xml
+	<?xml version="1.0" encoding="utf-8"?>
+	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical">
+			<com.dji.download.demo.PlaybackGridView
+				android:id="@+id/GridView"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:layout_marginTop="57dp"
+				android:layout_marginLeft="6dp"
+				android:layout_marginRight="6dp"
+				android:marginBottom="57dp"
+				android:numberColumns="4"
+				android:android:verticalSpacing="8dp"
+				android:horizontalSpacing="8dp"
+				android:stretchMode="columnWidth"
+				android:gravity="center"/>
+	</RelativeLayout>
 ~~~
-      
-  Lastly, implement the IBAction methods as shown below:
-  
-~~~objc
-- (IBAction)captureAction:(id)sender {
-    __weak DJIRootViewController *weakSelf = self;
-    [self.camera startTakePhoto:CameraSingleCapture withResult:^(DJIError *error) {
-        if (error.errorCode != ERR_Successed) {
-            UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Take Photo Error" message:error.errorDescription delegate:weakSelf cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [errorAlert show];
-        }
-    }];
-}
 
-- (IBAction)recordAction:(id)sender {
-    __weak DJIRootViewController *weakSelf = self;
-    if (self.isRecording) {
-        [self.camera stopRecord:^(DJIError *error) {
-            if (error.errorCode != ERR_Successed) {
-                UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Stop Record Error" message:error.errorDescription delegate:weakSelf cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                [errorAlert show];
+Now we have a basic gridview for the album application. The next file, 'button_gridview_item.xml' defines each element of the gridview and provides the block layout.
+
+~~~xml
+	<?xml version="1.0" encoding="utf-8"?>
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:orientation="vertical" 
+	    >
+    
+	    <Button 
+	        android:id="@+id/TransparencyButton"
+	        android:layout_width="fill_parent"
+	        android:layout_height="110dp"
+	        android:background="@android:color/yellow"
+	        android:focusable="false"
+	        android:focusableInTouchMode="false"
+	        />
+	</LinearLayout>
+~~~
+
+Congratulations! You have now collected all the components required to build a multiple playback preview album. The upcoming code will help you to combine them into a good looking UI.
+
+~~~java
+	public class PlaybackProtocolActivity extends Activity implements OnClickListener {
+		private PlaybackGridView mGridView;
+
+		@Override
+		protected void onCreate(Bundle savedInstanceState) {
+			super.onCreate(savedInstanceState);
+			setContentView(R.layout.activity_playback_protocol);
+
+			onInitActivity();
+		}
+
+		private void onInitActivity() {
+			mGridView = (PlaybackGridView)findViewById(R.id.GridView);
+
+			ButtonAdapter adapter = new ButtonAdapter(this);
+			mGridView.setAdapter(adapter);
+		}
+
+		@Override
+		protected void onPause() {
+			//Pause the AOA service
+			ServiceManager.getInstance().pauseService(true);
+		}
+
+		@Override
+		protected void onResume() {
+			//Resume the AOA service
+			ServiceManager.getInstance().pauseService(false);
+		}
+
+		@Override
+		public void onClick(View v)	{
+			....
+		
+			Some statements
+		
+			....
+		}
+
+		class ButtonAdapter extends BaseAdapter {
+	        private LayoutInflater inflater;
+	        
+	        public ButtonAdapter (Context mContext) {
+	            super();
+	            inflater = LayoutInflater.from(mContext);
+	        }
+	        
+	        @Override
+	        public int getCount()
+	        {
+	            return 8;
+	        }
+	
+	        @Override
+	        public Object getItem(int position)
+	        {
+	            return position;
+	        }
+		
+	        @Override
+	        public long getItemId(int position)
+	        {
+	            return position;
+	        }
+		
+	        @Override
+	        public View getView(int position, View convertView, ViewGroup parent)
+	        {
+	            Button mBtn;
+	            final int p = position;
+	            if (null == convertView) {
+	                convertView = inflater.inflate(R.layout.button_gridview_item, null);
+	                mBtn = (Button)convertView.findViewById(R.id.TransparencyButton);
+	                convertView.setTag(mBtn);
+	            } else {
+	                mBtn = (Button)convertView.getTag();
+	            }
+	            return convertView;
+	        }
+	        
+	    }
+	}
+~~~
+
+We've just finished the framework of our application! Now set `PlaybackProtocolActivity` as the main activity in your `AndroidManifest.xml` file. Run your project to enjoy the fruits of your labor!
+
+### 2. Camera mode UI 
+
+Before we get started with this subsection, we've got to first make some adjustments:
+
+1. Follow the [FPVDemo tutorial](https://github.com/dji-sdk/Mobile-SDK-Tutorial/blob/master/Android-FPVDemo/en/FPVDemo/Part1/FPVDemo_Part1_en.md) to set up Android Open Accessory (AOA) support
+2. Change your main activity from `PlaybackProtocolActivity` to `DJIAoaActivity`
+3. Add a DjiGLSurfaceView element to show the first personal view (steps 2 and 3 are also covered in the FPV tutorial)
+4. Add item feature `android:visibility="Gone"` to our gridview in `activity_playback_protocol.xml`
+5. Adjust the button color by replacing `android:background="@android:color/yellow"` with `android:background="@android:color/transparent"` in `button_gridview_item.xml`.
+
+Now we can continue. As we know from section 1, there are four camera modes and each of them allows or prevents certain functions to be invoked. To increase clarity for users, developers should adjust the UI components based on the current camera status. Let's add some buttons in `activity_playback_protocol.xml`.
+
+~~~xml
+	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="match_parent"
+		android:layout_height="martch_parent"
+		android:orientation="vertical">
+			<com.dji.download.demo.PlaybackGridView
+				android:id="@+id/GridView"
+				.../>
+			
+			<RelativeLayout 
+		        android:layout_width="fill_parent"
+		        android:layout_height="40dp"
+		        android:layout_alignParentBottom="true">
+		        
+		        <Button 
+		            android:id="@+id/CaptureBtnPlayback"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_alignParentLeft="true"
+		            android:text="@string/playback_protocol_capture_button_string"
+		            android:textSize="14sp"
+		            android:visibility="gone"
+		            />
+		        
+		        <Button 
+		            android:id="@+id/StartRecordBtnPlayback"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_toRightOf="@id/CaptureBtnPlayback"
+		            android:text="@string/playback_protocol_strat_record_button_string"
+		            android:textSize="14sp"
+		            android:visibility="gone"
+		            />
+		        
+		        <Button 
+		            android:id="@+id/StopRecordBtnPlayback"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_toRightOf="@id/StartRecordBtnPlayback"
+		            android:text="@string/playback_protocol_strat_record_button_string"
+		            android:textSize="14sp"
+		            android:visibility="gone"
+		            />
+		        
+		        <Button
+		            android:id="@+id/MultiplePreviewBtnPlayback"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_toRightOf="@id/StopRecordBtnPlayback"
+		            android:text="@string/playback_protocol_multiple_preview_mode_button_string"
+		            android:textSize="14sp"
+		            android:visibility="gone"
+		            />
+		        
+		        <Button
+		            android:id="@+id/MultiSelectPreviewBtnPlayback"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_toRightOf="@id/MultiplePreviewBtnPlayback"
+		            android:text="@string/playback_protocol_edition_mode_button_string"
+		            android:visibility="gone"
+		            android:textSize="14sp" 
+		            />
+		        
+		        <Button
+		            android:id="@+id/DownloadBtnPlayback"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_toRightOf="@id/MultiSelectPreviewBtnPlayback"
+		            android:visibility="gone"
+		            android:text="@string/playback_protocol_download_button_string"
+		            android:textSize="14sp"
+		            />
+		        
+		        <Button
+		            android:id="@+id/DeleteBtnPlayback"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_toRightOf="@id/DownloadBtnPlayback"
+		            android:visibility="gone"
+		            android:text="@string/playback_protocol_delete_button_string"
+		            android:textSize="14sp"
+		            />
+		        
+		        <Button 
+		            android:id="@+id/PlaybackModeBtnPlayback"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_alignParentRight="true"
+		            android:text="@string/playback_protocol_playback_mode_button_string"
+		            android:textSize="14sp"
+		            />
+		        
+		        <Button 
+		            android:id="@+id/RecordModeBtnPlayback"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_toLeftOf="@id/PlaybackModeBtnPlayback"
+		            android:text="@string/playback_protocol_record_mode_button_string"
+		            android:textSize="14sp"
+		            />
+		        
+		        <Button 
+		            android:id="@+id/CaptureModeBtnPlayback"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_toLeftOf="@id/RecordModeBtnPlayback"
+		            android:text="@string/playback_protocol_capture_mode_button_string"
+		            android:textSize="14sp"
+		            />
+		    </RelativeLayout>
+	</RelativeLayout>
+~~~
+
+The **Capture**, **Record** and **Playback** buttons, which allow the user to navigate between these three modes, will always be present. Within the **Playback** mode, however, there are three submodes **Single Preview**, **Multiple Preview** and **Multiple Edition**. Entering **Playback** mode places the user in **Single Preview** mode. In **Multiple Preview** mode, users can press any image to enter **Single Preview** mode. **Multiple Edition** playback mode is different from **Multiple Preview** in that it allows users to select, download and delete files. Take a look below for screenshots outlining which specific buttons and features should be included in each mode, as well as a state switch diagram outlining the relationship between modes:
+
+![Capture Mode](../../images/Android/PlaybackAlbumDemo/capturemode.jpg)
+
+![Record Mode](../../images/Android/PlaybackAlbumDemo/recordmode.jpg)
+
+![Single Playback Mode](../../images/Android/PlaybackAlbumDemo/singleplayback.jpg)
+
+![Multiple Playback Mode](../../images/Android/PlaybackAlbumDemo/multipleplayback.jpg)
+
+![State switch figure](../../images/Android/PlaybackAlbumDemo/statuschange.jpg)
+
+Now the gridview `onItemClick` logic needs to be adjusted based on the current playback status using the following code:
+
+~~~java
+	private void onStatusChange(final int status) {
+        PlaybackProtocolActivity.this.runOnUiThread(new Runnable() {
+            public void run() {
+                switch (status) {
+                    case CAPTURE : {
+                        mStartTakePhotoBtn.setVisibility(VISIBLE);
+                        mStartRecordBtn.setVisibility(GONE);
+                        mStopRecordBtn.setVisibility(GONE);
+                        mMultiplePreviewModeBtn.setVisibility(GONE);
+                        mMultiSelectPreviewModeBtn.setVisibility(GONE);
+                        mDownloadBtn.setVisibility(GONE);
+                        mDeleteBtn.setVisibility(GONE);
+                        mGridView.setVisibility(GONE);
+                        mPlayVideoBtn.setVisibility(GONE);
+                        mPauseVideoBtn.setVisibility(GONE);
+                        break;
+                    }
+                    
+                    case RECORD : {
+                        mStartTakePhotoBtn.setVisibility(GONE);
+                        mStartRecordBtn.setVisibility(VISIBLE);
+                        mStopRecordBtn.setVisibility(VISIBLE);
+                        mMultiplePreviewModeBtn.setVisibility(GONE);
+                        mMultiSelectPreviewModeBtn.setVisibility(GONE);
+                        mDownloadBtn.setVisibility(GONE);
+                        mDeleteBtn.setVisibility(GONE);
+                        mGridView.setVisibility(GONE);
+                        mPlayVideoBtn.setVisibility(GONE);
+                        mPauseVideoBtn.setVisibility(GONE);
+                        break;
+                    }
+                    
+                    case PLAYBACK : {
+                        mStartTakePhotoBtn.setVisibility(GONE);
+                        mStartRecordBtn.setVisibility(GONE);
+                        mStopRecordBtn.setVisibility(GONE);
+                        mMultiplePreviewModeBtn.setVisibility(VISIBLE);
+                        mMultiSelectPreviewModeBtn.setVisibility(GONE);
+                        mDownloadBtn.setVisibility(VISIBLE);
+                        mDeleteBtn.setVisibility(VISIBLE);
+                        mGridView.setVisibility(GONE);
+                        break;
+                    }
+                    
+                    case MULTIPLEPLAYBACK : {
+                        mStartTakePhotoBtn.setVisibility(GONE);
+                        mStartRecordBtn.setVisibility(GONE);
+                        mStopRecordBtn.setVisibility(GONE);
+                        mMultiplePreviewModeBtn.setVisibility(GONE);
+                        mMultiSelectPreviewModeBtn.setVisibility(VISIBLE);
+                        mDownloadBtn.setVisibility(VISIBLE);
+                        mDeleteBtn.setVisibility(VISIBLE);
+                        mGridView.setVisibility(VISIBLE);
+						break;
+                    }
+                }
             }
-        }];
-    }else
-    {
-        [self.camera startRecord:^(DJIError *error) { 
-            if (error.errorCode != ERR_Successed) {
-                UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Start Record Error" message:error.errorDescription delegate:weakSelf cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                [errorAlert show];
+        });
+    }
+~~~
+
+This method classifies the UI status into four parts (capture, record, playback and multipleplayback). When camera mode changes, this routine will adjust the visibility of the individual UI components.
+
+Besides adjusting the UI, we should also send a request from our app to the drone to change the camera mode. Remember the method `setCameraMode(CameraMode mode)` in Section 1? Now we put it to use:
+
+~~~java
+	private void onPressStatusBtn(final int status) {
+        DJIDrone.getDjiCamera().setCameraMode(CameraMode.find(status), new DJIExecuteResultCallback() {
+            @Override
+            public void onResult(DJIError mErr) {
+                if (DJIError.RESULT_OK == mErr.errorCode) {
+                    onStatusChange(status);
+                }
             }
-        }];
+        });
     }
-}
+~~~
 
-- (IBAction)changeWorkModeAction:(id)sender {
-    DJIInspireCamera* inspireCamera = (DJIInspireCamera*)self.camera;
-    __weak DJIRootViewController *weakSelf = self;
-    UISegmentedControl *segmentControl = (UISegmentedControl *)sender;
-    if (segmentControl.selectedSegmentIndex == 0) { //CaptureMode
-        [inspireCamera setCameraWorkMode:CameraWorkModeCapture withResult:^(DJIError *error) {
-            if (error.errorCode != ERR_Successed) {
-                UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Set CameraWorkModeCapture Failed" message:error.errorDescription delegate:weakSelf cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                [errorAlert show];
+The parameter `status` tells this method which mode to switch the camera to. We use the following constants as input parameters.
+
+~~~java
+	private final static int CAPTURE = 2;
+    private final static int RECORD = 3;
+    private final static int PLAYBACK = 4;
+    private final static int MULTIPLEPLAYBACK = 5;
+~~~
+
+The constants start from '2' because the value of `Camera_Capture_Mode` in the enum `CameraMode` is 2. We edit our `onClick()` function so that `onPressStatusBtn(final int status)` is invoked when the appropriate buttons are pressed, and adjust which constant we pass in depending on which button is pressed:
+
+~~~java
+	public void onClick(View v) {
+		switch(v.getId()) {
+			....
+			
+			case R.id.CaptureModeBtnPlayback : {
+                onPressStatusBtn(CAPTURE);
+                break;
             }
-        }];
-    }else if (segmentControl.selectedSegmentIndex == 1){ //RecordMode
-        [inspireCamera setCameraWorkMode:CameraWorkModeRecord withResult:^(DJIError *error) {
-            if (error.errorCode != ERR_Successed) {
-                UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Set CameraWorkModeRecord Failed" message:error.errorDescription delegate:weakSelf cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                [errorAlert show];
+			
+			case R.id.RecordModeBtnPlayback : {
+                onPressStatusBtn(RECORD);
+                break;
             }
-        }];
-        
-    }else if (segmentControl.selectedSegmentIndex == 2){  //PlaybackMode 
-        [inspireCamera setCameraWorkMode:CameraWorkModePlayback withResult:^(DJIError *error) {
-            if (error.errorCode != ERR_Successed) {
-                UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Set CameraWorkModeRecord Failed" message:error.errorDescription delegate:weakSelf cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                [errorAlert show];
-            }
-        }];
-    }
-}
-
-~~~
-
-  As you can see, we have implemented the **Playback** work mode method, just call the **setCameraWorkMode** method of the **DJIInspireCamera** class and pass the **CameraWorkModePlayback** value to it. Show an alertView in case there is any error.
-   
-  For now, build and run the project in Xcode. Try to use the **Capture** and **Record** feature to take photos and record videos. Then switch the **Camera Mode** by tapping on the UISegmentControl, switch to **Playback** mode to see if you can see the last photo you took or the last video you recorded. Here is a screenshot of what your playback mode should look like:
-  
- ![singlePreview](../../../images/iOS/PlaybackDemo/singlePreview.jpg)
-  
-### 3. Previewing Single Files
-
-We can switch to the **Playback** mode now. Let's add two **UISwipeGestureRecognizer**s to preview the previous and the next media files in the SD Card.
-
-Open the **DJIRootViewController.m** file, create two properties of **UISwipeGestureRecognizer** and name them **swipeLeftGesture** and **swipeRightGesture** in the class extension. Then initialize them in the **initData** method as follows:
-
-~~~objc
-
-- (void)initData
-{
-    self.drone = [[DJIDrone alloc] initWithType:DJIDrone_Inspire];
-    self.drone.delegate = self;
-    self.camera = (DJIInspireCamera *)self.drone.camera;
-    self.camera.delegate = self;
-    
-    self.swipeLeftGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeLeftGestureAction:)];
-    self.swipeLeftGesture.direction = UISwipeGestureRecognizerDirectionLeft;
-    self.swipeRightGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRightGestureAction:)];
-    self.swipeRightGesture.direction = UISwipeGestureRecognizerDirectionRight;
-
-    [self.view addGestureRecognizer:self.swipeLeftGesture];
-    [self.view addGestureRecognizer:self.swipeRightGesture];
-}
-
-~~~
-
-Implement the gesture action selector methods:
-
-~~~objc 
-- (void)swipeLeftGestureAction:(UISwipeGestureRecognizer *)gesture
-{
-     [self.camera singlePreviewNextPage];
-}
-
-- (void)swipeRightGestureAction:(UISwipeGestureRecognizer *)gesture
-{
-     [self.camera singlePreviewPreviousPage];
-}
-~~~
-
-The above code uses the **singlePreviewNextPage** and **singlePreviewPreviousPage** methods of DJIInspireCamera class to preview the next and previous files. Since there are two types of the media files in the SD Card, **Photo** and **Video**, we'll have to implement video playback feature as well.
-
-Open **Main.storyboard**, drag a UIView object and position it on the top of the viewController, then drag a UIButton to the view you just added as subview and named **Stop**. Next, drag a UIButton object to the center of the viewController, set its image as "playVideo"(You can get this image file from the project source code, in the Images.xcassets folder).
-
- ![playbackButtons](../../../images/iOS/PlaybackDemo/playbackButtons.jpg)
- 
- Here we hide the **Stop** and the **playVideo** buttons. Now let's go to **DJIRootViewController.m** and create IBOutlets and IBActions for the newly added UIs:
- 
-~~~objc
-@property (nonatomic, strong) IBOutlet UIView* playbackBtnsView;
-@property (weak, nonatomic) IBOutlet UIButton *playVideoBtn;
-
-- (IBAction)playVideoBtnAction:(id)sender;
-- (IBAction)stopVideoBtnAction:(id)sender; 
-~~~
-
-Moreover, before implementing the IBAction methods, we'll add two new properties of the DJICameraSystemState class and the DJICameraPlaybackState class and named them as **cameraSystemState** and **cameraPlaybackState** respectively in the class extension as shown below:
-
-~~~objc
-@property (strong, nonatomic) DJICameraSystemState* cameraSystemState;
-@property (strong, nonatomic) DJICameraPlaybackState* cameraPlaybackState;
-~~~
-
-These properties are used to save the current camera system state and the playback state. Let's update the **cameraSystemState** property value and hide the **playbackBtnsView** based on **DJICameraSystemState**'s workMode in the "-(void) camera:(DJICamera*)camera didUpdateSystemState:(DJICameraSystemState*)systemState" delegate method:
-
-~~~objc
--(void) camera:(DJICamera*)camera didUpdateSystemState:(DJICameraSystemState*)systemState
-{
-    if (self.drone.droneType == DJIDrone_Inspire) {
-        
-        self.cameraSystemState = systemState; //Update camera system state
-
-        //Update currentRecordTimeLabel State
-        self.isRecording = systemState.isRecording;
-        [self.currentRecordTimeLabel setHidden:!self.isRecording];
-        [self.currentRecordTimeLabel setText:[self formattingSeconds:systemState.currentRecordingTime]];
-        
-        //Update playbackBtnsView state
-        BOOL isPlayback = (systemState.workMode == CameraWorkModePlayback) || (systemState.workMode == CameraWorkModeDownload);
-        self.playbackBtnsView.hidden = !isPlayback;
-        
-        //Update recordBtn State
-        if (self.isRecording) {
-            [self.recordBtn setTitle:@"Stop Record" forState:UIControlStateNormal];
-        }else
-        {
-            [self.recordBtn setTitle:@"Start Record" forState:UIControlStateNormal];
-        }
-        //Update UISegmented Control's state
-        if (systemState.workMode == CameraWorkModeCapture) {
-            [self.changeWorkModeSegmentControl setSelectedSegmentIndex:0];
-        }else if (systemState.workMode == CameraWorkModeRecord){
-            [self.changeWorkModeSegmentControl setSelectedSegmentIndex:1];
-        }else if (systemState.workMode == CameraWorkModePlayback){
-            [self.changeWorkModeSegmentControl setSelectedSegmentIndex:2];
-        }
-    }
-}
-~~~
-
-Additionally, implement the **-(void) camera:(DJICamera *)camera didUpdatePlaybackState:(DJICameraPlaybackState *)playbackState** delegate method as shown below:
-
-~~~objc
--(void) camera:(DJICamera *)camera didUpdatePlaybackState:(DJICameraPlaybackState *)playbackState
-{
-    if (self.cameraSystemState.workMode == CameraWorkModePlayback) {
-        self.cameraPlaybackState = playbackState;
-        [self updateUIWithPlaybackState:playbackState];
-    }else
-    {
-        [self.playVideoBtn setHidden:YES];
-    }
-}
-
-- (void)updateUIWithPlaybackState:(DJICameraPlaybackState *)playbackState
-{
-    if (playbackState.playbackMode == SingleFilePreview) {
-        if (playbackState.mediaFileType == MediaFileJPEG || playbackState.mediaFileType == MediaFileDNG) { //Photo Type            
-            [self.playVideoBtn setHidden:YES];
-        }else if (playbackState.mediaFileType == MediaFileVIDEO) //Video Type
-        {
-            [self.playVideoBtn setHidden:NO];
-        }
-    }else if (playbackState.playbackMode == SingleVideoPlaybackStart){ //Playing Video
-        [self.playVideoBtn setHidden:YES];
-    }else if (playbackState.playbackMode == MultipleFilesPreview){
-        [self.playVideoBtn setHidden:YES];
-    }
-}
-~~~
-
-As you can see, we have updated the **cameraPlaybackState** property's value in the **-(void) camera:(DJICamera *)camera didUpdatePlaybackState:(DJICameraPlaybackState *)playbackState** delegate method, and have also updated the **playVideoBtn**'s hidden state based on the DJICameraSystemState's **workMode** and the DJICameraPlaybackState's **playbackMode**.
-
-Finally, we can implement the **IBAction** methods as follows:
-
-~~~objc
-- (IBAction)playVideoBtnAction:(id)sender {
-    if (self.cameraPlaybackState.mediaFileType == MediaFileVIDEO) {
-        [self.camera startVideoPlayback];
-    }
-}
-
-- (IBAction)stopVideoBtnAction:(id)sender {
-    if (self.cameraPlaybackState.mediaFileType == MediaFileVIDEO) {
-        if (self.cameraPlaybackState.videoPlayProgress > 0) {
-            [self.camera stopVideoPlayback];
-        }
-    }
-}
-~~~
-
-In the **playVideoBtnAction** and **stopVideoBtnAction** methods, we check if the media type is video, then call the **startVideoPlayback** and the **stopVideoPlayback** methods of the **DJIInspireCamera** class to start and stop playing the video. 
-
-Once it's done, build and run the project. Try swiping left and right in playbackMode to navigate through your photos and videos. If you see the play button at the center of the screen, press it to play the video.
-
-Playing your video through the playback app:
-
- ![playVideo](../../../images/iOS/PlaybackDemo/playVideo.gif)
-
-### 4. Previewing Multiple Files
-
-Before we move forward, let's explain the **Playback mode**. There are multiple playback modes in the camera, and we can check the **CameraPlaybackMode** enum type in the **DJICameraPlaybackState.h** file as follows:
-
-~~~objc
-/**
- *  Playback mode
- */
-typedef NS_ENUM(uint8_t, CameraPlaybackMode){
-    /**
-     *  Single file preview
-     */
-    SingleFilePreview,
-    /**
-     *  Single photo zoomed
-     */
-    SinglePhotoZoomMode,
-    /**
-     *  Single video play start
-     */
-    SingleVideoPlaybackStart,
-    /**
-     *  Single video play stop
-     */
-    SingleVideoPlaybackStop,
-    /**
-     *  Multiple file edit
-     */
-    MultipleFilesEdit,
-    /**
-     *  Multiple file preview
-     */
-    MultipleFilesPreview,
-    /**
-     *  Download file
-     */
-    MediaFilesDownload,
-    /**
-     *  Mode error
-     */
-    PlaybackModeError = 0xFF,
-};
-~~~
-
-As shown in the code above, we can preview files in two ways: **Single Preview** and **Multiple Preview**. We can also zoom into out of photos, play videos, delete photos and videos and even download them. 
-
-We will learn how to preview multiple files here. Here is what **Multiple Preview** looks like:
-
- ![multiplePreview](../../../images/iOS/PlaybackDemo/multiplePreview.jpg)
- 
-You can preview at most eight files at the same time. Since the preview images are shown in the **fpvPreviewView**, you cannot interact with them yet. Let's add buttons and swipe gestures to interact with them.
-
-First, we will create a new file named **DJIPlaybackMultiSelectViewController**, which will be a subclass of **UIViewController**. Make sure the check box for **Also create XIB file** is selected when creating the file. Then open the **DJIPlaybackMultiSelectViewController.xib** file and, under the **Size** dropdown in the **Simulated Metrics** section, set its size to **Freeform** . In the view section, change the width to **1024** and height to **768**. Take a look at the changes made below:
-
-  ![freeform](../../../images/iOS/PlaybackDemo/freeform.png)
-  ![changeSize](../../../images/iOS/PlaybackDemo/changeSize.png)
-  
-Then drag a **UIView** object to the viewController as subview and set its name to **Buttons View**. Next set its frame as follows:
-
-  ![buttonsViewFrame](../../../images/iOS/PlaybackDemo/buttonsViewFrame.png)
-  
-Moreover, drag eight **UIButton** objects to the **Buttons View** as subviews and position them as follows(You can check the demo project's **DJIPlaybackMultiSelectViewController.xib** file to get the details on how to setup these buttons's frame):
-
-  ![buttonsView](../../../images/iOS/PlaybackDemo/buttonsView.png)
-
-These buttons represent eight media files when you are in the **Multiple Preview Mode**. Pressing any of these buttons will enter **Single Preview Mode**. 
-
-Now let's open the **DJIPlaybackMultiSelectViewController.h** file and create two block properties as follows:
-
-~~~objc
-#import <UIKit/UIKit.h>
-
-@interface DJIPlaybackMultiSelectViewController : UIViewController
-
-@property (copy, nonatomic) void (^selectItemBtnAction)(int index);
-@property (copy, nonatomic) void (^swipeGestureAction)(UISwipeGestureRecognizerDirection direction);
-
-@end
-~~~
-
-The first block is used to check the selected button action with index, the second one is used to check the swipe gesture action.
-
-Then go to **DJIPlaybackMultiSelectViewController.m** file and create four **UISwipeGestureRecognizer** properties to represent the **left**, **right**, **up** and **down** swipe gestures. Additionally, create eight IBAction methods and link them to the UIButton objects in the **DJIPlaybackMultiSelectViewController.xib** file:
-
-~~~objc
-#import "DJIPlaybackMultiSelectViewController.h"
-
-@interface DJIPlaybackMultiSelectViewController()
-
-@property(nonatomic, strong) UISwipeGestureRecognizer *swipeLeftGesture;
-@property(nonatomic, strong) UISwipeGestureRecognizer *swipeRightGesture;
-@property(nonatomic, strong) UISwipeGestureRecognizer *swipeUpGesture;
-@property(nonatomic, strong) UISwipeGestureRecognizer *swipeDownGesture;
-
-- (IBAction)selectFirstItemBtnAction:(id)sender;
-- (IBAction)selectSecondItemBtnAction:(id)sender;
-- (IBAction)selectThirdItemBtnAction:(id)sender;
-- (IBAction)selectFourthItemBtnAction:(id)sender;
-- (IBAction)selectFifthItemBtnAction:(id)sender;
-- (IBAction)selectSixthItemBtnAction:(id)sender;
-- (IBAction)selectSeventhItemBtnAction:(id)sender;
-- (IBAction)selectEighthItemBtnAction:(id)sender;
-
-@end
-~~~
-
-Init the swipe gestures properties in the viewDidLoad method and implement the action methods as shown below:
-
-~~~objc
-- (void)viewDidLoad {
-    [super viewDidLoad];
-
-    self.swipeLeftGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeLeftGestureAction:)];
-    self.swipeLeftGesture.direction = UISwipeGestureRecognizerDirectionLeft;
-    self.swipeRightGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRightGestureAction:)];
-    self.swipeRightGesture.direction = UISwipeGestureRecognizerDirectionRight;
-    self.swipeUpGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeUpGestureAction:)];
-    self.swipeUpGesture.direction = UISwipeGestureRecognizerDirectionUp;
-    self.swipeDownGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeDownGestureAction:)];
-    self.swipeDownGesture.direction = UISwipeGestureRecognizerDirectionDown;
-    
-    [self.view addGestureRecognizer:self.swipeLeftGesture];
-    [self.view addGestureRecognizer:self.swipeRightGesture];
-    [self.view addGestureRecognizer:self.swipeUpGesture];
-    [self.view addGestureRecognizer:self.swipeDownGesture];
-
-}
-
-#pragma mark UIGestureAction Methods
-- (void)swipeLeftGestureAction:(UISwipeGestureRecognizer *)gesture
-{
-    if (self.swipeGestureAction) {
-        self.swipeGestureAction(UISwipeGestureRecognizerDirectionLeft);
-    }
-}
-
-- (void)swipeRightGestureAction:(UISwipeGestureRecognizer *)gesture
-{
-    if (self.swipeGestureAction) {
-        self.swipeGestureAction(UISwipeGestureRecognizerDirectionRight);
-    }
-}
-
-- (void)swipeUpGestureAction:(UISwipeGestureRecognizer *)gesture
-{
-    if (self.swipeGestureAction) {
-        self.swipeGestureAction(UISwipeGestureRecognizerDirectionUp);
-    }
-}
-
-- (void)swipeDownGestureAction:(UISwipeGestureRecognizer *)gesture
-{
-    if (self.swipeGestureAction) {
-        self.swipeGestureAction(UISwipeGestureRecognizerDirectionDown);
-    }
-}
-
-~~~ 
-
-These four swipe gestures are for single and multiple files preview. Swipe left or right to preview files in **Single Preview Mode**, swipe up or down to preview files in **Multiple Preview Mode**. We invoke the **swipeGestureAction** block inside the swipe action method with a **UISwipeGestureRecognizerDirection** value.
-
-Next, implement the IBAction methods for the eight UIButtons as follows:
-
-~~~objc
-#pragma mark UIButton Action Methods
-- (IBAction)selectFirstItemBtnAction:(id)sender {
-    if (self.selectItemBtnAction) {
-        self.selectItemBtnAction(0);
-    }
-}
-
-- (IBAction)selectSecondItemBtnAction:(id)sender {
-    if (self.selectItemBtnAction) {
-        self.selectItemBtnAction(1);
-    }
-}
-
-- (IBAction)selectThirdItemBtnAction:(id)sender {
-    if (self.selectItemBtnAction) {
-        self.selectItemBtnAction(2);
-    }
-}
-
-- (IBAction)selectFourthItemBtnAction:(id)sender {
-    if (self.selectItemBtnAction) {
-        self.selectItemBtnAction(3);
-    }
-}
-
-- (IBAction)selectFifthItemBtnAction:(id)sender {
-    if (self.selectItemBtnAction) {
-        self.selectItemBtnAction(4);
-    }
-}
-
-- (IBAction)selectSixthItemBtnAction:(id)sender {
-    if (self.selectItemBtnAction) {
-        self.selectItemBtnAction(5);
-    }
-}
-
-- (IBAction)selectSeventhItemBtnAction:(id)sender {
-    if (self.selectItemBtnAction) {
-        self.selectItemBtnAction(6);
-    }
-}
-
-- (IBAction)selectEighthItemBtnAction:(id)sender {
-    if (self.selectItemBtnAction) {
-        self.selectItemBtnAction(7);
-    }
-}
-~~~
-
-We invoke the **selectItemBtnAction** block inside the IBAction methods with related button index. The index starts from 0 here because the file index counted in Playback Multiple Preview Mode starts from 0.
-
-Now, go back to **DJIRootViewController.m** file. Since we have added the swipe left and swipe right gestures in the DJIPlaybackMultiSelectViewController.m file, let's delete the **swipeLeftGesture** and **swipeRightGesture** properties and their related codes in the DJIRootViewController.m file to refactor the code structure. 
-
-Then import the DJIPlaybackMultiSelectViewController.h header file and create a property of DJIPlaybackMultiSelectViewController named **playbackMultiSelectVC**. Next, we create a new method named **initPlaybackMultiSelectVC** and implement it in the **viewDidLoad** method:
-
-~~~objc
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(registerAppSuccess:) name:@"RegisterAppSuccess" object:nil];
-    [self initData];
-    [self registerApp];
-    [self initPlaybackMultiSelectVC];
-
-}
-
-- (void)initPlaybackMultiSelectVC
-{
-    self.playbackMultiSelectVC = [[DJIPlaybackMultiSelectViewController alloc] initWithNibName:@"DJIPlaybackMultiSelectViewController" bundle:[NSBundle mainBundle]];
-    [self.playbackMultiSelectVC.view setFrame:self.view.frame];
-    [self.fpvPreviewView addSubview:self.playbackMultiSelectVC.view];
-    __weak DJIRootViewController *weakSelf = self;
-    [self.playbackMultiSelectVC setSelectItemBtnAction:^(int index) {
-        if (weakSelf.cameraPlaybackState.playbackMode == MultipleFilesPreview) {
-            [weakSelf.camera enterSinglePreviewModeWithIndex:index];
-        }
-    }];
-    
-    [self.playbackMultiSelectVC setSwipeGestureAction:^(UISwipeGestureRecognizerDirection direction) {
-        
-        if (weakSelf.cameraPlaybackState.playbackMode == SingleFilePreview) {
-            if (direction == UISwipeGestureRecognizerDirectionLeft) {
-                [weakSelf.camera singlePreviewNextPage];
-            }else if (direction == UISwipeGestureRecognizerDirectionRight){
-                [weakSelf.camera singlePreviewPreviousPage];
-            }
-        }else if(weakSelf.cameraPlaybackState.playbackMode == MultipleFilesPreview){
-            if (direction == UISwipeGestureRecognizerDirectionUp) {
-                [weakSelf.camera multiplePreviewNextPage];
-            }else if (direction == UISwipeGestureRecognizerDirectionDown){
-                [weakSelf.camera multiplePreviewPreviousPage];
-            }
-        }
-    }];
-}
-~~~
-
-So in the **initPlaybackMultiSelectVC** method, we init the **playbackMultiSelectVC** property first, and then we invoke the **selectItemBtnAction** block's setter method and implement the **enterSinglePreviewModeWithIndex** method of the **DJIInspireCamera** with selected index. This way, we can switch to Single Preview Mode from Multiple Preview Mode. 
-
-Furthermore, we invoke the **swipeGestureAction** block's setter method and implement the preview files feature based on the **UISwipeGestureRecognizerDirection** value.
-
-Once this is done, go to **Main.storyboard** and drag a **UIButton** object to the **playbackBtnsView** as subView, naming it as **Multi Pre** and positioning it as follows:
-
-![multiPreBtn](../../../images/iOS/PlaybackDemo/multiPreBtn.jpg)
-
-Finally, create an IBAction method named **multiPreviewButtonClicked** and link it to the above UIButton in the **Main.storyboard**. Implement the method as shown below to enter Multiple Preview Mode:
-
-~~~objc
-- (IBAction)multiPreviewButtonClicked:(id)sender {
-    [self.camera enterMultiplePreviewMode];
-}
-~~~
-
-Let's build and run the project and try to enter Multiple Preview Mode. Use the swipe up and down gestures to preview files. Switch to the Single Preview Mode by pressing any of the eight preview images. Here is a screenshot:
-
-![multiPre](../../../images/iOS/PlaybackDemo/multiPre.jpg)
-
-## 2. Deleting Photos and Videos
-
-You can now preview photos and videos in Single Preview Mode and Multiple Preview Mode. But what if you want to delete a file you don't like? Let's implement the delete files feature!
-
-Go to Main.storyboard and drag three UIButtons to the **playbackBtnsView** as subviews and named them **Select**, **Select All** and **Delete**. We hide the "Select" and "Select All" buttons here. Then go to the **DJIRootViewController.m** file and create two IBOutlets for the "Select" and "Select All" buttons, and also the three IBAction methods for the three buttons as follows:
-
-~~~objc
-@property (weak, nonatomic) IBOutlet UIButton *selectBtn;
-@property (weak, nonatomic) IBOutlet UIButton *selectAllBtn;
-
-- (IBAction)selectButtonAction:(id)sender;
-- (IBAction)deleteButtonAction:(id)sender;
-- (IBAction)selectAllBtnAction:(id)sender;
-~~~
-
-Next, implement the IBAction methods as shown below:
-
-~~~objc
-- (IBAction)selectButtonAction:(id)sender {
-    if (self.cameraPlaybackState.playbackMode == MultipleFilesEdit) {
-        [self.camera exitMultipleEditMode];
-    }else
-    {
-        [self.camera enterMultipleEditMode];
-    }
-}
-
-- (IBAction)selectAllBtnAction:(id)sender {
-    
-    if (self.cameraPlaybackState.isAllFilesInPageSelected) {
-        [self.camera unselectAllFilesInPage];
-    }
-    else
-    {
-        [self.camera selectAllFilesInPage];
-    }
-}
-~~~
-
-The above code implements the selectButtonAction method to enter and exit MultipleEditMode by calling the DJIInspireCamera class's **exitMultipleEditMode** and **enterMultipleEditMode** methods. Then in selectAllBtnAction IBAction method, we use an if statement to check if all the files in the page are selected and invoke the **selectAllFilesInPage** and **unselectAllFilesInPage** methods of DJIInspireCamera.
-
-Moreover, update the **selectBtn** and **selectAllBtn** buttons' hidden values in the following method:
-
-~~~objc
-- (void)updateUIWithPlaybackState:(DJICameraPlaybackState *)playbackState
-{
-    if (playbackState.playbackMode == SingleFilePreview) {
-        
-        [self.selectBtn setHidden:YES];
-        [self.selectAllBtn setHidden:YES];
-        
-        if (playbackState.mediaFileType == MediaFileJPEG || playbackState.mediaFileType == MediaFileDNG) { //Photo Type
             
-            [self.playVideoBtn setHidden:YES];
+            case R.id.PlaybackModeBtnPlayback : {
+                onPressStatusBtn(PLAYBACK);
+                break;
+            }
             
-        }else if (playbackState.mediaFileType == MediaFileVIDEO) //Video Type
-        {
-            [self.playVideoBtn setHidden:NO];
-        }
-        
-    }else if (playbackState.playbackMode == SingleVideoPlaybackStart){ //Playing Video
-        
-        [self.selectBtn setHidden:YES];
-        [self.selectAllBtn setHidden:YES];
-        [self.playVideoBtn setHidden:YES];
-        
-    }else if (playbackState.playbackMode == MultipleFilesPreview){
-        
-        [self.selectBtn setHidden:NO];
-        [self.selectBtn setTitle:@"Select" forState:UIControlStateNormal];
-        [self.selectAllBtn setHidden:NO];
-        [self.playVideoBtn setHidden:YES];
-        
-    }else if (playbackState.playbackMode == MultipleFilesEdit){
-    
-        [self.selectBtn setHidden:NO];
-        [self.selectBtn setTitle:@"Cancel" forState:UIControlStateNormal];
-        [self.selectAllBtn setHidden:NO];
-        [self.playVideoBtn setHidden:YES];
+            case R.id.MultiplePreviewBtnPlayback : {
+                DJIDrone.getDjiCamera().enterMultiplePreviewMode(mExecuteCallback);
+                onStatusChange(MULTIPLEPLAYBACK);
+                break;
+            }
 
-    }   
-}
-~~~ 
-
-Before implementing the **deleteButtonAction** method, let's create two new properties in the class extension as follows:
-
-~~~objc
-@property (strong, nonatomic) UIAlertView* statusAlertView;
-@property (assign, nonatomic) int selectedFileCount;
+			....
+		}
+	}
 ~~~
 
-Here, we create an **int** property named **selectedFileCount** to count the number of files currently selected in the Multiple Preview Mode. We also create a **UIAlertView** property named as **statusAlertView** to show alerts when deleting files.
+To keep the UI logic consistent, we also detect the current status of the camera in the `onCreate()` function. In our demo, we do this after `checkPermission(Context, DJIGeneralListener)` gets the SDK level.
 
-Create the following three methods to **show**, **dismiss** and **update** the alertView:
-
-~~~objc
--(void) showStatusAlertView
-{
-    if (self.statusAlertView == nil) {
-        self.statusAlertView = [[UIAlertView alloc] initWithTitle:@"" message:@"" delegate:nil cancelButtonTitle:nil otherButtonTitles:nil];
-        [self.statusAlertView show];
-    }
-}
-
--(void) dismissStatusAlertView
-{
-    if (self.statusAlertView) {
-        [self.statusAlertView dismissWithClickedButtonIndex:0 animated:YES];
-        self.statusAlertView = nil;
-    }       
-}
-
-- (void)updateStatusAlertContentWithTitle:(NSString *)title message:(NSString *)message shouldDismissAfterDelay:(BOOL)dismiss
-{
-    if (self.statusAlertView) {
-        [self.statusAlertView setTitle:title];
-        [self.statusAlertView setMessage:message];
-        
-        if (dismiss) {
-            [self performSelector:@selector(dismissStatusAlertView) withObject:nil afterDelay:2.0];
-        }
-    }   
-}
+~~~java
+	 new Thread(){
+            public void run() {
+                try {
+                    DJIDrone.checkPermission(getApplicationContext(), new DJIGerneralListener() {
+                        
+                        @Override
+                        public void onGetPermissionResult(int result) {
+                            // TODO Auto-generated method stub
+                            Log.e(TAG, "onGetPermissionResult = "+result);
+                            Log.e(TAG, "onGetPermissionResultDescription = "+DJIError.getCheckPermissionErrorDescription(result));
+                            if (result == 0) {
+                                //This method require sdk level higher than level-1. Also permission should be got befor invoking this method.
+                                DJIDrone.getDjiCamera().getCameraMode(new DJICameraModeCallBack() {
+                                    public void onResult(CameraMode mode) {
+                                        onStatusChange(mode.value());
+                                        if (mode._equals(CameraMode.Camera_PlayBack_Mode.value())) {
+                                            DJIDrone.getDjiCamera().setCameraMode(CameraMode.Camera_PlayBack_Mode, mExecuteCallback);
+                                        }
+                                    }
+                                });
+                            } else {
+                                Log.e(TAG,"Result error.");                     
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }.start();
 ~~~
 
-Furthermore, implement the **deleteButtonAction** action method as shown below:
+The Inspire 1, Phantom 3 Professional and M100's remote controllers have buttons for capturing, recording and entering the playback mode. Once these buttons have been pressed, the camera status will be changed directly. Would be great if our application could listen to the buttons at the remote controller and automatically adjust the UI?
 
-~~~objc
-- (IBAction)deleteButtonAction:(id)sender {
-    
-    self.selectedFileCount = self.cameraPlaybackState.numbersOfSelected;
-    
-    if (self.cameraPlaybackState.playbackMode == MultipleFilesEdit) {
+To listen to the remote controller, we set up `DJIRemoteControllerUpdateAttitudeCallBack`. Add the code below to the onCreate() function, but make sure to declare the variable `mRemoteControllerUpdateAttitudeCallBack` first.
 
-        if (self.selectedFileCount == 0) {
-            [self showStatusAlertView];
-            [self updateStatusAlertContentWithTitle:@"Please select files to delete!" message:@"" shouldDismissAfterDelay:YES];
-            return;
-        }else
-        {
-            NSString *title;
-            if (self.selectedFileCount == 1) {
-                title = @"Delete Selected File?";
-            }else
+~~~java
+	        mRemoteControllerUpdateAttitudeCallBack = new DJIRemoteControllerUpdateAttitudeCallBack() {
+
+            @Override
+            public void onResult(DJIRemoteControllerAttitude attitude)
             {
-                title = @"Delete Selected Files?";
-            }
-            UIAlertView *deleteAllSelFilesAlert = [[UIAlertView alloc] initWithTitle:title message:@"" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
-            deleteAllSelFilesAlert.tag = kDeleteAllSelFileAlertTag;
-            [deleteAllSelFilesAlert show];
-        }
+                if (attitude.playbackStatus || attitude.recordStatus || attitude.shutterStatus) {
+                    DJIDrone.getDjiCamera().getCameraMode(new DJICameraModeCallBack() {
 
-    }else if (self.cameraPlaybackState.playbackMode == SingleFilePreview){
-        
-        UIAlertView *deleteCurrentFileAlert = [[UIAlertView alloc] initWithTitle:@"Delete The Current File?" message:@"" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
-        deleteCurrentFileAlert.tag = kDeleteCurrentFileAlertTag;
-        [deleteCurrentFileAlert show];
-    }
-    
-}
-~~~
-
-The above code updates the **selectedFileCount** property value with **cameraPlaybackState**'s "numbersOfSelected" value. It then checks the **playbackMode** value of cameraPlaybackState to show alertViews in the "MultipleFilesEdit" and "SingleFilePreview" mode. Here we use macro definition for the UIAlertView's tag property:
-
-~~~objc
-#define kDeleteAllSelFileAlertTag 100
-#define kDeleteCurrentFileAlertTag 101
-~~~
-
-Finally, let's implement the UIAlertView delegate method as follows to call the DJIInspireCamera's **deleteAllSelectedFiles** and **deleteCurrentPreviewFile** methods to delete files and update selectBtn's title:
-
-~~~objc 
-#pragma mark UIAlertView Delegate Method
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (alertView.tag == kDeleteAllSelFileAlertTag) {
-        if (buttonIndex == 1) {
-            [self.camera deleteAllSelectedFiles];
-            [self.selectBtn setTitle:@"Select" forState:UIControlStateNormal];
-        }
-    }else if (alertView.tag == kDeleteCurrentFileAlertTag){
-        if (buttonIndex == 1) {
-            [self.camera deleteCurrentPreviewFile];
-            [self.selectBtn setTitle:@"Select" forState:UIControlStateNormal];
-        }   
-    }
-}
-~~~
-
-Build and run the project, and try the select multiple files, delete single and multiple files features. Here's what it should look like:
-
-* Deleting a  Single File:
-
-![deleteSingleFile](../../../images/iOS/PlaybackDemo/deleteSingleFile.gif)
-
-* Deleting Multiple Files:
-
-![deleteMultiFiles](../../../images/iOS/PlaybackDemo/deleteMultiFiles.gif)
-
-
-## 3. Downloading And Saving Photos
-
-### 1. Downloading Photos
-
-Let's implement the download photo feature now. First, go to the **Main.storyboard** file and drag a **UIButton** object to the **playbackBtnsView** and name it "Download". Then position it as shown below:
-
-![download](../../../images/iOS/PlaybackDemo/download.jpg)
-
-Then go to **DJIRootViewController.m** file and create the following property objects and IBAction methods in the class extension:
-
-~~~objc
-@property (strong, nonatomic) NSMutableData *downloadedImageData;
-@property (strong, nonatomic) NSTimer *updateImageDownloadTimer;
-@property (strong, nonatomic) NSError *downloadImageError;
-@property (strong, nonatomic) NSString* targetFileName;
-@property (assign, nonatomic) long totalFileSize;
-@property (assign, nonatomic) long currentDownloadSize;
-@property (assign, nonatomic) int downloadedFileCount;
-
-- (IBAction)downloadButtonAction:(id)sender;
-~~~
-
-Lets briefly explain what each of these properties is for.
-
-- **downloadedImageData** is used to store the downloaded image's **NSData**
-- **updateImageDownloadTimer** is used to update the download progress status
-- **downloadImageError** is for NSError storage
-- **targetFileName** is used to store the current downloaded image file name
-- **totalFileSize** is for storing the total file size of each downloading image
-- **currentDownloadSize** is used to store the downloaded size of the image
-- **downloadedFileCount** is used to store the downloaded file count
-
-Let's init the **downloadedImageData** property in the **initData** method as follows:
-
-~~~objc
-- (void)initData
-{
-    self.drone = [[DJIDrone alloc] initWithType:DJIDrone_Inspire];
-    self.drone.delegate = self;
-    self.camera = (DJIInspireCamera *)self.drone.camera;
-    self.camera.delegate = self;
-
-    self.downloadedImageData = [NSMutableData data];
-}
-~~~
-
-Before moving forward, we need to first explain the following method in **DJIInspireCamera** class:
-
-~~~objc
-/**
- *  Download the selected files. The camera's work mode will be auto changed to CameraWorkModeDownload
- *
- *  @param prepareBlock File prepare for download callback
- *  @param dataBlock    File data downloaded callback
- *  @param completion   File download completed callback
- */
- 
--(void) downloadAllSelectedFilesWithPreparingBlock:(DJIFileDownloadPreparingBlock)prepareBlock dataBlock:(DJIFileDownloadingBlock)dataBlock completionBlock:(DJIFileDownloadCompletionBlock)completion;
-~~~
-
-This method has three params, the first param **prepareBlock** is a file download preparing block. You can do some download initialization work here like showing an alertView to clarify the download file's file name, file size, etc. The second param **dataBlock** is a download data update block, you can append the downloaded data here and increase the downloaded size data. The third param **completion** is a download complete block, you can save the downloaded image to the Photo Album here.
-
-**Important**: we cannot update the download file status UI in the **dataBlock** block, since it will slow down the file download speed. So we should use the **downloadedImageData** property to append downloaded data and use the **updateImageDownloadTimer** to update the UI.
-
-So let's create three new methods here to set up the **updateImageDownloadTimer**:
-
-~~~objc
-- (void)updateDownloadProgress:(NSTimer *)updatedTimer
-{
-    if (self.downloadImageError) {
-        
-        [self stopTimer];
-        [self.selectBtn setTitle:@"Select" forState:UIControlStateNormal];
-        [self updateStatusAlertContentWithTitle:@"Download Error" message:[NSString stringWithFormat:@"%@", self.downloadImageError] shouldDismissAfterDelay:YES];
-        
-    }
-    else
-    {
-        NSString *title = [NSString stringWithFormat:@"Download (%d/%d)", self.downloadedFileCount + 1, self.selectedFileCount];
-        NSString *message = [NSString stringWithFormat:@"FileName:%@, FileSize:%0.1fKB, Downloaded:%0.1fKB", self.targetFileName, self.totalFileSize / 1024.0, self.currentDownloadSize / 1024.0];
-        [self updateStatusAlertContentWithTitle:title message:message shouldDismissAfterDelay:NO];
-    }
-    
-}
-
-- (void)startUpdateTimer
-{
-    if (self.updateImageDownloadTimer == nil) {
-        self.updateImageDownloadTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(updateDownloadProgress:) userInfo:nil repeats:YES];
-    }
-}
-
-- (void)stopTimer
-{
-    if (self.updateImageDownloadTimer != nil) {
-        [self.updateImageDownloadTimer invalidate];
-        self.updateImageDownloadTimer = nil;
-    }
-}
-~~~
-
-As you can see, we use the startUpdateTimer and stopTimer methods to start and stop the **updateImageDownloadTimer**. Then we implement the **updateDownloadProgress** selector method to update the **statusAlertView**'s title and message value.
-
-Next, create a new method name **resetDownloadData** to reset all the download related property values:
-
-~~~objc
-- (void)resetDownloadData
-{
-    self.downloadImageError = nil;
-    self.totalFileSize = 0;
-    self.currentDownloadSize = 0;
-    self.downloadedFileCount = 0;
-    
-    [self.downloadedImageData setData:nil];
-}
-~~~
-
-Furthermore, define two UIAlertView constant tag objects, implement the **downloadButtonAction** method and improve the UIAlertView Delegate Method with the following code:
-
-~~~objc
-
-#define kDownloadAllSelFileAlertTag 102
-#define kDownloadCurrentFileAlertTag 103
-
-- (IBAction)downloadButtonAction:(id)sender {
-    
-    self.selectedFileCount = self.cameraPlaybackState.numbersOfSelected;
-    
-    if (self.cameraPlaybackState.playbackMode == MultipleFilesEdit) {
-        
-        if (self.selectedFileCount == 0) {
-            [self showStatusAlertView];
-            [self updateStatusAlertContentWithTitle:@"Please select files to Download!" message:@"" shouldDismissAfterDelay:YES];
-            return;
-        }else
-        {
-            NSString *title;
-            if (self.selectedFileCount == 1) {
-                title = @"Download Selected File?";
-            }else
-            {
-                title = @"Download Selected Files?";
-            }
-            UIAlertView *downloadSelFileAlert = [[UIAlertView alloc] initWithTitle:title message:@"" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
-            downloadSelFileAlert.tag = kDownloadAllSelFileAlertTag;
-            [downloadSelFileAlert show];
-        }
-        
-    }else if (self.cameraPlaybackState.playbackMode == SingleFilePreview){
-        
-        UIAlertView *downloadCurrentFileAlert = [[UIAlertView alloc] initWithTitle:@"Download The Current File?" message:@"" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil];
-        downloadCurrentFileAlert.tag = kDownloadCurrentFileAlertTag;
-        [downloadCurrentFileAlert show];
-    }
-}
-
-#pragma mark UIAlertView Delegate Method
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (alertView.tag == kDeleteAllSelFileAlertTag) {
-    
-        if (buttonIndex == 1) {
-            [self.camera deleteAllSelectedFiles];
-            [self.selectBtn setTitle:@"Select" forState:UIControlStateNormal];
-        }
-        
-    }else if (alertView.tag == kDeleteCurrentFileAlertTag){
-    
-        if (buttonIndex == 1) {
-            [self.camera deleteCurrentPreviewFile];
-            [self.selectBtn setTitle:@"Select" forState:UIControlStateNormal];
-        }
-        
-    }else if (alertView.tag == kDownloadAllSelFileAlertTag){
-    
-        if (buttonIndex == 1) {
-            [self downloadFiles];
-        }
-    }else if (alertView.tag == kDownloadCurrentFileAlertTag){
-        if (buttonIndex == 1) {
-            [self downloadFiles];
-        }
-    }
-    
-}
-~~~
-
-In **downloadButtonAction** method, we update the **statusAlertView**'s title and message. And create two new **UIAlertView**s to ask users for permission to download files based on the **cameraPlaybackState**'s **playbackMode** value. Finally, in the UIAlertView delegate method, we just implement the **downloadFiles** method once the **OK** button of alertView is pressed. 
-
-Lastly, implement the **downloadFiles** method as shown below:
-
-~~~objc
--(void) downloadFiles
-{
-    [self resetDownloadData];
-    
-    if (self.cameraPlaybackState.playbackMode == SingleFilePreview) {
-        self.selectedFileCount = 1;
-    }
-
-    __weak DJIRootViewController *weakSelf = self;
-    [self.camera downloadAllSelectedFilesWithPreparingBlock:^(NSString *fileName, NSUInteger fileSize, BOOL *skip) {
-
-        [weakSelf startUpdateTimer];
-        weakSelf.totalFileSize = (long)fileSize;
-        weakSelf.targetFileName = fileName;
-
-        [weakSelf showStatusAlertView];
-        NSString *title = [NSString stringWithFormat:@"Download (%d/%d)", weakSelf.downloadedFileCount + 1, self.selectedFileCount];
-        NSString *message = [NSString stringWithFormat:@"FileName:%@, FileSize:%0.1fKB, Downloaded:0.0KB", fileName, weakSelf.totalFileSize / 1024.0];
-        [weakSelf updateStatusAlertContentWithTitle:title message:message shouldDismissAfterDelay:NO];
-        
-    } dataBlock:^(NSData *data, NSError *error) {
-        /**
-         *  Important: Don't update Download Progress UI here, it will slow down the download file speed.
-         */
-        
-        [weakSelf.downloadedImageData appendData:data];
-        weakSelf.currentDownloadSize += data.length;
-        weakSelf.downloadImageError = error;
-        
-    } completionBlock:^{
-        
-         NSLog(@"Completed Download");
-        weakSelf.downloadedFileCount++;
-        
-        UIImage *downloadImage = [[UIImage alloc] initWithData:self.downloadedImageData];
-        
-        [weakSelf.downloadedImageData setData:nil]; //Reset DownloadedImageData when download one file finished
-        weakSelf.currentDownloadSize = 0.0f; //Reset currentDownloadSize when download one file finished
-
-        NSString *title = [NSString stringWithFormat:@"Download (%d/%d)", weakSelf.downloadedFileCount, weakSelf.selectedFileCount];
-        [weakSelf updateStatusAlertContentWithTitle:title message:@"Completed" shouldDismissAfterDelay:NO];
-        
-    }];   
-}
-~~~ 
-
-In this method, we call the **resetDownloadData** method to reset data first. We check if the playbackMode is **SingleFilePreview** and update the **selectedFileCount** variable's value. Then we call the following method of the **DJIInspireCamera** class:
-
-~~~objc
--(void) downloadAllSelectedFilesWithPreparingBlock:(DJIFileDownloadPreparingBlock)prepareBlock dataBlock:(DJIFileDownloadingBlock)dataBlock completionBlock:(DJIFileDownloadCompletionBlock)completion;
-~~~
-
-In the first block prepareBlock, we call the **startUpdateTimer** method to start updateImageDownloadTimer. Then, we update the **totalFileSize** and **targetFileName** variables. Next, we show statusAlertView and update its title and message with the download image info.
-
-In the second block dataBlock, we append the **downloadedImageData** with the downloaded image data and update the **currentDownloadSize** and **downloadImageError** variables' values.
-
-In the third block completion, we increase the **downloadedFileCount** variable. We then create an UIImage object with **downloadedImageData**. Next, we reset downloadedImageData's data and currentDownloadSize's value. Moreover, we update **statusAlertView** with the image download info. 
-
-
-### 2. Saving downloaded photos to Photo Album
-
-Now, we have implemented the download photos features, but if we want to save the downloaded photos to the iOS Photo Album?
-
-To do this, we will create a new property of NSMutableArray class and name it **downloadedImageArray** and initialize it in the **initData** method, also resetting it in the **resetDownloadData** method as follows:
-
-~~~objc
-- (void)initData
-{
-    self.drone = [[DJIDrone alloc] initWithType:DJIDrone_Inspire];
-    self.drone.delegate = self;
-    self.camera = (DJIInspireCamera *)self.drone.camera;
-    self.camera.delegate = self;
-
-    self.downloadedImageData = [NSMutableData data];
-    self.downloadedImageArray = [NSMutableArray array];
-}
-
-- (void)resetDownloadData
-{
-    self.downloadImageError = nil;
-    self.totalFileSize = 0;
-    self.currentDownloadSize = 0;
-    self.downloadedFileCount = 0;
-    
-    [self.downloadedImageData setData:nil];
-    [self.downloadedImageArray removeAllObjects];
-}
-~~~
-
-Once that's done, let's add two new methods as shown below:
-
-~~~objc
-- (void)saveDownloadImage
-{
-    if (self.downloadedImageArray && self.downloadedImageArray.count > 0)
-    {
-        UIImage *image = [self.downloadedImageArray lastObject];
-        UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
-        [self.downloadedImageArray removeLastObject];
-    }
-}
-
-- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
-{
-
-    if (error != NULL)
-    {
-        // Show message when image saved failed
-        [self updateStatusAlertContentWithTitle:@"Save Image Failed!" message:[NSString stringWithFormat:@"%@", error] shouldDismissAfterDelay:NO];
-    }
-    else
-    {
-        // Show message when image successfully saved
-        if (self.downloadedImageArray)
-        {
-            [self saveDownloadImage];
-            
-            if (self.downloadedImageArray.count == 0)
-            {
-                [self updateStatusAlertContentWithTitle:@"Stored to Photos Album" message:@"" shouldDismissAfterDelay:YES];
+                        @Override
+                        public void onResult(CameraMode mode)
+                        {
+                            onStatusChange(mode.value());
+                        }
+                        
+                    });
+                }
             }
             
-        }s       
+        };
+        
+        DJIDrone.getDjiRemoteController().setRemoteControllerUpdateAttitudeCallBack(mRemoteControllerUpdateAttitudeCallBack);
+~~~
+
+`attitude.playbackStatus`, `attitude.recordStatus` and `attitude.shutterStatus` reflect the status of the corresponding buttons on the remote controller. Once the user clicks the corresponding button on the remote controller, these attributes will become `true`.
+
+You have finished implementing the adaptive UI. Build and run your app, and enjoy!
+
+### 3. Album gesture control
+
+For a better user experience, we will be adding gestures to our application. In **Multiple Preview** mode, if the user swipes up or down, the view will display the previous or next page of images. In **Single Preview** mode, if the user swipes left or right, the view will display the previous or next media file. We use GestureDetector to implement this function.
+
+*For a further understanding of the GestureDetector class, follow this link: <http://developer.android.com/reference/android/view/GestureDetector.html>*
+
+~~~java
+
+	private GestureDector mGestureDector;
+
+	mGestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener(){ 
+           @Override
+           public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+               if (e2.getRawX() - e1.getRawX() > GESTURETHRESHOLD) {
+                   DJIDrone.getDjiCamera().singlePreviewNextPage(mExecuteCallback);
+                   return true;
+               }
+               
+               if (e1.getRawX() - e2.getRawX() > GESTURETHRESHOLD) {
+                   DJIDrone.getDjiCamera().singlePreviewPreviousPage(mExecuteCallback);
+                   return true;
+               }
+               
+               if (e1.getRawY() - e2.getRawY() > GESTURETHRESHOLD) {
+                   DJIDrone.getDjiCamera().multiplePreviewPreviousPage(mExecuteCallback);
+                   return true;
+               }
+               
+               if (e2.getRawY() - e1.getRawY() > GESTURETHRESHOLD) {
+                   DJIDrone.getDjiCamera().multiplePreviewNextPage(mExecuteCallback);
+                   return true;
+               }
+               return false;
+           }
+	});
+~~~
+
+If you run your application and try to test this method, you may find that nothing happens. The reason for this is that both the gridview and the gesture detectors will try to handle the user's actions. Both of them try to handle an action at the same time, causing failures. To avoid this situation, we need to override the function `dispatchTouchEvent`
+
+~~~java
+	@Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (mGestureDetector.onTouchEvent(event))
+            return false;
+        super.dispatchTouchEvent(event);
+        return true;
     }
-    
-}
 ~~~
 
-In the saveDownloadImage method, we check if **downloadedImageArray** is empty and get its last UIImage, assigning it to the **image** variable. Then we use the **UIImageWriteToSavedPhotosAlbum()** method to save the image to the Photo Album and remove the last object from the downloadedImageArray.
+Nice! Some predefined gestures have been added to your app and have made your app more user friendly.
 
-Next, in the selector method, we check if an error has occurred and invoke the **saveDownloadImage** method until the **downloadedImageArray** is empty. At the same time, we update the **statusAlertView** with related titles and messages.
+![Single swipee gesture](../../images/Android/PlaybackAlbumDemo/singleslide.png)
 
-At the end, add the downloaded image object to downloadedImageArray, and call the stopTimer method and the saveDownloadImage method in the **completion** block of the **downloadFiles** method:
+![Multiple swipe gesture](../../images/Android/PlaybackAlbumDemo/multipleslide.jpg)
 
-~~~objc
+### 4. Playing Video
 
-completionBlock:^{
+DJI Camera provides a video preview function for users to enjoy their recorded videos. In the current state of our app, users can enter the single preview playback mode and navigate to their video file by swiping left and right. We would also like for them to be able to click a play or pause button to control video playback when previewing a video file. To implement this, first add two buttons to your `activity.xml` file.
+
+~~~xml
+	 <RelativeLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="40dp"
+        >"
         
-        NSLog(@"Completed Download");
-        weakSelf.downloadedFileCount++;
+        <ImageButton
+            android:id="@+id/PlayVideoBtnPlayback"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="40dp"
+            android:src="@drawable/play_video"
+            android:visibility="gone"
+            android:background="@android:color/transparent"
+            />
         
-        UIImage *downloadImage = [[UIImage alloc] initWithData:self.downloadedImageData];
-        [weakSelf.downloadedImageArray addObject:downloadImage];
-        
-        [weakSelf.downloadedImageData setData:nil]; //Reset DownloadedImageData when download one file finished
-        weakSelf.currentDownloadSize = 0.0f; //Reset currentDownloadSize when download one file finished
+        <ImageButton 
+            android:id="@+id/PauseVideoBtnPlayback"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="40dp"
+            android:src="@drawable/pause_video"
+            android:visibility="gone"
+            android:background="@android:color/transparent"
+        />
+    </RelativeLayout>
+~~~
 
-        NSString *title = [NSString stringWithFormat:@"Download (%d/%d)", weakSelf.downloadedFileCount, weakSelf.selectedFileCount];
-        [weakSelf updateStatusAlertContentWithTitle:title message:@"Completed" shouldDismissAfterDelay:NO];
-        
-        if (weakSelf.downloadedFileCount == weakSelf.selectedFileCount) { //Downloaded all the selected files
-            [weakSelf stopTimer];
-            [weakSelf.selectBtn setTitle:@"Select" forState:UIControlStateNormal];
-            [weakSelf saveDownloadImage];
+The image resources for these buttons need to be copied into the `drawable-mdpi` folder, and two elements need to be added into the .xml file `drawable`.
+
+~~~xml
+	<item android:drawable="drawable/play_video" android:state_pressed="false"></item>
+	<item android:drawable="drawable/pause_video" adnroid:state_pressed="false"></item>
+~~~
+
+However, there are two types of media files the user can preview while in single preview playback mode, image files and video files. If the play button or the pause button were to appear while the user were previewing a picture, it would be unnecessary and annoying. To combat this we set up a listener in `onCreate()` to detect which type of file the user is currently previewing.
+
+~~~java
+	  mCameraPlaybackStateCallBack = new DJICameraPlayBackStateCallBack(){
+
+            @Override
+            public void onResult(DJICameraPlaybackState state)
+            {
+                mCameraPlaybackState = state;
+                    PlaybackProtocolActivity.this.runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run()
+                        {
+                            // TODO Auto-generated method stub
+                            isVideoPreview();
+                        }
+                        
+                    });
+            }
+            
+        };
+~~~
+
+`isVideoPreview()` is used to adjust the UI features.
+
+~~~java
+	private void isVideoPreview() {
+        if (mCameraPlaybackState.mediaFileType.value() == CameraMediaFileType.Media_File_VIDEO.value()) {
+            if (mCameraPlaybackState.videoPlayProgress == 0) {
+                mPlayVideoBtn.setVisibility(VISIBLE);
+                mPauseVideoBtn.setVisibility(GONE);
+            } else {
+                mPlayVideoBtn.setVisibility(GONE);
+                mPauseVideoBtn.setVisibility(VISIBLE);
+            }
+        } else {
+            mPlayVideoBtn.setVisibility(GONE);
+            mPauseVideoBtn.setVisibility(GONE);
         }
-        
-    }];
-
+    }
 ~~~
 
-Let's build and run the project. Try to download photos in Single Preview Mode and Multiple Preview Mode. Once it's finished, go to the Photo Album to check if the downloaded photos exist:
+Now the app will automatically detect whether the camera is in video single preview playback mode, and remove the play and pause buttons if not.
 
-* Selecting files and downloading them:
+![Play the video](../../images/Android/PlaybackAlbumDemo/playbutton.jpg)
 
-![downloadFiles1](../../../images/iOS/PlaybackDemo/downloadFiles1.gif)
+![Pause the video](../../images/Android/PlaybackAlbumDemo/pausebutton.jpg)
 
-* Download completion and photos being saved to the Photo Album:
+You have successfuly implemented all the UI features that this tutorial has to offer! Give your app another go.
 
-![downloadFiles2](../../../images/iOS/PlaybackDemo/downloadFiles2.gif)
+## 4. Downloading and Deleting media files
 
+### 1. Finishing the Download feature
 
-## 4. Where To Go From Here?
-   
-   In this tutorial, you learned how to preview photos and videos in Single Preview Mode and Multiple Preview Mode, how to enter multiple edit mode and select files for deleting. You also learned how to download and save photos to the iOS Photo Album. 
-   
-   In the next tutorial, we will learn how to preview, edit and download photos and videos for Phantom 3 Advanced. Please move on to our next tutorial. Hope you enjoy it!
+In previous sections, we discussed and implemented three out of four camera modes. In this section we will cover the final camera mode, **Download Mode**.
+
+Please note that **DNG images and 4k video cannot be downloaded through playback mode**. In addition, the two methods below are not supported by the Inspire 1, Phantom 3 Professional or the M100:
+
+- `fetchMediaData(DJIMedia, DJIExecuteResultCallback)`
+- `fetchMediaThumbnail(DJIMedia, DJIExecuteResultCallback)`
+
+As we've already implemented all the necessary UI features, the only thing we have left to do is add some logic to our existing buttons. Add the following code into `onClick(View v)`:
+
+~~~java
+	@Override
+	public void onClick(View v) {
+	....
+		
+		case R.id.MultiSelectPreviewBtnPlayback : {
+	        if (!isEdited) {
+	            DJIDrone.getDjiCamera().enterMultipleEditMode(mExecuteCallback);
+	            isEdited = true;
+	        } else {
+	            DJIDrone.getDjiCamera().exitMultipleEditMode(mExecuteCallback);
+	            isEdited = false;
+	        }
+	        break;
+	    }
+	    
+	    case R.id.DeleteBtnPlayback : {
+	        if (mCameraPlaybackState.playbackMode._equals(CameraPlaybackMode.Multiple_Media_Files_Display.value())) {
+	            DJIDrone.getDjiCamera().deleteAllSelectedFiles(mExecuteCallback);
+	            isEdited = false;
+	        } else {
+	            DJIDrone.getDjiCamera().deleteCurrentPreviewFile(mExecuteCallback);
+	        }
+	        break;
+	    }
+	    
+	    case R.id.DownloadBtnPlayback : {
+	        File destDir = new File(Environment.getExternalStorageDirectory().getPath() + "/Dji_Sdk_Test/");
+	        if (!destDir.exists()) {
+	            destDir.mkdirs();
+	        }
+	        if (!mCameraPlaybackState.playbackMode._equals(CameraPlaybackMode.Multiple_Media_Files_Display.value()))
+	            DJIDrone.getDjiCamera().downloadCurrentPreviewFile(destDir, mFileDownloadCallBack);
+	        else
+	            DJIDrone.getDjiCamera().downloadAllSelectedFiles(destDir, mFileDownloadCallBack);
+	        break;
+	    }
+		
+	....
+	}
+~~~
+
+We create a `DJIFileDownloadCallBack` object to be added in the `onCreate()` function, as shown below. `DJIFileDownloadCallBack` includes a handler. You can find the handler declaration in our demo code.
+
+~~~java
+	mFileDownloadCallBack = new DJIFileDownloadCallBack() {
+            
+            @Override
+            public void OnStart()
+            {
+                handler.sendMessage(handler.obtainMessage(SHOWDOWNLOADDIALOG, null));
+                
+                if(mProgressDialog != null){
+                    mProgressDialog.setProgress(0);
+                }
+                
+                handler.sendMessage(handler.obtainMessage(SHOWTOAST, "download OnStart"));
+                DJILogHelper.getInstance().LOGD("", "download OnStart",true,false);
+            }
+
+            @Override
+            public void OnError(Exception exception)
+            {
+                // TODO Auto-generated method stub
+                handler.sendMessage(handler.obtainMessage(CLOSEDOWNLOADDIALOG, null));
+                handler.sendMessage(handler.obtainMessage(SHOWTOAST, "download OnError :"+exception.toString()));
+                DJILogHelper.getInstance().LOGD("", "download OnError :"+exception.toString(),true,false);
+            }
+            
+            @Override
+            public void OnEnd()
+            {
+                // TODO Auto-generated method stub
+                
+                handler.sendMessage(handler.obtainMessage(CLOSEDOWNLOADDIALOG, null));
+                handler.sendMessage(handler.obtainMessage(SHOWTOAST, "download OnEnd" + mCameraPlaybackState.numbersOfSelected));
+                
+                DJILogHelper.getInstance().LOGD("", "download OnEnd",true,false);
+                
+                DJIDrone.getDjiCamera().finishDownloadAllSelectedFiles(new DJIExecuteResultCallback() {
+                    
+                    @Override
+                    public void onResult(DJIError mErr)
+                    {
+                        // TODO Auto-generated method stub
+                        DJILogHelper.getInstance().LOGD("", "download finishDownloadAllSelectedFiles:"+mErr.errorDescription,true,false);
+                    }
+                });
+                
+                isEdited = false;
+            }
+
+            @Override
+            public void OnProgressUpdate(int progress)
+            {
+                // TODO Auto-generated method stub
+                if(mProgressDialog != null){
+                    mProgressDialog.setProgress(progress);
+                }
+                
+                DJILogHelper.getInstance().LOGD("", "download OnProgressUpdate progress="+progress,true,false);
+            }
+
+        };
+~~~
+
+For multiple preview downloads, developers should first invoke `enterMultipleEditMode(DJIExecuteResultCallback)` to enter the multiple edition playback mode so that the users can select the media files they want to delete or download. To support selecting media files and entering single preview playback status, the following code should be added in the `getView(int position, View convertView, ViewGroup parent)` function of `ButtonAdapter`.
+
+~~~java
+	mBtn.setOnClickListener(new OnClickListener() {
+	
+	    @Override
+	    public void onClick(View v)
+	    {
+	        if (!isEdited) {
+	            DJIDrone.getDjiCamera().enterSinglePreviewModeWithIndex(p, new DJIExecuteResultCallback() {
+	
+	                @Override
+	                public void onResult(DJIError mErr)
+	                {
+	                    // TODO Auto-generated method stub
+	                    if (mErr.errorCode == DJIError.RESULT_OK) {
+	                        onStatusChange(PLAYBACK);
+	                    }
+	                }
+	            });
+	            isMultiple = false;
+	            
+	        } else {
+	            DJIDrone.getDjiCamera().selectFileAtIndex(p, mExecuteCallback);
+	        }
+	    }
+	    
+	});
+~~~
+
+Now try selecting some media files and downloading them!
+
+![Multiple Select](../../images/Android/PlaybackAlbumDemo/multipleselect.jpg)
+
+![Downloading](../../images/Android/PlaybackAlbumDemo/download.jpg)
+
+### 2. Automatically downloading media files
+
+Some developers might want to download the media files from their drone automatically. This subsection will introduce exactly how to do this. First of all, developers should understand that **all the methods involved with downloading are asynchronous, which means some routines should wait for the ack from the drone to continue its execution.**
+
+Here's the code to implement automatic downloading, the developer could use `handler` to execute the `ENTERPLAYBACK` function, then the process will be executed automatically:
+
+~~~java
+	private Handler handler = new Handler(new Handler.Callback() {
+        
+        @Override
+        public boolean handleMessage(Message msg)
+        {
+            switch (msg.what) {
+				case STARTAUTODOWNLOAD : {
+					DJIDrone.getDjiCamera().setCameraMode(CameraMode.Camera_PlayBack_Mode, new DJIExecuteResultCallback() {
+            
+			            @Override
+			            public void onResult(DJIError mErr)
+			            {
+			                // TODO Auto-generated method stub
+			                if(mErr.errorCode == DJIError.RESULT_OK) {
+			                    handler.sendEmptyMessageDelayed(ENTERMULTIPLEPLAYBACK, 2000);
+			                }
+			            }
+			        });
+					break;
+				}                
+                case ENTERMULTIPLEPLAYBACK : {
+                    DJIDrone.getDjiCamera().enterMultiplePreviewMode(new DJIExecuteResultCallback() {
+                        
+                        @Override
+                        public void onResult(DJIError mErr)
+                        {
+                            // TODO Auto-generated method stub
+                            if (mErr.errorCode == DJIError.RESULT_OK) {
+                                handler.sendEmptyMessageDelayed(ENTERMULTIPLEEDIT, 2000);
+                            }
+                        }
+                    });
+                    break;
+                }
+                
+                case ENTERMULTIPLEEDIT : {
+                    DJIDrone.getDjiCamera().enterMultipleEditMode(new DJIExecuteResultCallback() {
+                        
+                        @Override
+                        public void onResult(DJIError mErr)
+                        {
+                            // TODO Auto-generated method stub
+                            if (mErr.errorCode == DJIError.RESULT_OK) {
+                                handler.sendEmptyMessageDelayed(SELECTFIRSTFILE, 2000);
+                            }
+                        }
+                    });
+                    break;
+                }
+                
+                case SELECTFIRSTFILE : {
+					// There are a lot of selection methods in our SDK, developers could use them to handle which one they want to download.
+                    DJIDrone.getDjiCamera().selectFileAtIndex(0, new DJIExecuteResultCallback() {
+                        
+                        @Override
+                        public void onResult(DJIError mErr)
+                        {
+                            // TODO Auto-generated method stub
+                            if (mErr.errorCode == DJIError.RESULT_OK) {
+                                handler.sendEmptyMessageDelayed(DOWNLOADIT, 2000);
+                            }
+                        }
+                    });
+                    break;
+                }
+                
+                case DOWNLOADIT : {
+                    File destDir = new File(Environment.getExternalStorageDirectory().getPath() + "/Dji_Sdk_Test/");
+                    if (!destDir.exists()) {
+                        destDir.mkdirs();
+                    }
+					/** The implementation of mFileDownloadCallBack could be found in the previous tutorial. **/
+                    DJIDrone.getDjiCamera().downloadAllSelectedFiles(destDir, mFileDownloadCallBack);
+                    break;
+                }
+            }
+            return false;
+        }
+    });
+~~~
+
+You can invoke `handler.sendEmptyMessage(STARTAUTODOWNLOAD)` to automatically download the media files. 
+
+In summary, developers should follow the following steps to allow users to download multiple files:
+
+1. `setCameraMode` to switch the camera status into the playback mode.
+
+2. `enterMultiplePreviewMode` to prepare for downloading multiple media files.
+
+3. `enterMultipleEditMode` to enter the multiple edition playback status so that the users can browse through images they may want to download.
+
+4. Once the `enterMultipleEditMode` succeeds and return an ack, use the `selectFileAtIndex`, `selectAllFiles` and `selectAllFilesInPage` functions to select files based on user input.
+
+5. Once the selection methods succeed and return an ack, invoke `downloadAllSelectedFiles`.
+
+6. The app has successfully downloaded the files. `finishDownloadAllSelectedFiles` should be invoked while the ack comes to ensure camera returns to playback mode.
+
+## 5. Where To Go From Here?
+
+Over the course of this tutorial, you have learned how to switch and get the current camera mode, download and delete media files, implement gesture control, and much more to create a Photo and Video Album application for the Inspire 1, Phantom 3 Professional and M100!
+
+In the next tutorial, we will be implementing the album app for Phantom 3 Advanced. 

@@ -1,19 +1,20 @@
-# 如何创造一个照片和视频回放应用: 第一部分
+# 如何创造一个照片和视频回放应用
 
 ##  概括
-在此教程中，你将会熟悉Inspire 1, Phantom 3 Professional和M100所特有的多种相机模式，以及如何切换和获取相机模式和如何为照片和视频回放应用创造一个交互良好的UI界面。最重要的当然还是如何选择和下载媒体文件。让我们开始吧!
+在此教程中，你将会知晓Inspire 1, Phantom 3 Professional和M100所特有的多种相机模式，以及如何切换和获取不同的相机模式和如何为回放相册app创造一个交互良好的UI界面。最重要的，当然还有如何选择和下载媒体文件。让我们开始吧!
 
 你可以在此下载此教程的demo工程: <https://github.com/DJI-Mobile-SDK/Android-PlaybackDemo>
 
-当你学习此教程时，我们**强烈**建议你使用demo工程的源代码为参考例子.
+当你学习此教程时，这份教程demo将会提供很多有价值的代码参考。
 
 ## 1. 相机模式
 
-在开发相app之前，我们将简单的解释SDK中每个相机模式的能力。 Inspire 1, Phantom 3 Professional 和 M100有四个相机模式, **Capture 模式, Record 模式, Playback 模式** 和 **Download 模式**。在 **Capture 模式**中, 用户能够使用拍照功能, 比如拍摄照片和设置相机参数，其他动作例如录像回放等将不被响应。在**Record 模式**中,这些拍照功能将被禁用，而且用户此时只能开始或者停止录像。**Playback 模式**可以让用户预览无人机上的SD卡里的媒体文件。**Download 模式**让用户下载该SD卡上的媒体文件，但是文件必须先被设置好.
+在开发回放相册app之前，我们将简单地解释SDK中每个相机模式的特性。 Inspire 1, Phantom 3 Professional 和 M100有四个相机模式, **Capture 模式, Record 模式, Playback 模式** 和 **Download 模式**。在 **Capture 模式**中, 用户能够使用拍照功能，比如拍摄照片和设置相机参数，其他动作例如录像回放等将不被直接响应。在**Record 模式**中，上述的拍照功能将被禁用，而且用户此时只能使用开始或者停止录像等摄像相关方法。**Playback 模式**可以让用户预览飞行器上SD卡里的媒体文件。**Download 模式**允许用户下载媒体文件，但是前提是所有想要下载的文件必须正确选择以及设置。
 
-**但是，特别地，Phantom 3 Advanced只有3种相机模式: Capture模式, Record模式以及Download模式.下一个教程将会解释这些.**
+**但是，特别地，Phantom 3 Advanced只有3种相机模式: Capture模式，Record模式以及Download模式。下一个教程将会解释这些不一样的内容。**
 
-在Mobile Android SDK中，开发者可以运行`setCameraMode`方法以切换相机模式和`getCameraMode`方法来获取相机模式。请注意Phantom 2 无人机比较特殊因为他们只有两种模式: `CameraMode.Camera_Camera_Mode` 和`Camera.Camera_USB_Mode`,这些模式已经不被新一代无人机支持.)
+在Mobile Android SDK中，开发者可以运行`setCameraMode`的方法以切换相机模式和`getCameraMode`方法来获取相机模式。请注意Phantom 2飞行器比较特殊因为他们只有两种模式: `CameraMode.Camera_Camera_Mode` and `Camera.Camera_USB_Mode`,这些模式已经不被新一代飞行器支持。)
+
 ~~~java
 	//Set up the Camera Mode. 
     DJIDrone.getDjiCamera().setCameraMode(CameraMode, DJIExecuteResultCallback)
@@ -21,9 +22,10 @@
 	//Get the Camera Mode
 	DJIDrone.getDjiCamera().getCameraMode(DJICameraModeCallBack)
 ~~~
+
 ## 2. 辨别相机的模式状态
 
-我们在上面已经介绍了我们有四或者三种相机模式 (取决于你的飞机)。如何正确辨别你所在的模式是开发一个好的照片集应用的关键。 在Mobile Android SDK中，有一个返回当前相机的回放状态的callback设置。当状态被改变时，开发者可以设置一个callback功能来运行其对应的应对措施。此callback每秒钟执行10次。
+我们在上面已经介绍了有四或者三种相机模式(取决于你的飞行器）。如何正确辨别你所在的模式是开发一个好的回放相册app的关键。 在mobile android SDK中，有一个返回当前相机的回放状态的callback设置。当状态被改变时，开发者可以设置一个callback功能来运行其对应的应对措施。此callback可以每秒钟可执行10次。
 
 ~~~java
 
@@ -40,7 +42,7 @@
 
 ~~~
 
-每当 SDK 获取回放状态模式信息时, SDK将所获取的信息打包并且创造一个`DJICameraPlaybackState`的实例来从SDK转移信息到app。 为了更深的了解状态提醒, 我们简单的介绍 `DJICameraPlaybackState`的属性。属性将会在下面的表格中详细说明。
+每当 SDK 获取回放状态模式信息时, SDK将所获取的信息打包并且创造一个`DJICameraPlaybackState`的实例来从SDK转移信息到app。 为了更深的了解状态提醒, 我们简单的介绍 `DJICameraPlaybackState`的属性。这些属性将会在下面的表格中详细说明。
 
 <table>
 <tbody>
@@ -50,7 +52,7 @@
 </tr>
 <tr>
 <td>currentSelectedFileIndex</td>
-<td>返回当前预览的文件ID,显示用户当前浏览哪张图片。</td>
+<td>返回当前预览的文件ID,可用户显示用户当前浏览哪张图片。</td>
 </tr>
 <tr>
 <td>fileDeleteStatus</td>
@@ -58,15 +60,15 @@
 </tr>
 <tr>
 <td>isAllFilesInPageSelected</td>
-<td>返回一个布尔型去判断是否所有的在一个页面的文件已经被选择。</td>
+<td>返回一个布尔型去判断是否所有的文件已经被选择。</td>
 </tr>
 <tr>
 <td>isFileDownloaded</td>
-<td>告知用户文件是否已经被下载，当相机模式处于单张回放的模式。防止用户无意地多次下载。</td>
+<td>告知用户文件能否已经被下载，当相机模式处于单张回放的模式。防止用户无意地多次下载。</td>
 </tr>
 <tr>
 <td>isSelectedFileValid</td>
-<td>4K视频或DNG照片是无法被下载的，这个属性是告诉用户当前选择的图片能否正确被下载。</td>
+<td>4K视频或DNG照片是无法被下载的，这个属性是用户当前选择的图片能否正确被下载。</td>
 </tr>
 <tr>
 <td>mediaFileType</td>
@@ -82,7 +84,7 @@
 </tr>
 <tr>
 <td>numbersOfSelected</td>
-<td>这个属性用于返回被选择的文件数量，这个属性可以用于显示已选择文件数量。</td>
+<td>这个属性用户返回被选择的文件数量，这个属性可以用于选择模式中对选择文件数的记录。</td>
 </tr>
 <tr>
 <td>numbersOfThumbnail</td>
@@ -127,26 +129,26 @@
 </tbody>
 </table>
 
-如你所见，此类中有很多的属性。其中一些含有关于媒体文件的基本信息，而其它的为开发者提供一些重要信息，比如当前相机模式等，方便程序动态的修正其状态。例如，开发者可以用DJICameraPlaybackState中的信息来选择UI元素来显示。
+如你所见，此类中有很多的属性。其中，有一些是关于媒体文件的基本信息，有一些能为开发者提供一些重要信息，比如当前相机模式，方便程序动态的修正其状态。例如，开发者可以用`DJICameraPlaybackState`中的信息来选择UI元素来显示。
 
-现在你已经熟悉了SDK提供的回放信息，我们可以开始创建我们的相薄应用了。
+现在你已经熟悉了SDK提供的基本回放信息，我们可以开始创建我们的回放相册APP应用了。
 
 ## 3. 照片集应用的UI要素
 
 ### 3.1 多预览回放模式的GridView
 
-在我们官方app DJI Pilot中，你可以在app画面中查看8个thumbnails(如果你现在还没有安装DJI Pilot到你的安卓设备 [按下此链接来安装](https://play.google.com/store/apps/details?id=dji.pilot&hl=en))。为了更好地用户体验，我们将为开发者提供一个相似的 UI 要素应用在他们的apps，首先我们将实现的是 Gridview (更多GridView细节在正式的Android教程 [请按这里](http://developer.android.com/reference/android/widget/GridView.html)).
+在我们官方app DJI Pilot中，你可以在app画面当查看8个thumbnails(如果你现在还没有安装DJI Pilot到你的安卓设备 [按下此链接来安装](https://play.google.com/store/apps/details?id=dji.pilot&hl=en))。为了更好地用户体验，我们将为开发者提供一个类似的 UI 要素。首先我们将实现的是 Gridview (更多GridView细节在正式的Android教程 [请按这里](http://developer.android.com/reference/android/widget/GridView.html)).
 
-以下是多预览UI的基本概况. 以下八个图片预览每一个都是一个按钮. 我们通过GridView来实现这些按钮. 
+以下是多预览UI的基本样式. 以下八个图片预览每一个都是一个按钮. 我们通过GridView来实现这些按钮. 
 
 ![Multiple playback view](../../../images/Android/PlaybackAlbumDemo/gridview.jpg)
 
-在我们开始之前，我们需要注意grid view有两个特点:
+在我们开始之前，我们需要注意grid view的两个特点:
 
 - grid view可滑动.
 - 用户可以设计每个block里的实例.
 
- 我们可以重写基本的 Gridview 来满足我们的需求 (一个不能滑动的 gridview 和8个透明的按钮).接下来的代码显示我们如何覆盖 GridView. 因为他非常基本，你可以自由地加入更多的功能到你自己将来的apps.
+ 我们可以重写基本的 Gridview 来满足我们的需求 (一个不能滑动的 gridview 和8个透明的按钮).接下来的代码显示我们如何重写GridView。你可以加入更多的功能到你实现的GridView中。
 
 ~~~java
 
@@ -174,7 +176,7 @@
 
 ~~~
 
-`dispatchTouchEvent(MotionEvent ev)`方法设置gridview的不可滑动属性。为了使用它来复写GridView, 开发者应该使用完整的路径作为item tag. 使用demo工程中的`activity_playback_protocol.xml`文件 为例:
+`dispatchTouchEvent(MotionEvent ev)`方法设置gridview的不可滑动属性。为了使用它来复写GridView, 开发者应该使用完整的文件路径作为为item tag。以demo工程中的`activity_playback_protocol.xml`文件 为例:
 
 ~~~xml
 
@@ -183,6 +185,7 @@
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:orientation="vertical">
+			<!-- 自定义的 GirdView -->
 			<com.dji.download.demo.PlaybackGridView
 				android:id="@+id/GridView"
 				android:layout_width="fill_parent"
@@ -200,7 +203,7 @@
 
 ~~~
 
-现在我们有一个为了相薄应用创造的基本的 gridview。下一个文件, `button_gridview_item.xml`将定义gridview的每一个元素并且提供block layout.
+如此，我们就完成了简单的girdview配置。下一个文件, `button_gridview_item.xml`将定义gridview中每一个元素的样式内容。
 
 ~~~xml
 
@@ -223,7 +226,7 @@
 
 ~~~
 
-恭喜! 你现在已经收集了所有需要的要素来创造一个多预览相薄. 接下来的代码将帮你将它们组合成一个好看的UI.
+恭喜! 你现在已经收集了创造一个回放相册APP的所需要的重要UI要素，接下来的代码将帮你将它们组合成一个好看的UI.
 
 ~~~java
 
@@ -318,13 +321,13 @@
 
 在我们开始这部分之前, 我们将会做一些修改:
 
-1. 跟随此 [FPVDemo教程](https://github.com/dji-sdk/Mobile-SDK-Tutorial/blob/master/Android-FPVDemo/en/FPVDemo/Part1/FPVDemo_Part1_en.md) 来设置Android Open Accessory (AOA)。
+1. 模仿此 [FPVDemo教程](https://github.com/dji-sdk/Mobile-SDK-Tutorial/blob/master/Android-FPVDemo/en/FPVDemo/Part1/FPVDemo_Part1_en.md) 来设置Android Open Accessory (AOA)。
 2. 将你的 main activity 从 `PlaybackProtocolActivity` 改成 `DJIAoaActivity`。
 3. 加入一个DjiGLSurfaceView元素来显示第一人视角(第二和三步也在 FPV 教程中可以找到)。
 4. 在按钮加入item `android:visibility="Gone"` 到我们`activity_playback_protocol.xml`里的gridview。
 5. 在`button_gridview_item.xml`里将 `android:background="@android:color/yellow"` 替换成 `android:background="@android:color/transparent"` 以改变按钮颜色。
 
-现在我们可以继续. 如我们在第一部分中所学到的内容, 我们有四个照片模式并且每一个功能都互为相斥，内容并不能同时使用。为了使用户对它更清晰, 开发者应该根据当前相机的状态，调整UI元素。让我们在`activity_playback_protocol.xml`里加入一些按钮.
+现在我们可以继续我们的教程。请回想起我们在第一部分中所学到的内容, 我们有四个照片模式并且每一个功能都互为相斥，内容并不能同时使用。为了使用户对它更清晰, 开发者应该根据当前相机的状态，调整UI元素。让我们在`activity_playback_protocol.xml`里加入一些按钮。
 
 ~~~xml
 
@@ -442,7 +445,7 @@
 
 ~~~
 
-**Capture**, **Record** 和 **Playback** 按钮, 它们由于能够来回切换相机所处的状态，他们都会显示出来，然而其他的内容并不是一定出现，所以他们的可见性`visibility`已经被设置为Gone了。在 **Playback** ，模式中我们有三个子模式 **Single Preview**, **Multiple Preview** 和 **Multiple Edition**. 进入 **Playback** 模式将使用户进入 **Single Preview** 模式。在 **Multiple Preview** 模式中，用户可以按下任何图片来进入 **Single Preview** 模式。**Multiple Edition** 回放模式不同于 **Multiple Preview** 因为它使用户能够选择他们感兴趣的文件，下载和删除它们. 下面的截图将会概述那些按钮和功能属于哪一个模式。
+**Capture**, **Record** 和 **Playback** 按钮, 它们由于能够来回切换所以在所有的状态中他们都会显示出来，然而其他的内容并不是一定出现，所以他们的可见性`visibility`已经被设置为Gone了。在 **Playback** ，模式中我们有三个子模式 **Single Preview**, **Multiple Preview** 和 **Multiple Edition**. 进入 **Playback** 模式将使用户进入 **Single Preview** 模式。在 **Multiple Preview** 模式中，用户可以按下任何图片来进入该照片的 **Single Preview** 模式。**Multiple Edition** 回放模式不同于 **Multiple Preview** 因为它使用户能够选择他们感兴趣的文件，下载和删除它们. 下面的截图将会概述那些按钮和功能属于哪一个模式。
 
 ![Capture Mode](../../../images/Android/PlaybackAlbumDemo/capturemode.jpg)
 
@@ -520,9 +523,9 @@
 
 ~~~
 
-此方法将UI状态分成4个部分(拍照，录像，回放，多回放)。当相机模式改变时，此方法将能够调整UI元素。
+此方法将UI状态分成4个部分(拍照，录像，回放，多回放)。当相机模式改变时，此方法将能够调整UI元素的。
 
-除了调整UI，我们也应该从我们的app发送一个要求给我们的无人机来改变相机模式. 记得第一部分中的 `setCameraMode(CameraMode mode)` 方法吗? 现在我们将用上它:
+除了调整UI，我们也应该从我们的app发送一个请求到我们的飞行器中用于改变相机模式. 记得第一部分中的 `setCameraMode(CameraMode mode)` 方法吗? 现在我们将把他用上:
 
 ~~~java
 
@@ -550,7 +553,7 @@
 
 ~~~
 
-常数量的值从2开始因为`CameraMode`enum中的`Camera_Capture_Mode` 的值为2. 我们修改我们的 `onClick()` 方法使 `onPressStatusBtn(final int status)` 在适当的按钮按下时被使用, 而且按照按下的按钮来调整我们以哪一个constant作为参数:
+常数量值从2开始是因为`CameraMode`enum中的`Camera_Capture_Mode` 的值为2。 我们修改我们的 `onClick()` 方法使 `onPressStatusBtn(final int status)`相应的代码如下可见：
 
 ~~~java
 
@@ -584,7 +587,7 @@
 	}
 ~~~
 
-为了保持UI 逻辑的一致, 我们同时在`onCreate()`方法中检测当前相机的状态. 在我们的demo中, 我们将在 `checkPermission(Context, DJIGeneralListener)` 获取此SDK等级后执行.
+为了保持UI逻辑的一致, 我们同时在`onCreate()`方法中检测当前相机的状态。在我们的demo中, 我们将在 `checkPermission(Context, DJIGeneralListener)` 获取SDK等级后执行相机状态检测的操作。
 
 ~~~java
 
@@ -624,7 +627,7 @@
 
 Inspire 1, Phantom 3 Professional 和 M100的遥控器有照相，录像，和进入回放模式的按钮。当这些按钮被按下时，相机的状态将会根据按钮而改变。如果我们的应用能根据遥控器上的按钮并自动调整UI,那就更完美了
 
-为了监听遥控器, 我们将使用`DJIRemoteControllerUpdateAttitudeCallBack`。将下面的代码加入到 onCreate() 方法, 请确保先定义变量 `mRemoteControllerUpdateAttitudeCallBack`。
+为了监听遥控器, 我们将使用`DJIRemoteControllerUpdateAttitudeCallBack`。将下面的代码加入到 onCreate() 方法, 当请确保先定义变量 `mRemoteControllerUpdateAttitudeCallBack`。
 
 ~~~java
 
@@ -652,15 +655,15 @@ Inspire 1, Phantom 3 Professional 和 M100的遥控器有照相，录像，和�
 
 ~~~
 
-`attitude.playbackStatus`, `attitude.recordStatus` 和 `attitude.shutterStatus` 显示相应的遥控器上的按钮的状态. 当用户在遥控器上按下相应的按钮时, 这些 attributes 将变为`true`.
+`attitude.playbackStatus`, `attitude.recordStatus` 和 `attitude.shutterStatus` 显示相应的遥控器上的按钮的状态. 当用户在遥控器上按下相应的按钮式, 这些 attributes 将变为`true`.
 
-你已经完成了实现适应性UI. 创造并运行你的app，享受你的成果吧!
+你的APP已经能够根据相机的模式状态来调整对应的UI逻辑啦，运行你的app，享受你的成果吧!
 
 ### 3.3 相薄动作控制
 
-为了一个更好的用户体验, 我们将加入一些基本的手势到我们的应用中. 在 **Multiple Preview** 模式, 如果用户向上或下滑动, 画面将显示上一页面或下一页面照片. 在 **Single Preview** 模式中, 如果用户向左或右滑, 画面将显示上一个或下一个媒体文件. 我们用GestureDetector 来实现此方法.
+为了一个更好的用户体验, 我们将加入一些基本的手势到我们的应用中. 在 **Multiple Preview** 模式, 如果用户向上或下滑动, 画面将显示上一面或下一面照片. 在 **Single Preview** 模式中, 如果用户向左或右滑, 画面将显示上一个活下一个媒体文件. 我们用GestureDetector 来实现此方法。
 
-*更多 GestureDetector 类的信息, 请参考此链接: <http://developer.android.com/reference/android/view/GestureDetector.html>*
+*更多 GestureDetector 类的信息, 请去此链接: <http://developer.android.com/reference/android/view/GestureDetector.html>*
 
 ~~~java
 
@@ -694,7 +697,7 @@ Inspire 1, Phantom 3 Professional 和 M100的遥控器有照相，录像，和�
 
 ~~~
 
-如果你运行你的应用并且尝试此方法，你可能会发现什么都没发生. 这是因为gridview 和 gesture detectors 将会尝试获取用户的动作。这两样内容的方法将产生冲突进而导致失败。为了避免此情况，我们需要重写`dispatchTouchEvent`方法
+如果你运行你的应用并且尝试此方法，你可能会发现UI的处理逻辑并没有跟你的预期一致。这是因为gridview 和 gesture detectors 将会尝试获取用户的动作。这两样内容的方法检测的先后顺序导致用户意图获取异常。为了避免此情况，我们需要重写`dispatchTouchEvent`方法
 
 ~~~java
 
@@ -708,15 +711,15 @@ Inspire 1, Phantom 3 Professional 和 M100的遥控器有照相，录像，和�
 
 ~~~
 
-好样的! 一些已定义的动作已经加入到了你的app里，使得你的app用户体验更好了.
+好样的! 一些自定义的动作已经加入到了你的app里，使得你的app用户体验更好了。
 
 ![Single swipee gesture](../../../images/Android/PlaybackAlbumDemo/singleslide.png)
 
 ![Multiple swipe gesture](../../../images/Android/PlaybackAlbumDemo/multipleslide.jpg)
 
-### 3.4 播放视频
+### 3.4 播放视屏
 
-DJI Camera 提供了一个视频预览功能让用户能享受他们拍摄的视频。在我们app当前的状态，用户可以进入单预览回放模式并且滑动左或右以浏览他们的视频文件. 同时希望当他们预览视频文件时，能够按下一个播放或暂停按钮来控制视频的回放。为了实现这个功能，首先加入两个按钮到你的 `activity.xml` 文件.
+DJI Camera 提供了一个视频预览功能让用户能享受他们拍摄的视频。在我们app当前的状态，用户应该可以进入单预览回放模式并且滑动左或右以浏览他们的视屏文件。同时，当他们预览视频文件时，他们希望能够按下一个播放或暂停按钮来控制是视频的回放。要实现这个功能，首先加入两个按钮到你的 `activity.xml` 文件。
 
 ~~~xml
 
@@ -749,6 +752,7 @@ DJI Camera 提供了一个视频预览功能让用户能享受他们拍摄的视
             android:background="@android:color/transparent"
         />
     </RelativeLayout>
+
 ~~~
 
 这些按钮的图片源需要被复制到 `drawable-mdpi` 文件夹, 并且两个元素需要加入到.xml 文件 `drawable`.
@@ -756,7 +760,7 @@ DJI Camera 提供了一个视频预览功能让用户能享受他们拍摄的视
 	<item android:drawable="drawable/play_video" android:state_pressed="false"></item>
 	<item android:drawable="drawable/pause_video" adnroid:state_pressed="false"></item>
 
-但是，这里有两种媒体文件用户可以在单预览回放模式中预览。然而回放模式中存在着图片文件和视频文件，如果播放按钮或者暂停按钮在回放图片时出现这样会影响APP的交互体验。为了防止这个，我们在`onCreate()`中设置一个listener来检查何种文件用户正在预览。
+但是，回放模式中有两种媒体文件提供给用户在单预览回放模式中预览。如果播放按钮或者暂停按钮在用户回看图片时出现，这样的逻辑错误会影响APP的交互体验。为了防止这个问题，我们在`onCreate()`中设置一个listener来检查何种文件用户正在预览。
 
 ~~~java
 
@@ -803,7 +807,7 @@ DJI Camera 提供了一个视频预览功能让用户能享受他们拍摄的视
 
 ~~~
 
-现在app将自动检测相机是否在视频单预览回放模式，并且如果不是的话删除播放和暂停按钮.
+现在app将自动检测相机是否在视频单预览回放模式，并且如果不是的话屏蔽播放和暂停按钮.
 
 ![Play the video](../../../images/Android/PlaybackAlbumDemo/playbutton.jpg)
 
@@ -814,14 +818,15 @@ DJI Camera 提供了一个视频预览功能让用户能享受他们拍摄的视
 ## 4. 下载并且删除媒体文件
 
 ### 4.1 完成下载功能
+
 在前面的部分，我们讨论并且实现了4个相机模式中的3个。在这部分，你将完成最后一个相机模式，**Download Mode**.
 
-请注意 **DNG 图片和4k 视频无法在回放模式中下载**. 还有，以下的两个方法不被Inspire 1, Phantom 3 Professional 或者 M100支持:
+请注意 **DNG 图片和4k 视频无法再回放模式中下载**. 还有，以下的两个方法不被Inspire 1, Phantom 3 Professional 或者 M100所支持:
 
 - `fetchMediaData(DJIMedia, DJIExecuteResultCallback)`
 - `fetchMediaThumbnail(DJIMedia, DJIExecuteResultCallback)`
 
-我们已经实现了所有需要的UI功能，最后剩下的是往我们已有的按钮中加入一些逻辑. 将以下代码加入进 `onClick(View v)`:
+我们已经实现了所有需要的UI功能，最后剩下的时往我们已有的按钮中加入一些逻辑. 将以下代码加入进 `onClick(View v)`:
 
 ~~~java
 
@@ -867,7 +872,7 @@ DJI Camera 提供了一个视频预览功能让用户能享受他们拍摄的视
 
 ~~~
 
-我们创造一个`DJIFileDownloadCallBack`实例加入到 `onCreate()` 方法, 如下所示. `DJIFileDownloadCallBack` 包括一个 handler. 你可以在我们的demo代码里找到handler declaration 
+我们创造一个`DJIFileDownloadCallBack`实例加入到 `onCreate()` 方法, 如下所示. `DJIFileDownloadCallBack` 包括一个 handler. 你可以在我们的demo代码里找到handler的声明。 
 
 ~~~java
 
@@ -967,9 +972,9 @@ DJI Camera 提供了一个视频预览功能让用户能享受他们拍摄的视
 
 ![Downloading](../../../images/Android/PlaybackAlbumDemo/download.jpg)
 
-### 4.2 自动下载媒体文件
+### 4.2 自动下载媒体文件Automatically downloading media files
 
-一些开发者可能想要从他们的无人机自动下载媒体文件. 此部分将介绍如何做到这点. 首先，开发者应该明白 **所有用于下载的方法都是异步的, 意思是说一些方法应该等待无人机的ack来继续他们的进程**
+一些开发者可能想要从他们的飞行器自动下载媒体文件. 此部分将介绍如何做到这点. 首先，开发者应该明白 **所有用以下载的方法都是异步的, 意思是说一些方法应该等待无人机的ack来继续他们的进程**
 
 这里是自动下载的实现代码，开发者能够使用`handler`去发送`ENTERPLAYBACK`的消息去执行以下自动化执行的代码:
 
@@ -1059,7 +1064,7 @@ DJI Camera 提供了一个视频预览功能让用户能享受他们拍摄的视
 
 你能够调用`handler.sendEmptyMessage(STARTAUTODOWNLOAD)` 自动化下载多媒体文件. 
 
-概括起来，开发者应该按照以下几点来使用户下载多个文件:
+概括起来，开发者应该按照以下几点来时用户下载多个文件:
 
 第一步：`setCameraMode`去设置相机模式进入到回放模式。
 
@@ -1067,12 +1072,12 @@ DJI Camera 提供了一个视频预览功能让用户能享受他们拍摄的视
 
 第三步: 当 `enterMultipleEditMode`成功并且返回ack时,使用 `selectFileAtIndex`, `selectAllFiles` 和 `selectAllFilesInPage` 方法来根据用户的输入来选取照片.
 
-第四步: 当选择方法执行完毕时, 根据DJICameraPlaybackState的numbersOfSelected属性确定已选择文件（`selectFileAtIndex`, `selectAllFiles` 和 `selectAllFilesInPage`方法无人机是不返回ack信息的），执行 `downloadAllSelectedFiles`.
+第四步: 当选择方法成功并且返回ack时, 执行 `downloadAllSelectedFiles`.
 
-第五步: app成功下载文件. `finishDownloadAllSelectedFiles`应该被执行，ack确认相机返回到了回放模式.
+第五步: app成功下载文件. `finishDownloadAllSelectedFiles`应该被执行党ack确认相机返回到了回放模式.
 
 ## 5. 下一步怎么做?
 
-在此教程中，你学会了如何切换以及获取当前相机的模式, 下载和删除媒体文件, 实现动作操作, 以及创造一个为Inspire 1, Phantom 3 Professional 和 M100使用的相片和视频集的应用.
+在此教程中，你学会了如何切换以及获取当前相机的模式, 下载和删除没文件, 实现动作操作, 以及很多创造一个为了Inspire 1, Phantom 3 Professional 和 M100相片和视频集的应用.
 
 在下一个教程中。我们将实现Phantom 3 Advanced的相薄. 

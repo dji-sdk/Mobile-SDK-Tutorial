@@ -1,6 +1,4 @@
-# How to create a MapView and Waypoint Application
-
-## Part 1/2
+# How to create a MapView and Waypoint Application - Part 1/2
 
 <!-- toc -->
 
@@ -8,9 +6,9 @@ In this tutorial, you will learn how to setup the DJI PC Simulator, update the f
 
 You can download the demo project for this tutorial from: <https://github.com/DJI-Mobile-SDK/Android-GSDemo-Part1-GoogleMap.git>
 
-### 1. Using DJI PC Simulator
+## 1. Using DJI PC Simulator
 
-#### 1. Introduction
+### 1. Introduction
 
 The DJI PC Simulator is a flight simulator dedicated for SDK developers. The simulator creates a virtual 3D environment and transfer the flight data to the PC via the UDP protocol for data analysis purpose.
 
@@ -18,7 +16,7 @@ The DJI PC Simulator is a flight simulator dedicated for SDK developers. The sim
 
 **Supported DJI Platforms**: Matrice 100, Inspire 1, Phantom 3 Professional and Advanced
 
-#### 2. Install and setup DJI PC Simulator
+### 2. Install and setup DJI PC Simulator
 
 Download the DJI PC Simulator installation files and WIN Driver from : <http://dev.dji.com/en/products/sdk/onboard-sdk/downloads>
 - DJI PC Simulator Installer & User Manual V1.0
@@ -28,7 +26,7 @@ You must install the WIN driver before installing the simulator. For Mac users, 
 
 Finally, double click the **DJISimulator-Installer.exe** file and follow the on-screen instruction to complete the installation. 
 
-#### 3. How to use DJI PC Simulator
+### 3. How to use DJI PC Simulator
 **1.** The Simulator Config window will display upon the launching of the DJI PC Simulator. Set appropriate  Latitude and Longitude values as the home point. The "SN" denotes the connected aircraft's serial number.
 
 ![Config](../../../images/Android/GSDemo/simulator_config.png)
@@ -73,7 +71,7 @@ remote controller. Click Display Simulator. You can see the screenshot as below:
 For more info about DJI PC Simulator, please check the **DJI PC Simulator user manual.pdf** file, which you download along with the simulator.---
 **Note**: 
 
-### 2. Upgrade Firmware
+## 2. Upgrade Firmware
 
 Download and update the aircraft's firmware to its beta version before attempting to use the DJI Mobile SDK API.
 
@@ -98,9 +96,9 @@ Also, you can check the firmware upgrade status by checking the **txt** file gen
   ![upgradeInspire1Success](../../../images/Android/GSDemo/upgradeInspire1Success.png)
   
   
-### 3. Setup Map View
+## 3. Setup Map View
 
-#### 1. Create a map view
+### 1. Create a map view
 
 Use map view to display waypoints and show the flight route of the aircraft when the flight task is being executed. We take Google map for an example.
 
@@ -267,7 +265,7 @@ Now you can see your app loading a Google map by following the instructions to e
 
 
  
-#### 2. Locate the Aircraft
+### 2. Locate the Aircraft
 
 When Google map is successfully loaded. You can then use a marker on the map to show the loacation of the aircraft based on the coordinates provided by **droneLocationLatitude**, **droneLocationLongitude** in **DJIMainControllerSystemState**. Implement **private void updateDroneLocation()** function to update the location of the aircraft.
 
@@ -433,7 +431,7 @@ Click the "locate" button, the following GUI prompt to show the location of the 
 
 ![locateAircraft](../../../images/Android/GSDemo/locateAircraft.png)
 
-#### 3. Add and clear the waypoints
+### 3. Add and clear the waypoints
 
 It is critical to enable user to add waypoints in Ground Station intuitively. We will then demonstrate how to add waypoints on the map. Place a "Add" button. Whenever we click button "add", a switch variable "isAdd" will turn into "true", and the text of the button shown as "Exit". We have now entered waypoints adding mode: Click and add the desirable location in the map as a waypoint. A marker will be displayed on the map to shows that a new waypoint has been added. Click "Exit" button to exit waypoint adding mode when you have placed all the desirable waypoints in the map. The listener for clicking map is shown as follows:
 
@@ -488,7 +486,7 @@ We add the "clear" button to clear all the added waypoints. All the markers on t
 ![clearWaypoints](../../../images/Android/GSDemo/clearWaypoints.png)
 
 
-#### 4. Where To Go From Here?
+## 4. Where To Go From Here?
 
 You have mastered how to setup and use the DJI PC Simulator to test your Ground Station app, how to upgrade your  firmware to the developer version, and how to use the DJI Mobile SDK to create a simple MapView, modify annotations of map view, checking the aircraft on the map view by simulate the GPS data from DJI PC Simulator, etc. That covers much of the ground.
 

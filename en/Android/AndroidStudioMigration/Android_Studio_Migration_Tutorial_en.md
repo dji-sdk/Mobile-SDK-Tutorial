@@ -1,17 +1,17 @@
-## How to Import DJI SDK Demo to Android Studio
+# How to Import DJI SDK Demo to Android Studio
 
 <!-- toc -->
 
 There are two methods we can use to import the DJI SDK Demo library into Android Studio. The first is to import the Android Studio version of the DJI SDK Demo Library to Android Studio; the second is to import the Eclipse version of the DJI SDK Demo into Android Studio.
 
-### 1. Import the Android Studio Version
+## 1. Import the Android Studio Version
 
-#### 1. Downloading the DJI Android SDK
+### 1. Downloading the DJI Android SDK
 Please download DJI Android SDK: <dev.dji.com/en/products/sdk/mobile-sdk/downloads>
 
 Unzip the downloaded package. Find the **Android Studio** folder under the path "./V2.1.0/Android Studio".
 
-#### 2. Importing the Project
+### 2. Importing the Project
 
 There are two projects in the **Android Studio** folder: **DJI_SDK_Android_GetStart** and **DJI-SDK-Android-V2.1.0**. We will be using the **DJI-SDK-Android-V2.1.0** project.
 
@@ -24,14 +24,14 @@ Open Android Studio and select **Open an existing Android Studio project**. A di
 ![sdkPath](../../images/Android/AndroidStudioMigration/sdkPath.png)
 
 
-### 2. Importing the Eclipse version
+## 2. Importing the Eclipse version
 
-#### 1. Downloading DJI Android SDK
+### 1. Downloading DJI Android SDK
 Please download DJI Android SDK: <dev.dji.com/en/products/sdk/mobile-sdk/downloads>
 
 Unzip the downloaded package. Find the **Eclipse** folder under the path "./V2.1.0/Eclipse". 
 
-#### 2. Importing the project
+### 2. Importing the project
 
 Open Android Studio, select **Import project(Eclipse ADT, Gradle,etc.)**. A dialog window will pop-up asking you to select the project path. Select the path "./V2.1.0/Eclipse/DJI-SDK-Android-V2.1.0" to import the DJI SDK Demo.
 
