@@ -16,4 +16,5 @@
 		* [第二部分](Android/FPVDemo/Part2/FPVDemo_Part2_ch.md)
  	* [Android Studio工程导入](Android/AndroidStudioMigration/README.md)
 		* [内容](Android/AndroidStudioMigration/Android_Studio_Migration_Tutorial_ch.md) 
- 
+  	* [照片和视频回放应用](Android/PlaybackDemo/README.md)
+		* [Phantom 3 Pro & Inspire 1](Android/PlaybackDemo/P3X&Inspire1/PlaybackDemo_ch.md)

@@ -1,37 +1,68 @@
-## 如何创建一个航拍相机App: 第一部分
+#  如何创建一个航拍相机App: 第一部分
 
-你可以从这里下载到本教程的Demo工程：<https://github.com/DJI-Mobile-SDK/Android-FPVDemo-Part1.git>
+请先把demo project 下载下来。demo project可以在以下的网页上下载:
+<https://github.com/DJI-Mobile-SDK/Android-FPVDemo-Part1.git>
 
-### 1.准备工作
+在大家阅读这个教程时，我们强烈建议大家打开demo project，这样大家可以一步一步的跟着这个教程去做，同时参考demo project。
 
-(1) 下载SDK:
-你可以从这里下载到最新的SDK: <http://dev.dji.com/cn/products/sdk/mobile-sdk/downloads>
+## 概述 
 
-(2)你可以从这里下载开发者固件，并升级对应飞行器(Phantom 3 Professional, Phantom 3 Advanced 或者 Inspire 1)的固件<http://dev.dji.com/cn/products/sdk/mobile-sdk/downloads>
+在这个教程的第一部分里， 我们会教大家怎么去设置你们的编程环境，申请并激活你们的DJI应用程序，和查看你们的无人飞机的相机显示应用程序
 
+## 1.准备程序
+
+(1）请先下载 The Mobile SDK：<http://dev.dji.com/cn/products/sdk/mobile-sdk/downloads>
+
+
+(2)更新你的无人机的固件：
 可以依据文档<http://download.dji-innovations.com/downloads/phantom_3/cn/How_to_Update_Firmware_cn.pdf>里的飞行器固件升级步骤升级。
 
-### 2.解压SDK并导入Lib到自己的工程
-(1) 解压SDK包，导入文件夹"Lib"到你的eclipse，把它添加为你的工程的库(把鼠标放在你的工程名上右击->选择“Properties”->选择"Android").
+（3)请准备一个Android开发环境（如果你现在没有一个Android开发环境).请注意，在这个教程里面，我们只使用了Eclipse 4.2.2.你可以在这里下载: <https://eclipse.org/downloads/packages/eclipse-classic-422/junosr2>.下载完Eclipse 以后，你得下载Eclipse Android Development Tool Plug-in. 可在这下载：http://developer.android.com/intl/zh-TW/sdk/installing/installing-adt.html
+
+**注意**： Google对Android Development Tools in Eclipse的支持要结束了。如果你还想继续在Eclipse里完成这个demo或已在Eclipse里完成了这个demo,你可以在这个链接上找到如何把你已完成或正在做的project从Eclipse上移到Android Studio上面去： <http://dji-dev.gitbooks.io/mobile-sdk-tutorials/content/zh-cn/Android/AndroidStudioMigration/Android_Studio_Migration_Tutorial_ch.html>。如果你想在Android Studio上面完成这个教程，Mobile SDK文件夹里面存有一个Android Studio软件包和一个Eclipse软件包，你可以参考Android Studio的SDK DEMO工程或Get Start工程。不过，我们建议你用Eclipse完成这个教程，然后再把你的project转换到Android Studio上面去。
+
+
+## 2.设置你的编程环境
+
+### Eclipse
+
+（1）新建一个Android Application Project.如果你想的话，你可以为the Application, Project, and Package起名字。在项目设置下的'Create Activity'页面上，创新一个的活动并把名字改成'FPVActivity'。布局活动应该自动填写到'activity_fpv'
+
+
+
+(2)将软件包解压缩。导入一个叫**Lib**文件夹(Eclipse\DJI-SDK-Android-V2.1.0)到Eclipse里面(File -> Import -> Android -> Existing Android Code into Workspace)。下一步，把导入的文件加到你的library (right click on your project -> Select "**Properties**" -> Select "**Android**" -> Add).
 ![setLib](../../../images/Android/FPVDemo/1_importLib.png)
 
-(2) 检查库是否已成功导入
-
-查看“Android Private Libraries”，里面有如下jar包时，说明导入成功。
-
+（3）已被导入的library应该被存在这里：
 ![checkLib](../../../images/Android/FPVDemo/1_CheckLib.png)
 
+### Android Studio
+
+（1） 创新一个新的Android Studio Project.可给这个apllication一个新名字。点击'next'直到你点到'Customize the Activity'页面。你应该把你的activity的名字变成'FPVActivity'。布局的名字会自动的变成'activity_fpv'。点击'Finish'。
+
+（2）将下载的SDK软件包按如此步骤Go to File -> New -> Import Module导入Android Studio。在'Source Directory'里，找一个文件叫DJI-SDK-LIB(Android Studio\DJI-SDK-Android-V2.1.0\Lib\DJI-SDK-LIB)。点击Finish.
+
+**注意：** Android Studio文件夹能从DJI网站下载下来的SDK Package里找到。demo project里面用的软件包是用的'Eclpise'文件夹里的。如果你要用Android Studio，确保你用的是Android Studio文件夹里面的软件包。SDK Package 能在此下载：<http://dev.dji.com/cn/products/sdk/mobile-sdk/downloads>*
+
+![importModule](../../../images/Android/FPVDemo/importModuleScreenshot.png)
+
+然后，在"Packages"视图下，右击左边项目列表中的'app'模块。出现下拉框，点击'Open Module Settings'。找到一个叫'Dependencies'的标签。点击那个绿色加号，然后点击‘Module Dependency'并选择':DJI-SDK-LIB'。点击'OK'来确认。Gradle完成重建后,你的编程环境设置完毕。
 
 
-### 3.编写显示FPV视频的代码
+![addDependency](../../../images/Android/FPVDemo/addDependencyScreenshot.png)
+
+
+## 3.编写显示FPV视频的代码
 
 (1) 激活SDK: 
 
-在工程的AndroidManifest.xml文件中添加以下meta-data元素配置用来激活的APP KEY。
-![appKeyMetaData](../../../images/Android/FPVDemo/1_appKeyMetaData.png)
-
 请使用你在DJI开发者网站<http://dev.dji.com>上申请的APP KEY填入**android:value=""**。当申请APP KEY的时候，需要在标识码处填入你的工程的包名。
-![appKey](https://github.com/mrjzhao/Mobile-SDK-Tutorial/raw/master/Android-FPVDemo/zh-cn/images/appKey_cn.png)
+
+![appKey](../../../images/Android/FPVDemo/appKey_cn.png)
+
+在工程的AndroidManifest.xml文件中添加以下meta-data元素配置用来激活的APP KEY和'uses-permission'代码行。
+
+![appKeyMetaData](../../../images/Android/FPVDemo/1_appKeyMetaData2.png)
  
 在开始调用SDK APIs之前，需要添加以下代码来进行激活验证，
 
@@ -60,7 +91,7 @@
 	}.start();
 ~~~
 
-只有在激活成功之后，SDK APIs才能被调用成功。激活结果的返回码和相应的描述请见下表，若遇到问题不能成功，请先检查以下几点：1. 在申请APP KEY时，是否是使用工程的包名填入标识码；2. 是否有连接网络； 3. 所使用的APP KEY的最大装机量是否使用完。 若仍未能解决激活问题，可以发邮件给我们Mobile SDK邮箱:<sdk@dji.com>
+只有在激活成功之后，SDK APIs才能被调用成功。激活结果的返回码和相应的描述请见下表，
 
 返回错误码  		 | 错误描述 
 ------------- | -------------
@@ -84,6 +115,12 @@
 -17 | 获取设备uuid失败
 -18 | 空的App keyEmpty app key
 -1000 | 服务器错误 
+
+如果你收到一个错误代码不是'0',请按照下面的说明：
+
+1.确保您可以访问互联网
+2. 确保在 http://dev.dji.com website创建应用程序时，你必须用你的project package的名字去填写那个'Identification Code'。
+3. 确保应用程序激活码没有达到其安装的容量限制。如果这还不能解决你的问题，参考以上的故障排除表。如果你有更多的问题，请通过发送Email到我们的Mobile SDK部门:<sdk@dji.com>
 
 
 (2) 添加对Android Open Accessory (AOA)的支持:
@@ -174,7 +211,7 @@ DJIAoaActivity中有添加如下代码支持AOA,
 	
 (3) 在APP上实现FPV实时视频显示
 	
-(a) 在使用SDK APIs之前，我们先需要根据连接的飞机的类型来初始化SDK APIs.使用DJIDrone类里的**public static boolean initWithType(Context mContext, DJIDroneType type)**方法来初始化。
+(1) 在使用SDK APIs之前，我们先需要根据连接的飞机的类型来初始化SDK APIs.使用DJIDrone类里的**public static boolean initWithType(Context mContext, DJIDroneType type)**方法来初始化。
 
 ~~~java
 	@Override
@@ -216,13 +253,13 @@ DJIAoaActivity中有添加如下代码支持AOA,
 	...
 ~~~	
 
-(b) 在初始化SDK APIs之后，我需要使用DJIDrone类里面的**public static boolean connectToDrone()**方法连接飞机，
+(2) 在初始化SDK APIs之后，我需要使用DJIDrone类里面的**public static boolean connectToDrone()**方法连接飞机，
 
 ~~~java
 	DJIDrone.connectToDrone(); // Connect to the drone
 ~~~	
 
-(c) 现在我们可以实例化一个视频数据的回调接口**DJIReceivedVideoDataCallBack()**, 然后调用API **public public void setReceivedVideoDataCallBack(DJIReceivedVideoDataCallBack mReceivedVideoDataCallBack)**来获取实时视频数据（raw H264格式）。用户可以实现自己的代码去处理该视频数据。这里，我们使用DJI SDK提供的解码器来解码该视频数据，并把解码出来的视频显示在**SurfaceView**。
+(3) 现在我们可以实例化一个视频数据的回调接口**DJIReceivedVideoDataCallBack()**, 然后调用API **public public void setReceivedVideoDataCallBack(DJIReceivedVideoDataCallBack mReceivedVideoDataCallBack)**来获取实时视频数据（raw H264格式）。用户可以实现自己的代码去处理该视频数据。这里，我们使用DJI SDK提供的解码器来解码该视频数据，并把解码出来的视频显示在**SurfaceView**。
 
 在 layout **activity_fpv.xml**里面添加surfaceview, 该layout是**FPVActivity**的界面文件，
 
@@ -285,10 +322,10 @@ DJIAoaActivity中有添加如下代码支持AOA,
 
 你应该注意调用**mDjiGLSurfaceView**的方法**public boolean start()**和设置视频数据回调接口给**mDjiGLSurfaceView**传递视频数据的顺序，以及释放**mDjiGLSurfaceView**和停止传递数据给它的顺序。
 
-(d) 编译并运行你的工程，检查一切是否正常。如果在运行后看到移动端出现如下界面，你就可以开始用你自己的APP连接飞机，并享受飞机实时传回航拍视频的乐趣了！
+(4) 编译并运行你的工程，检查一切是否正常。如果在运行后看到移动端出现如下界面，你就可以开始用你自己的APP连接飞机，并享受飞机实时传回航拍视频的乐趣了！
 ![afterCompileScreenShot](../../../images/Android/FPVDemo/afterComplileScreenShot.png)
 
-### 4. 连接飞行器
+## 4. 连接飞行器
 完成以上步骤后, 现在就可以连接你的移动设备到DJI飞行器上，检查是否获取到FPV画面，以下是连接指引：
 
 * 连接 Inspire 1, Phantom 3 Professional 或者 Phantom 3 Advanced:
@@ -315,10 +352,10 @@ DJIAoaActivity中有添加如下代码支持AOA,
 
 5. 飞行器相机的实时视频就会显示在你的移动设备上
 
-### 5.享受FPV视图
+## 5.享受FPV视图
 如果你可以在app中看到飞机的视频流，那么恭喜，你已经完成了第一部分教程的内容了！下图是app的截屏：
 ![runAppScreenShot](../../../images/Android/FPVDemo/runAppScreenShot.png)
 
-### 6.现在要怎么做?
+## 6.现在要怎么做?
 
 你已经学会了如何配置DJI Mobile SDK的Android开发环境，并成功用它开发app来展示飞行器相机的FPV画面。在接下来的教程中，我们会在此基础上添加拍照和录像功能. 请关注我们第二部分的教程，希望你喜欢！
