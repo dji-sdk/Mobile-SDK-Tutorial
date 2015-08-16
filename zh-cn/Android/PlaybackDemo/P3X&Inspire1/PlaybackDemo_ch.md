@@ -659,7 +659,7 @@ Inspire 1, Phantom 3 Professional 和 M100的遥控器有照相，录像，和�
 
 你的APP已经能够根据相机的模式状态来调整对应的UI逻辑啦，运行你的app，享受你的成果吧!
 
-### 3.3 相薄动作控制
+### 3.3 相册动作控制
 
 为了一个更好的用户体验, 我们将加入一些基本的手势到我们的应用中. 在 **Multiple Preview** 模式, 如果用户向上或下滑动, 画面将显示上一面或下一面照片. 在 **Single Preview** 模式中, 如果用户向左或右滑, 画面将显示上一个活下一个媒体文件. 我们用GestureDetector 来实现此方法。
 
@@ -717,9 +717,9 @@ Inspire 1, Phantom 3 Professional 和 M100的遥控器有照相，录像，和�
 
 ![Multiple swipe gesture](../../../images/Android/PlaybackAlbumDemo/multipleslide.jpg)
 
-### 3.4 播放视屏
+### 3.4 播放视频
 
-DJI Camera 提供了一个视频预览功能让用户能享受他们拍摄的视频。在我们app当前的状态，用户应该可以进入单预览回放模式并且滑动左或右以浏览他们的视屏文件。同时，当他们预览视频文件时，他们希望能够按下一个播放或暂停按钮来控制是视频的回放。要实现这个功能，首先加入两个按钮到你的 `activity.xml` 文件。
+DJI Camera 提供了一个视频预览功能让用户能享受他们拍摄的视频。在我们app当前的状态，用户应该可以进入单预览回放模式并且滑动左或右以浏览他们的视频文件。同时，当他们预览视频文件时，他们希望能够按下一个播放或暂停按钮来控制是视频的回放。要实现这个功能，首先加入两个按钮到你的 `activity.xml` 文件。
 
 ~~~xml
 
@@ -972,7 +972,7 @@ DJI Camera 提供了一个视频预览功能让用户能享受他们拍摄的视
 
 ![Downloading](../../../images/Android/PlaybackAlbumDemo/download.jpg)
 
-### 4.2 自动下载媒体文件Automatically downloading media files
+### 4.2 自动下载媒体文件
 
 一些开发者可能想要从他们的飞行器自动下载媒体文件. 此部分将介绍如何做到这点. 首先，开发者应该明白 **所有用以下载的方法都是异步的, 意思是说一些方法应该等待无人机的ack来继续他们的进程**
 
