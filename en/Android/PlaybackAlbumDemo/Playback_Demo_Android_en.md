@@ -9,7 +9,7 @@ You can download the demo project for this tutorial from here: <https://github.c
 
 We **strongly** recommend that you have the source code for the demo project open while working your way through this tutorial.
 
-## 1. Camera Modes
+## Camera Modes
 
 Before developing the album app, we should briefly cover the capabilities the SDK has in each camera mode. For the Inspire 1, Phantom 3 Professional and M100, there are four camera modes, **Capture Mode, Record Mode, Playback Mode** and **Download Mode**. In **Capture Mode**, users are allowed to use capture functions, such as taking photos and setting up parameters for the camera. In the **Record Mode**, these capture functions are blocked and users can only start and stop recording video. **Playback Mode** allows the user to preview the media files in the SD card. **Download Mode** lets the user download media files, but must be set up correctly beforehand.
 
@@ -25,7 +25,7 @@ In Mobile Android SDK, developers can invoke the method `setCameraMode` to switc
 	DJIDrone.getDjiCamera().getCameraMode(DJICameraModeCallBack)
 ~~~
 
-## 2. Distinguishing the Camera's Playback Status
+## Distinguishing the Camera's Playback Status
 
 As the introduced above, there are four or three camera modes (depending on the drone you are using). How to correctly recognize the mode you are in is key to developing a good Photo Album application. In the mobile android SDK, there is a callback function that returns  current status of the camera's playback status. Developers can set up a callback function that executes when the status has been changed. This callback will be invoked 10 times per second.
 
@@ -145,7 +145,7 @@ As you can see, there are a lot of attributes in this class. Some of them contai
 
 Now that you are familiar with the playback information provided by the SDK we can begin to build our album application.
 
-## 3. UI Components For The Photo Album Application
+## UI Components For The Photo Album Application
 
 ### 1. GridView for Multiple preview playback mode
 
@@ -798,7 +798,7 @@ Now the app will automatically detect whether the camera is in video single prev
 
 You have successfuly implemented all the UI features that this tutorial has to offer! Give your app another go.
 
-## 4. Downloading and Deleting media files
+## Downloading and Deleting Media files
 
 ### 1. Finishing the Download feature
 
@@ -1057,7 +1057,7 @@ In summary, developers should follow the following steps to allow users to downl
 
 6. The app has successfully downloaded the files. `finishDownloadAllSelectedFiles` should be invoked while the ack comes to ensure camera returns to playback mode.
 
-## 5. Where To Go From Here?
+## Summary
 
 Over the course of this tutorial, you have learned how to switch and get the current camera mode, download and delete media files, implement gesture control, and much more to create a Photo and Video Album application for the Inspire 1, Phantom 3 Professional and M100!
 

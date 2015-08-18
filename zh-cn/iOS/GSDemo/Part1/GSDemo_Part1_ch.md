@@ -6,7 +6,7 @@
 
    你可以在这里下载到本教程的全部代码: <https://github.com/DJI-Mobile-SDK/iOS-GSDemo-Part1.git>
 
-## 1. 使用DJI PC 模拟器
+## 使用DJI PC模拟器
 
 ### 1. 介绍
 DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方式传输飞行器模拟的参数, 在 PC 端实现飞行器的 3D 虚拟显示,并且可以进行数据分析。
@@ -70,7 +70,7 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 
 要了解更多关于 DJI PC模拟器的内容, 请阅读 **DJI PC 模拟器用户手册.pdf** 文件, 你可以从下载的DJI PC模拟器包里面找到该文件。
 
-## 2. 升级你的飞机固件
+## 升级飞机固件
 
 确保你的飞机固件支持DJI Mobile SDK的开发，对于接下来的教程操作很重要. 请从这里下载beta版本的飞机固件: <http://dev.dji.com/cn/products/sdk/onboard-sdk/downloads> :
 
@@ -98,7 +98,7 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
   
   ![upgradeInspire1Success](../../../images/iOS/GSDemo/upgradeInspire1Success.png)
 
-## 3. 创建Map View
+## 创建Map View
 
 ### 1. 导入Framework 和 库文件
 
@@ -789,7 +789,7 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 
 现在，如果你在Simulator Config里按下 **Stop Simulation** ，飞机会从地图上消失，因为模拟器停止向飞机传送GPS模拟信息.
 
-## 4. 现在要怎么做?
+## 总结
 
    你可以在这里下载到此教程的demo工程: <https://github.com/dji-sdk/GSDemo-Part1.git>
    

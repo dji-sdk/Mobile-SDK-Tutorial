@@ -9,7 +9,7 @@
 
 在这个教程的第一部分里， 我们会教大家怎么去设置你们的编程环境，申请并激活你们的DJI应用程序，和查看你们的无人飞机的相机显示应用程序
 
-## 1.准备程序
+## 准备程序
 
 (1）请先下载 The Mobile SDK：<http://dev.dji.com/cn/products/sdk/mobile-sdk/downloads>
 
@@ -22,7 +22,7 @@
 **注意**： Google对Android Development Tools in Eclipse的支持要结束了。如果你还想继续在Eclipse里完成这个demo或已在Eclipse里完成了这个demo,你可以在这个链接上找到如何把你已完成或正在做的project从Eclipse上移到Android Studio上面去： <http://dji-dev.gitbooks.io/mobile-sdk-tutorials/content/zh-cn/Android/AndroidStudioMigration/Android_Studio_Migration_Tutorial_ch.html>。如果你想在Android Studio上面完成这个教程，Mobile SDK文件夹里面存有一个Android Studio软件包和一个Eclipse软件包，你可以参考Android Studio的SDK DEMO工程或Get Start工程。不过，我们建议你用Eclipse完成这个教程，然后再把你的project转换到Android Studio上面去。
 
 
-## 2.设置你的编程环境
+## 配置编程环境
 
 ### Eclipse
 
@@ -52,7 +52,7 @@
 ![addDependency](../../../images/Android/FPVDemo/addDependencyScreenshot.png)
 
 
-## 3.编写显示FPV视频的代码
+## 显示FPV视图
 
 (1) 激活SDK: 
 
@@ -325,7 +325,7 @@ DJIAoaActivity中有添加如下代码支持AOA,
 (4) 编译并运行你的工程，检查一切是否正常。如果在运行后看到移动端出现如下界面，你就可以开始用你自己的APP连接飞机，并享受飞机实时传回航拍视频的乐趣了！
 ![afterCompileScreenShot](../../../images/Android/FPVDemo/afterComplileScreenShot.png)
 
-## 4. 连接飞行器
+## 连接飞行器
 完成以上步骤后, 现在就可以连接你的移动设备到DJI飞行器上，检查是否获取到FPV画面，以下是连接指引：
 
 * 连接 Inspire 1, Phantom 3 Professional 或者 Phantom 3 Advanced:
@@ -352,10 +352,10 @@ DJIAoaActivity中有添加如下代码支持AOA,
 
 5. 飞行器相机的实时视频就会显示在你的移动设备上
 
-## 5.享受FPV视图
+## 享受FPV视图
 如果你可以在app中看到飞机的视频流，那么恭喜，你已经完成了第一部分教程的内容了！下图是app的截屏：
 ![runAppScreenShot](../../../images/Android/FPVDemo/runAppScreenShot.png)
 
-## 6.现在要怎么做?
+## 总结
 
 你已经学会了如何配置DJI Mobile SDK的Android开发环境，并成功用它开发app来展示飞行器相机的FPV画面。在接下来的教程中，我们会在此基础上添加拍照和录像功能. 请关注我们第二部分的教程，希望你喜欢！

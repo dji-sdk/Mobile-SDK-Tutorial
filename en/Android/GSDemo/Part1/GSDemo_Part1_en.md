@@ -6,7 +6,7 @@ In this tutorial, you will learn how to setup the DJI PC Simulator, update the f
 
 You can download the demo project for this tutorial from: <https://github.com/DJI-Mobile-SDK/Android-GSDemo-Part1-GoogleMap.git>
 
-## 1. Using DJI PC Simulator
+## Using the DJI PC Simulator
 
 ### 1. Introduction
 
@@ -71,7 +71,7 @@ remote controller. Click Display Simulator. You can see the screenshot as below:
 For more info about DJI PC Simulator, please check the **DJI PC Simulator user manual.pdf** file, which you download along with the simulator.---
 **Note**: 
 
-## 2. Upgrade Firmware
+## Upgrade the Aircraft's Firmware
 
 Download and update the aircraft's firmware to its beta version before attempting to use the DJI Mobile SDK API.
 
@@ -96,7 +96,7 @@ Also, you can check the firmware upgrade status by checking the **txt** file gen
   ![upgradeInspire1Success](../../../images/Android/GSDemo/upgradeInspire1Success.png)
   
   
-## 3. Setup Map View
+## Setup the Map View
 
 ### 1. Create a map view
 
@@ -486,7 +486,7 @@ We add the "clear" button to clear all the added waypoints. All the markers on t
 ![clearWaypoints](../../../images/Android/GSDemo/clearWaypoints.png)
 
 
-## 4. Where To Go From Here?
+## Summary
 
 You have mastered how to setup and use the DJI PC Simulator to test your Ground Station app, how to upgrade your  firmware to the developer version, and how to use the DJI Mobile SDK to create a simple MapView, modify annotations of map view, checking the aircraft on the map view by simulate the GPS data from DJI PC Simulator, etc. That covers much of the ground.
 

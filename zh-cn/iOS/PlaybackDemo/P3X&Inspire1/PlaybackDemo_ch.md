@@ -11,7 +11,7 @@
 
 让我们开始吧!
 
-## 1. 预览照片和视频
+## 预览照片和视频
 
 ### 1.1 导入Framework和库
 
@@ -702,7 +702,7 @@ typedef NS_ENUM(uint8_t, CameraPlaybackMode){
 
 ![multiPre](../../../images/iOS/PlaybackDemo/multiPre.jpg)
 
-## 2. 删除照片和录像
+## 删除照片和录像
 
 你现在可以在单张预览和多张预览模式下预览照片和视频了. 但是如果你想要删除一个不喜欢的文件呢? 让我们来实现删除文件的功能吧!
 
@@ -901,7 +901,7 @@ typedef NS_ENUM(uint8_t, CameraPlaybackMode){
 
 ![deleteMultiFiles](../../../images/iOS/PlaybackDemo/deleteMultiFiles.gif)
 
-## 3. 下载和保存照片
+## 下载和保存照片
 
 ### 3.1 下载照片
 
@@ -1263,7 +1263,7 @@ completionBlock:^{
 ![downloadFiles2](../../../images/iOS/PlaybackDemo/downloadFiles2.gif)
 
 
-## 4. 现在要怎么做?
+## 总结
    
    在本教程中, 你学会了如何在单张预览模式和多张预览模式中预览照片和视频，如何进入多张编辑模式，选择文件并进行删除操作. 你还学会了如何下载和保存照片到iOS相册中.
    

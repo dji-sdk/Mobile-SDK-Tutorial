@@ -6,7 +6,7 @@
 
    你可以在[此处](https://github.com/DJI-Mobile-SDK/iOS-GSDemo-Part2.git)下载到本教程第二部分的demo工程.
    
-## 1. 重构UI
+## 重构UI
 
 在本教程第一部分中，代码的结构比较简单而且不够健壮. 为了便于本教程代码工程的继续开发，这里需要重构下代码，而且加入更多的UI元素. 
 
@@ -224,7 +224,7 @@ self.gsButtonVC.delegate = self;
 
 ![pressEditBtn](../../../images/iOS/GSDemo/pressEditBtn.gif)
 
-## 2. 设置 DJIGroundStationWaypoint 和 DJIGroundStationTask
+## 设置智能飞行任务
 
 ### 1. DJIGroundStationWaypoint
 
@@ -436,7 +436,7 @@ typedef NS_ENUM(NSUInteger, DJIGSHeadingMode){
 
 在以上代码中, 我们创建了一个用来初始化UI控件的 **initUI** 方法, 它会在**viewDidload**方法里被调用. 比如说，我们将 **altitudeTextField** 的默认文本设置为 **50**, 这样用户就不需要在第一次打开程序时输入自定义的高度数值. 他们可以马上按下 **Finish** 键，而不需要在开始前做设定操作。
 
-## 3. 设置地面站任务
+## 设置地面站任务
 
 ### 1. 添加 DJIWaypointConfigViewController 到 DJIRootViewController中
 
@@ -802,7 +802,7 @@ typedef NS_ENUM(uint8_t, DJINavigationEventType){
 }
 ~~~
 
-## 4. Demo演示
+## Demo演示
 
 你已经在本教程中做了很多操作, 现在是时候测试你的app了.
 
@@ -846,7 +846,7 @@ typedef NS_ENUM(uint8_t, DJINavigationEventType){
 
 Inspire 1最后会回到Home点，着陆，并且遥控器的滴滴声会停止. 然后app会回到普通状态. 如果你按下 **Clear** 按钮，之前设置的全部航点都会消失并且另一个航点任务将会开始. 在任务过程中。如果你想要停止地面站任务，你可以按下 **Stop** 按钮.
 
-## 5. 现在要怎么做?
+## 总结
    
    在此教程中，你学会了如何设置 **DJIGroundStationWaypoint** 和 **DJIGroundStationTask**. 更进一步地, 你学会了如何使用 DJIGroundStationTask 来添加waypoint. 你可以用DJIInspireMainController(我们在使用 Inspire 1)中的方法来 **upload** , **start** 和 **stop** 地面站任务. 同时，你学习了如何使用 **DJINavigationDelegate** 和 **GroundStationDelegate** 方法来获取地面站任务的信息.
       

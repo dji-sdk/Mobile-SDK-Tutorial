@@ -4,7 +4,7 @@
 
 DJI SDK Demo导入Android Studio的方法有两种：一种是直接把下载的文件夹里的Android Studio目录下的工程导入Android Studio; 第二种是把Eclipse下的工程导入Android Studio。
 
-### 1. 把Android Studio的工程直接导入Android Studio
+## 导入Android Studio工程到Android Studio
 
 1.下载完整DJI-SDK-Android包
 从<dev.dji.com/en/products/sdk/mobile-sdk/downloads>下载最新的DJI Android SDK包。解压，其中有一个文件夹为**Android Studio**，这里面是Android Studio版本的工程。
@@ -17,7 +17,7 @@ DJI SDK Demo导入Android Studio的方法有两种：一种是直接把下载的
 
 ![sdkPath](../../images/Android/AndroidStudioMigration/sdkPath.png)
 
-### 2. 把Eclipse的工程导入Android Studio
+## 导入Eclipse工程到Android Studio
 
 
 1.下载完整DJI-SDK-Android包

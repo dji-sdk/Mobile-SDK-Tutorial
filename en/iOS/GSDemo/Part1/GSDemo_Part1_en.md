@@ -8,7 +8,7 @@ In this tutorial, you will learn how to setup the DJI PC Simulator, upgrade your
 
    You can download the demo project for this tutorial from here: <https://github.com/DJI-Mobile-SDK/iOS-GSDemo-Part1.git>
 
-## 1. Using The DJI PC Simulator
+## Using The DJI PC Simulator
 
 ### 1. Introduction
 
@@ -75,7 +75,7 @@ Please check the data on the left down corner of view, World X, Y, Z represents 
 
 For more info about DJI PC Simulator, please check the **DJI PC Simulator user manual.pdf** file, which is included in the download along with the simulator.
 
-## 2. Upgrade Your Aircraft's Firmware
+## Upgrade Your Aircraft's Firmware
 
 It's important to make sure your aircraft's firmware supports the DJI Mobile SDK before going through the following steps. Please download the beta version firmware from here based on the aircraft you have: <http://dev.dji.com/en/products/sdk/onboard-sdk/downloads> :
 
@@ -103,7 +103,7 @@ Regardless of what aircraft you are using, you can check whether or not the firm
   
   ![upgradeInspire1Success](../../../images/iOS/GSDemo/upgradeInspire1Success.png)
 
-## 3. Setup The Map View
+## Setup The Map View
 
 ### 1. Import The Framework and Libraries
 
@@ -796,7 +796,7 @@ If you cannot find the aircraft, press the "**Focus Map**" button and the map vi
 
 Now, if you press the **Stop Simulation** button on the Simulator Config, the aircraft will disappear on the map, since the simulator stops providing GPS data to the aircraft.
 
-## 4. Where To Go From Here?
+## Summary
    
    You’ve learned how to setup and use the DJI PC Simulator to test your groundStation application, upgrade your aircraft's firmware to the developer version, use the DJI Mobile SDK to create a simple map view, modify annotations of the map view, show the aircraft on the map view by using GPS data from the DJI PC Simulator, and much more.
    In the [next tutorial](../../../iOS/GSDemo/Part2/GSDemo_Part2_en.md), we will implement the basic functionality of waypoints in the groundStation. Your aircraft will be able to fly automatically on the map view based on the waypoints you set. Please move on to the second part of this tutorial. Hope you enjoy it!

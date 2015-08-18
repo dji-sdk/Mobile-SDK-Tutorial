@@ -8,7 +8,7 @@ In this tutorial, you will learn how to implement the basic processes of using W
 
    You can download the demo project for this tutorial from here: <https://github.com/DJI-Mobile-SDK/iOS-GSDemo-Part2.git>
    
-## 1. Refactor the UI
+## Refactor the UI
 In Part 1 of this tutorial, the project's code structure was simple and not robust. In order to develop it further in this tutorial, it will need to be refactored and we will need to add more UI elements. 
 ### 1. Add & Handle The New UIButtons
 First, we will create a new file named **DJIGSButtonController**, which will be subclass of **UIViewController**. Make sure the check box saying **Also create XIB file** is selected when creating the file. Then open the **DJIGSButtonController.xib** file and set its size to **Freeform** under the **Size** dropdown in the **Simulated Metrics** section. In the view section, change the width to **110** and height to **260**. Take a look at the changes made below:
@@ -223,7 +223,7 @@ Now, let's build and run the project and try to press the **Edit** and **Back** 
 
 ![pressEditBtn](../../../images/iOS/GSDemo/pressEditBtn.gif)
 
-## 2. Configure The DJIGroundStationWaypoint and The DJIGroundStationTask
+## Configure the Navigation Task
 
 ### 1. DJIGroundStationWaypoint
 
@@ -436,7 +436,7 @@ Next, let's replace the code in the ** DJIWaypointConfigViewController.m** file 
 
 In the code above, we create an **initUI** method, which is called in the **viewDidload** method, to initialize the UI controls with some default data. For example, we set the default text for the **altitudeTextField** to **50**, so there is no need for the user to type in a custom altitude value in the textField when the application is first opened. They will be able to press the **Finish** button right away instead of having to change the settings before they start.
 
-## 3. Setup The GroundStation Task
+## Setup The GroundStation Task
 
 ### 1. Add The DJIWaypointConfigViewController to DJIRootViewController
 Now,let's go to **DJIRootViewController.m** file, add the **DJIWaypointConfigViewController.h** header file at the top, and create a property of type **DJIWaypointConfigViewController** with the name **waypointConfigVC**. Then, implement the **DJIWaypointConfigViewControllerDelegate** protocol, as shown below:
@@ -801,7 +801,7 @@ Finally, let's implement the **stopBtnActionInGSButtonVC** method, which is a  *
 }
 ~~~
 
-## 4. Test The Application
+## Test The Application
 
 You've come a long way in this tutorial, and it's time to test the whole application.
 
@@ -845,7 +845,7 @@ The remote controller will start beeping, and the **Go Home** button on the remo
  
 The inspire 1 will eventually go home, land, and the beeping from the remote controller will stop. The application will go back to its normal status. If you press the **Clear** button, all the waypoints you previously set will be cleared and another waypoint waypoint mission will be started. During the mission, if you'd ever like to stop the groundStation task, you can do so by pressing the **Stop** button.
 
-## 5. Where To Go From Here?
+## Summary
    
    In this tutorial, you learned how to configure both **DJIGroundStationWaypoint** and **DJIGroundStationTask**. Moreover, you learned how to use DJIGroundStationTask to add waypoints, how to use **upload**, **start** and **stop** methods to configure the ground station task, which are the methods from DJIInspireMainController(since we're using an Inspire 1). Also, you learned how to use the **DJINavigationDelegate** and **GroundStationDelegate** methods to obtain information from the ground station task.
       
