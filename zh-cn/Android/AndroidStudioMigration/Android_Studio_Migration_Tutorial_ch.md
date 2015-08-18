@@ -52,3 +52,5 @@ DJI SDK Demo导入Android Studio的方法有两种：一种是直接把下载的
  配置如下：
  
 ![这里写图片描述](../../images/Android/AndroidStudioMigration/8.png)
+
+

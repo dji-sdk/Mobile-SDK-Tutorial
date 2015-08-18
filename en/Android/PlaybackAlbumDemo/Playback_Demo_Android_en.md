@@ -1064,3 +1064,5 @@ In summary, developers should follow the following steps to allow users to downl
 Over the course of this tutorial, you have learned how to switch and get the current camera mode, download and delete media files, implement gesture control, and much more to create a Photo and Video Album application for the Inspire 1, Phantom 3 Professional and M100!
 
 In the next tutorial, we will be implementing the album app for Phantom 3 Advanced. 
+
+

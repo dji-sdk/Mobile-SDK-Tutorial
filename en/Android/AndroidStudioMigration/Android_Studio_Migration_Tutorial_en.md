@@ -51,3 +51,5 @@ If the "run" icon is grayed out, you will need your edit configurations. Click "
 Your run icon should now be green. Click it to compile and install the demo on your Android device.
 
 ![compileAndRun](../../images/Android/AndroidStudioMigration/compileAndRun.png)
+
+
