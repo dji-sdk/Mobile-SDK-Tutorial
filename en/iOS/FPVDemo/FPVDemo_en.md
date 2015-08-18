@@ -1,4 +1,4 @@
-# How to create a Camera Application: Part 1/2
+# Creating a Camera Application
 
 <!-- toc -->
 
@@ -6,7 +6,7 @@
 
 This tutorial is designed for you to gain a basic understanding of the DJI Mobile SDK. It will implement the FPV view and two basic camera functionalities: **Take Photo** and **Record video**.
 
-   You can download the entire project for this tutorial here: <https://github.com/DJI-Mobile-SDK/iOS-FPVDemo-Part1.git>
+   You can download the entire project for this tutorial here: <https://github.com/DJI-Mobile-SDK/iOS-FPVDemo-Part2.git>
 
 ## Download the SDK
 
@@ -24,7 +24,7 @@ Minimum Requirement: iOS 6.1 or above
 
 **1**. Copy the framework **DJISDK.framework** from the **Lib** folder and copy the file to your Xcode project folder, then drag the framework to the Frameworks folder in Xcode’s project navigator as shown below:
 
-   ![ImportSDK](../../../images/iOS/FPVDemo/importSDK.png)
+   ![ImportSDK](../../images/iOS/FPVDemo/importSDK.png)
    
 **2**. Select the project target, in this case **FPVDemo**, and go to **Build Phases -> Link Binary With Libraries**. Click the "+" button at the bottom and add two libraries to your project: libstdc++.6.0.9.dylib and libz.dylib. These two libraries are necessay to compile the SDK framework.
 
@@ -34,26 +34,26 @@ Minimum Requirement: iOS 6.1 or above
 
    Let's go the project's plist file in Supporting Files folder, add the MFI protocol names as shown below:
   
-   ![MFI](../../../images/iOS/FPVDemo/MFIProtocol.png)
+   ![MFI](../../images/iOS/FPVDemo/MFIProtocol.png)
 
 ## Implement the First Person View
   **1**. We use the FFMPEG decoding library (found at http://ffmpeg.org) to decode the video stream. You can find the **VideoPreviewer** folder in the downloaded SDK. Copy the entire **VideoPreviewer** folder to your Xcode project's folder and then add it to the Xcode project navigator, as shown below:
   
- ![AppKey](../../../images/iOS/FPVDemo/ffmpegImport.png)
+ ![AppKey](../../images/iOS/FPVDemo/ffmpegImport.png)
  
  **2**. Go to **XCode -> Project -> Build Phases -> Link Binary With Libraries** and add the **libiconv.dylib** library. Then, set the **Header Search Paths** in **Build Settings** to the path for the **~/include** folder in the **FFMPEG** folder. Then, set the **Library Search Paths** to the path for the **~/lib** folder in the **FFMPEG** folder, as shown below:
  
-  ![HeaderSearchPath](../../../images/iOS/FPVDemo/headerSearchPath.png)
+  ![HeaderSearchPath](../../images/iOS/FPVDemo/headerSearchPath.png)
   
-  ![LibrarySearchPath](../../../images/iOS/FPVDemo/librarySearchPath.png)
+  ![LibrarySearchPath](../../images/iOS/FPVDemo/librarySearchPath.png)
   
   **3**. In **Main.storyboard**, add a new View Controller and call it **DJICameraViewController**. Set **DJICameraViewController** as the root View Controller for the new View Controller you just added in **Main.storyboard**:
   
-  ![rootController](../../../images/iOS/FPVDemo/rootController.png)
+  ![rootController](../../images/iOS/FPVDemo/rootController.png)
   
 Add a UIView inside the View Controller and set it as an IBOutlet called "**fpvPreviewView**". Then, add two UIButtons and one UISegmentedControl at the bottom of the View Control and set their IBOutlets and IBActions, as shown below:
   
-  ![Storyboard](../../../images/iOS/FPVDemo/Storyboard.png)
+  ![Storyboard](../../images/iOS/FPVDemo/Storyboard.png)
   
   Go to **DJICameraViewController.m** file and import the **DJISDK** and **VideoPreviewer** header files. Then create **DJIDrone** and **DJICamera** instance variables and implement their delegate protocols as below:
   
@@ -188,7 +188,7 @@ Then create a new method named **registerApp** and invoke it in the viewDidLoad 
 ---
 **Note**: In the code above, you will need to obtain an App Key from the DJI Developer website **(<https://dev.dji.com/en/user/mobile-sdk>)** and enter it where it says **Enter Your App Key**. You receive an App Key by clicking **Create APP** and filling out the necessary information. Please note that **Identification Code** stands for **Bundle Identifier**. Once you do that, an App Key is generated for you. The **App Key** we generate for you is associated with the Xcode project **Bundle Identifier**, so you will not be able to use the same App Key in a different Xcode project. Each project must be submiteed individually and will receive a unique App Key. This is what you should see once you submit the information:
 
-![AppKey](../../../images/iOS/FPVDemo/AppKey.png)
+![AppKey](../../images/iOS/FPVDemo/AppKey.png)
 
 ---
 
@@ -249,7 +249,7 @@ In the code above, we call the **connectToDrone** method of DJIDrone to start co
 
 **3**. Build and Run the project in Xcode. If everything is OK, you will see a "Register App Successed!" alert once the application loads. Also, if you see the following screenshot as below, then you can start connect to your aircraft and enjoy the video stream from its camera!
   
-  ![Screenshot](../../../images/iOS/FPVDemo/Screenshot.jpg)
+  ![Screenshot](../../images/iOS/FPVDemo/Screenshot.jpg)
 
 ## Connect the Aircraft
 After you finish the steps above, you can now connect your mobile device to your DJI Aircraft to use the application, like checking the FPV View. Here are the guidelines:
@@ -281,10 +281,257 @@ After you finish the steps above, you can now connect your mobile device to your
   
 ## Enjoy the First Person View
 
-If you can see the live video stream in the application, congratulations! Feel free to move on to Part 2 of this demo application tutorial, where we will finish the application.
+If you can see the live video stream in the application, congratulations! Let's move forward.
 
-  ![fpv](../../../images/iOS/FPVDemo/fpv.jpg)
+  ![fpv](../../images/iOS/FPVDemo/fpv.jpg)
+
+
+## Implement the Capture function
+
+Add the following codes to the **captureAction** IBAction method:
+
+~~~objc
+- (IBAction)captureAction:(id)sender {
+    
+    [_camera startTakePhoto:CameraSingleCapture withResult:^(DJIError *error) {
+        if (error.errorCode != ERR_Successed) {
+            NSLog(@"Take Photo Error : %@", error.errorDescription);
+        }
+    }];
+}
+~~~
+   Just call the following method of **DJICamera**:
+   
+   -(void) startTakePhoto:(CameraCaptureMode)captureMode withResult:(DJIExecuteResultBlock)block;
+   
+  There are 4 types of **CameraCaptureMode**: 
+  
+~~~objc
+  /**
+ *  Camera capture mode
+ */
+    typedef NS_ENUM(uint8_t, CameraCaptureMode){
+    /**
+     *  Single capture
+     */
+    CameraSingleCapture,
+    /**
+     *  Multiple capture
+     */
+    CameraMultiCapture,
+    /**
+     *  Continuous capture
+     */
+    CameraContinousCapture,
+    /**
+     *  AEB capture. Support in Inspire 1/Phantom3 professional/Phantom3 Advanced
+     */
+    CameraAEBCapture,
+};
+~~~
+  
+  These enum values give you mutiple ways to capture photos, **CameraSingleCapture** is easy to use because you do not need to set any param before calling **startTakePhoto** method, unlike the other modes. For **CameraMultiCapture**, you need to use the
+  **-(void) setMultiCaptureCount:(CameraMultiCaptureCount)count withResultBlock:(DJIExecuteResultBlock)block;** method in **DJICamera.h** header file to set the **captureCount** param and check if the take photo action succeed in the block before calling **startTakePhoto** method.
+  
+  For more infos, you can check **DJICamera.h** and **DJICameraSettingsDef.h** files.
+    
+---
+##### Note: Since DJICamera has several subclasses: DJIInspireCamera, DJIPhantom3AdvancedCamera, DJIPhantomCamera, etc, you should find the corresponding methods when you want to set the params. For example, CameraAEBCapture mode is supported in Inspire 1, so you should find the AEB setting method in DJIInspireCamera.h file rather than in DJICamera.h file.
+
+---
+
+  Here we set the capture mode to **CameraSingleCapture**. You can check the capture result from the **DJIError** instance in the block.
+  
+  Build and run your project and then try the capture function. If the screen flash after your press the **capture** button, your capture fuction should be working.
+  
+  
+## Implement the Record function
+  
+### 1. Switching Camera Mode
+   Before we implementing the record function, we need to switch the camera work mode firstly.
+   
+   Let's check the **DJICameraSettingsDef.h** file.
+   
+~~~objc
+   /**
+ *  Camera work mode. Used in Inspire/Phantom3 professional/Phantom3 Advanced
+ */
+    typedef NS_ENUM(uint8_t, CameraWorkMode){
+    /**
+     *  Capture mode. In this mode, user could do capture action only.
+     */
+    CameraWorkModeCapture                   = 0x00,
+    /**
+     *  Record mode. In this mode, user could do record action only.
+     */
+    CameraWorkModeRecord                    = 0x01,
+    /**
+     *  Playback mode. In this mode, user could preview photos or videos and delete the file.
+     */
+    CameraWorkModePlayback                  = 0x02,
+    /**
+     *  Download mode. In this mode, user could download the selected file from SD card
+     */
+    CameraWorkModeDownload                  = 0x03,
+    /**
+     *  Unknown
+     */
+    CameraWorkModeUnknown                   = 0xFF
+};
+~~~
+   You can see above that there are 5 types of **CameraWorkMode**. Since we are using the Inspire 1 as an example, **CameraWorkModeCapture** and **CameraWorkModeRecord** are used as follows:
+   
+   -(void) setCameraWorkMode:(CameraWorkMode)mode withResult:(DJIExecuteResultBlock)block; method inside **DJIInspireCamera.h** file to switch camera work mode.
+   
+   Open **Main.storyboard** and add an IBOutlet for the UISegmented Control called "changeWorkModeSegmentControl". Remember the delegate method of DJICameraDelegate in **Tutorial Part 1**?
+   
+   -(void) camera:(DJICamera*)camera didUpdateSystemState:(DJICameraSystemState*)systemState;
+   
+   We can update the state of the segmented control when switching between **CameraWorkModeCapture** and **CameraWorkModeRecord** using the above delegate method.
+   
+~~~objc
+-(void) camera:(DJICamera*)camera didUpdateSystemState:(DJICameraSystemState*)systemState
+{
+    if (_drone.droneType == DJIDrone_Inspire) {
+        
+        //Update UISegmented Control's state        
+        if (systemState.workMode == CameraWorkModeCapture) {
+            [self.changeWorkModeSegmentControl setSelectedSegmentIndex:0];
+        }else if (systemState.workMode == CameraWorkModeRecord){
+            [self.changeWorkModeSegmentControl setSelectedSegmentIndex:1];
+        }
+    }
+}
+
+~~~
+ Now we can implement the **changeWorkModeAction** method as follows:
+ 
+~~~objc
+- (IBAction)changeWorkModeAction:(id)sender {
+    
+    DJIInspireCamera* inspireCamera = (DJIInspireCamera*)_camera;
+    __weak DJICameraViewController *weakSelf = self;
+
+    UISegmentedControl *segmentControl = (UISegmentedControl *)sender;
+    if (segmentControl.selectedSegmentIndex == 0) { //CaptureMode
+        
+        [inspireCamera setCameraWorkMode:CameraWorkModeCapture withResult:^(DJIError *error) {
+            
+            if (error.errorCode != ERR_Successed) {
+                UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Set CameraWorkModeCapture Failed" message:error.errorDescription delegate:weakSelf cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [errorAlert show];
+            }
+            
+        }];
+        
+    }else if (segmentControl.selectedSegmentIndex == 1){ //RecordMode
+    
+        [inspireCamera setCameraWorkMode:CameraWorkModeRecord withResult:^(DJIError *error) {
+            
+            if (error.errorCode != ERR_Successed) {
+                UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Set CameraWorkModeRecord Failed" message:error.errorDescription delegate:weakSelf cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [errorAlert show];
+            }
+        
+        }];
+        
+    }
+    
+}
+
+~~~
+ Here we add two UIAlertViews to get a warning when the user set CameraWorkMode failed.
+ 
+### 2. Add Record Action
+
+  Firstly, we need a BOOL variable to save the status of the record action and a UILabel to show the current record time. So let's go to **Main.storyboard** and drag a UILabel on top of the screen, set up the Autolayout for it and create an IBOutlet named "**currentRecordTimeLabel**" to the **DJICameraViewController.m** file. Moreover, create an IBOutlet called "**recordBtn**" for the Record Button.
+  
+  Then add a BOOL variable **isRecording** in the class extension of **DJICameraViewController**. Be sure to hide **currentRecordTimeLabel** in the **viewDidLoad** method. We can update the text values for **isRecording** and **currentRecordTimeLabel**'s text value in the following delegate method.
+   
+~~~objc
+-(void) camera:(DJICamera*)camera didUpdateSystemState:(DJICameraSystemState*)systemState
+{
+    if (_drone.droneType == DJIDrone_Inspire) {
+        
+        self.isRecording = systemState.isRecording;
+        
+        [self.currentRecordTimeLabel setHidden:!self.isRecording];
+        [self.currentRecordTimeLabel setText:[self formattingSeconds:systemState.currentRecordingTime]];
+        
+        if (self.isRecording) {
+            [self.recordBtn setTitle:@"Stop Record" forState:UIControlStateNormal];
+        }else
+        {
+            [self.recordBtn setTitle:@"Start Record" forState:UIControlStateNormal];
+        }
+        
+        //Update UISegmented Control's state
+        if (systemState.workMode == CameraWorkModeCapture) {
+            [self.changeWorkModeSegmentControl setSelectedSegmentIndex:0];
+        }else if (systemState.workMode == CameraWorkModeRecord){
+            [self.changeWorkModeSegmentControl setSelectedSegmentIndex:1];
+        }
+       
+    }
+}
+   
+~~~
+   
+   Because the value of **currentRecordingTime** is counted in seconds, so we need to convert it to "mm:ss" format like this:
+   
+~~~objc
+- (NSString *)formattingSeconds:(int)seconds
+{
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:seconds];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"mm:ss"];
+    [formatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+    
+    NSString *formattedTimeString = [formatter stringFromDate:date];
+    return formattedTimeString;
+}
+~~~
+   
+   Next, add the following codes to the **recordAction** IBAction method as follows:
+   
+~~~objc
+- (IBAction)recordAction:(id)sender {
+    
+    __weak DJICameraViewController *weakSelf = self;
+    
+    if (self.isRecording) {
+        
+        [_camera stopRecord:^(DJIError *error) {
+            
+            if (error.errorCode != ERR_Successed) {
+                UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Stop Record Error" message:error.errorDescription delegate:weakSelf cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [errorAlert show];
+            }
+        }];
+        
+    }else
+    {
+        [_camera startRecord:^(DJIError *error) {
+            
+            if (error.errorCode != ERR_Successed) {
+                UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Start Record Error" message:error.errorDescription delegate:weakSelf cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [errorAlert show];
+            }
+        }];
+
+    }
+
+}  
+~~~
+
+   In the code above, we implement the **startRecord** and **stopRecord** methods of the **DJICamera** class based on the **isRecording** property value. And show an alertView when an error occurs.
+   
+   Now, we can build and run the project and check the functions. You can try to play with the **Record** and **Switch Camera WorkMode** functions, if everything is going well, you should see the screenshot like this:
+   
+   ![Screenshot](../../images/iOS/FPVDemo/record_screenshot.jpg)
+   
+   Congratulations! Your Aerial FPV iOS app is complete, you can now use this app to control the camera of your Inspire 1. 
 
 ## Summary
    
-   You’ve learned how to setup the DJI Mobile SDK's development environment and use it to create a camera view that shows the live video stream of the aircraft's camera. We will add the capture photo and record video functionalities of the app in [Part 2](../../../iOS/FPVDemo/Part2/FPVDemo_Part2_en.md) of this tutorial. Hope you enjoy! 
+   You’ve come a long way in this tutorial: you’ve learned how to use DJI Mobile SDK to show the FPV View from the aircraft's camera and control the camera of DJI's Aircraft. These are the most basic and common features in a typical drone mobile app: **Capture** and **Record**. However, if you want to create a drone app that is more fancy, you still have a long way to go. More advanced features would include previewing the photo and video in the SD Card, showing the OSD data of the aircraft and so on. Hope you enjoy this tutorial, and stay tuned for our next one!

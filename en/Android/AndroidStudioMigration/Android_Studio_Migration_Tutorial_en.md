@@ -1,4 +1,4 @@
-# How to Import DJI SDK Demo to Android Studio
+# Importing DJI SDK Demo to Android Studio
 
 <!-- toc -->
 

@@ -1,4 +1,4 @@
-# 如何创造一个照片和视频回放应用
+# 创建照片和视频回放应用
 
 ## 概览
 在此教程中，你将会知晓Inspire 1, Phantom 3 Professional和M100所特有的多种相机模式，以及如何切换和获取不同的相机模式和如何为回放相册app创造一个交互良好的UI界面。最重要的，当然还有如何选择和下载媒体文件。让我们开始吧!
@@ -321,9 +321,9 @@
 
 在我们开始这部分之前, 我们将会做一些修改:
 
-1. 模仿此 [FPVDemo教程](https://github.com/dji-sdk/Mobile-SDK-Tutorial/blob/master/Android-FPVDemo/en/FPVDemo/Part1/FPVDemo_Part1_en.md) 来设置Android Open Accessory (AOA)。
+1. 模仿此 [创建航拍相机App](../../../Android/FPVDemo/FPVDemo_ch.md) 来设置Android Open Accessory (AOA)。
 2. 将你的 main activity 从 `PlaybackProtocolActivity` 改成 `DJIAoaActivity`。
-3. 加入一个DjiGLSurfaceView元素来显示第一人视角(第二和三步也在 FPV 教程中可以找到)。
+3. 加入一个DjiGLSurfaceView元素来显示第一人视角(第二和三步也在 "创建航拍相机App" 教程中可以找到)。
 4. 在按钮加入item `android:visibility="Gone"` 到我们`activity_playback_protocol.xml`里的gridview。
 5. 在`button_gridview_item.xml`里将 `android:background="@android:color/yellow"` 替换成 `android:background="@android:color/transparent"` 以改变按钮颜色。
 

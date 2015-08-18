@@ -1,10 +1,10 @@
-# How to create a MapView and Waypoint Application - Part 1/2
+# Creating a MapView and Waypoint Application
 
 <!-- toc -->
 
 In this tutorial, you will learn how to setup the DJI PC Simulator, update the firmware of Inspire 1, Phantom 3 Professional and Phantom 3 to its beta version, and how to test the GroundStation API with DJI PC Simulator. Also, you will get in touch with the basic process of using DJI GroundStation's Waypoint feature. So let's get started!
 
-You can download the demo project for this tutorial from: <https://github.com/DJI-Mobile-SDK/Android-GSDemo-Part1-GoogleMap.git>
+You can download the demo project for this tutorial from: <https://github.com/DJI-Mobile-SDK/Android-GSDemo-Part2-GoogleMap.git>
 
 ## Using the DJI PC Simulator
 
@@ -29,7 +29,7 @@ Finally, double click the **DJISimulator-Installer.exe** file and follow the on-
 ### 3. How to use DJI PC Simulator
 **1.** The Simulator Config window will display upon the launching of the DJI PC Simulator. Set appropriate  Latitude and Longitude values as the home point. The "SN" denotes the connected aircraft's serial number.
 
-![Config](../../../images/Android/GSDemo/simulator_config.png)
+![Config](../../images/Android/GSDemo/simulator_config.png)
 
 ---
 **Note**: 
@@ -38,14 +38,14 @@ Finally, double click the **DJISimulator-Installer.exe** file and follow the on-
 
 - Select "Show Log Window" under the "Log Settings" tag to show the flight lot as shown below:
 
- ![showLog](../../../images/Android/GSDemo/showLog.png)
+ ![showLog](../../images/Android/GSDemo/showLog.png)
 
 ---
 
 **2**. Connect the aircraft to your PC via a Micro USB cable, and then power on the aircraft and the
 remote controller. Click Display Simulator. You can see the screenshot as below:
 
- ![display](../../../images/Android/GSDemo/display.png)
+ ![display](../../images/Android/GSDemo/display.png)
 
 ---
 **Note**: 
@@ -60,9 +60,9 @@ remote controller. Click Display Simulator. You can see the screenshot as below:
 
 **4**. Left-click, hold on and drag to change the view angle. Scroll to zoom in and zoom out.
 
- ![zoomIn](../../../images/Android/GSDemo/zoomIn.png)
+ ![zoomIn](../../images/Android/GSDemo/zoomIn.png)
  
- ![zoomOut](../../../images/Android/GSDemo/zoomout.png)
+ ![zoomOut](../../images/Android/GSDemo/zoomout.png)
 
 **5**. Click Stop Simulation to stop the simulation. Close the simulator, and power off the aircraft and the remote controller after use. 
 
@@ -91,9 +91,9 @@ Verify the result via the beeping pattern from the gimbals or the blinking patte
 
 Also, you can check the firmware upgrade status by checking the **txt** file generated during the upgrade process. For Phantom 3 Professional, the txt file is named as **"P3X_FW_RESULT_AB.txt"**, For Inspire 1, it's named as **"WM610_FW_RESULT_AB.txt"**, here are the example contents:
 
-  ![upgradeP3XSuccess](../../../images/Android/GSDemo/upgradeP3XSuccess.png)
+  ![upgradeP3XSuccess](../../images/Android/GSDemo/upgradeP3XSuccess.png)
   
-  ![upgradeInspire1Success](../../../images/Android/GSDemo/upgradeInspire1Success.png)
+  ![upgradeInspire1Success](../../images/Android/GSDemo/upgradeInspire1Success.png)
   
   
 ## Setup the Map View
@@ -111,7 +111,7 @@ Installed the Android SDK through the **Android SDK Manager**. Enter the **Andro
 (2) Install and set up the Google Play services SDK by referring to the setup guide presented in: <https://developers.google.com/android/guides/setup>
 
 **The Google Maps Android API** is included in the Google Play services SDK. Install the Google Play services SDK  by **Android SDK Manager**
-![installGooglePlayService](../../../images/Android/GSDemo/installGooglePlayService.png)
+![installGooglePlayService](../../images/Android/GSDemo/installGooglePlayService.png)
 
 After the Google Play services SDK is installed, locate the library project under the ADT path "xxx/\<android-sdk>/extras/google/google_play_services/libproject/google-play-services_lib". Copy the library project to the location where you store your Android app projects.
 
@@ -119,7 +119,7 @@ Import the library project into your Eclipse workspace. Click **File>Import**, t
 
 Add Google Play services library reference to your project by right clicking **Package Explorer**, then Click **Properties>Android**. Click **Add...** to add **google-play-services_lib**.
 
-![addGooglePlayService](../../../images/Android/GSDemo/addGooglePlayService.png) 
+![addGooglePlayService](../../images/Android/GSDemo/addGooglePlayService.png) 
 
 After Google Play services library is added as a dependency for your project. Open **manifest** file for your app and add the following tag as a child of the ** \<application>** element:
 
@@ -136,7 +136,7 @@ You can now start using the Google Play services APIs to develop your project.
 
 Obtain the **SHA-1 fingerprint** of the debug certificate or release certificate by using the command **keytool**.  Use the **SHA-1 fingerprint** for the debug certificate. When using Eclipse with ADT, you can obtain the **SHA-1 fingerprint** by selecting **Window>Preferences>Android>Build**. 
 
-![debugSHA1](../../../images/Android/GSDemo/debugSHA1.png)
+![debugSHA1](../../images/Android/GSDemo/debugSHA1.png)
 
 2.Register a project in the Google Developers Console and add the Google Maps Android API v2 as a service for the project.
 
@@ -145,7 +145,7 @@ Login the Google Developer console <https://console.developers.google.com>. Sele
 3.Create an Android API key
 
 Click the project. In the sidebar on the left, select **Credentials**. If your project doesn't already have a **Key for Android applications**, create an API key by clicking **Create New Key** and then **Android key**. In the resulting dialog, enter your app's SHA-1 fingerprint, then a semicolon(;) then your app's package name. The Google Developers Console displays a section titled **Key for Android applications** followed by your API key.
-![androidAPIKey](../../../images/Android/GSDemo/androidAPIKey.png)
+![androidAPIKey](../../images/Android/GSDemo/androidAPIKey.png)
 
 4.Add the API key to your application
 
@@ -261,7 +261,7 @@ Second, add the following codes in your Activity.
 ```
 
 Now you can see your app loading a Google map by following the instructions to enable developer options on your Android device, connect your device to the computer through USB cable, build and run your app. The loading of the Google map will require your Android device having installed the Google Play service.
-![loadGoogleMap](../../../images/Android/GSDemo/loadGoogleMap.png)
+![loadGoogleMap](../../images/Android/GSDemo/loadGoogleMap.png)
 
 
  
@@ -425,11 +425,11 @@ Third, register the "Locate" button in the activity
 
 Build and run the app to check the location function. Connect to aircraft to the computer through a USB cable and Launch the DJI PC simulator:
 
-![simulatorLocateAircraft](../../../images/Android/GSDemo/simulatorLocateAircraft.png)
+![simulatorLocateAircraft](../../images/Android/GSDemo/simulatorLocateAircraft.png)
 
 Click the "locate" button, the following GUI prompt to show the location of the aircraft in the map.
 
-![locateAircraft](../../../images/Android/GSDemo/locateAircraft.png)
+![locateAircraft](../../images/Android/GSDemo/locateAircraft.png)
 
 ### 3. Add and clear the waypoints
 
@@ -452,7 +452,7 @@ It is critical to enable user to add waypoints in Ground Station intuitively. We
 
 When we click on the map, the codes within the **public void onMapClick(LatLng point)** will be executed. an instance of **DJIGroundStationWaypoint** will be created and added to **mGroundStationTask**.
 
-![addWaypoints](../../../images/Android/GSDemo/addWaypoints.png)
+![addWaypoints](../../images/Android/GSDemo/addWaypoints.png)
 
 We add the "clear" button to clear all the added waypoints. All the markers on the map will be erased and all waypoints will be removed from **mGroundStationTask**.
 
@@ -483,11 +483,131 @@ We add the "clear" button to clear all the added waypoints. All the markers on t
 
 ```
 
-![clearWaypoints](../../../images/Android/GSDemo/clearWaypoints.png)
+![clearWaypoints](../../images/Android/GSDemo/clearWaypoints.png)
 
+## Configure the Navigation Task
+
+As you see, the project's code structure was simple and not robust. In order to develop it further in this tutorial, it will need to be re-factored and we will need to add more UI elements. 
+
+Here, as a simple example, we just show how to configure the waypoints. Users can developer their own codes to set up the waypoint sequentially. 
+
+We first add a new button "Config". When users click the button, a new configuration dialog will be popped up. 
+
+![configButton](../../images/Android/GSDemo/configButton.png)
+
+We use a dialog to load the configuration setting view. The settings include the altitude of waypoints, whether to repeat the task, the horizontal speed of the aircraft during the task, the action after the task finished, the heading of the aircraft during the task (altitude and speed is a field of class **DJIGroundStationWaypoint**. Here we set all the waypoints' altitude or speed the same as a simple example. Users can also set different values for different waypoints' altitude or speed). We do not show the codes for the dialog here. When users click "Finish" after inputting a value or selecting an option for each item, the following function will be called to set the fields of **DJIGroundStationTask** and **DJIGroundStationWaypoint**:
+
+```java
+	    private void configGroundStationTask(){
+        mGroundStationTask.isLoop = repeatGSTask;
+        mGroundStationTask.finishAction=actionAfterFinishTask;
+        mGroundStationTask.movingMode = heading;
+        for (int i=0; i<mGroundStationTask.wayPointCount; i++){
+            mGroundStationTask.getWaypointAtIndex(i).speed = speedGSTask;
+            mGroundStationTask.getWaypointAtIndex(i).altitude = altitude;
+        }
+    }
+```
+
+## Upload the Task to the Aircraft
+
+We have configured the **DJIGroundStationTask**. However, the task is currently stored on the mobile device. We need to upload the task to the aircraft before imitate the task. Click "Upload" button to upload the task to aircraft. The following function will be executed when "Upload" button is clicked:
+
+```java
+	   private void uploadGroundStationTask(){
+        DJIDrone.getDjiGroundStation().openGroundStation(new DJIGroundStationExecuteCallBack(){
+
+            @Override
+            public void onResult(GroundStationResult result) {
+                // TODO Auto-generated method stub
+                String ResultsString = "return code =" + result.toString();
+                handler.sendMessage(handler.obtainMessage(SHOWTOAST, ResultsString));
+                
+                if (result == GroundStationResult.GS_Result_Successed) {
+                    DJIDrone.getDjiGroundStation().uploadGroundStationTask(mGroundStationTask, new DJIGroundStationExecuteCallBack(){
+    
+                        @Override
+                        public void onResult(GroundStationResult result) {
+                            // TODO Auto-generated method stub
+                            String ResultsString = "return code =" + result.toString();
+                            handler.sendMessage(handler.obtainMessage(SHOWTOAST, ResultsString));
+                        }
+                        
+                    });
+                }
+            }
+            
+        });
+    }
+```
+
+We first need to call **public void openGroundStation(final DJIGroundStationExecuteCallBack mCallBack)** to initialized the Ground Station function, and when the Ground Station function is initialized successfully (the callback returns **GroundStationResult.GS_Result_Successed**), then the function **public void uploadGroundStationTask(final DJIGroundStationTask task, final DJIGroundStationExecuteCallBack mCallBack)** will be executed.
+
+
+**Important:** It is possible that you will come across **GroundStationResult.GS_Result_Rc_Control_Mode_Error** when using the Ground Station. The root cause is that the flight mode switch on the remote contorller is not set to the "F" position. You will then need to toggle the switch to "F" position and upload the waypoints agin before using the Ground Station.  
+
+If the flight mode switch is at "F" position when the aircraft is powered on, the user must toggle back and forth between F and another position and then have an uploading of waypoints.
+
+![switchFlightMode](../../images/Android/GSDemo/switchFlightMode.png)
+
+When all waypoints are uploaded successfully , the DJI PC Simulator log will prompt "received mission length xx from app". 
+
+![uploadwaypointsLog](../../images/Android/GSDemo/uploadwaypointsLog.png)
+
+## Start and Stop the DJIGroundStationTask
+
+After uploading the task to the aircraft, execute the **DJIGroundStationTask**. When the  "Start" button is clicked, the following codes will be executed, in which the function **public void startGroundStationTask(final DJIGroundStationTakeOffCallBack mCallBack)** will be called.
+
+```java
+	    private void startGroundStationTask(){
+        DJIDrone.getDjiGroundStation().startGroundStationTask(new DJIGroundStationTakeOffCallBack(){
+
+            @Override
+            public void onResult(GroundStationTakeOffResult result) {
+                // TODO Auto-generated method stub
+                String ResultsString = "return code =" + result.toString();
+                handler.sendMessage(handler.obtainMessage(SHOWTOAST, ResultsString));
+            }
+        });
+    }
+```
+
+![startGSTask](../../images/Android/GSDemo/startGSTask.png)
+
+The DJIGroundStationTask can be stopped during execution by calling function **public void pauseGroundStationTask(final DJIGroundStationHoverCallBack mCallBack)** to pause the task, after the pausing the task, use **public void closeGroundStation(final DJIGroundStationExecuteCallBack mCallBack)** to close the Ground Station function.
+
+```java
+	    private void stopGroundStationTask(){
+        DJIDrone.getDjiGroundStation().pauseGroundStationTask(new DJIGroundStationHoverCallBack(){
+
+            @Override
+            public void onResult(GroundStationHoverResult result) {
+                // TODO Auto-generated method stub
+                String ResultsString = "return code =" + result.toString();
+                handler.sendMessage(handler.obtainMessage(SHOWTOAST, ResultsString));
+                
+                DJIDrone.getDjiGroundStation().closeGroundStation(new DJIGroundStationExecuteCallBack(){
+
+                    @Override
+                    public void onResult(GroundStationResult result) {
+                        // TODO Auto-generated method stub
+                        String ResultsString = "return code =" + result.toString();
+                        handler.sendMessage(handler.obtainMessage(SHOWTOAST, ResultsString));
+                    }
+
+                });
+            }
+        });
+        mGroundStationTask.RemoveAllWaypoint();
+    }
+``` 
 
 ## Summary
 
-You have mastered how to setup and use the DJI PC Simulator to test your Ground Station app, how to upgrade your  firmware to the developer version, and how to use the DJI Mobile SDK to create a simple MapView, modify annotations of map view, checking the aircraft on the map view by simulate the GPS data from DJI PC Simulator, etc. That covers much of the ground.
+In this tutorial, You have mastered how to setup and use the DJI PC Simulator to test your Ground Station app, how to upgrade your  firmware to the developer version, and how to use the DJI Mobile SDK to create a simple MapView, modify annotations of map view, checking the aircraft on the map view by simulate the GPS data from DJI PC Simulator, etc. That covers much of the ground. 
 
-In the next tutorial, we will implement the basic functions of Waypoints in GroundStation. Your aircraft will fly automatically on the map view based on the waypoints you set. Please follow our part 2 of this tutorial, hope you will enjoy it!
+Moreover, you have learned how to configure both **DJIGroundStationWaypoint** and **DJIGroundStationTask**. Moreover, you have now mastered how to manipulate waypoints and task by using **DJIGroundStationTask** and **DJIInspireGroundStation**.
+
+Congratulations! Now that you have finished the demo project, you can build on what you've learned and start to build your own ground station application. You can improve the way waypoints that are added(such as drawing a line on the map and generating waypoints automatically), play around with the properties of a waypoint (such as heading, horizontal speed, etc.), and adding more functionality. In order to make a cool ground station application, you still have a long way to go. Good luck and hope you that enjoy this 
+
+.

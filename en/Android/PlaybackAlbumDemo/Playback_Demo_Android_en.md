@@ -1,4 +1,6 @@
-# How to create a Photo and Video Playback Application (For Phantom 3 Professional and Inspire 1)
+# Creating a Photo and Video Playback Application
+
+*Note: This tutorial is only for Phantom 3 Professional and Inspire 1*
 
 <!-- toc -->
 
@@ -324,9 +326,9 @@ We've just finished the framework of our application! Now set `PlaybackProtocolA
 
 Before we get started with this subsection, we've got to first make some adjustments:
 
-1. Follow the [FPVDemo tutorial](https://github.com/dji-sdk/Mobile-SDK-Tutorial/blob/master/Android-FPVDemo/en/FPVDemo/Part1/FPVDemo_Part1_en.md) to set up Android Open Accessory (AOA) support
+1. Follow the [Creating a Camera Application](../../Android/FPVDemo/FPVDemo_en.md) to set up Android Open Accessory (AOA) support
 2. Change your main activity from `PlaybackProtocolActivity` to `DJIAoaActivity`
-3. Add a DjiGLSurfaceView element to show the first personal view (steps 2 and 3 are also covered in the FPV tutorial)
+3. Add a DjiGLSurfaceView element to show the first personal view (steps 2 and 3 are also covered in the "Creating a Camera Application" tutorial)
 4. Add item feature `android:visibility="Gone"` to our gridview in `activity_playback_protocol.xml`
 5. Adjust the button color by replacing `android:background="@android:color/yellow"` with `android:background="@android:color/transparent"` in `button_gridview_item.xml`.
 

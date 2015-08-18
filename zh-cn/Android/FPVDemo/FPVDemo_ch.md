@@ -1,13 +1,13 @@
-#  如何创建一个航拍相机App: 第一部分
+#  创建航拍相机App
 
 请先把demo project 下载下来。demo project可以在以下的网页上下载:
-<https://github.com/DJI-Mobile-SDK/Android-FPVDemo-Part1.git>
+<https://github.com/DJI-Mobile-SDK/Android-FPVDemo-Part2.git>
 
 在大家阅读这个教程时，我们强烈建议大家打开demo project，这样大家可以一步一步的跟着这个教程去做，同时参考demo project。
 
 ## 概述 
 
-在这个教程的第一部分里， 我们会教大家怎么去设置你们的编程环境，申请并激活你们的DJI应用程序，和查看你们的无人飞机的相机显示应用程序
+在本教程中，我们会教大家怎么去设置你们的编程环境，申请并激活你们的DJI应用程序，和查看你们的无人飞机的相机显示应用程序,同时, 你将学到如何在app中添加拍照和录像功能。
 
 ## 准备程序
 
@@ -31,10 +31,10 @@
 
 
 (2)将软件包解压缩。导入一个叫**Lib**文件夹(Eclipse\DJI-SDK-Android-V2.1.0)到Eclipse里面(File -> Import -> Android -> Existing Android Code into Workspace)。下一步，把导入的文件加到你的library (right click on your project -> Select "**Properties**" -> Select "**Android**" -> Add).
-![setLib](../../../images/Android/FPVDemo/1_importLib.png)
+![setLib](../../images/Android/FPVDemo/1_importLib.png)
 
 （3）已被导入的library应该被存在这里：
-![checkLib](../../../images/Android/FPVDemo/1_CheckLib.png)
+![checkLib](../../images/Android/FPVDemo/1_CheckLib.png)
 
 ### Android Studio
 
@@ -44,12 +44,12 @@
 
 **注意：** Android Studio文件夹能从DJI网站下载下来的SDK Package里找到。demo project里面用的软件包是用的'Eclpise'文件夹里的。如果你要用Android Studio，确保你用的是Android Studio文件夹里面的软件包。SDK Package 能在此下载：<http://dev.dji.com/cn/products/sdk/mobile-sdk/downloads>*
 
-![importModule](../../../images/Android/FPVDemo/importModuleScreenshot.png)
+![importModule](../../images/Android/FPVDemo/importModuleScreenshot.png)
 
 然后，在"Packages"视图下，右击左边项目列表中的'app'模块。出现下拉框，点击'Open Module Settings'。找到一个叫'Dependencies'的标签。点击那个绿色加号，然后点击‘Module Dependency'并选择':DJI-SDK-LIB'。点击'OK'来确认。Gradle完成重建后,你的编程环境设置完毕。
 
 
-![addDependency](../../../images/Android/FPVDemo/addDependencyScreenshot.png)
+![addDependency](../../images/Android/FPVDemo/addDependencyScreenshot.png)
 
 
 ## 显示FPV视图
@@ -58,11 +58,11 @@
 
 请使用你在DJI开发者网站<http://dev.dji.com>上申请的APP KEY填入**android:value=""**。当申请APP KEY的时候，需要在标识码处填入你的工程的包名。
 
-![appKey](../../../images/Android/FPVDemo/appKey_cn.png)
+![appKey](../../images/Android/FPVDemo/appKey_cn.png)
 
 在工程的AndroidManifest.xml文件中添加以下meta-data元素配置用来激活的APP KEY和'uses-permission'代码行。
 
-![appKeyMetaData](../../../images/Android/FPVDemo/1_appKeyMetaData2.png)
+![appKeyMetaData](../../images/Android/FPVDemo/1_appKeyMetaData2.png)
  
 在开始调用SDK APIs之前，需要添加以下代码来进行激活验证，
 
@@ -323,7 +323,7 @@ DJIAoaActivity中有添加如下代码支持AOA,
 你应该注意调用**mDjiGLSurfaceView**的方法**public boolean start()**和设置视频数据回调接口给**mDjiGLSurfaceView**传递视频数据的顺序，以及释放**mDjiGLSurfaceView**和停止传递数据给它的顺序。
 
 (4) 编译并运行你的工程，检查一切是否正常。如果在运行后看到移动端出现如下界面，你就可以开始用你自己的APP连接飞机，并享受飞机实时传回航拍视频的乐趣了！
-![afterCompileScreenShot](../../../images/Android/FPVDemo/afterComplileScreenShot.png)
+![afterCompileScreenShot](../../images/Android/FPVDemo/afterComplileScreenShot.png)
 
 ## 连接飞行器
 完成以上步骤后, 现在就可以连接你的移动设备到DJI飞行器上，检查是否获取到FPV画面，以下是连接指引：
@@ -354,8 +354,132 @@ DJIAoaActivity中有添加如下代码支持AOA,
 
 ## 享受FPV视图
 如果你可以在app中看到飞机的视频流，那么恭喜，你已经完成了第一部分教程的内容了！下图是app的截屏：
-![runAppScreenShot](../../../images/Android/FPVDemo/runAppScreenShot.png)
+![runAppScreenShot](../../images/Android/FPVDemo/runAppScreenShot.png)
+
+## 实现拍照功能
+
+我们在FPVActivity中实现了方法**private void captureAction()**来进行拍照。当按下按钮“Capture”, 该方法将被调用，将拍下一张照片存储在飞机上的SD卡上。**private void captureAction()**方法的代码如下，
+
+~~~java
+	 // function for taking photo
+    private void captureAction(){
+        
+        CameraMode cameraMode = CameraMode.Camera_Capture_Mode;
+        // Set the cameraMode as Camera_Capture_Mode. All the available modes can be seen in
+        // DJICameraSettingsTypeDef.java
+        DJIDrone.getDjiCamera().setCameraMode(cameraMode, new DJIExecuteResultCallback(){
+
+            @Override
+            public void onResult(DJIError mErr)
+            {
+                
+                String result = "errorCode =" + mErr.errorCode + "\n"+"errorDescription =" + DJIError.getErrorDescriptionByErrcode(mErr.errorCode);
+                if (mErr.errorCode == DJIError.RESULT_OK) {
+                    CameraCaptureMode photoMode = CameraCaptureMode.Camera_Single_Capture; 
+                    // Set the camera capture mode as Camera_Single_Capture. All the available modes 
+                    // can be seen in DJICameraSettingsTypeDef.java
+                    
+                    DJIDrone.getDjiCamera().startTakePhoto(photoMode, new DJIExecuteResultCallback(){
+
+                        @Override
+                        public void onResult(DJIError mErr)
+                        {
+                            
+                            String result = "errorCode =" + mErr.errorCode + "\n"+"errorDescription =" + DJIError.getErrorDescriptionByErrcode(mErr.errorCode);
+                            handler.sendMessage(handler.obtainMessage(SHOWTOAST, result));  // display the returned message in the callback               
+                        }
+                        
+                    }); // Execute the startTakePhoto API if successfully setting the camera mode as
+                    	// Camera_Capture_Mode 
+                } else {
+                    handler.sendMessage(handler.obtainMessage(SHOWTOAST, result)); 
+                    // Show the error when setting fails
+                }
+                
+            }
+            
+        });
+                   
+    }
+~~~
+
+在方法**private void captureAction()**中有两步，第一步是设置相机模式；第二步是设置相机拍照模式并拍照。我们把第二步的相关代码放在第一步的回调接口的**onResult()**方法里面，这样可以保证成功运行完第一步后再执行第二步。
+
+编译并运行工程，连接飞行器试一下拍照功能，当在按下"capture"按钮后，屏幕闪了一下就说明拍照功能可以使用了。
+
+
+## 实现录像功能
+
+与实现拍照功能类似，我们实现了方法**private void recordAction()**来进行录像功能。当按下“Record”按钮,该方法将被调用，飞机上的相机开始录像。代码如下，
+ 
+~~~java
+	 // function for starting recording
+    private void recordAction(){
+        // Set the cameraMode as Camera_Record_Mode.
+        CameraMode cameraMode = CameraMode.Camera_Record_Mode;
+        DJIDrone.getDjiCamera().setCameraMode(cameraMode, new DJIExecuteResultCallback(){
+		 
+            @Override
+            public void onResult(DJIError mErr)
+            {
+                
+                String result = "errorCode =" + mErr.errorCode + "\n"+"errorDescription =" + DJIError.getErrorDescriptionByErrcode(mErr.errorCode);
+                if (mErr.errorCode == DJIError.RESULT_OK) {
+                    
+                    //Call the startRecord API
+                    DJIDrone.getDjiCamera().startRecord(new DJIExecuteResultCallback(){
+
+                        @Override
+                        public void onResult(DJIError mErr)
+                        {
+                            
+                            String result = "errorCode =" + mErr.errorCode + "\n"+"errorDescription =" + DJIError.getErrorDescriptionByErrcode(mErr.errorCode);
+                            handler.sendMessage(handler.obtainMessage(SHOWTOAST, result));  // display the returned message in the callback               
+                            
+                        }
+                        
+                    }); // Execute the startTakePhoto API
+                } else {
+                    handler.sendMessage(handler.obtainMessage(SHOWTOAST, result));
+                }
+                
+            }
+            
+        });
+        
+    }
+~~~ 
+  
+## 实现停止录像功能
+
+在FPVActivity中，方法**private void stopRecord()** 被实现用来停止录像。当按下按钮“Stop recording”,该方法将被调用，飞机上的相机将停止录像。代码如下，
+
+~~~java
+	 // function for stopping recording
+    private void stopRecord(){
+    // Call the API
+        DJIDrone.getDjiCamera().stopRecord(new DJIExecuteResultCallback(){
+
+            @Override
+            public void onResult(DJIError mErr)
+            {
+                
+                String result = "errorCode =" + mErr.errorCode + "\n"+"errorDescription =" + DJIError.getErrorDescriptionByErrcode(mErr.errorCode);
+                handler.sendMessage(handler.obtainMessage(SHOWTOAST, result));
+// Show the return of the API calling
+            }
+            
+        });
+    }
+
+~~~
+
+现在，我们可以编译并运行工程，检查我们开始录像，停止录像功能了。如果一切正常，你将看到类似如下的截屏，
+![recordVideoScreenShot](../../images/Android/FPVDemo/recordVideo.png)
+
+恭喜你！你的FPV航拍App已经大功告成，你现在可以用它来控制Inspire 1的相机了。
 
 ## 总结
 
-你已经学会了如何配置DJI Mobile SDK的Android开发环境，并成功用它开发app来展示飞行器相机的FPV画面。在接下来的教程中，我们会在此基础上添加拍照和录像功能. 请关注我们第二部分的教程，希望你喜欢！
+你已经完成了整篇教程的学习: 你已经学会了如何配置DJI Mobile SDK的Android开发环境，并成功用它开发app来展示飞行器相机的FPV画面。同时，你也学会如何使用DJI Mobile SDK来开发app，展示飞行器相机的FPV视图，控制DJI 飞行器的相机进行**拍照**和**录像**操作，这两项功能经常被使用到，也是一款航拍app的基本功能点。但是，要开发一款很酷的航拍app，你还有很长的一段路要走。像预览SD卡中的照片和视频，展示飞机的OSD数据等等。请继续关注我们后续的教程，希望你喜欢！
+
