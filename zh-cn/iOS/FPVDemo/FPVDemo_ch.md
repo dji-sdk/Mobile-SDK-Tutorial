@@ -2,7 +2,7 @@
 
 *注意: 本教程中的代码是针对iPad开发的. 请确保在iPad或者iPad模拟器上运行本教程代码。*
 
-你可以从这里下载到本教程的Demo工程:<https://github.com/DJI-Mobile-SDK/FPVDemo-Part2.git>
+你可以从这里下载到本教程的Demo工程:<https://github.com/DJI-Mobile-SDK/iOS-FPVDemo.git>
 
 ## 下载SDK
 
@@ -33,6 +33,7 @@
    ![MFI](../../images/iOS/FPVDemo/MFIProtocol.png)
 
 ## 实现FPV视图功能
+
   **1**. 我们使用 FFMPEG 解码库 (http://ffmpeg.org) 对视频流进行解码. 你可以在下载好的SDK开发包中找到 **VideoPreviewer** 文件夹. 将它拷贝到 Xcode 工程的文件夹中, 然后像下图所示添加到工程导航栏的**thirdParty**文件夹下:
   
  ![AppKey](../../images/iOS/FPVDemo/ffmpegImport.png)
@@ -260,6 +261,7 @@ APP KEY 激活失败码如下所示:
   ![Screenshot](../../images/iOS/FPVDemo/Screenshot.jpg)
   
 ## 连接飞行器
+
 完成以上步骤后, 现在就可以连接你的移动设备到DJI飞行器上，检查是否获取到FPV画面，以下是连接指引：
 
 * 连接 Inspire 1, Phantom 3 Professional or Phantom 3 Advanced:
