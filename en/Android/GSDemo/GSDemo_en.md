@@ -523,7 +523,7 @@ We have configured the **DJIGroundStationTask**. However, the task is currently 
                 String ResultsString = "return code =" + result.toString();
                 handler.sendMessage(handler.obtainMessage(SHOWTOAST, ResultsString));
                 
-                if (result == GroundStationResult.GS_Result_Successed) {
+                if (result == GroundStationResult.GS_Result_Success) {
                     DJIDrone.getDjiGroundStation().uploadGroundStationTask(mGroundStationTask, new DJIGroundStationExecuteCallBack(){
     
                         @Override
@@ -541,7 +541,7 @@ We have configured the **DJIGroundStationTask**. However, the task is currently 
     }
 ```
 
-We first need to call **public void openGroundStation(final DJIGroundStationExecuteCallBack mCallBack)** to initialized the Ground Station function, and when the Ground Station function is initialized successfully (the callback returns **GroundStationResult.GS_Result_Successed**), then the function **public void uploadGroundStationTask(final DJIGroundStationTask task, final DJIGroundStationExecuteCallBack mCallBack)** will be executed.
+We first need to call **public void openGroundStation(final DJIGroundStationExecuteCallBack mCallBack)** to initialized the Ground Station function, and when the Ground Station function is initialized successfully (the callback returns **GroundStationResult.GS_Result_Success**), then the function **public void uploadGroundStationTask(final DJIGroundStationTask task, final DJIGroundStationExecuteCallBack mCallBack)** will be executed.
 
 
 **Important:** It is possible that you will come across **GroundStationResult.GS_Result_Rc_Control_Mode_Error** when using the Ground Station. The root cause is that the flight mode switch on the remote contorller is not set to the "F" position. You will then need to toggle the switch to "F" position and upload the waypoints agin before using the Ground Station.  
@@ -556,14 +556,14 @@ When all waypoints are uploaded successfully , the DJI PC Simulator log will pro
 
 ## Start and Stop the DJIGroundStationTask
 
-After uploading the task to the aircraft, execute the **DJIGroundStationTask**. When the  "Start" button is clicked, the following codes will be executed, in which the function **public void startGroundStationTask(final DJIGroundStationTakeOffCallBack mCallBack)** will be called.
+After uploading the task to the aircraft, execute the **DJIGroundStationTask**. When the  "Start" button is clicked, the following codes will be executed, in which the function **public void startGroundStationTask(final DJIGroundStationExecuteCallBack mCallBack)** will be called.
 
 ```java
 	    private void startGroundStationTask(){
-        DJIDrone.getDjiGroundStation().startGroundStationTask(new DJIGroundStationTakeOffCallBack(){
+        DJIDrone.getDjiGroundStation().startGroundStationTask(new DJIGroundStationExecuteCallBack(){
 
             @Override
-            public void onResult(GroundStationTakeOffResult result) {
+            public void onResult(GroundStationResult result) {
                 // TODO Auto-generated method stub
                 String ResultsString = "return code =" + result.toString();
                 handler.sendMessage(handler.obtainMessage(SHOWTOAST, ResultsString));
@@ -574,14 +574,14 @@ After uploading the task to the aircraft, execute the **DJIGroundStationTask**. 
 
 ![startGSTask](../../images/Android/GSDemo/startGSTask.png)
 
-The DJIGroundStationTask can be stopped during execution by calling function **public void pauseGroundStationTask(final DJIGroundStationHoverCallBack mCallBack)** to pause the task, after the pausing the task, use **public void closeGroundStation(final DJIGroundStationExecuteCallBack mCallBack)** to close the Ground Station function.
+The DJIGroundStationTask can be stopped during execution by calling function **public void pauseGroundStationTask(final DJIGroundStationExecuteCallBack mCallBack)** to pause the task, after the pausing the task, use **public void closeGroundStation(final DJIGroundStationExecuteCallBack mCallBack)** to close the Ground Station function.
 
 ```java
 	    private void stopGroundStationTask(){
-        DJIDrone.getDjiGroundStation().pauseGroundStationTask(new DJIGroundStationHoverCallBack(){
+        DJIDrone.getDjiGroundStation().pauseGroundStationTask(new DJIGroundStationExecuteCallBack(){
 
             @Override
-            public void onResult(GroundStationHoverResult result) {
+            public void onResult(GroundStationResult result) {
                 // TODO Auto-generated method stub
                 String ResultsString = "return code =" + result.toString();
                 handler.sendMessage(handler.obtainMessage(SHOWTOAST, ResultsString));
