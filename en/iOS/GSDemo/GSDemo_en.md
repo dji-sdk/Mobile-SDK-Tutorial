@@ -242,15 +242,9 @@ Once that is complete, open the **DJIMapController.m** file, initialize the **ma
     self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addWaypoints:)];
     [self.mapView addGestureRecognizer:self.tapGesture];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(registerAppSuccess:) name:@"RegisterAppSuccess" object:nil];
 }
 
 #pragma mark Custom Methods
-
-- (void)registerAppSuccess:(NSNotification *)notification
-{
-
-}
 
 - (void)addWaypoints:(UITapGestureRecognizer *)tapGesture
 {
@@ -356,8 +350,6 @@ Once you are done, go to **DJIRootViewController.m** file and add the following 
     self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addWaypoints:)];
     [self.mapView addGestureRecognizer:self.tapGesture];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(registerAppSuccess:) name:@"RegisterAppSuccess" object:nil];
-    
 }
 
 #pragma mark CLLocation Methods
@@ -402,7 +394,7 @@ Once you are done, go to **DJIRootViewController.m** file and add the following 
 
 ~~~
 
-First, we initialize **userLocation** data to kCLLocationCoordinate2DInvalid in the viewDidLoad method. Then we add a new method named as **startUpdateLocation** to initialize **locationManger**, set its properties and start updating location. If the Location Service is not available, we add an UIAlertView to display the warning. The **startUpdateLocation** is called in **viewWillAppear** method and is stopped in the **viewWillDisappear** method. Moreover, we need to implement CLLocationManagerDelegate method to update **userLocation** property. Finally, we implement the **focusMapAction** method to focus **mapView** to the user's current location.
+First, we initialize **userLocation** data to kCLLocationCoordinate2DInvalid in the viewDidLoad method. Then we add a new method named as **startUpdateLocation** to initialize **locationManger**, set its properties and start updating location. If the Location Service is not available, we add a UIAlertView to display the warning. The **startUpdateLocation** is called in **viewWillAppear** method and is stopped in the **viewWillDisappear** method. Moreover, we need to implement CLLocationManagerDelegate method to update **userLocation** property. Finally, we implement the **focusMapAction** method to focus **mapView** to the user's current location.
 
 In iOS8, we must call **locationManager**'s **requestAlwaysAuthorization** first, which was done in **startUpdateLocation** method. Next, add a NSLocationAlwaysUsageDescription or NSLocationWhenInUseUsageDescription key to your project’s Info.plist containing the message to be displayed to the user when a UIAlert asking whether or not they want to allow the application to use their location. We set the messages empty here:
 
@@ -585,11 +577,11 @@ To provide a better user experience, we need to add a status view on top of the 
 
 ![statusView](../../images/iOS/GSDemo/statusView.png)
 
-Once that's done, open **DJIRootViewController.h** file, create IBOutlets for the above UI elements and import DJISDK's header file and implement **DJIDroneDelegate** and **DJIMainControllerDelegate** protocols. Here we use Inspire 1 for the demo, so we need to create two properties, one of type **DJIDrone** and another of type **DJIInspireMainController**'s property. Also, we need to create a **CLLocationCoordinate2D** property named **droneLocation** to record the aircraft's location, as shown below:
+Once that's done, open **DJIRootViewController.h** file, create IBOutlets for the above UI elements and import DJISDK's header file and implement **DJIDroneDelegate** , **DJIMainControllerDelegate**, **DJIAppManagerDelegate** and **DJINavigationDelegate** protocols. Here we use Inspire 1 for the demo, so we need to create three properties, one of type **DJIDrone**, another of type **DJIInspireMainController**'s property and the last of type **NSObject<DJINavigation>**'s property. Also, we need to create a **CLLocationCoordinate2D** property named **droneLocation** to record the aircraft's location, as shown below:
 
 ~~~objc
 #import <DJISDK/DJISDK.h>
-@interface DJIRootViewController : UIViewController<MKMapViewDelegate, CLLocationManagerDelegate, DJIDroneDelegate, DJIMainControllerDelegate>
+@interface DJIRootViewController : UIViewController<MKMapViewDelegate, CLLocationManagerDelegate, DJIDroneDelegate, DJIMainControllerDelegate, DJIAppManagerDelegate>
 
 @property(nonatomic, strong) IBOutlet UILabel* modeLabel;
 @property(nonatomic, strong) IBOutlet UILabel* gpsLabel;
@@ -599,10 +591,12 @@ Once that's done, open **DJIRootViewController.h** file, create IBOutlets for th
 
 @property(nonatomic, strong) DJIDrone* inspireDrone;
 @property(nonatomic, strong) DJIInspireMainController* inspireMainController;
+@property(nonatomic, weak) NSObject<DJINavigation>* navigationManager;
+
 @property(nonatomic, assign) CLLocationCoordinate2D droneLocation;
 ~~~
 
-Now, let's move on to the **DJIRootViewController.m** file and initialize the UI elements' values in a method called **initUI**. Also, add an **initDrone** method to initialize the properties for **inspireDrone**. Call the **initUI** and **initDrone** methods in the **viewDidLoad** method:
+Now, let's move on to the **DJIRootViewController.m** file and initialize the UI elements' values in a new method called **initUI**. Also, add an **initDrone** method to initialize the properties for **inspireDrone**. Call the **initUI** and **initDrone** methods in the **viewDidLoad** method. Lastly, create a new method named "registerApp" and invoke it in the **initDrone** method to register the app as shown below:
 
 ~~~objc
 
@@ -618,26 +612,69 @@ Now, let's move on to the **DJIRootViewController.m** file and initialize the UI
 - (void)initDrone
 {
     self.inspireDrone = [[DJIDrone alloc] initWithType:DJIDrone_Inspire];
-    self.inspireMainController = (DJIInspireMainController*)self.inspireDrone.mainController;
     self.inspireDrone.delegate = self;
+    
+    self.navigationManager = self.inspireDrone.mainController.navigationManager;
+    self.navigationManager.delegate = self;
+
+    self.inspireMainController = (DJIInspireMainController*)self.inspireDrone.mainController;    
     self.inspireMainController.mcDelegate = self;
+    
+    [self registerApp];
+}
+
+- (void)registerApp
+{
+    NSString *appKey = @"Enter Your App Key Here";
+    [DJIAppManager registerApp:appKey withDelegate:self];
 }
 ~~~
 
-The **DJIInspireMainController** subclass from **DJIMainController** is a mainController to control the aircraft and get the DJIMCSystemState during take off, landing, and etc. You can check its header file in the SDK for more info. In the **initDrone** method, we set **inspireDrone** and **inspireMainController** delegates as self.
+In the **initDrone** method, we init **inspireDrone** and **navigationManager** properties and set their delegates as self. Next, init the **inspireMainController** property and set it's mcDelegate as self. The **DJIInspireMainController** subclass from **DJIMainController** is a mainController to control the aircraft and get the DJIMCSystemState during take off, landing, and etc. You can check its header file in the SDK for more info.
 
-Remember the **registerAppSuccess** method we've added previously? Let's have it look like this:
+Furthermore, let's refactor the **ViewDidLoad** method as shown below:
 
 ~~~objc
-#pragma mark NSNotification Selector Method
-- (void)registerAppSuccess:(NSNotification *)notification
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    [self initUI];
+    [self initData];
+    [self initDrone];   
+}
+
+-(void)initData
 {
-    [self.inspireDrone connectToDrone];
-    [self.inspireMainController startUpdateMCSystemState];
+    self.userLocation = kCLLocationCoordinate2DInvalid;
+    self.droneLocation = kCLLocationCoordinate2DInvalid;
+    
+    self.mapController = [[DJIMapController alloc] init];
+    self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addWaypoints:)];
+    [self.mapView addGestureRecognizer:self.tapGesture];
+
 }
 ~~~
 
-In the method above, when the app is registerd successfully, we can call DJIDrone's **connectToDrone** method to connect to the aircraft, and call **startUpdateMCSystemState** method to start updating the aircraft's system state, which is information we need to update our aircraft's location and heading. Moreover, in the **viewWillDisappear** method, we need to disconnect from the drone, as shown below:
+Next, implement the "DJIAppManagerDelegate" method as follows:
+
+~~~objc
+#pragma mark DJIAppManagerDelegate Method
+-(void)appManagerDidRegisterWithError:(int)error
+{
+    NSString* message = @"Register App Successed!";
+    if (error != RegisterSuccess) {
+        message = @"Register App Failed! Please enter your App Key and check the network.";
+    }else
+    {
+        [self.inspireDrone connectToDrone];
+        [self.inspireDrone.mainController startUpdateMCSystemState];
+    }
+    UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Register App" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alertView show];
+}
+~~~
+
+In the method above, when the app is registerd successfully, we can call DJIDrone's **connectToDrone** method to connect to the aircraft, and call **startUpdateMCSystemState** method to start updating the aircraft's system state, which is information we need to update our aircraft's location and heading. Moreover, in the **viewWillDisappear** method, we need to disconnect from the drone and destry it. Also, we need to invoke the "stopUpdateMCSystemState" method of "inspireDrone"'s mainController to stop update DJIMainController's system state as shown below:
 
 ~~~objc
 - (void)viewWillDisappear:(BOOL)animated
@@ -645,7 +682,11 @@ In the method above, when the app is registerd successfully, we can call DJIDron
     [super viewWillDisappear:animated];
 
     [self.locationManager stopUpdatingLocation];
+    
+    [self.inspireDrone.mainController stopUpdateMCSystemState];
     [self.inspireDrone disconnectToDrone];
+    [self.inspireDrone destroy];
+
 }
 ~~~
 
@@ -700,52 +741,58 @@ Furthermore, let's implement the **DJIMainControllerDelegate** method:
 -(void) mainController:(DJIMainController*)mc didUpdateSystemState:(DJIMCSystemState*)state
 {
     self.droneLocation = state.droneLocation;
-    DJIInspireMCSystemState* inspireState = (DJIInspireMCSystemState*)state;
-    if (!inspireState.canIOCWork) {
-        [self.inspireMainController setFlightModeSwitchable:YES withResult:nil];
-    }
-    if (inspireState.isIOCWorking) {
-        [self.inspireMainController setIOCWorking:NO withResult:nil];
+    
+    if (!state.isMultipleFlightModeOpen) {
+        [self.inspireMainController setMultipleFlightModeOpen:YES withResult:nil];
     }
     
-     self.modeLabel.text = inspireState.flightModeString;
-    self.gpsLabel.text = [NSString stringWithFormat:@"%d", inspireState.satelliteCount];
-    self.vsLabel.text = [NSString stringWithFormat:@"%0.1f M/S",inspireState.velocityZ];
-    self.hsLabel.text = [NSString stringWithFormat:@"%0.1f M/S",(sqrtf(inspireState.velocityX*inspireState.velocityX + inspireState.velocityY*inspireState.velocityY))];
-    self.altitudeLabel.text = [NSString stringWithFormat:@"%0.1f M",inspireState.altitude];
+    self.modeLabel.text = state.flightModeString;
+    self.gpsLabel.text = [NSString stringWithFormat:@"%d", state.satelliteCount];
+    self.vsLabel.text = [NSString stringWithFormat:@"%0.1f M/S",state.velocityZ];
+    self.hsLabel.text = [NSString stringWithFormat:@"%0.1f M/S",(sqrtf(state.velocityX*state.velocityX + state.velocityY*state.velocityY))];
+    self.altitudeLabel.text = [NSString stringWithFormat:@"%0.1f M",state.altitude];
         
     [self.mapController updateAircraftLocation:self.droneLocation withMapView:self.mapView];
     double radianYaw = (state.attitude.yaw * M_PI / 180.0);
     [self.mapController updateAircraftHeading:radianYaw];
     
 }
+
 ~~~
 
-First, it will update the **droneLocation** with the aircraft's current location. Then, it will disable the inspireMainController's IOC function.
-
-***
-**Important**: Since there are conflicts between DJI Mobile SDK's GroundStation and IOC, you cannot use them at the same time. Please make sure to close the IOC feature before using GroundStation. Otherwise, you will run into errors.
-***
+First, it will update the **droneLocation** with the aircraft's current location. Then, it will open the  inspireMainController's multipleFlightMode.
 
 Next, update the text for the status labels from the DJIMCSystemState. Furthermore, update the aircraft's location and heading by calling the related methods from **DJIMapController**.
 
 Finally, let's implement the DJIDroneDelegate Method, as shown below:
 
 ~~~objc
+
+- (void)enterNavigationMode
+{
+    [self.navigationManager enterNavigationModeWithResult:^(DJIError *error) {
+        if (error.errorCode != ERR_Successed) {
+            NSString* message = [NSString stringWithFormat:@"Enter navigation mode failed:%@", error.errorDescription];
+            UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Enter Navigation Mode" message:message delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Retry", nil];
+            alertView.tag = kEnterNaviModeFailedAlertTag;
+            [alertView show];
+        }else
+        {
+            NSString* message = @"Enter navigation mode Success";
+            UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Enter Navigation Mode" message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alertView show];
+            
+        }
+    }];
+
+}
+
 #pragma mark - DJIDroneDelegate Method
 -(void) droneOnConnectionStatusChanged:(DJIConnectionStatus)status
 {
     if (status == ConnectionSuccessed) {
-        [self.inspireMainController enterNavigationModeWithResult:^(DJIError *error) {
-            if (error.errorCode != ERR_Successed) {
-                NSString* message = [NSString stringWithFormat:@"Enter navigation mode failed:%@", error.errorDescription];
-                UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Enter Navigation Mode" message:message delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Retry", nil];
-                alertView.tag = kEnterNaviModeFailedAlertTag;
-                [alertView show];
-            }
-        }];
-    }
-    
+       [self enterNavigationMode];    
+    }    
 }
 ~~~
 
@@ -756,16 +803,9 @@ If it succeeds to connect to the aircraft, call **DJIInspireMainController**'s *
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (alertView.tag == 1002) {
+     if (alertView.tag == kEnterNaviModeFailedAlertTag) {
         if (buttonIndex == 1) {
-            [self.inspireMainController enterNavigationModeWithResult:^(DJIError *error) {
-                if (error.errorCode != ERR_Successed) {
-                    NSString* message = [NSString stringWithFormat:@"Enter navigation mode failed:%@", error.errorDescription];
-                    UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Enter Navigation Mode" message:message delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Retry", nil];
-                    alertView.tag = kEnterNaviModeFailedAlertTag;
-                    [alertView show];
-                }
-            }];
+            [self enterNavigationMode];
         }
     }
 }
@@ -795,7 +835,7 @@ If you cannot find the aircraft, press the "**Focus Map**" button and the map vi
 ![focusAircraft](../../images/iOS/GSDemo/focusAircraft.gif)
 
 Now, if you press the **Stop Simulation** button on the Simulator Config, the aircraft will disappear on the map, since the simulator stops providing GPS data to the aircraft.
-
+   
 ## Refactor the UI
 
 As you seen, the project's code structure was simple and not robust. In order to develop it further in this tutorial, it will need to be refactored and we will need to add more UI elements. 
@@ -806,16 +846,16 @@ First, we will create a new file named **DJIGSButtonController**, which will be 
 ![freeform](../../images/iOS/GSDemo/freeform.png)
 ![changeSize](../../images/iOS/GSDemo/changeSize.png)
 
-Next, drag six UIButtons to the view and change their names to **Edit**, **Back**, **Clear**, **Focus Map**, **Start** and **Stop**. **Edit** will sit on top of **Back**, and **Focus Map** will sit on top of **Clear**. Make sure to hide the **Back**, **Clear**, **Start** and **Stop** buttons.
+Next, drag eight UIButtons to the view and change their names to **Edit**, **Back**, **Clear**, **Focus Map**, **Start**, **Stop**, **Add** and **Config**. **Edit** will sit on top of **Back**, and **Focus Map** will sit on top of **Add**. Make sure to hide the **Back**, **Clear**, **Start**, **Stop**, **Add** and **Config** buttons.
 
-![gsButtons](../../images/iOS/GSDemo/gsButtons.png)
+![gsButtons](../../images/iOS/GSDemo/gsButton.png)
 
- Then add IBOutlets and IBActions for each of the six buttons in the **DJIGSButtonViewController.h** file. Also, we will add an Enum named **DJIGSViewMode** with the two different modes the application could be in. Next, we add serveral delegate methods to be implemented by the delegate viewcontroller when IBAction methods for the buttons are trigger. Lastly, add the method **- (void)switchToMode:(DJIGSViewMode)mode inGSButtonVC:(DJIGSButtonViewController *)GSBtnVC;** to update the state of the buttons when the **DJIGSViewMode** changed. Take a look at the code below:
+ Then add IBOutlets and IBActions for each of the eight buttons in the **DJIGSButtonViewController.h** file. Also, we will add an Enum named **DJIGSViewMode** with the two different modes the application could be in. Next, we add serveral delegate methods to be implemented by the delegate viewcontroller when IBAction methods for the buttons are trigger. Lastly, add the method **- (void)switchToMode:(DJIGSViewMode)mode inGSButtonVC:(DJIGSButtonViewController *)GSBtnVC;** to update the state of the buttons when the **DJIGSViewMode** changed. Take a look at the code below:
  
  ~~~objc
- #import <UIKit/UIKit.h>
- 
- typedef NS_ENUM(NSUInteger, DJIGSViewMode) {
+#import <UIKit/UIKit.h>
+
+typedef NS_ENUM(NSUInteger, DJIGSViewMode) {
     DJIGSViewMode_ViewMode,
     DJIGSViewMode_EditMode,
 };
@@ -828,8 +868,10 @@ Next, drag six UIButtons to the view and change their names to **Edit**, **Back*
 - (void)clearBtnActionInGSButtonVC:(DJIGSButtonViewController *)GSBtnVC;
 - (void)focusMapBtnActionInGSButtonVC:(DJIGSButtonViewController *)GSBtnVC;
 - (void)startBtnActionInGSButtonVC:(DJIGSButtonViewController *)GSBtnVC;
-
+- (void)addBtn:(UIButton *)button withActionInGSButtonVC:(DJIGSButtonViewController *)GSBtnVC;
+- (void)configBtnActionInGSButtonVC:(DJIGSButtonViewController *)GSBtnVC;
 - (void)switchToMode:(DJIGSViewMode)mode inGSButtonVC:(DJIGSButtonViewController *)GSBtnVC;
+
 @end
 
 @interface DJIGSButtonViewController : UIViewController
@@ -840,6 +882,8 @@ Next, drag six UIButtons to the view and change their names to **Edit**, **Back*
 @property (weak, nonatomic) IBOutlet UIButton *focusMapBtn;
 @property (weak, nonatomic) IBOutlet UIButton *editBtn;
 @property (weak, nonatomic) IBOutlet UIButton *startBtn;
+@property (weak, nonatomic) IBOutlet UIButton *addBtn;
+@property (weak, nonatomic) IBOutlet UIButton *configBtn;
 
 @property (assign, nonatomic) DJIGSViewMode mode;
 @property (weak, nonatomic) id <DJIGSButtonViewControllerDelegate> delegate;
@@ -850,6 +894,8 @@ Next, drag six UIButtons to the view and change their names to **Edit**, **Back*
 - (IBAction)focusMapBtnAction:(id)sender;
 - (IBAction)editBtnAction:(id)sender;
 - (IBAction)startBtnAction:(id)sender;
+- (IBAction)addBtnAction:(id)sender;
+- (IBAction)configBtnAction:(id)sender;
 
 @end
  ~~~
@@ -857,13 +903,15 @@ Next, drag six UIButtons to the view and change their names to **Edit**, **Back*
  Once you've taken care of that, open the **DJIGSButtonViewController.m** file to replace all the code in the file with the following code:
  
  ~~~objc
- #import "DJIGSButtonViewController.h"
+#import "DJIGSButtonViewController.h"
 
 @implementation DJIGSButtonViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
     [self setMode:DJIGSViewMode_ViewMode];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -872,8 +920,10 @@ Next, drag six UIButtons to the view and change their names to **Edit**, **Back*
 }
 
 #pragma mark - Property Method
+
 - (void)setMode:(DJIGSViewMode)mode
 {
+    
     _mode = mode;
     [_editBtn setHidden:(mode == DJIGSViewMode_EditMode)];
     [_focusMapBtn setHidden:(mode == DJIGSViewMode_EditMode)];
@@ -881,9 +931,12 @@ Next, drag six UIButtons to the view and change their names to **Edit**, **Back*
     [_clearBtn setHidden:(mode == DJIGSViewMode_ViewMode)];
     [_startBtn setHidden:(mode == DJIGSViewMode_ViewMode)];
     [_stopBtn setHidden:(mode == DJIGSViewMode_ViewMode)];
+    [_addBtn setHidden:(mode == DJIGSViewMode_ViewMode)];
+    [_configBtn setHidden:(mode == DJIGSViewMode_ViewMode)];
 }
 
 #pragma mark - IBAction Methods
+
 - (IBAction)backBtnAction:(id)sender {
     [self setMode:DJIGSViewMode_ViewMode];
     if ([_delegate respondsToSelector:@selector(switchToMode:inGSButtonVC:)]) {
@@ -896,6 +949,7 @@ Next, drag six UIButtons to the view and change their names to **Edit**, **Back*
     if ([_delegate respondsToSelector:@selector(stopBtnActionInGSButtonVC:)]) {
         [_delegate stopBtnActionInGSButtonVC:self];
     }
+    
 }
 
 - (IBAction)clearBtnAction:(id)sender {
@@ -903,6 +957,7 @@ Next, drag six UIButtons to the view and change their names to **Edit**, **Back*
     if ([_delegate respondsToSelector:@selector(clearBtnActionInGSButtonVC:)]) {
         [_delegate clearBtnActionInGSButtonVC:self];
     }
+    
 }
 
 - (IBAction)focusMapBtnAction:(id)sender {
@@ -918,12 +973,28 @@ Next, drag six UIButtons to the view and change their names to **Edit**, **Back*
     if ([_delegate respondsToSelector:@selector(switchToMode:inGSButtonVC:)]) {
         [_delegate switchToMode:self.mode inGSButtonVC:self];
     }
+    
 }
 
 - (IBAction)startBtnAction:(id)sender {
     
     if ([_delegate respondsToSelector:@selector(startBtnActionInGSButtonVC:)]) {
         [_delegate startBtnActionInGSButtonVC:self];
+    }
+}
+
+- (IBAction)addBtnAction:(id)sender {
+    
+    if ([_delegate respondsToSelector:@selector(addBtn:withActionInGSButtonVC:)]) {
+        [_delegate addBtn:self.addBtn withActionInGSButtonVC:self];
+    }
+    
+}
+
+- (IBAction)configBtnAction:(id)sender {
+    
+    if ([_delegate respondsToSelector:@selector(configBtnActionInGSButtonVC:)]) {
+        [_delegate configBtnActionInGSButtonVC:self];
     }
 }
 
@@ -991,6 +1062,11 @@ Finally, implement **DJIGSButtonViewController**'s delegate methods, as shown be
     [self focusMap];
 }
 
+- (void)configBtnActionInGSButtonVC:(DJIGSButtonViewController *)GSBtnVC
+{
+
+}
+
 - (void)startBtnActionInGSButtonVC:(DJIGSButtonViewController *)GSBtnVC
 {
 }
@@ -998,26 +1074,35 @@ Finally, implement **DJIGSButtonViewController**'s delegate methods, as shown be
 - (void)switchToMode:(DJIGSViewMode)mode inGSButtonVC:(DJIGSButtonViewController *)GSBtnVC
 {
     if (mode == DJIGSViewMode_EditMode) {
-         self.isEditingPoints = YES;
         [self focusMap];
-    }else
-    {
-         self.isEditingPoints = No;
     }
 }
+
+- (void)addBtn:(UIButton *)button withActionInGSButtonVC:(DJIGSButtonViewController *)GSBtnVC
+{
+    if (self.isEditingPoints) {
+        self.isEditingPoints = NO;
+        [button setTitle:@"Add" forState:UIControlStateNormal];
+    }else
+    {
+        self.isEditingPoints = YES;
+        [button setTitle:@"Finished" forState:UIControlStateNormal];
+    }
+}
+
 ~~~
 
-In the **- (void)switchToMode:(DJIGSViewMode)mode inGSButtonVC:(DJIGSButtonViewController *)GSBtnVC** delegate method, we call the **focusMap** method. By doing this, we can focus the map view to the aircraft's location when the edit button is pressed, making it user friendly by preventing the user from having to zoom in to edit. Moreover, when the application is in edit mode, the  **isEditingPoints** property value is set to **YES**. 
+In the **- (void)switchToMode:(DJIGSViewMode)mode inGSButtonVC:(DJIGSButtonViewController *)GSBtnVC** delegate method, we call the **focusMap** method. By doing this, we can focus the map view to the aircraft's location when the edit button is pressed, making it user friendly by preventing the user from having to zoom in to edit. Moreover, the  **isEditingPoints** property value and the add button title will be updated in the **addBtn:withActionInGSButtonVC** method when the button is pressed. 
 
 Now, let's build and run the project and try to press the **Edit** and **Back** Buttons. Here are the animation when you press them:
 
 ![pressEditBtn](../../images/iOS/GSDemo/pressEditBtn.gif)
 
-## Configure the Navigation Task
+## Configure The DJIWaypoint and The DJIWaypointMission
 
-### 1. DJIGroundStationWaypoint
+### 1. DJIWaypoint
 
-Let's go to **DJIGroundStationWaypoint.h** file and check it out. For example, you can use: 
+Let's go to **DJIWaypoint.h** file and check it out. For example, you can use: 
 
 ~~~objc
 -(id) initWithCoordinate:(CLLocationCoordinate2D)coordinate;
@@ -1025,111 +1110,121 @@ Let's go to **DJIGroundStationWaypoint.h** file and check it out. For example, y
 to create a waypoint object with a specific coordinate. Once you create a waypoint, you can add a **DJIWaypointAction** to it by calling:
 
 ~~~objc
--(BOOL) addWaypointAction:(DJIWaypointAction*)action;
+-(BOOL) addAction:(DJIWaypointAction*)action;
 ~~~
 
-Moreover, with waypoints, you have the ability to set the coordinate, altitude, heading, horizontalVelocity and much more. For more details, please check the **DJIGroundStationWaypoint.h** header file.
+Moreover, with waypoints, you have the ability to set the coordinate, altitude, heading and much more. For more details, please check the **DJIWaypoint.h** header file.
 
-### 2. DJIGroundStationTask
+### 2. DJIWaypointMission
 
-A **DJIGroundStationTask** is used when you want to start a GroundStation Waypoint task. You can call its class method **+(id) newTask;** directly to create a new task. Once you create the task, you can add waypoints of type **DJIGroundStationWaypoint** using the method: 
+A **DJIWaypointMission** is used when you want to upload, start and stop a GroundStation Waypoint task. You  can add waypoints of type **DJIWaypoint** using the method:
 
 ~~~objc
--(void) addWaypoint:(DJIGroundStationWaypoint*)waypoint;
+-(void) addWaypoint:(DJIWaypoint*)waypoint;
 ~~~
 
 On the contrary, you can also delete waypoints from a task by using the method: 
 
 ~~~objc
--(void) removeWaypoint:(DJIGroundStationWaypoint*)waypoint;
+-(void) removeWaypoint:(DJIWaypoint*)waypoint;
 ~~~
  method.
  
- Moreover, you can set the **isLoop** property of a **DJIGroundStationTask** to decide whether to execute the task looply. Also, you can set the **finishedAction** property which is of **DJIGSTaskFinishedAction** enum type to configure what the aircraft does when the task is finished. Finally, you can set the **headingMode** property which is a **DJIGSHeadingMode** enum type to configure what the aircraft's heading is while executing a task. Below, you can find some parts of the header file:
+ Moreover, you can set the **finishedAction** property which is of **DJIWaypointMissionFinishedAction** enum type to configure what the aircraft does when the task is finished. Finally, you can set the **headingMode** property which is a **DJIWaypointMissionHeadingMode** enum type to configure what the aircraft's heading is while executing a task. Below, you can find some parts of the header file:
  
 ~~~objc
-/**
- *  Action of task when finished
- */
-typedef NS_ENUM(NSUInteger, DJIGSTaskFinishedAction){
+
+typedef NS_ENUM(uint8_t, DJIWaypointMissionFinishedAction)
+{
     /**
-     *  No action. aircraft will stay at the last waypoint
+     *  No action will be taken. The aircraft will exit the task and hover in the
+     *  air where the task was completed. After that, the aircraft will be able 
+     *  to be controlled by the remote controller.
      */
-    GSTaskFinishedNoAction,
+    DJIWaypointMissionFinishedNoAction,
     /**
-     *  Aircraft will go home
+     *  The aicraft will go home.
      */
-    GSTaskFinishedGoHome,
+    DJIWaypointMissionFinishedGoHome,
     /**
-     *  Aircraft will auto landing
+     *  The aircraft will land automatically.
      */
-    GSTaskFinishedAutoLanding,
+    DJIWaypointMissionFinishedAutoLand,
     /**
-     *  Aircraft will go to the first waypoint
+     *  The aircraft will go back to its first waypoint.
      */
-    GSTaskFinishedGoFirstWaypoint
+    DJIWaypointMissionFinishedGoFirstWaypoint,
+    /**
+     *  If the user attempts to pull the aircraft back along the flight path as the 
+     *  mission is being executed, the aircarft will move towards the previous waypoint 
+     *  and will continue to do so until there are no more waypoint to move back to or 
+     *  the user has stopped attempting to move the aircraft back. In the process of moving the
+     *  aircraft back, if the user ever stops attempting to do so the aircraft will,
+     *  automatically continue the mission until the end.
+     *
+     *  If the aircraft had been pulled back along the flight path all the way to the 
+     *  first waypoint, and the user continued to pull the back, the aircarft would continue
+     *  to hover at the first waypoint. Now, if the user stopped attempting to pull the aircraft
+     *  back, the aicraft would execute the mission from start to finish, as it would've if you 
+     *  had just started the waypoint mission for the first time.
+     */
+    DJIWaypointMissionFinishedContinueUntilEnd
 };
 
 /**
- *  Heading mode
+ *  Current waypoint mission heading mode.
  */
-typedef NS_ENUM(NSUInteger, DJIGSHeadingMode){
+typedef NS_ENUM(NSUInteger, DJIWaypointMissionHeadingMode){
     /**
-     *  Aircraft's heading toward to the next waypoint
+     *  Aircraft's heading alway be the tangent to the direction of the path to each 
+     *  of the waypoints in the waypoint mission. For example, when the aircarft is
+     *  moving past a waypoint along a curved path, the heading of the aicraft will be
+     *  tangent to the curve.
      */
-    GSHeadingTowardNexWaypoint,
+    DJIWaypointMissionHeadingAuto,
     /**
-     *  Aircraft's heading using the initial direction
+     *  Aircraft's heading will be set to the initial direction the aircraft
+     *  took off from.
      */
-    GSHeadingUsingInitialDirection,
+    DJIWaypointMissionHeadingUsingInitialDirection,
     /**
-     *  Aircraft's heading control by the remote controller
+     *  Aircraft's heading will be controlled by the remote controller.
      */
-    GSHeadingControlByRemoteController,
+    DJIWaypointMissionHeadingControlByRemoteController,
     /**
-     *  Aircraft's heading using the waypoint's heading value
+     *  Aircraft's heading will be set based on each individual waypoint's heading value
      */
-    GSHeadingUsingWaypointHeading,
+    DJIWaypointMissionHeadingUsingWaypointHeading,
 };
 
-/**
- *  Whether execute task looply. Default is NO
- */
-@property(nonatomic, assign) BOOL isLoop;
 
 /**
- *  Action for the aircraft while the task finished
+ *  Action the aircraft will take when the waypoint mission is complete.
  */
-@property(nonatomic, assign) DJIGSTaskFinishedAction finishedAction;
+@property(nonatomic, assign) DJIWaypointMissionFinishedAction finishedAction;
 
 /**
- *  How the aircraft heading while executing task
+ *  Heading mode the aircraft will adhere to during the waypoint mission.
  */
-@property(nonatomic, assign) DJIGSHeadingMode headingMode;
+@property(nonatomic, assign) DJIWaypointMissionHeadingMode headingMode;
 
 /**
- *  Create new task
+ *  Add a waypoint to the waypoint mission. The maximum number of waypoints should not larger then DJIWaypointMissionMaximumWaypointCount. and DJIWaypointMissionMinimumWaypointCount at least.
  *
+ *  @param Waypoint to be added to the waypoint mission.
  */
-+(id) newTask;
+-(void) addWaypoint:(DJIWaypoint*)waypoint;
 
 /**
- *  Add waypoint
+ *  Removes the waypoint passed in as a parameter from the waypoint mission.
  *
- *  @param waypoint
+ *  @param waypoint Waypoint object to be removed.
  */
--(void) addWaypoint:(DJIGroundStationWaypoint*)waypoint;
-
-/**
- *  Remove one waypoint
- *
- *  @param waypoint Waypoint will be removed
- */
--(void) removeWaypoint:(DJIGroundStationWaypoint*)waypoint;
+-(void) removeWaypoint:(DJIWaypoint*)waypoint;
 
 ~~~
  
-For more details, please check the **DJIGroundStationTask.h** header file in the DJI Mobile SDK.
+For more details, please check the **DJIWaypointMission.h** header file in the DJI Mobile SDK.
 
 ### 3. Create The DJIWaypointConfigViewController
 
@@ -1137,9 +1232,9 @@ For this demo, we will assume that the parameters of each waypoint being added t
 
 Now, let's create a new ViewController that will let the user to set the parameters of waypoints. Go to Xcode’s project navigator, right click on the **GSDemo** folder, select **New File...**, set its subclass to **UIViewController**, named it **DJIWaypointConfigViewController**, and make sure "Also create XIB file" is selected. Next, open the **DJIWaypointConfigViewController.xib** file and implement the UI, as you see it below:
 
-![wayPointConfig](../../images/iOS/GSDemo/wayPointConfig.png)
+![wayPointConfig](../../images/iOS/GSDemo/wayPointConfigVC.png)
 
-In the Waypoint Configuration ViewController, we use a UITextField to let the user set the **altitude** property of a **DJIGroundStationWaypoint** object. Then, there is a UISwitcher to configure the **isLoop** property of a **DJIGroundStationTask** object, which will let you turn on/off whether the task repeats. Next, there are three UISegmentedControls to configure the **horizontalVelocity** property of a **DJIGroundStationWaypoint** object, the **finishedAction** property of a **DJIGroundStationTask** object, and the **headingMode** property of a **DJIGroundStationTask** object. 
+In the Waypoint Configuration ViewController, we use a UITextField to let the user set the **altitude** property of a **DJIWaypoint** object. Then, we use two UITextField to let the user set the **maxFlightSpeed** and **autoFlightSpeed** properties of **DJIWaypointMission**. Next, there are two UISegmentedControls to configure the **finishedAction** property and the **headingMode** property of a **DJIWaypointMission** object. 
 
 At the bottom, we add two UIButtons for the **Cancel** and **Finish** actions. For more details about the settings, such as frame's position, frame's size, and background color of each UI element, please check the **DJIWaypointConfigViewController.xib** file in the downloaded project source code.
 
@@ -1160,8 +1255,8 @@ Now, let's create IBOutlets and IBActions for each of the UI elements in the **D
 @interface DJIWaypointConfigViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UITextField *altitudeTextField;
-@property (weak, nonatomic) IBOutlet UISwitch *repeatSwitcher;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *speedSegmentedControl;
+@property (weak, nonatomic) IBOutlet UITextField *autoFlightSpeedTextField;
+@property (weak, nonatomic) IBOutlet UITextField *maxFlightSpeedTextField;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *actionSegmentedControl;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *headingSegmentedControl;
 
@@ -1175,7 +1270,7 @@ Now, let's create IBOutlets and IBActions for each of the UI elements in the **D
 
 Here, we also create two **DJIWaypointConfigViewControllerDelegate** delegate methods that are called when **Cancel** and **Finish** buttons are pressed.
 
-Next, let's replace the code in the ** DJIWaypointConfigViewController.m** file with the following code:
+Next, let's replace the code in the **DJIWaypointConfigViewController.m** file with the following code:
 
 ~~~objc
 #import "DJIWaypointConfigViewController.h"
@@ -1189,7 +1284,8 @@ Next, let's replace the code in the ** DJIWaypointConfigViewController.m** file 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [self initUI];   
+    [self initUI];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -1199,11 +1295,11 @@ Next, let's replace the code in the ** DJIWaypointConfigViewController.m** file 
 
 - (void)initUI
 {
-    self.altitudeTextField.text = @"50";
-    [self.repeatSwitcher setOn:NO animated:YES]; //Turn off it to cancel execute GroundStation Task looply
-    [self.speedSegmentedControl setSelectedSegmentIndex:1]; //Set the horizontal speed to Mid
-    [self.actionSegmentedControl setSelectedSegmentIndex:1]; //Set the finishAction to GSTaskFinishedGoHome
-    [self.headingSegmentedControl setSelectedSegmentIndex:0]; //Set the headingMode to GSHeadingTowardNexWaypoint
+    self.altitudeTextField.text = @"50"; //Set the altitude to 50
+    self.autoFlightSpeedTextField.text = @"8"; //Set the autoFlightSpeed to 8
+    self.maxFlightSpeedTextField.text = @"10"; //Set the maxFlightSpeed to 10
+    [self.actionSegmentedControl setSelectedSegmentIndex:1]; //Set the finishAction to DJIWaypointMissionFinishedGoHome
+    [self.headingSegmentedControl setSelectedSegmentIndex:0]; //Set the headingMode to DJIWaypointMissionHeadingAuto
     
 }
 
@@ -1308,12 +1404,12 @@ In the second delegate method, we do the same thing as we did in the first deleg
 Lastly, replace the code in the
 
 ~~~objc
-- (void)startBtnActionInGSButtonVC:(DJIGSButtonViewController *)GSBtnVC;
+- (void)configBtnActionInGSButtonVC:(DJIGSButtonViewController *)GSBtnVC;
 ~~~
-method with the following code to show the **waypointConfigVC**'s view when the user presses the **start** button:
+method with the following code to show the **waypointConfigVC**'s view when the user presses the **Config** button:
 
 ~~~objc
-- (void)startBtnActionInGSButtonVC:(DJIGSButtonViewController *)GSBtnVC
+- (void)configBtnActionInGSButtonVC:(DJIGSButtonViewController *)GSBtnVC
 {
     __weak DJIRootViewController *weakSelf = self;
 
@@ -1324,13 +1420,13 @@ method with the following code to show the **waypointConfigVC**'s view when the 
 }
 ~~~
 
-Once that's done, let's build and run the project. Try to show the **waypointConfigVC**'s view by pressing the **Edit** button and **Start** button:
+Once that's done, let's build and run the project. Try to show the **waypointConfigVC**'s view by pressing the **Edit** button and **Config** button:
 
-![waypointConfigView](../../images/iOS/GSDemo/waypointConfigView.png)
+![waypointConfigView](../../images/iOS/GSDemo/waypointConfigureView.png)
 
 ### 2. Handle The GroundStation Task
 
-Now let's go back to **DJIRootViewController.h** file. First, implement the **GroundStationDelegate** and **DJINavigationDelegate** protocols in the interface. Then, create a property of type **DJIGroundStationTask** and named it as **gsTask**. Also, create a property of type **UIAlertView** and named it **uploadProgressView**. The UIAlertView will be used to show the status of GroundStation task. The complete header file of **DJIRootViewController** will look as shown below:
+Now let's go back to **DJIRootViewController.h** file. First, implement the **GroundStationDelegate** and **DJINavigationDelegate** protocols in the interface. Then, create a property of type **NSObject<DJIWaypointMission>** and named it as **waypointMission**. Also, create a property of type **UIAlertView** and named it **uploadProgressView**. The UIAlertView will be used to show the status of GroundStation task. The complete header file of **DJIRootViewController** will look as shown below:
 
 ~~~objc
 #import <UIKit/UIKit.h>
@@ -1339,7 +1435,7 @@ Now let's go back to **DJIRootViewController.h** file. First, implement the **Gr
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
 
-@interface DJIRootViewController : UIViewController<MKMapViewDelegate, CLLocationManagerDelegate, DJIDroneDelegate, DJIMainControllerDelegate, GroundStationDelegate, DJINavigationDelegate>
+@interface DJIRootViewController : UIViewController<MKMapViewDelegate, CLLocationManagerDelegate, DJIDroneDelegate, DJIMainControllerDelegate, GroundStationDelegate, DJINavigationDelegate, DJIAppManagerDelegate>
 
 @property (nonatomic, strong) DJIMapController *mapController;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
@@ -1359,73 +1455,83 @@ Now let's go back to **DJIRootViewController.h** file. First, implement the **Gr
 @property(nonatomic, strong) DJIDrone* inspireDrone;
 @property(nonatomic, strong) DJIInspireMainController* inspireMainController;
 
-@property(nonatomic, strong) DJIGroundStationTask* gsTask;
+@property(nonatomic, weak) NSObject<DJINavigation>* navigationManager;
+@property(nonatomic, weak) NSObject<DJIWaypointMission>* waypointMission;
+
 @property(nonatomic, strong) UIAlertView* uploadProgressView;
 
 @end
 ~~~
 
-Next, go to **DJIRootViewController.m** file and set **inspireMainController** instance variable's **groundStationDelegate** and **navigationDelegate** to **DJIRootViewController** as shown below:
+Next, go to **DJIRootViewController.m** file and set the **waypointMission** instance variable's value to "self.navigationManager.waypointMission" as shown below:
 
 ~~~objc
 - (void)initDrone
 {
     self.inspireDrone = [[DJIDrone alloc] initWithType:DJIDrone_Inspire];
-    self.inspireMainController = (DJIInspireMainController*)self.inspireDrone.mainController;
     self.inspireDrone.delegate = self;
+
+    self.navigationManager = self.inspireDrone.mainController.navigationManager;
+    self.navigationManager.delegate = self;
+    
+    self.inspireMainController = (DJIInspireMainController*)self.inspireDrone.mainController;
     self.inspireMainController.mcDelegate = self;
-    self.inspireMainController.groundStationDelegate = self;
-    self.inspireMainController.navigationDelegate = self;
+    
+    self.waypointMission = self.navigationManager.waypointMission;
+    
+    [self registerApp];
+
 }
 ~~~
 
-Moreover, add the following code to the bottom of the **startBtnActionInGSButtonVC** delegate method:
+Moreover, replace the code in **configBtnActionInGSButtonVC** delegate method with the followings:
 
 ~~~objc
-- (void)startBtnActionInGSButtonVC:(DJIGSButtonViewController *)GSBtnVC
+- (void)configBtnActionInGSButtonVC:(DJIGSButtonViewController *)GSBtnVC
 {
     __weak DJIRootViewController *weakSelf = self;
-
+    
+    NSArray* wayPoints = self.mapController.wayPoints;
+    if (wayPoints == nil || wayPoints.count < DJIWaypointMissionMinimumWaypointCount) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No or not enough waypoint for mission" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+    
     [UIView animateWithDuration:0.25 animations:^{
         weakSelf.waypointConfigVC.view.alpha = 1.0;
     }];
     
-    NSArray* wayPoints = self.mapController.wayPoints;
-    if (wayPoints == nil || wayPoints.count == 0) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No waypoint for mission" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alert show];
-        return;
-    }
+    [self.waypointMission removeAllWaypoints];
 
-    self.gsTask = [DJIGroundStationTask newTask];
     for (int i = 0; i < wayPoints.count; i++) {
         CLLocation* location = [wayPoints objectAtIndex:i];
         if (CLLocationCoordinate2DIsValid(location.coordinate)) {
-            DJIGroundStationWaypoint* waypoint = [[DJIGroundStationWaypoint alloc] initWithCoordinate:location.coordinate];
-            [self.gsTask addWaypoint:waypoint];
+            DJIWaypoint* waypoint = [[DJIWaypoint alloc] initWithCoordinate:location.coordinate];
+            [self.waypointMission addWaypoint:waypoint];
         }
     }
-    
+
 }
 ~~~
 
-In the code being added above, we create a local **NSArray** variable named **wayPoints** and assign its value as the **mapController**'s **wayPoints** array. Next, check whether or not the array exists or whether or not it's empty. If it is empty or does not exist, show a UIAlertView letting the user know there are no waypoints for the mission. 
+In the code above, we create a local **NSArray** variable named **wayPoints** and assign its value as the **mapController**'s **wayPoints** array. Next, check whether or not the array exists or whether or not it's empty. If it is empty or does not exist, show a UIAlertView letting the user know there are no waypoints for the mission. 
 
 **Important**: For safety, it's important to add logic to check the GPS satellite count, which was discussed in Part 1 of this tutorial, before the start of the mission. If the satellite count is less than 6, you should prevent the user from starting the ground station mission and show a warning. Since we are using the DJI PC Simulator here, we are testing the application under a perfect situation, where the GPS satellite count is always 10.
 
-Next, we initialize the **gsTask** instance variable by calling the **newTask** class method of **DJIGroundStationTask**. Furthermore, we use a for loop to get the **CLLocation** for each waypoint from the **wayPoints** array and check if its **coordinate** is valid by using the method:
+Next, we use a for loop to get the **CLLocation** for each waypoint from the **wayPoints** array and check if its **coordinate** is valid by using the method:
 
 ~~~objc
 BOOL CLLocationCoordinate2DIsValid(CLLocationCoordinate2D coord);
 ~~~
 
-Finally, if the coordinate is valid, we create a waypoint of type **DJIGroundStationWaypoint** and add it to the **gsTask** by calling the method:
+Finally, if the coordinate is valid, we create a waypoint of type **DJIWaypoint** and add it to the **waypointMission** by calling the method:
 
 ~~~objc
--(void) addWaypoint:(DJIGroundStationWaypoint*)waypoint;
+-(void) addWaypoint:(DJIWaypoint*)waypoint;
 ~~~
 
-Once that is complete, let's go to DJIWaypointConfigViewController's delegate method **finishBtnActionInDJIWaypointConfigViewController** and add the following code related to **gsTask** at the bottom of the method, as shown below:
+Once that is complete, let's go to DJIWaypointConfigViewController's delegate method **finishBtnActionInDJIWaypointConfigViewController** and replace the code inside with the followings:
 
 ~~~objc
 - (void)finishBtnActionInDJIWaypointConfigViewController:(DJIWaypointConfigViewController *)waypointConfigVC
@@ -1436,21 +1542,62 @@ Once that is complete, let's go to DJIWaypointConfigViewController's delegate me
         weakSelf.waypointConfigVC.view.alpha = 0;
     }];
     
-    for (int i = 0; i < self.gsTask.waypointCount; i++) {
-        DJIGroundStationWaypoint* waypoint = [self.gsTask waypointAtIndex:i];
+    for (int i = 0; i < self.waypointMission.waypointCount; i++) {
+        DJIWaypoint* waypoint = [self.waypointMission waypointAtIndex:i];
         waypoint.altitude = [self.waypointConfigVC.altitudeTextField.text floatValue];
-        waypoint.horizontalVelocity = self.waypointConfigVC.speedSegmentedControl.selectedSegmentIndex * 3 + 3;
     }
     
-    self.gsTask.isLoop = self.waypointConfigVC.repeatSwitcher.isOn;
-    self.gsTask.headingMode = (DJIGSHeadingMode)self.waypointConfigVC.headingSegmentedControl.selectedSegmentIndex;
-    self.gsTask.finishedAction = (DJIGSTaskFinishedAction)self.waypointConfigVC.actionSegmentedControl.selectedSegmentIndex;
+    self.waypointMission.maxFlightSpeed = [self.waypointConfigVC.maxFlightSpeedTextField.text floatValue];
+    self.waypointMission.autoFlightSpeed = [self.waypointConfigVC.autoFlightSpeedTextField.text floatValue];
+    self.waypointMission.headingMode = (DJIWaypointMissionHeadingMode)self.waypointConfigVC.headingSegmentedControl.selectedSegmentIndex;
+    self.waypointMission.finishedAction = (DJIWaypointMissionFinishedAction)self.waypointConfigVC.actionSegmentedControl.selectedSegmentIndex;
     
-    [self.inspireMainController uploadGroundStationTask:self.gsTask];
+    if (self.waypointMission.isValid) {
+    
+        if (weakSelf.uploadProgressView == nil) {
+            weakSelf.uploadProgressView = [[UIAlertView alloc] initWithTitle:@"" message:@"" delegate:nil cancelButtonTitle:nil otherButtonTitles:nil];
+            [weakSelf.uploadProgressView show];
+        }
+
+        [self.waypointMission setUploadProgressHandler:^(uint8_t progress) {
+            
+            [weakSelf.uploadProgressView setTitle:@"Mission Uploading"];
+            NSString* message = [NSString stringWithFormat:@"%d%%", progress];
+            [weakSelf.uploadProgressView setMessage:message];
+            
+        }];
+
+        [self.waypointMission uploadMissionWithResult:^(DJIError *error) {
+
+            [weakSelf.uploadProgressView setTitle:@"Mission Upload Finished"];
+
+            if (error.errorCode != ERR_Successed) {
+                [weakSelf.uploadProgressView setMessage:@"Mission Invalid!"];
+            }
+            
+            [weakSelf.waypointMission setUploadProgressHandler:nil];
+            [weakSelf performSelector:@selector(hideProgressView) withObject:nil afterDelay:3.0];
+            
+            [weakSelf.waypointMission startMissionWithResult:^(DJIError *error) {
+                if (error.errorCode != ERR_Successed) {
+                    UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Start Mission Failed" message:error.errorDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                    [alertView show];
+                }
+            }];
+            
+        }];
+
+    }else
+    {
+
+        UIAlertView *invalidMissionAlert = [[UIAlertView alloc] initWithTitle:@"Waypoint mission invalid" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [invalidMissionAlert show];
+    }
+    
 }
 ~~~
 
-Above, we use a for loop to set the **altitude** and **horizontalVelocity** properties of each **DJIGroundStationWaypoint** in the **gsTask** waypoint array based on the settings that are set in the **DJIWaypointConfigViewController**. After that is complete, we update the **isLoop**, **headingMode** and **finishedAction** properties of **gsTask**. Finally, we call the **uploadGroundStationTask** method of **DJIInspireMainController**(since we are using the Inspire in this tutorial) to upload the groundStation task.
+Above, we use a for loop to set the **altitude** property of each DJIWaypoint in the **waypointMission** waypoint array based on the settings that are set in the DJIWaypointConfigViewController. After that is complete, we update the **maxFlightSpeed**, **autoFlightSpeed**, **headingMode** and **finishedAction** properties of **waypointMission**. Next, we check if the **waypointMission** is valid and add a UIAlertView to display warning when it's invalid. Then, create and show the uploadProgressView to display waypoint task upload status message. Moreover, implement the waypointMission's **setUploadProgressHandler** block to update the waypoint task upload progress value. Finally, we call the **uploadMissionWithResult** method of **waypointMission** to upload the groundStation task. We update the uploadProgressView's content and hide it inside the result block. After that, we call the **startMissionWithResult** method of **waypointMission** to start waypoint mission immediately after the upload progress complete.
 
 Furthermore, let's create a new method named **hideProgressView** that will hide the **uploadProgressView** and implement it in the **GroundStationDelegate** methods to update the Mission Status, as shown below:
 
@@ -1459,6 +1606,7 @@ Furthermore, let's create a new method named **hideProgressView** that will hide
 {
     if (self.uploadProgressView) {
         [self.uploadProgressView dismissWithClickedButtonIndex:-1 animated:YES];
+        self.uploadProgressView = nil;
     }
 }
 
@@ -1495,103 +1643,41 @@ Above, the first delegate method is used to get the ground station result when i
 
 The second delegate method is used to check the progress of uploading the waypoint mission. Here, we initialize the **uploadProgressView** instance variable and set its **message** property to the **progress** variable of the delegate method. For more details, please check the **DJIGroundStation.h** file.
 
-Finally, let's implement the **DJINavigationDelegate** methods as shown below:
+Finally, let's implement **startBtnActionInGSButtonVC** as shown below:
 
 ~~~objc
--(void) onNavigationMissionStatusChanged:(DJINavigationMissionStatus*)missionStatus
+- (void)startBtnActionInGSButtonVC:(DJIGSButtonViewController *)GSBtnVC
 {
-}
-
--(void) onNavigationPostMissionEvents:(DJINavigationEvent*)event
-{
-        if (event.eventType == NavigationEventMissionUploadFinished) {
-        DJINavigationMissionUploadFinishedEvent* finishedEvent = (DJINavigationMissionUploadFinishedEvent*)event;
-        [self.uploadProgressView setTitle:@"Mission Upload Finished"];
-        if (!finishedEvent.isMissionValid) {
-            [self.uploadProgressView setMessage:@"Mission Invalid!"];
+    [self.waypointMission startMissionWithResult:^(DJIError *error) {
+        if (error.errorCode != ERR_Successed) {
+            UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Start Mission Failed" message:error.errorDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alertView show];
         }
-        else
-        {
-            [self.uploadProgressView setMessage:[NSString stringWithFormat:@"Estimate Time:%d s", (int)finishedEvent.eatimateTime]];
-            [self.inspireMainController startGroundStationTask];
-        }
-        
-        [self performSelector:@selector(hideProgressView) withObject:nil afterDelay:3.0];
-    }
-    else if (event.eventType == NavigationEventMissionExecuteFinished)
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Mission Finished" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alert show];
+    }];
 
-    }
 }
 ~~~
 
-The first delegate is used to check the mission status. You can check the type of the mission by accessing the **missionStatus** variable's **missionType** property, which is defined in the **DJINavigation.h**, as shown in the enum of type **DJINavigationMissionType**:
-
-~~~objc
-typedef NS_ENUM(uint8_t, DJINavigationMissionType)
-{
-    /**
-     *  No mission
-     */
-    NavigationMissionNone,
-    /**
-     *  Waypoint mission
-     */
-    NavigationMissionWaypoint,
-    /**
-     *  Hotpoint mission
-     */
-    NavigationMissionHotpoint,
-    /**
-     *  Followme mission, Not support now
-     */
-    NavigationMissionFollowme,
-    /**
-     *  Unknown mission
-     */
-    NavigationMissionUnknown
-};
-~~~
-
-The second delegate method is used to check the current mission event. You can check the **event** variable's **eventType** property to obtain what event the mission is currently in. The **DJINavigationEventType** is defined in the **DJINavigation.h** header file, as shown below:
-
-~~~objc
-/**
- *  Navigation event type
- */
-typedef NS_ENUM(uint8_t, DJINavigationEventType){
-    /**
-     *  Mission upload finished event
-     */
-    NavigationEventMissionUploadFinished,
-    /**
-     *  Mission execute finished event
-     */
-    NavigationEventMissionExecuteFinished,
-    /**
-     *  Aircraft reach target waypoint event
-     */
-    NavigationEventWaypointReached,
-};
-~~~
-In the second delegate method, when the eventType is equal to **NavigationEventMissionUploadFinished**, since **DJINavigationMissionUploadFinishedEvent** is a subclass of **DJINavigationEvent**, we create a **DJINavigationMissionUploadFinishedEvent** variable by casting the method's **event** variable. Then update the **uploadProgressView**'s title with "Mission Upload Finished". After that, if the **finishedEvent**'s **isMissionValid** bool value is false, we set the **message** of **uploadProgressView** to "Mission Invalid!". Otherwise, we set the **message** of **uploadProgressView** to a formatted **NSString** object using the **eatimateTime** property of the **finishedEvent** object. 
-
-Next, call the **startGroundStationTask** method of the **inspireMainController** to start the waypoint ground station task! After that, we call the **performSelector** method and pass in **hideProgressView** to hide the progress view after 3 second delay.
-
-When the eventType is equal to **NavigationEventMissionExecuteFinished**, we show an **UIAlertView** to tell the user that the waypoint ground station mission is finished!
+Here, call the **startMissionWithResult** method of the **waypointMission** to start the waypoint ground station task! Then create a UIAlertView to display error message when start mission failed.
 
 Finally, let's implement the **stopBtnActionInGSButtonVC** method, which is a  **DJIGSButtonViewController** delegate method to stop the ground station task, as shown below:
 
 ~~~objc
 - (void)stopBtnActionInGSButtonVC:(DJIGSButtonViewController *)GSBtnVC
 {
-    [self.inspireMainController stopGroundStationTask];
+    [self.waypointMission stopMissionWithResult:^(DJIError *error) {
+        
+        if (error.errorCode == ERR_Successed) {
+            UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Stop Mission Success" message:@"" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alertView show];
+        }
+
+    }];
+
 }
 ~~~
 
-## Test The Application
+## Showtime
 
 You've come a long way in this tutorial, and it's time to test the whole application.
 
@@ -1605,41 +1691,45 @@ Then connect your mobile device to the remote controller using Apple's lighting 
 
 ![enterNaviModeFailed](../../images/iOS/GSDemo/enterNaviModeFailed.jpg)
 
-If you encounter this issue, check the solution to this problem in Part 1 of this tutorial. Next, let's come back to the DJI PC Simulator on your PC and press the **Start Simulation** button. A tiny red aircraft will appear on the map in your application, as seen below:
+If you encounter this issue, check the solution to this problem in the previous part of this tutorial. Next, let's come back to the DJI PC Simulator on your PC and press the **Start Simulation** button. A tiny red aircraft will appear on the map in your application, as seen below:
 
 ![aircraftOnMap1](../../images/iOS/GSDemo/aircraftOnMap1.jpg)
 
-Press the "**Edit**" button, and the map view will zoom in to the region you are in and will center the aircraft:
+Press the **Edit** button, and the map view will zoom in to the region you are in and will center the aircraft:
 
-![locateAircraft](../../images/iOS/GSDemo/locateAircraft.gif)
+![locateAircraft](../../images/iOS/GSDemo/locateTheAircraft.gif)
 
 Next, test the waypoint feature by tapping wherever you'd like on the map view. Wherever you do tap, a waypoint will be added and a purple pin will appear exactly at the location of the waypoint, as shown below:
 
-![addWayPoints](../../images/iOS/GSDemo/addWaypoints_part2.gif)
+![addWayPoints](../../images/iOS/GSDemo/addWaypoints_final.gif)
 
-Once you press the **Start** button, the **Waypoint Configuration** view will appear. After you're satisfied with the changes, press the **Finish** button. The waypoint mission will start to upload and when it finishes, the mission will start to be processed. You will start to see the aircraft move towards the waypoints you set previously on the map view, as shown below:
+Once you press the **Config** button, the **Waypoint Configuration** view will appear. After you're satisfied with the changes, press the **Finish** button. The waypoint mission will start to upload and when it finishes, the mission will start to be processed. You will see the following animation when you do so:
 
-![flying](../../images/iOS/GSDemo/flying.gif)
+![flying](../../images/iOS/GSDemo/tryFly.gif)
 
-At the same time, you will be able to see the Inspire 1 take off and start to fly automatically in the DJI PC Simulator.
+![startMissionFailed](../../images/iOS/GSDemo/startMissionFailed.png)
+
+An alertView shows up saying "Start Mission Failed" because the aircraft hasn't taken off and flown at least 5 meters above ground. The SDK has this limitation to ensure safety when you execute a waypoint task. Use the remote controller to have the aircraft takeoff and fly at least 5 meters above ground in the PC Simulator and then press the **Start** button again. The aircraft will fly up to the altitude you set and continue flying to the first waypoint.
+
+![flyTowards](../../images/iOS/GSDemo/flyTowards.gif)
+
+At the same time, you will be able to see the Inspire 1 take off and start to fly in the DJI PC Simulator.
 
 ![takeOff] (../../images/iOS/GSDemo/takeOff.gif)
 
-When the waypoint mission finishes, an alert view titled **Mission Finished** will appear, and the Inspire 1 will start to go home!
+When the waypoint mission finishes, the Inspire 1 will start to go home!
 
-![missionFinished](../../images/iOS/GSDemo/missionFinished.jpg) 
+![goHome](../../images/iOS/GSDemo/goHome.gif) 
 
 The remote controller will start beeping, and the **Go Home** button on the remote controller will start to flash a white light. Let's take a look at the DJI PC Simulator now:
 
 ![landing](../../images/iOS/GSDemo/landing.gif)
  
-The inspire 1 will eventually go home, land, and the beeping from the remote controller will stop. The application will go back to its normal status. If you press the **Clear** button, all the waypoints you previously set will be cleared and another waypoint waypoint mission will be started. During the mission, if you'd ever like to stop the groundStation task, you can do so by pressing the **Stop** button.
+The inspire 1 will eventually go home, land, and the beeping from the remote controller will stop. The application will go back to its normal status. If you press the **Clear** button, all the waypoints you previously set will be cleared. During the mission, if you'd ever like to stop the groundStation task, you can do so by pressing the **Stop** button.
 
 ## Summary
    
-   In this tutorial, you’ve learned how to setup and use the DJI PC Simulator to test your groundStation application, upgrade your aircraft's firmware to the developer version, use the DJI Mobile SDK to create a simple map view, modify annotations of the map view, show the aircraft on the map view by using GPS data from the DJI PC Simulator. Moreover, you've learned how to configure both **DJIGroundStationWaypoint** and **DJIGroundStationTask**, how to use DJIGroundStationTask to add waypoints, how to use **upload**, **start** and **stop** methods to configure the ground station task, which are the methods from DJIInspireMainController(since we're using an Inspire 1). Lastly, you learned how to use the **DJINavigationDelegate** and **GroundStationDelegate** methods to obtain information from the ground station task.
+   In this tutorial, you’ve learned how to setup and use the DJI PC Simulator to test your groundStation application, upgrade your aircraft's firmware to the developer version, use the DJI Mobile SDK to create a simple map view, modify annotations of the map view, show the aircraft on the map view by using GPS data from the DJI PC Simulator. Next, you learned how to configure both **DJIWaypoint** and **DJIWaypointMission**. Moreover, you learned how to use DJIGroundStationTask to add waypoints, how to use **upload**, **start** and **stop** methods to configure the ground station task, which are the methods from DJIInspireMainController(since we're using an Inspire 1). Also, you learned how to use the **DJINavigationDelegate** and **GroundStationDelegate** methods to obtain information from the ground station task.
       
-   Congratulations! Now that you've finished the demo project, you can build on what you've learned and start to build your own ground station application. You can improve the way waypoints are added(such as drawing a line on the map and generating waypoints automatically), play around with the properties of a waypoint (such as heading, horizontal speed, etc.), and adding more functionality. In order to make a cool ground station application, you still have a long way to go. Good luck and hope you enjoy this tutorial!
-   
-   
-   
+   Congratulations! Now that you've finished the demo project, you can build on what you've learned and start to build your own ground station application. You can improve the way waypoints are added(such as drawing a line on the map and generating waypoints automatically), play around with the properties of a waypoint (such as heading, etc.), and adding more functionality. In order to make a cool ground station application, you still have a long way to go. Good luck and hope you enjoy this tutorial!
+
