@@ -1715,7 +1715,7 @@ An alertView shows up saying "Start Mission Failed" because the aircraft hasn't 
 
 At the same time, you will be able to see the Inspire 1 take off and start to fly in the DJI PC Simulator.
 
-![takeOff] (../../images/iOS/GSDemo/takeOff.gif)
+![takeOff](../../images/iOS/GSDemo/takeOff.gif)
 
 When the waypoint mission finishes, the Inspire 1 will start to go home!
 

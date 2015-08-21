@@ -1715,7 +1715,7 @@ BOOL CLLocationCoordinate2DIsValid(CLLocationCoordinate2D coord);
 
 与此同时，你也可以在DJI PC 模拟器上目睹Inspire 1 起飞和飞行的全过程.
 
-![takeOff] (../../images/iOS/GSDemo/takeOff.gif)
+![takeOff](../../images/iOS/GSDemo/takeOff.gif)
 
 当航点任务结束时，Inspire 1会开始返航！
 
