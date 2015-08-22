@@ -2,9 +2,9 @@
 
 <!-- toc -->
 
-You can download the final project for this tutorial here: <https://github.com/DJI-Mobile-SDK/Android-FPVDemo-Part2.git>. 
+You can download the final project for this tutorial here: <https://github.com/DJI-Mobile-SDK/Android-FPVDemo.git>. 
 
-We *strongly* recommend that you download the final project code and have it open as reference as you work through this tutorial.
+We **strongly** recommend that you download the final project code and have it open as reference as you work through this tutorial.
 
 ## Preparation
 

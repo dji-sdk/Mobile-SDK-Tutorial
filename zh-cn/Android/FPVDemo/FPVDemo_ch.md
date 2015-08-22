@@ -1,7 +1,7 @@
 #  创建航拍相机App
 
 请先把demo project 下载下来。demo project可以在以下的网页上下载:
-<https://github.com/DJI-Mobile-SDK/Android-FPVDemo-Part2.git>
+<https://github.com/DJI-Mobile-SDK/Android-FPVDemo.git>
 
 在大家阅读这个教程时，我们强烈建议大家打开demo project，这样大家可以一步一步的跟着这个教程去做，同时参考demo project。
 

@@ -2,7 +2,7 @@
 
 在这个教程里，你将学会如何安装和使用DJI PC模拟器（用来模拟DJI飞行器的飞控）；如何升级你的Inspire 1，Phantom 3 Professional和Phantom 3 Advanced的固件到最新的beta版本； 如何使用DJI PC模拟器测试地面站的API。而且，你将学到怎样设置已添加的航点，上传航点，开始地面站任务和停止地面站任务。让我们开始吧！
 
-你可以从这里下载到该教程的示例程序: <https://github.com/DJI-Mobile-SDK/Android-GSDemo-Part2-GoogleMap.git>
+你可以从这里下载到该教程的示例程序: <https://github.com/DJI-Mobile-SDK/Android-GSDemo-GoogleMap.git>
 
 ## 使用DJI PC模拟器
 
