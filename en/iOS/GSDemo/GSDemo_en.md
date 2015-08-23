@@ -1295,7 +1295,7 @@ Next, let's replace the code in the **DJIWaypointConfigViewController.m** file w
 
 - (void)initUI
 {
-    self.altitudeTextField.text = @"50"; //Set the altitude to 50
+    self.altitudeTextField.text = @"100"; //Set the altitude to 100
     self.autoFlightSpeedTextField.text = @"8"; //Set the autoFlightSpeed to 8
     self.maxFlightSpeedTextField.text = @"10"; //Set the maxFlightSpeed to 10
     [self.actionSegmentedControl setSelectedSegmentIndex:1]; //Set the finishAction to DJIWaypointMissionFinishedGoHome
@@ -1320,7 +1320,7 @@ Next, let's replace the code in the **DJIWaypointConfigViewController.m** file w
 @end
 ~~~
 
-In the code above, we create an **initUI** method, which is called in the **viewDidload** method, to initialize the UI controls with some default data. For example, we set the default text for the **altitudeTextField** to **50**, so there is no need for the user to type in a custom altitude value in the textField when the application is first opened. They will be able to press the **Finish** button right away instead of having to change the settings before they start.
+In the code above, we create an **initUI** method, which is called in the **viewDidload** method, to initialize the UI controls with some default data. For example, we set the default text for the **altitudeTextField** to **100**, so there is no need for the user to type in a custom altitude value in the textField when the application is first opened. They will be able to press the **Finish** button right away instead of having to change the settings before they start.
 
 ## Setup The GroundStation Task
 
