@@ -1,8 +1,8 @@
-# 创建智能飞行预设航点功能App
+﻿# 创建智能飞行预设航点功能App
 
 在这个教程里，你将学会如何安装和使用DJI PC模拟器（用来模拟DJI飞行器的飞控）；如何升级你的Inspire 1，Phantom 3 Professional和Phantom 3 Advanced的固件到最新的beta版本； 如何使用DJI PC模拟器测试地面站的API。而且，你将学到怎样设置已添加的航点，上传航点，开始地面站任务和停止地面站任务。让我们开始吧！
 
-你可以从这里下载到该教程的示例程序: <https://github.com/DJI-Mobile-SDK/Android-GSDemo-GoogleMap.git>
+你可以从这里下载到该教程的示例程序: <https://github.com/DJI-Mobile-SDK/Android-GSDemo-Gaode-Map.git>
 
 ## 使用DJI PC模拟器
 
@@ -250,7 +250,7 @@ MapView要求在其所在的Activity的生命周期方法中回调该MapView的�
 
 现在你可以编译并运行你的app，你将看到高德地图被加载。
 
-![loadGoogleMap](../../images/Android/GSDemo/loadGoogleMap.png)
+![loadGoogleMap](../../images/Android/GSDemo/loadGaodeMap.png)
 
  
 ### 2. 定位飞行器
@@ -349,7 +349,7 @@ MapView要求在其所在的Activity的生命周期方法中回调该MapView的�
 
 点击“locate”按钮，我们看到一个标记点表示飞行器显示在地图上。
 
-![locateAircraft](../../images/Android/GSDemo/locateAircraft.png)
+![locateAircraft](../../images/Android/GSDemo/locateAircraft_cn.png)
 
 ### 3. 添加和清除航点
 
@@ -372,7 +372,7 @@ MapView要求在其所在的Activity的生命周期方法中回调该MapView的�
 
 当我们点击地图时，**public void onMapClick(LatLng point)**这段代码会被执行。DJIGroundStationWaypoint的一个实例会被添加到mGroundStationTask里。
 
-![addWaypoints](../../images/Android/GSDemo/addWaypoints.png)
+![addWaypoints](../../images/Android/GSDemo/addWaypoints_cn.png)
 
 我们添加“clear”按钮清空所有已添加的航点。点击“clear”按钮时，所有地图上的标记点和mGroundStationTask里所有的航点都会被清空。
 
@@ -403,7 +403,7 @@ MapView要求在其所在的Activity的生命周期方法中回调该MapView的�
 
 ~~~
 
-![clearWaypoints](../../images/Android/GSDemo/clearWaypoints.png)
+![clearWaypoints](../../images/Android/GSDemo/clearWaypoints_cn.png)
 
 ## 设置已添加的航点和DJIGroundStationTask
 
@@ -414,7 +414,7 @@ MapView要求在其所在的Activity的生命周期方法中回调该MapView的�
 
 首先添加一个“Config”按钮，当用户点击按钮时，弹出一个配置窗口。
 
-![configButton](../../images/Android/GSDemo/configButton.png)
+![configButton](../../images/Android/GSDemo/configButton_cn.png)
 
 我们用一个窗口来加载设置，这些设置包括航点的高度，是否重复任务，执行任务时的水平速度，航点执行后的动作，航点飞行时的飞行器朝向。（高度和速度是**DJIGroundStationWaypoint**下的，这里我们将所有航点的高度和速度设成一样，用户也可以为每个航点设置不同的高度和速度）。这里就不展示这个窗口的代码了，当用户填入数值选择项目后点击“完成”，下面的函数会被调用，用于设置**DJIGroundStationTask**和**DJIGroundStationWaypoint**：
 
@@ -493,7 +493,7 @@ MapView要求在其所在的Activity的生命周期方法中回调该MapView的�
     }
 ~~~
 
-![startGSTask](../../images/Android/GSDemo/startGSTask.png)
+![startGSTask](../../images/Android/GSDemo/startGSTask_cn.png)
 
 在地面站任务进行中，通过调用**public void pauseGroundStationTask(final DJIGroundStationExecuteCallBack mCallBack)**可以暂停任务，调用**public void closeGroundStation(final DJIGroundStationExecuteCallBack mCallBack)**可以关闭地面站
 
