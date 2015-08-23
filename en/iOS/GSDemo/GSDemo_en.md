@@ -352,6 +352,10 @@ Once you are done, go to **DJIRootViewController.m** file and add the following 
     
 }
 
+- (BOOL)prefersStatusBarHidden {
+    return NO;
+}
+
 #pragma mark CLLocation Methods
 -(void) startUpdateLocation
 {
@@ -841,14 +845,14 @@ Now, if you press the **Stop Simulation** button on the Simulator Config, the ai
 As you seen, the project's code structure was simple and not robust. In order to develop it further in this tutorial, it will need to be refactored and we will need to add more UI elements. 
 
 ### 1. Add & Handle The New UIButtons
-First, we will create a new file named **DJIGSButtonController**, which will be subclass of **UIViewController**. Make sure the check box saying **Also create XIB file** is selected when creating the file. Then open the **DJIGSButtonController.xib** file and set its size to **Freeform** under the **Size** dropdown in the **Simulated Metrics** section. In the view section, change the width to **110** and height to **260**. Take a look at the changes made below:
+First, we will create a new file named **DJIGSButtonController**, which will be subclass of **UIViewController**. Make sure the check box saying **Also create XIB file** is selected when creating the file. Then open the **DJIGSButtonController.xib** file and set its size to **Freeform** under the **Size** dropdown in the **Simulated Metrics** section. In the view section, change the width to **100** and height to **288**. Take a look at the changes made below:
 
 ![freeform](../../images/iOS/GSDemo/freeform.png)
-![changeSize](../../images/iOS/GSDemo/changeSize.png)
+![changeSize](../../images/iOS/GSDemo/changeFrameSize.png)
 
 Next, drag eight UIButtons to the view and change their names to **Edit**, **Back**, **Clear**, **Focus Map**, **Start**, **Stop**, **Add** and **Config**. **Edit** will sit on top of **Back**, and **Focus Map** will sit on top of **Add**. Make sure to hide the **Back**, **Clear**, **Start**, **Stop**, **Add** and **Config** buttons.
 
-![gsButtons](../../images/iOS/GSDemo/gsButton.png)
+![gsButtons](../../images/iOS/GSDemo/gsButtonViews.png)
 
  Then add IBOutlets and IBActions for each of the eight buttons in the **DJIGSButtonViewController.h** file. Also, we will add an Enum named **DJIGSViewMode** with the two different modes the application could be in. Next, we add serveral delegate methods to be implemented by the delegate viewcontroller when IBAction methods for the buttons are trigger. Lastly, add the method **- (void)switchToMode:(DJIGSViewMode)mode inGSButtonVC:(DJIGSButtonViewController *)GSBtnVC;** to update the state of the buttons when the **DJIGSViewMode** changed. Take a look at the code below:
  
@@ -1232,7 +1236,7 @@ For this demo, we will assume that the parameters of each waypoint being added t
 
 Now, let's create a new ViewController that will let the user to set the parameters of waypoints. Go to Xcode’s project navigator, right click on the **GSDemo** folder, select **New File...**, set its subclass to **UIViewController**, named it **DJIWaypointConfigViewController**, and make sure "Also create XIB file" is selected. Next, open the **DJIWaypointConfigViewController.xib** file and implement the UI, as you see it below:
 
-![wayPointConfig](../../images/iOS/GSDemo/wayPointConfigVC.png)
+![wayPointConfig](../../images/iOS/GSDemo/wayPointConfigureVC.png)
 
 In the Waypoint Configuration ViewController, we use a UITextField to let the user set the **altitude** property of a **DJIWaypoint** object. Then, we use two UITextField to let the user set the **maxFlightSpeed** and **autoFlightSpeed** properties of **DJIWaypointMission**. Next, there are two UISegmentedControls to configure the **finishedAction** property and the **headingMode** property of a **DJIWaypointMission** object. 
 
@@ -1359,14 +1363,26 @@ Next, let's add some code to initialize the **waypointConfigVC** instance variab
     
     self.waypointConfigVC = [[DJIWaypointConfigViewController alloc] initWithNibName:@"DJIWaypointConfigViewController" bundle:[NSBundle mainBundle]];
     self.waypointConfigVC.view.alpha = 0;
-    self.waypointConfigVC.view.center = self.view.center;
+    
+    self.waypointConfigVC.view.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin;
+    
+    CGFloat configVCOriginX = (CGRectGetWidth(self.view.frame) - CGRectGetWidth(self.waypointConfigVC.view.frame))/2;
+    CGFloat configVCOriginY = CGRectGetHeight(self.topBarView.frame) + CGRectGetMinY(self.topBarView.frame) + 8;
+    
+    [self.waypointConfigVC.view setFrame:CGRectMake(configVCOriginX, configVCOriginY, CGRectGetWidth(self.waypointConfigVC.view.frame), CGRectGetHeight(self.waypointConfigVC.view.frame))];
+    
+    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) //Check if it's using iPad and center the config view
+    {
+        self.waypointConfigVC.view.center = self.view.center;
+    }
+
     self.waypointConfigVC.delegate = self;
     [self.view addSubview:self.waypointConfigVC.view];
     
 }
 ~~~
 
-In the code above, we set the **alpha** property of the **waypointConfigVC**'s view to 0 to initially hide the view. Then, center its location to the center of **DJIRootViewController**'s view.
+In the code above, we set the **alpha** property of the **waypointConfigVC**'s view to 0 to initially hide the view. Then, center its location to the center of **DJIRootViewController**'s view when it runs on iPad.
 
 Furthermore, implement the **DJIWaypointConfigViewControllerDelegate** methods, as shown below:
 
@@ -1422,7 +1438,7 @@ method with the following code to show the **waypointConfigVC**'s view when the 
 
 Once that's done, let's build and run the project. Try to show the **waypointConfigVC**'s view by pressing the **Edit** button and **Config** button:
 
-![waypointConfigView](../../images/iOS/GSDemo/waypointConfigureView.png)
+![waypointConfigView](../../images/iOS/GSDemo/waypointConfigView.png)
 
 ### 2. Handle The GroundStation Task
 
@@ -1705,7 +1721,7 @@ Next, test the waypoint feature by tapping wherever you'd like on the map view. 
 
 Once you press the **Config** button, the **Waypoint Configuration** view will appear. After you're satisfied with the changes, press the **Finish** button. The waypoint mission will start to upload and when it finishes, the mission will start to be processed. You will see the following animation when you do so:
 
-![flying](../../images/iOS/GSDemo/tryFly.gif)
+![flying](../../images/iOS/GSDemo/tryToConfig.gif)
 
 ![startMissionFailed](../../images/iOS/GSDemo/startMissionFailed.png)
 

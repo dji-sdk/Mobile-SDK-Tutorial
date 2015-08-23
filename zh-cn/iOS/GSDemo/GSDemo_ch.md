@@ -354,6 +354,10 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
     
 }
 
+- (BOOL)prefersStatusBarHidden {
+    return NO;
+}
+
 #pragma mark CLLocation Methods
 -(void) startUpdateLocation
 {
@@ -846,11 +850,11 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 首先，我们新建一个的名为**DJIGSButtonController**的**UIViewController**的子类. 确保你在创建文件时勾选上 **Also create XIB file**. 然后打开 DJIGSButtonController.xib 文件，并在Simulated Metrics部分的**Size**选项中选择 **Freeform** .在View部分，调整宽度为 **110**， 高为 **260**. 请看下面的效果图:
 
 ![freeform](../../images/iOS/GSDemo/freeform.png)
-![changeSize](../../images/iOS/GSDemo/changeSize.png)
+![changeSize](../../images/iOS/GSDemo/changeFrameSize.png)
 
 接下来，拖动八个按钮到**DJIGSButtonViewController.xib**上，并将它们的名字改为 **Edit**, **Back**, **Clear**, **Focus Map**, **Start**, **Stop**, **Add** 和 **Config**. Edit覆盖在Back上面, Focus Map覆盖在Add上面. 并且确保 **Back**, **Clear**, **Start**, **Add** 和 **Config** 按钮是隐藏状态.
 
-![gsButtons](../../images/iOS/GSDemo/gsButtons.png)
+![gsButtons](../../images/iOS/GSDemo/gsButtonViews.png)
 
  然后在**DJIGSButtonViewController.h**文件里为八个按钮添加IBOutlets 和 IBActions. 同时，我们将加入一个名为 **DJIGSViewMode**的枚举值，用来记录app的两种工作模式(View和Edit). 接着，我们添加几个delegate方法，用于响应IBAction的方法调用. 最后，加入一个 **- (void)switchToMode:(DJIGSViewMode)mode inGSButtonVC:(DJIGSButtonViewController *)GSBtnVC;** 方法，当DJIGSViewMode的值改变时，更新多个按钮的状态. 请看下面的代码:
  
@@ -1232,7 +1236,7 @@ typedef NS_ENUM(NSUInteger, DJIWaypointMissionHeadingMode){
 
 现在，我们创建一个新的ViewController来让用户设置waypoint的参数. 来到Xcode的project navigator，右键点击 **GSDemo** 文件夹, 选择 **New File...**, 将它的子类设置为 **UIViewController**, 命名其为 "DJIWaypointConfigViewController", 然后确保 "Also create XIB file" 为已选状态. 接着，打开 **DJIWaypointConfigViewController.xib** 文件并实现UI, 如下所示:
 
-![wayPointConfig](../../images/iOS/GSDemo/wayPointConfig.png)
+![wayPointConfig](../../images/iOS/GSDemo/wayPointConfigureVC.png)
 
 在Waypoint Configuration ViewController里, 我们使用UITextField来让用户设置DJIWaypoint实例的**altitude**属性. 然后，用两个UITextField来让用户设置**DJIWaypointMission**的**maxFlightSpeed** 和 **autoFlightSpeed**属性. 接下来，有两个UISegmentedControl控件来设置**DJIWaypointMission**对象的 **finishedAction** 和 **headingMode** 属性. 
 
@@ -1359,14 +1363,25 @@ typedef NS_ENUM(NSUInteger, DJIWaypointMissionHeadingMode){
     
     self.waypointConfigVC = [[DJIWaypointConfigViewController alloc] initWithNibName:@"DJIWaypointConfigViewController" bundle:[NSBundle mainBundle]];
     self.waypointConfigVC.view.alpha = 0;
-    self.waypointConfigVC.view.center = self.view.center;
+    self.waypointConfigVC.view.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin;
+    
+    CGFloat configVCOriginX = (CGRectGetWidth(self.view.frame) - CGRectGetWidth(self.waypointConfigVC.view.frame))/2;
+    CGFloat configVCOriginY = CGRectGetHeight(self.topBarView.frame) + CGRectGetMinY(self.topBarView.frame) + 8;
+    
+    [self.waypointConfigVC.view setFrame:CGRectMake(configVCOriginX, configVCOriginY, CGRectGetWidth(self.waypointConfigVC.view.frame), CGRectGetHeight(self.waypointConfigVC.view.frame))];
+    
+    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) //Check if it's using iPad and center the config view
+    {
+        self.waypointConfigVC.view.center = self.view.center;
+    }
+    
     self.waypointConfigVC.delegate = self;
     [self.view addSubview:self.waypointConfigVC.view];
     
 }
 ~~~
 
-在以上代码中，我们将**waypointConfigVC**的view的 **alpha** 属性设置为零，来隐藏该view. 接下来，将它的位置设置为 **DJIRootViewController**的view的中心.
+在以上代码中，我们将**waypointConfigVC**的view的 **alpha** 属性设置为零，来隐藏该view. 接下来，当在iPad上运行app时，将它的位置设置为 **DJIRootViewController**的view的中心.
 
 更进一步的，实现 **DJIWaypointConfigViewControllerDelegate** 的两个方法, 如下所示:
 
@@ -1705,7 +1720,7 @@ BOOL CLLocationCoordinate2DIsValid(CLLocationCoordinate2D coord);
 
 你一旦按下 **Config** 按钮， **Waypoint Configuration** 视图就会出现. 当你做完适当的设置操作后，按下 **Finish** 按钮. 航点任务会开始上传并且在上传结束时，任务会被处理. 这时你会看到以下动画:
 
-![flying](../../images/iOS/GSDemo/tryFly.gif)
+![flying](../../images/iOS/GSDemo/tryToConfig.gif)
 
 ![startMissionFailed](../../images/iOS/GSDemo/startMissionFailed.png)
 
