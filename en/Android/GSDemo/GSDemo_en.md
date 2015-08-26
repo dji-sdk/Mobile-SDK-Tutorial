@@ -18,7 +18,7 @@ The DJI PC Simulator is a flight simulator dedicated for SDK developers. The sim
 
 ### 2. Install and setup DJI PC Simulator
 
-Download the DJI PC Simulator installation files and WIN Driver from : <http://dev.dji.com/en/products/sdk/onboard-sdk/downloads>
+Download the DJI PC Simulator installation files and WIN Driver from : <https://developer.dji.com/mobile-sdk/downloads>
 - DJI PC Simulator Installer & User Manual V1.0
 - WIN Driver Installer
 
@@ -75,7 +75,7 @@ For more info about DJI PC Simulator, please check the **DJI PC Simulator user m
 
 Download and update the aircraft's firmware to its beta version before attempting to use the DJI Mobile SDK API.
 
-Choose and download one of the following firmware from : <http://dev.dji.com/en/products/sdk/onboard-sdk/downloads> :
+Choose and download one of the following firmware from : <https://developer.dji.com/mobile-sdk/downloads> :
 
 - Phantom 3 Professional Firmware (P3X_FW_V01.01.1003.bin)
 - Inspire 1 Firmware (WM610_FW_V01.02.01.02.bin)

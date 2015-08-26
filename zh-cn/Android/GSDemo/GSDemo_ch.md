@@ -1,4 +1,4 @@
-﻿# 创建智能飞行预设航点功能App
+# 创建智能飞行预设航点功能App
 
 在这个教程里，你将学会如何安装和使用DJI PC模拟器（用来模拟DJI飞行器的飞控）；如何升级你的Inspire 1，Phantom 3 Professional和Phantom 3 Advanced的固件到最新的beta版本； 如何使用DJI PC模拟器测试地面站的API。而且，你将学到怎样设置已添加的航点，上传航点，开始地面站任务和停止地面站任务。让我们开始吧！
 
@@ -16,7 +16,7 @@ DJI PC模拟器是一个供DJI SDK开发者使用的飞行模拟器。模拟器�
 
 ### 2.安装和使用DJI PC模拟器
 
-首先，请从以下DJI SDK开发者网址<http://dev.dji.com/en/products/sdk/onboard-sdk/downloads>下载DJI PC Simulator安装软件和WIN Driver驱动程序。
+首先，请从以下DJI SDK开发者网址<https://developer.dji.com/mobile-sdk/downloads>下载DJI PC Simulator安装软件和WIN Driver驱动程序。
 - DJI PC Simulator Installer & User Manual V1.0
 - WIN Driver Installer
 
@@ -69,7 +69,7 @@ DJI PC模拟器是一个供DJI SDK开发者使用的飞行模拟器。模拟器�
 
 ## 升级固件
 
-在开始这个教程的DJI SDK开发之前，需要确认飞机的固件支持DJI Mobile SDK的开发。请从以下网址<http://dev.dji.com/en/products/sdk/onboard-sdk/downloads>下载适合你的飞机类型的beta版本固件
+在开始这个教程的DJI SDK开发之前，需要确认飞机的固件支持DJI Mobile SDK的开发。请从以下网址<https://developer.dji.com/mobile-sdk/downloads>下载适合你的飞机类型的beta版本固件
 
 把下载的**bin**文件放到SD卡上，插入飞机上相机使用的SD卡槽，重启飞机进行升级。大概需要10到30分钟完成升级。如果需要遥控器支持USB附件模式连接，则需要升级遥控器，把下载的**bin**文件放到USB移动盘，然后插入遥控器的USB接口，当遥控器的指示灯为蓝色时，则遥控器正在升级，当升级成功，遥控器指示灯会变为绿色，当升级失败，遥控器指示灯会变为红色。
 

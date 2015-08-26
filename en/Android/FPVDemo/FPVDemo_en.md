@@ -9,9 +9,9 @@ We **strongly** recommend that you download the final project code and have it o
 ## Preparation
 
 (1) Download the Mobile SDK for Android from the following URL: 
-<http://dev.dji.com/cn/products/sdk/mobile-sdk/downloads>
+<https://developer.dji.com/mobile-sdk/downloads>
 
-(2) Update the firmware of the aircraft (Phantom 3 Professional, Phantom 3 Advanced or Inspire 1) through the URL: <http://dev.dji.com/cn/products/sdk/mobile-sdk/downloads>(
+(2) Update the firmware of the aircraft (Phantom 3 Professional, Phantom 3 Advanced or Inspire 1) through the URL: <https://developer.dji.com/mobile-sdk/downloads>(
 *Refer to "Updating the Aircraft Firmware": <http://download.dji-innovations.com/downloads/phantom_3/en/How_to_Update_Firmware_en.pdf> for instructions on updating the firmware.*)
 
 (3) Set up an Android development environment (if you do not yet have one). Throughout this tutorial we will be using Eclipse 4.2.2, which you can download here: <https://eclipse.org/downloads/packages/eclipse-classic-422/junosr2>. Once Eclipse is installed, you will then have to install the Eclipse Android Development Tool Plug-In, with instructions on how to do so found here: http://developer.android.com/intl/zh-TW/sdk/installing/installing-adt.html
@@ -36,7 +36,7 @@ We **strongly** recommend that you download the final project code and have it o
 
 (2) Unzip the SDK package downloaded from the DJI website. Go to File -> New -> Import Module. In the 'Source Directory' field, find the DJI-SDK-LIB folder location (Android Studio\DJI-SDK-Android-V2.1.0\Lib\DJI-SDK-LIB). Press Finish.
 
-*Note: The folder 'Android Studio' is found in the SDK package downloaded from the DJI website. The library used in the demo project code is from the 'Eclipse' folder in the same SDK package, so if you are working in Android Studio make sure that you are using the correct library, found in the 'Android Studio' folder. For your convenience the SDK package download link is reproduced here <http://dev.dji.com/cn/products/sdk/mobile-sdk/downloads>*
+*Note: The folder 'Android Studio' is found in the SDK package downloaded from the DJI website. The library used in the demo project code is from the 'Eclipse' folder in the same SDK package, so if you are working in Android Studio make sure that you are using the correct library, found in the 'Android Studio' folder. For your convenience the SDK package download link is reproduced here <https://developer.dji.com/mobile-sdk/downloads>*
 
 ![importModule](../../images/Android/FPVDemo/importModuleScreenshot.png)
 
@@ -47,13 +47,13 @@ Next, right click on the 'app' module in the file directory to the left, and cli
 
 ## Activating your App
 
-(1) Register for an account at <http://dev.dji.com>. Once registered, click on your name in the upper right corner. Click on 'Mobile SDK', then 'Create APP' and fill out the creation form. Type in your project's package name in the 'Identification Code' field.
+(1) Register for an account at <https://developer.dji.com/register>. Once registered, click on your name in the upper right corner. Click on 'Mobile SDK', then 'Create APP' and fill out the creation form. Type in your project's package name in the 'Identification Code' field.
 
 (2) Copy both the **<uses-permission ... >** lines of code and the highlighted meta-data element into your **AndroidManifest.xml** file for activation, as shown below.  
 
 ![appKeyMetaData](../../images/Android/FPVDemo/1_appKeyMetaData2.png)
 
-Fill in the **android:value** field with the APP KEY that you have applied for from <http://dev.dji.com>.
+Fill in the **android:value** field with the APP KEY that you have applied for from <https://developer.dji.com/en/user/mobile-sdk/>.
 
 ![appKey](../../images/Android/FPVDemo/1_appKey.png)
 
@@ -153,7 +153,7 @@ Error Code  	  | Description
 If you have received an error code that is not 0, follow the instructions below:
 
 1. Ensure that you have access to the internet
-2. Ensure that, when creating an app on the http://dev.dji.com website, you have filled out the 'Identification Code' field with your project package name 
+2. Ensure that, when creating an app on the [DJI Developer website](https://developer.dji.com), you have filled out the 'Identification Code' field with your project package name 
 3. Ensure that APP KEY has not reach its installed capacity limit. If this does not solve the issue, refer to the table below for further troubleshooting.
 If you have further questions, contact our mobile SDK support by sending emails to <sdk@dji.com>
 

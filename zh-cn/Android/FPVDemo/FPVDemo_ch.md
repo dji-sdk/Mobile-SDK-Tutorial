@@ -11,7 +11,7 @@
 
 ## 准备程序
 
-(1）请先下载 The Mobile SDK：<http://dev.dji.com/cn/products/sdk/mobile-sdk/downloads>
+(1）请先下载 The Mobile SDK：<https://developer.dji.com/mobile-sdk/downloads>
 
 
 (2)更新你的无人机的固件：
@@ -42,7 +42,7 @@
 
 （2）将下载的SDK软件包按如此步骤Go to File -> New -> Import Module导入Android Studio。在'Source Directory'里，找一个文件叫DJI-SDK-LIB(Android Studio\DJI-SDK-Android-V2.1.0\Lib\DJI-SDK-LIB)。点击Finish.
 
-**注意：** Android Studio文件夹能从DJI网站下载下来的SDK Package里找到。demo project里面用的软件包是用的'Eclpise'文件夹里的。如果你要用Android Studio，确保你用的是Android Studio文件夹里面的软件包。SDK Package 能在此下载：<http://dev.dji.com/cn/products/sdk/mobile-sdk/downloads>*
+**注意：** Android Studio文件夹能从DJI网站下载下来的SDK Package里找到。demo project里面用的软件包是用的'Eclpise'文件夹里的。如果你要用Android Studio，确保你用的是Android Studio文件夹里面的软件包。SDK Package 能在此下载：<https://developer.dji.com/mobile-sdk/downloads>*
 
 ![importModule](../../images/Android/FPVDemo/importModuleScreenshot.png)
 
@@ -56,7 +56,7 @@
 
 (1) 激活SDK: 
 
-请使用你在DJI开发者网站<http://dev.dji.com>上申请的APP KEY填入**android:value=""**。当申请APP KEY的时候，需要在标识码处填入你的工程的包名。
+请使用你在[DJI开发者网站](https://developer.dji.com/user/mobile-sdk)上申请的APP KEY填入**android:value=""**。当申请APP KEY的时候，需要在标识码处填入你的工程的包名。
 
 ![appKey](../../images/Android/FPVDemo/appKey_cn.png)
 
@@ -119,7 +119,7 @@
 如果你收到一个错误代码不是'0',请按照下面的说明：
 
 1.确保您可以访问互联网
-2. 确保在 http://dev.dji.com website创建应用程序时，你必须用你的project package的名字去填写那个'Identification Code'。
+2. 确保在[DJI开发者网站](https://developer.dji.com/user/mobile-sdk)创建应用程序时，你必须用你的project package的名字去填写那个'Identification Code'。
 3. 确保应用程序激活码没有达到其安装的容量限制。如果这还不能解决你的问题，参考以上的故障排除表。如果你有更多的问题，请通过发送Email到我们的Mobile SDK部门:<sdk@dji.com>
 
 

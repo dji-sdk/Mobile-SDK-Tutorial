@@ -17,7 +17,7 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 
 ### 2. 安装DJI PC模拟器
 
-首先, 请从这里下载DJI PC模拟器和DJI WIN 驱动程序: <http://dev.dji.com/cn/products/sdk/onboard-sdk/downloads> :
+首先, 请从这里下载DJI PC模拟器和DJI WIN 驱动程序: <https://developer.dji.com/mobile-sdk/downloads> :
 
 - DJI PC模拟器及用户手册V1.0
 - WIN Driver Installer
@@ -72,7 +72,7 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 
 ## 升级飞机固件
 
-确保你的飞机固件支持DJI Mobile SDK的开发，对于接下来的教程操作很重要. 请从这里下载beta版本的飞机固件: <http://dev.dji.com/cn/products/sdk/onboard-sdk/downloads> :
+确保你的飞机固件支持DJI Mobile SDK的开发，对于接下来的教程操作很重要. 请从这里下载beta版本的飞机固件: <https://developer.dji.com/mobile-sdk/downloads> :
 
 - Phantom 3 Professional 固件升级包
 - Phantom 3 Advance 固件升级包

@@ -6,7 +6,7 @@
 
 ## 下载SDK
 
-你可以从这里下载到最新的SDK <https://dev.dji.com/cn/products/sdk/mobile-sdk/downloads>
+你可以从这里下载到最新的SDK <https://developer.dji.com/mobile-sdk/downloads>
 
 开发包内容包括：
 
@@ -193,7 +193,7 @@
 }
 ~~~
 ---
-**注意**: 你可以在SDK网站上创建属于你自己App的**App Key**: <https://dev.dji.com/cn/user/mobile-sdk>, 如下图所示:
+**注意**: 你可以在SDK网站上创建属于你自己App的**App Key**: <https://developer.dji.com/user/mobile-sdk/>, 如下图所示:
 
 ![AppKey](../../images/iOS/FPVDemo/AppKey_CN.png)
 

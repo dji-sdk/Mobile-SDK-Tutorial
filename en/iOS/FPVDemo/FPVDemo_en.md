@@ -10,7 +10,7 @@ This tutorial is designed for you to gain a basic understanding of the DJI Mobil
 
 ## Download the SDK
 
-You can download the latest iOS SDK from here: <https://dev.dji.com/en/products/sdk/mobile-sdk/downloads>
+You can download the latest iOS SDK from here: <https://developer.dji.com/mobile-sdk/downloads/>
 
 The development package includes:
 
@@ -186,7 +186,7 @@ Then create a new method named **registerApp** and invoke it in the viewDidLoad 
 }
 ~~~
 ---
-**Note**: In the code above, you will need to obtain an App Key from the DJI Developer website **(<https://dev.dji.com/en/user/mobile-sdk>)** and enter it where it says **Enter Your App Key**. You receive an App Key by clicking **Create APP** and filling out the necessary information. Please note that **Identification Code** stands for **Bundle Identifier**. Once you do that, an App Key is generated for you. The **App Key** we generate for you is associated with the Xcode project **Bundle Identifier**, so you will not be able to use the same App Key in a different Xcode project. Each project must be submiteed individually and will receive a unique App Key. This is what you should see once you submit the information:
+**Note**: In the code above, you will need to obtain an App Key from the DJI Developer website **(<https://developer.dji.com/user/mobile-sdk>)** and enter it where it says **Enter Your App Key**. You receive an App Key by clicking **Create APP** and filling out the necessary information. Please note that **Identification Code** stands for **Bundle Identifier**. Once you do that, an App Key is generated for you. The **App Key** we generate for you is associated with the Xcode project **Bundle Identifier**, so you will not be able to use the same App Key in a different Xcode project. Each project must be submiteed individually and will receive a unique App Key. This is what you should see once you submit the information:
 
 ![AppKey](../../images/iOS/FPVDemo/AppKey.png)
 
