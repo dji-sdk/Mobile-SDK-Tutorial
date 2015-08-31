@@ -1107,7 +1107,7 @@ Lastly, implement the **downloadFiles** method as shown below:
     }
 
     __weak DJIRootViewController *weakSelf = self;
-    [self.camera downloadAllSelectedFilesWithPreparingBlock:^(NSString *fileName, NSUInteger fileSize, BOOL *skip) {
+    [self.camera downloadAllSelectedFilesWithPreparingBlock:^(NSString *fileName, DJIDownloadFileType fileType, NSUInteger fileSize, BOOL *skip) {
 
         [weakSelf startUpdateTimer];
         weakSelf.totalFileSize = (long)fileSize;
