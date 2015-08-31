@@ -39,7 +39,7 @@ https://github.com/evan2048/PanoDemo
 
 2.Select the following 3 projects:
 
-![](../../images/Android/PanoDemo/select3project2.png)
+![](../../images/Android/PanoDemo/select3project.png)
 
 3.Press Finish and wait for the project to build. In the Package Explorer on the left, right click on the "PanoDemo" package -> Properties -> Android. Check that under the "Libraries" section "OpenCV Library" and "DJI-SDK-LIB" have both been added. If not, press "Add..." to add them:
 
