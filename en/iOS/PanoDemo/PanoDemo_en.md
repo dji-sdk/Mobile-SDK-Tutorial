@@ -10,7 +10,7 @@
 
 In this tutorial, you will learn how to build a cool panorama app. With the help of the powerful DJI SDK and OpenCV libraries, it is actually easy. you will use the Waypoint feature of Intelligent Navigation and Joystick to rotate the aircraft to take photos. The panorama application can be broken down into several simple tasks, all you need to do is to follow the tutorial step by step. Let's get started!
 
-<center>![several tasks](../../images/iOS/PanoDemo/several_tasks.png)</center>
+![several tasks](../../images/iOS/PanoDemo/several_tasks.png)
 
    You can download the demo project for this tutorial from here: <https://github.com/DJI-Mobile-SDK/iOS-PanoramaDemo.git>
 
@@ -20,7 +20,7 @@ In this tutorial, you will learn how to build a cool panorama app. With the help
 
 **2.** In the **Main.storyboard**, add a new View Controller called **CaptureViewController** and set it as the root View Controller for the new View Controller you just added in **Main.storyboard**:
 
-<center>![CaptureViewController](../../images/iOS/PanoDemo/CaptureViewController.png)</center>
+![CaptureViewController](../../images/iOS/PanoDemo/CaptureViewController.png)
 
 **3.** Add a UIView inside the View Controller and set it as an IBOutlet called "**fpvPreviewView**" in the **CaptureViewController.h**:
 
@@ -121,7 +121,7 @@ Furthermore, connect to the drone and start the camera system state update when 
 
 **5.** Build and run the project on your mobile device, then connect your device to the aircraft. Now you can see view the camera's video stream on your device.
 
-<center>![ffmpeg](../../images/iOS/PanoDemo/viewFPVStream.png)</center>
+![ffmpeg](../../images/iOS/PanoDemo/viewFPVStream.png)
 
 
 ## Rotating with Joystick
@@ -145,7 +145,7 @@ self.navigation = self.drone.mainController.navigationManager;
 
 **3.** The drone must switch into Navigation mode before we can control it through the DJI SDK. Add an **Enter Navigation** button and a **Capture** button in **Capture View Controller** in **Main.storyboard**. Name their **IBOutlet**s **enterNavigationBtn** and **captureBtn** respectively, and their **IBAction**s **-(IBAction)onEnterNavigationClicked:(id)sender** and **-(IBAction)onCaptureButtonClicked:(id)sender**.
 
-<center>![navigation and capture button](../../images/iOS/PanoDemo/navigationAndCaptureButton.png)</center>
+![navigation and capture button](../../images/iOS/PanoDemo/navigationAndCaptureButton.png)
 
 **4.** Implement the **onEnterNavigationClicked** method as shown below: 
 
@@ -160,7 +160,7 @@ self.navigation = self.drone.mainController.navigationManager;
 
 Please switch the Remote Controller's mode selection to the **F** position (in the previous version it was in the **A** position) before you click the **Enter Navigation** button. Upon pressing the **Enter Navigation** button you should see something like this: 
 
-<center>![enter navigatio](../../images/iOS/PanoDemo/enterNavigation.png)</center>
+![enter navigatio](../../images/iOS/PanoDemo/enterNavigation.png)
 
 **5.** Define the angle for each rotation: 
 
@@ -537,11 +537,11 @@ Now the user can choose their preferred shooting method.
 ## Downloading Photos
 In order to download multiple photos, you must navigate through a series of modes playback modes. Enter **Playback** mode, then enter **Multiple Preview** mode, then enter **Multiple Edit** mode, select all the files you need, before downloading all selected files.
  
-<center>![diagram.png](../../images/iOS/PanoDemo/diagram.png)</center>
+![diagram.png](../../images/iOS/PanoDemo/diagram.png)
 
 **1.** Add a new **Download** button in **Capture View Controller** in **Main.storyboard**, then in **CaptureViewController.h** set its **IBOutlet** to **downloadBtn** and **IBAction** to **-(IBAction)onDownloadButtonClicked:(id)sender**.
 
-<center>![Download Button](../../images/iOS/PanoDemo/downloadButton.png)</center>
+![Download Button](../../images/iOS/PanoDemo/downloadButton.png)
 
 **2.** Add a new variable to record the number of photos selected in the **interface** of **CaptureViewController.m**:
 
@@ -610,11 +610,11 @@ Then we set the camera work mode as playback mode. If successful, you can call t
 
 It takes a few seconds for the drone to respond to commands, so you should dispatch a new thread to send commands and sleep in between. As shown in the flow diagram above, you should enter **MultiplePreviewMode** and **MultipleEditMode** before selecting photos. How do we select the last PHOTO_NUMBER photos? Here is our strategy:
 
-<center>![select photo diagram](../../images/iOS/PanoDemo/selectPhotoDiagram.png)</center>
+![select photo diagram](../../images/iOS/PanoDemo/selectPhotoDiagram.png)
 
 The default selected photo is the last photo. Select all photos in the last page. If you have selected more photos than necessary, you can deselect the extra photos starting from index 0. If you do not have enough photos selected, just go to previous page and repeat the procedure again until you select the exact number of photos needed.
 
-<center>![multiple select photo](../../images/iOS/PanoDemo/multiplreSelect.PNG)</center>
+![multiple select photo](../../images/iOS/PanoDemo/multiplreSelect.PNG)
 
 **5.** Implement your custom **downloadPhotos** method. 
 
@@ -726,11 +726,11 @@ Since we don't need the FPV view when stitching, we add a new view controller ca
 
 **1.** Embed a navigation controller in **CaptureViewController** and add a new button called **Stitch**.
 
-<center>![embed navigation controller](../../images/iOS/PanoDemo/navigation_controller.png)</center>
+![embed navigation controller](../../images/iOS/PanoDemo/navigation_controller.png)
 
 Create a view controller class called **StitchingViewController** and a new view controller in the **Main.storyboard** corresponding. Then add a button named **Stitch** and set its action segue to **Show** **StitchingViewController**. Set its identifier to **Stitching**.
 
-<center>![embed navigation controller](../../images/iOS/PanoDemo/segue.png)</center>
+![embed navigation controller](../../images/iOS/PanoDemo/segue.png)
 
 **2.** Add an instance variable **imageArray** in **StitchingViewController.h**:
 
@@ -749,18 +749,18 @@ Add the **prepareForSegue** method to pass the downloaded photos to the next vie
 ~~~
 **3.** Add an activity indicator in the **StitchingViewController**, set its behavior to **Hides When Stopped**, then set its outlet to be called **activityIndicator**:
 
-<center>![activity indicator](../../images/iOS/PanoDemo/activityIndicator.png)</center>
+![activity indicator](../../images/iOS/PanoDemo/activityIndicator.png)
 
 ### Importing OpenCV
 **1.** Build **opencv2.framework** for iOS. See more details in [Installation in iOS](http://docs.opencv.org/doc/tutorials/introduction/ios_install/ios_install.html). If you have any difficulties compiling the source code, you can just download this project and copy the **opencv2.framework**. 
 
 **2.** Select the project target, go to **Build Phases** -> **Link Binary With Libraries**. Click the "+" button at the bottom and add  the**AssetsLibrary.framework** library to your project. Click the "+" button, click on **Add others** and navigate to the directory where **opencv2.framework** is located and click open.
 
-<center>![OpenCv framework](../../images/iOS/PanoDemo/opencv.png)</center>
+![OpenCv framework](../../images/iOS/PanoDemo/opencv.png)
 
 **3.** Add a PCH file into your project. Go to **Build Setting** -> **Precompile Prefix Header**, set its value **YES**, and set **Prefix Header** to be the location of the PCH file.
 
-<center>![Prefix header](../../images/iOS/PanoDemo/prefixHeader.png)</center>
+![Prefix header](../../images/iOS/PanoDemo/prefixHeader.png)
 
 Open your PCH file and add the following lines of code:
 
@@ -992,9 +992,9 @@ Because of the limited computing ability and memory storage of mobile devices, y
 
 **4.** Add a **UIImageView** in the **Main.storyboard**, set the **Mode** to **Aspect Fit** and set up its outlet, called**imageView**.
 
-<center>![Image View](../../images/iOS/PanoDemo/set_imageView.png)</center>
+![Image View](../../images/iOS/PanoDemo/set_imageView.png)
 
-<center>![Image View](../../images/iOS/PanoDemo/imageView.png)</center>
+![Image View](../../images/iOS/PanoDemo/imageView.png)
 
 Set the code in **StitchingViewController.mm** as shown below:
 
@@ -1036,7 +1036,7 @@ Set the code in **StitchingViewController.mm** as shown below:
 
 Now download latest photos and click the **Stitch** button. After a minute you will be able to see an amazing panorama!
 
-<center>![uncropped pano](../../images/iOS/PanoDemo/uncropped_pano.PNG)</center>
+![uncropped pano](../../images/iOS/PanoDemo/uncropped_pano.PNG)
 
 ### Cropping the Panorama
 You have made an excellent panorama, but the uneven black edge is pretty annoying. Let's optimize our app and make your panorama perfect!
@@ -1136,7 +1136,7 @@ bool checkBlackColumn(const cv::Mat& roi, int x,const cv::Rect &rect) {
 
 The **bool checkBlackRow(const cv::Mat& roi, int y)** function checks whether the number of black pixels in row y is more than **CUTBLACKTHREASHOLD**, while the **bool checkBlackColumn(const cv::Mat& roi, int x)** checks the same for column x. These two functions indicate whether the row or column is part of a black edge that we don't need. **+ (bool) cropWithMat: (const cv::Mat &)src andResult: (cv::Mat &)dest** converts the src cv::Mat to gray cv::Mat and initializes the **roiRect** to be the frame of **src** cv::Mat. It then checks each of the four edges of the **src** Mat in **roiRect**. If an edge is black, it narrows the corresponding edge of **roiRect** and repeats checking and narrowing until none of the edges are black. Finally, it copies the pixels in **roiRect** of **src** to **dest** to complete the cropping process.
 
-<center>![cropping](../../images/iOS/PanoDemo/cropping.png)</center>
+![cropping](../../images/iOS/PanoDemo/cropping.png)
 
 **2.** Rewrite the **Stitching.mm** file as shown below: 
 
@@ -1193,12 +1193,15 @@ The **bool checkBlackRow(const cv::Mat& roi, int y)** function checks whether th
 
 Now, capture a series of photos, download them and stitch them together. Congratulations, you have generated a perfect panorama!
 
-<center>![cropped pano](../../images/iOS/PanoDemo/cropped_pano.PNG)</center>
+![cropped pano](../../images/iOS/PanoDemo/cropped_pano.PNG)
 
 ## Summary
    
    In this tutorial, you’ve learned how to use the Joystick feature and the Waypoint feature of Intelligent Navigation to control the aircraft to rotate and take photos. Then you used OpenCV to stitch and crop photos into a cool panorama!
       
    Congratulations! Now that you've finished the demo project, you can build on what you have learnt and start to build your own panorama applications. You can improve the project by showing the aircraft's flight mode type, current GPS satellite count, vertical and horizontal flight speed and the flight altitude, etc. There are still a large number of ways to make this a turly fantastic application! Good luck, and we hope you enjoyed this tutorial!
+
+
+
 
 

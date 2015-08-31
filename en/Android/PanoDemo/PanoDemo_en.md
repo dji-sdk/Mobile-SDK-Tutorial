@@ -10,8 +10,6 @@
 
 In this tutorial, you will learn how to build a cool panorama app. With the help of the powerful DJI SDK and OpenCV libraries, this is actually quite easy. You will be using Intelligent Navigation's Waypoint feature and Joystick to rotate the aircraft to take photos. Let's get started!
 
-   You can download the demo project for this tutorial from here: <https://github.com/DJI-Mobile-SDK/Android-PanoramaDemo.git>
-
 ## Setting up and Running the PanoDemo App
 
 ### Setting up your Development Environment
@@ -31,7 +29,7 @@ There are 8 separate required downloads to set up our development environment. F
 
 We've already gone ahead and created a working panorama app for you to reference while you work through this tutorial. You can go ahead and download the package here:
 
-https://github.com/evan2048/PanoDemo
+<https://github.com/DJI-Mobile-SDK/Android-PanoramaDemo.git>
 
 1.Open Eclipse->File->Import->General->Existing Projects into Workspace->Select root directory->Browse. Locate the downloaded folder "PanoDemo":
 
@@ -2615,4 +2613,7 @@ Congratulations on reaching the end of this tutorial! We covered a *lot* of mate
 - Navigating through playback modes to select and download images
 - Using native code to process images
 We suggest you go back and play with these individual topics on your own, maybe building an app or two yourself! Good luck, and have fun!
+
+
+
 
