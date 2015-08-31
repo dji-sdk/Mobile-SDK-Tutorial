@@ -5,7 +5,7 @@
 	* [Camera App](iOS/FPVDemo/FPVDemo_en.md)
 	* [MapView and Waypoint App](iOS/GSDemo/GSDemo_en.md)
 	* [Photo and Video Playback App](iOS/PlaybackDemo/P3X&Inspire1/PlaybackDemo_en.md)
- 	* [Panorama App](iOS/PanoDemo/PanoDemo_en.md)
+	* [Panorama App](iOS/PanoDemo/PanoDemo_en.md)
 
 * [Android](Android/README.md)
 	* [Camera App](Android/FPVDemo/FPVDemo_en.md)
