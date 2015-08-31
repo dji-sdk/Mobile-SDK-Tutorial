@@ -1,7 +1,12 @@
 # Creating a Photo and Video Playback Application
+
 <!-- toc -->
 
+*If you come across any mistakes or bugs in this tutorial, please let us know using a Github issue, a post on the DJI forum, or commenting in the Gitbook. Please feel free to send us Github pull request and help us fix any issues.*
+
 *Note: The code in this tutorial has been written to be run on the iPad. Please make sure you run this code on an iPad or an iPad simulator. This tutorial is only for Phantom 3 Professional and Inspire 1*
+
+---
 
 In this tutorial, you will learn how to use DJI Mobile SDK to access the media resources in the SD card of the aircraft's camera. By the end of this tutorial you will have an app that you can use to preview photos, play videos, download or delete files and so on.
 

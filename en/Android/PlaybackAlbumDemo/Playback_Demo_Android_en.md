@@ -1,8 +1,12 @@
 # Creating a Photo and Video Playback Application
 
+<!-- toc -->
+
+*If you come across any mistakes or bugs in this tutorial, please let us know using a Github issue, a post on the DJI forum, or commenting in the Gitbook. Please feel free to send us Github pull request and help us fix any issues.*
+
 *Note: This tutorial is only for Phantom 3 Professional and Inspire 1*
 
-<!-- toc -->
+---
 
 ## Introduction
 In this tutorial, you will familiarize yourself with the various Camera Modes the Inspire 1, Phantom 3 Professional and M100 have, how to switch and get the Camera Mode, how to build a friendly UI for a Photo and Video Album app, and how to select and download media files. Let's get started!

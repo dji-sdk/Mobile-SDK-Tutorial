@@ -2,6 +2,10 @@
 
 <!-- toc -->
 
+*If you come across any mistakes or bugs in this tutorial, please let us know using a Github issue, a post on the DJI forum, or commenting in the Gitbook. Please feel free to send us Github pull request and help us fix any issues.*
+
+---
+
 In this tutorial, you will learn how to setup the DJI PC Simulator, update the firmware of Inspire 1, Phantom 3 Professional and Phantom 3 to its beta version, and how to test the GroundStation API with DJI PC Simulator. Also, you will get in touch with the basic process of using DJI GroundStation's Waypoint feature. So let's get started!
 
 You can download the demo project for this tutorial from: <https://github.com/DJI-Mobile-SDK/Android-GSDemo-GoogleMap.git>

@@ -2,6 +2,10 @@
 
 <!-- toc -->
 
+*If you come across any mistakes or bugs in this tutorial, please let us know using a Github issue, a post on the DJI forum, or commenting in the Gitbook. Please feel free to send us Github pull request and help us fix any issues.*
+
+---
+
 You can download the final project for this tutorial here: <https://github.com/DJI-Mobile-SDK/Android-FPVDemo.git>. 
 
 We **strongly** recommend that you download the final project code and have it open as reference as you work through this tutorial.
