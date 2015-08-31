@@ -1065,7 +1065,8 @@ The implementation of **+ (bool) cropWithMat: (const cv::Mat &)src andResult:(cv
 + (bool) cropWithMat: (const cv::Mat &)src andResult: (cv::Mat &)dest {
     cv::Mat gray;
     cvtColor(src, gray, CV_BGR2GRAY);//convert src to gray
-        cv::Rect roiRect(0,0,gray.cols,gray.rows); // start as the source image - ROI is the complete SRC-Image
+    
+    cv::Rect roiRect(0,0,gray.cols,gray.rows); // start as the source image - ROI is the complete SRC-Image
     
     while (1) {
         NSLog(@"%d %d %d %d",roiRect.x,roiRect.y,roiRect.width,roiRect.height);
