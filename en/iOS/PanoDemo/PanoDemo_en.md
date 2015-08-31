@@ -16,7 +16,7 @@ In this tutorial, you will learn how to build a cool panorama app. With the help
 
 ## Implementing the FPV
 
-**1.** Import the DJI SDK and the FFMPEG decoding library. If you don't know how to do this please refer to the tutorial [How to create a Camera Application](http://developer.dji.com/mobile-sdk/guides/iOS/FPVDemo/FPVDemo/).
+**1.** Import the DJI SDK and the FFMPEG decoding library. If you don't know how to do this please refer to the tutorial [How to create a Camera Application](http://dji-dev.gitbooks.io/mobile-sdk-tutorials/content/en/iOS/FPVDemo/FPVDemo_en.html).
 
 **2.** In the **Main.storyboard**, add a new View Controller called **CaptureViewController** and set it as the root View Controller for the new View Controller you just added in **Main.storyboard**:
 
