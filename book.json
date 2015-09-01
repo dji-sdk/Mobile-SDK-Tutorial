@@ -7,8 +7,11 @@
     "extension": null,
     "github": null,
     "githubHost": "https://github.com/",
-    "plugins": ["toc", "disqus"],
+    "plugins": ["ga","toc", "disqus"],
     "pluginsConfig": {
+         "ga": {
+            "token": "UA-67012528-1"
+        },
         "fontSettings": {
             "theme": "white",
             "family": "sans",
