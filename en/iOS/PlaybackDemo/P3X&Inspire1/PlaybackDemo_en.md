@@ -659,7 +659,8 @@ Then import the DJIPlaybackMultiSelectViewController.h header file and create a 
 {
     self.playbackMultiSelectVC = [[DJIPlaybackMultiSelectViewController alloc] initWithNibName:@"DJIPlaybackMultiSelectViewController" bundle:[NSBundle mainBundle]];
     [self.playbackMultiSelectVC.view setFrame:self.view.frame];
-    [self.fpvPreviewView addSubview:self.playbackMultiSelectVC.view];
+    [self.view insertSubview:self.playbackMultiSelectVC.view aboveSubview:self.fpvPreviewView];
+    
     __weak DJIRootViewController *weakSelf = self;
     [self.playbackMultiSelectVC setSelectItemBtnAction:^(int index) {
         if (weakSelf.cameraPlaybackState.playbackMode == MultipleFilesPreview) {

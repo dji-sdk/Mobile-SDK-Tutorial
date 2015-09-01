@@ -659,7 +659,7 @@ typedef NS_ENUM(uint8_t, CameraPlaybackMode){
 {
     self.playbackMultiSelectVC = [[DJIPlaybackMultiSelectViewController alloc] initWithNibName:@"DJIPlaybackMultiSelectViewController" bundle:[NSBundle mainBundle]];
     [self.playbackMultiSelectVC.view setFrame:self.view.frame];
-    [self.fpvPreviewView addSubview:self.playbackMultiSelectVC.view];
+    [self.view insertSubview:self.playbackMultiSelectVC.view aboveSubview:self.fpvPreviewView];
     __weak DJIRootViewController *weakSelf = self;
     [self.playbackMultiSelectVC setSelectItemBtnAction:^(int index) {
         if (weakSelf.cameraPlaybackState.playbackMode == MultipleFilesPreview) {
@@ -1106,7 +1106,7 @@ typedef NS_ENUM(uint8_t, CameraPlaybackMode){
     }
 
     __weak DJIRootViewController *weakSelf = self;
-    [self.camera downloadAllSelectedFilesWithPreparingBlock:^(NSString *fileName, NSUInteger fileSize, BOOL *skip) {
+    [self.camera downloadAllSelectedFilesWithPreparingBlock:^(NSString *fileName, DJIDownloadFileType fileType, NSUInteger fileSize, BOOL *skip) {
 
         [weakSelf startUpdateTimer];
         weakSelf.totalFileSize = (long)fileSize;
