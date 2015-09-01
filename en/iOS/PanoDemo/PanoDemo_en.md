@@ -4,7 +4,7 @@
 
 *If you come across any mistakes or bugs in this tutorial, please let us know using a Github issue, a post on the DJI forum, or commenting in the Gitbook. Please feel free to send us Github pull request and help us fix any issues.*
 
-*Note: For the DJI Inspire 1 and the Phantom 3 Professional, using the DJI SDK and OpenCV Lib*
+*Note: We use DJI Inspire 1 to test the demo project in this tutorial*
 
 ---
 
@@ -264,6 +264,87 @@ Now rewrite the **rotateDroneWithJoystick** method as shown below. With this met
 
 You must dispatch a new thread and sleep for 2 seconds between rotating the drone and taking a photo because it takes some time to finish each operation. Neglecting to give the drone time to execute each operation will result in the operations being executed out of order or blurry photos being captured. Moreover, you can show an alert view in the main thread to notify that shooting is completed.
 
+## Rotating Gimbal to Take Photos
+
+If you have the Inspire 1, you will benefit from being able to take photos without moving the drone, taking advantage of the gimbal's 360 rotation capabilities. Rotating the gimbal while keeping the drone still means you have a very stable photography platform, which helps to create a wonderful panorama. Let's take a look at this powerful tool!
+
+Add a property in **CaptureViewController.m**:
+
+~~~objc
+@property (strong,nonatomic) DJIInspireGimbal *gimbal;
+~~~
+
+Initialize the **gimbal** variable in the **viewDidLoad** method:
+
+~~~objc
+self.gimbal=(DJIInspireGimbal*)_drone.gimbal;
+~~~
+
+It is necessary to initialize the gimbal's position before shooting or the gimbal may reach the range limit before rotating 360 degrees. We can call **DJIInspireGimbal**'s resetGimbalWithResult method to reset the gimbal's pitch, roll and yaw back to the origin values. Here is the code: 
+
+~~~objc
+//Reset Gimbal at the beginning
+[_gimbal resetGimbalWithResult:^(DJIError *error) {
+    if (error.errorCode != ERR_Successed) {
+        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"resetGimbal Failed" message:@"" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+    }
+}];
+sleep(4);
+~~~
+
+Then we rotate the gimbal clockwise from the zero position, taking a photo between every rotation. We implement the **rotateGimbal** method as shown below:
+
+~~~objc
+- (void)rotateGimbal {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		 //Reset Gimbal at the beginning
+		 [_gimbal resetGimbalWithResult:^(DJIError *error) {
+		    if (error.errorCode != ERR_Successed) {
+		        UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"resetGimbal Failed" message:@"" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+		        [alertView show];
+		    }
+		 }];
+		 sleep(4);
+        
+        //rotate the gimbal clockwise
+        float yawAngle = 0;
+        DJIGimbalRotation pitch = {YES, 0, AbsoluteAngle, RotationForward};
+        DJIGimbalRotation roll = {YES, 0, AbsoluteAngle, RotationForward};
+        DJIGimbalRotation yaw = {YES, yawAngle, AbsoluteAngle, RotationForward};
+        [_gimbal setGimbalPitch:pitch Roll:roll Yaw:yaw withResult:nil];
+        sleep(2);
+        
+        [_camera startTakePhoto:CameraSingleCapture withResult:nil];
+        sleep(2);
+    
+        for(int i = 0; i < PHOTO_NUMBER - 1; i++){
+            yawAngle += ROTATE_ANGLE;
+            yaw.angle = yawAngle;
+            [_gimbal setGimbalPitch:pitch Roll:roll Yaw:yaw withResult:nil];
+            sleep(2);
+            [_camera startTakePhoto:CameraSingleCapture withResult:nil];
+            sleep(2);
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Capture Photos" message:@"Capture finished" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alertView show];
+        });
+    });
+}
+~~~
+
+Next rewrite the **onCaptureButtonClicked** method.
+
+~~~objc
+-(IBAction)onCaptureButtonClicked:(id)sender {
+	[self rotateGimbal];
+}
+~~~
+
+Now you can build and run the app to check the result.
+
 ## Shooting Photos with Intelligent Navigation 
 
 **Note: We do NOT recommend using ground station when battery capacity is less than 30%**
@@ -503,7 +584,7 @@ Update **onCaptureButtonClicked** as follows:
 
 ~~~objc
 -(IBAction)onCaptureButtonClicked:(id)sender {
-    UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Select Mode" message:@"" delegate:self cancelButtonTitle:@"GroundStation" otherButtonTitles:@"Joystick", nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Select Mode" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Joystick_Aircraft", @"Joystick_Gimbal", @"GroundStation", nil];
     alertView.tag = kCaptureModeAlertTag;
     [alertView show];
 }
@@ -522,17 +603,18 @@ Implement the **UIAlertView** delegate method:
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (alertView.tag == kCaptureModeAlertTag) {
-        if (buttonIndex == 0){
-            [self rotateDroneWithGoundStation];
-        }else if(buttonIndex == 1){
+        if(buttonIndex == 1){
             [self rotateDroneWithJoystick];
+        }else if(buttonIndex == 2){
+            [self rotateGimbal];
+        }else if (buttonIndex == 3){
+            [self rotateDroneWithGoundStation];
         }
     }
 }
 ~~~
 
 Now the user can choose their preferred shooting method.
-
 
 ## Downloading Photos
 In order to download multiple photos, you must navigate through a series of modes playback modes. Enter **Playback** mode, then enter **Multiple Preview** mode, then enter **Multiple Edit** mode, select all the files you need, before downloading all selected files.
