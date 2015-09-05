@@ -1,4 +1,4 @@
-## DJI SDK Demo导入Android Studio教程
+## Android Studio工程导入教程
 
 <!-- toc -->
 
