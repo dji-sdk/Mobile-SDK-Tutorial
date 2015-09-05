@@ -34,7 +34,7 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 
 **1**. 运行DJI PC模拟器时，会首先弹出**Simulator Config**对话框. 设置好 **Latitude（纬度）** 和 **Longitude(经度)** 的值. **SN** 代表连接到PC模拟器上的飞机序列号. 如果 **SN** 的值为空, 请检查你的飞机是否和PC连接好，或者你的飞机的固件版本是否属于开发版本.
 
- ![Config](../../images/iOS/GSDemo/simulator_config.png)
+ ![Config](../../Images/iOS/GSDemo/simulator_config.png)
 
 ---
 **Note**: 
@@ -43,13 +43,13 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 
 - 在Log Settings选项中勾选**show log window**, 可以弹出log调试界面:
 
- ![showLog](../../images/iOS/GSDemo/showLog.png)
+ ![showLog](../../Images/iOS/GSDemo/showLog.png)
 
 ---
 
 **2**. 通过Micro-USB线将你的飞机连接到PC上, 启动遥控器然后启动飞机。 点击**Display Simulator**, 会出现以下界面(它会显示你正在使用的飞机). 当前使用的是Inspire 1:
 
- ![display](../../images/iOS/GSDemo/display.png)
+ ![display](../../Images/iOS/GSDemo/display.png)
 
 ---
 **注意**: 
@@ -64,9 +64,9 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 
 **4**. 单击和拖曳鼠标可以调整观测飞行器的角度。滚动鼠标可以放大或缩小飞行视图。
 
- ![zoomIn](../../images/iOS/GSDemo/zoomIn.png)
+ ![zoomIn](../../Images/iOS/GSDemo/zoomIn.png)
  
- ![zoomOut](../../images/iOS/GSDemo/zoomout.png)
+ ![zoomOut](../../Images/iOS/GSDemo/zoomout.png)
 
 **5**. 点击 Stop Simulation 结束模拟飞行。使用完毕后关闭飞行器、遥控器和模拟器。 
 
@@ -98,9 +98,9 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 
 根据你目前使用的飞机, 你可以通过检查升级过程生成的 **txt** 文件来获取固件升级结果。 对于Phantom 3 Professional, txt文件的名字为 **"P3X_FW_RESULT_AB.txt"**. 对于Inspire 1, txt文件的名字为 **"WM610_FW_RESULT_AB.txt"**. 以下是 **txt** 文件内容例子:
 
-  ![upgradeP3XSuccess](../../images/iOS/GSDemo/upgradeP3XSuccess.png)
+  ![upgradeP3XSuccess](../../Images/iOS/GSDemo/upgradeP3XSuccess.png)
   
-  ![upgradeInspire1Success](../../images/iOS/GSDemo/upgradeInspire1Success.png)
+  ![upgradeInspire1Success](../../Images/iOS/GSDemo/upgradeInspire1Success.png)
 
 ## 创建Map View
 
@@ -110,12 +110,12 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 
 **1**. 在Xcode中创建一个工程并命名为 "**GSDemo**", 复制 **DJISDK.framework** 到你的 Xcode 工程文件夹中. 然后, 选择工程，并进入 Build Phases -> Link Binary With Libraries. 点击底部的 "+" 按钮添加以下两个库文件到工程中: libstdc++.6.0.9.dylib 和 libz.dylib. 以下是截图:
 
-  ![framework](../../images/iOS/GSDemo/framework.png)
+  ![framework](../../Images/iOS/GSDemo/framework.png)
 
 ### 2. 创建Map View
 接着, 我们删除 **ViewController.h** 和 **ViewController.m** 文件, 他们在你创建Xcode工程时，自动帮你生成了. 然后, 创建一个名字为"DJIRootViewController"的viewController，并在**Main.storyboard**中将它设置为 Root View Controller. 接着, 从Object Library中拖一个 **MKMapView** 到 **DJIRootViewController**中, 设置它的AutoLayout constraints, 以及它的delegate到**DJIRootViewController**, 如下图所示:
    
-![mkMapView](../../images/iOS/GSDemo/mkMapView.png)
+![mkMapView](../../Images/iOS/GSDemo/mkMapView.png)
 
 紧接着, 打开**DJIRootViewController.h**文件, 为MKMapView创建一个IBOutlet, 命名为 "mapView", 然后把它连接到**Main.storyboard**的“MKMapView”. 导入以下头文件并实现MKMapView的delegate方法:
 
@@ -132,7 +132,7 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 
 现在, 编译运行下工程. 如果一切正常, 你会看到以下截屏画面:
 
-![mapView](../../images/iOS/GSDemo/mapView.png)
+![mapView](../../Images/iOS/GSDemo/mapView.png)
 
 ### 3. 添加Annotations到MapView中
 
@@ -222,7 +222,7 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 - (IBAction)editBtnAction:(id)sender;
 ~~~
 
-![editButton](../../images/iOS/GSDemo/editButton.png)
+![editButton](../../Images/iOS/GSDemo/editButton.png)
 
 完成以上步骤后, 打开DJIMapController.m文件, 初始化**mapController** 和 **tapGesture** 变量, 然后添加 **tapGesture** 到 mapView 上用于航点添加手势. 进一步的, 我们需要一个命名为"**isEditingPoints**"的布尔值去存储编辑 waypoint 的状态, 它也会用来判断修改**editBtn**的标题. 最后, 实现 **tapGesture**的action方法 **addWayPoints**, 如下图所示:
 
@@ -299,7 +299,7 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 
 完成以上步骤后, 编译运行工程，尝试通过点击屏幕添加航点到地图上. 如果一切顺利, 你会看到以下动画:
 
-![addWaypoint](../../images/iOS/GSDemo/addWaypoint.gif)
+![addWaypoint](../../Images/iOS/GSDemo/addWaypoint.gif)
 
 ### 4. 定位MKMapView到特定位置
 
@@ -328,7 +328,7 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 
 这里我们在**Main.storyboard**的DJIRootViewController中添加了一个命名为"Focus Map"的UIButton, 并且添加了一个叫"focusMapAction"的IBAction方法. 以下是**Main.storyboard**的截图:
 
-![focusMap](../../images/iOS/GSDemo/focusMap.png)
+![focusMap](../../Images/iOS/GSDemo/focusMap.png)
 
 完成以上步骤后, 打开**DJIRootViewController.m**文件并添加以下代码：
 
@@ -408,11 +408,11 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 
 在iOS8中, 我们必须首先调用 locationManager的 **requestAlwaysAuthorization** 方法, 我们在**startUpdateLocation** 方法中实现了该调用. 接着, 在工程的Info.plist中添加 NSLocationAlwaysUsageDescription 或者 NSLocationWhenInUseUsageDescription key, 你可以对这两个key设置具体的值。当出现提示信息，询问你是否允许应用程序使用你当前的地理位置信息时，你对这两个key设置的值也会出现。这里我们设置两个key的值为空:
 
-![infoPlist](../../images/iOS/GSDemo/infoPlist.png)
+![infoPlist](../../Images/iOS/GSDemo/infoPlist.png)
 
 编译运行工程，检查下地图定位的功能. 当你第一次启动app时, app会弹出一个对话框，询问是否允许访问你的地理位置信息. 选择**允许** 然后点击 **Focus Map** 按钮. 如果效果和以下动画一样，地图自动定位到你当前的位置, 恭喜, 你已经完成了Focus Map功能!
 
-![focusMap](../../images/iOS/GSDemo/focusMap.gif)
+![focusMap](../../Images/iOS/GSDemo/focusMap.gif)
 
 ### 5. 在地图上显示飞机
 
@@ -584,7 +584,7 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 
 为了提供一个更好的用户体验，我们需要在地图的上方加入一个信息栏来显示飞机当前的状态：当前的GPS卫星数，垂直飞行速度，水平飞行速度以及飞机的高度. 让我们在*Main.storyboard**的 RootViewController Scene画面里加入UI，如下所示:
 
-![statusView](../../images/iOS/GSDemo/statusView.png)
+![statusView](../../Images/iOS/GSDemo/statusView.png)
 
 当以上任务完成时。打开 DJIRootViewController.h 文件, 为以上UI元素创建IBOutlets， 导入DJISDK的头文件并且实现 **DJIDroneDelegate** , **DJIMainControllerDelegate**, **DJIAppManagerDelegate** 和 **DJINavigationDelegate** 协议. 我们在demo里使用的是Inspire 1，所以我们需要创建三个属性，一个是 **DJIDrone**的属性，一个是**DJIInspireMainController**的属性，另外一个是 **NSObject<DJINavigation>**的属性. 同时我们需要创建一个名为 “droneLocation”的**CLLocationCoordinate2D** 属性来记录飞机的位置, 如下所示:
 
@@ -822,25 +822,25 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 现在我们测试下这个应用吧! 
 编译运行工程，将此app安装到你的移动设备上。 然后，用Micro-USB连接线将你的飞机连接上装有Windows系统的PC或者虚拟机, 并且启动飞机和遥控器. 按下Display Simulator按钮. 如果你喜欢，可以在Simulator Config里输入你当前位置的经纬度. 
 
-![simulatorPreview](../../images/iOS/GSDemo/simulator_preview.png)
+![simulatorPreview](../../Images/iOS/GSDemo/simulator_preview.png)
 
 然后运行app，并且将你的移动设备连接到你的遥控器上. 以下是截图画面:
 
-![enterNaviModeFailed](../../images/iOS/GSDemo/enterNaviModeFailed.jpg)
+![enterNaviModeFailed](../../Images/iOS/GSDemo/enterNaviModeFailed.jpg)
 
 **重要事项**: 为了解决以上提醒框的问题，将遥控器上的模式到 **F** 位置上 (在之前的版本中，模式在A位置上) 并且按下 **Retry** 按钮. 如果当自动巡航开始时模式选择已在F位置，用户需要拨动其他位置再调回 **F** 位置，然后按下 **Retry** 按键.
 
 在DJI Mobile SDK里使用地面站，热点环绕，以及JoyStick功能都必须将模式调到 **F** 位置.
 
-![switchFlightMode](../../images/iOS/GSDemo/switchFlightMode.png)
+![switchFlightMode](../../Images/iOS/GSDemo/switchFlightMode.png)
 
 接着，打开PC上的DJI PC 模拟器并按下 **Start Simulation** 按键. 如果你现在查看app，一架小型红色飞机将会在地图上显示:
 
-![aircraftOnMap1](../../images/iOS/GSDemo/aircraftOnMap1.jpg)
+![aircraftOnMap1](../../Images/iOS/GSDemo/aircraftOnMap1.jpg)
 
 如果你无法找到飞机，按下 "**Focus Map**" 按钮，然后地图会以飞机为中心放大定位显示，如下动画所示:
 
-![focusAircraft](../../images/iOS/GSDemo/focusAircraft.gif)
+![focusAircraft](../../Images/iOS/GSDemo/focusAircraft.gif)
 
 现在，如果你在Simulator Config里按下 **Stop Simulation** ，飞机会从地图上消失，因为模拟器停止向飞机传送GPS模拟信息.
 
@@ -853,12 +853,12 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 
 首先，我们新建一个的名为**DJIGSButtonController**的**UIViewController**的子类. 确保你在创建文件时勾选上 **Also create XIB file**. 然后打开 DJIGSButtonController.xib 文件，并在Simulated Metrics部分的**Size**选项中选择 **Freeform** .在View部分，调整宽度为 **110**， 高为 **260**. 请看下面的效果图:
 
-![freeform](../../images/iOS/GSDemo/freeform.png)
-![changeSize](../../images/iOS/GSDemo/changeFrameSize.png)
+![freeform](../../Images/iOS/GSDemo/freeform.png)
+![changeSize](../../Images/iOS/GSDemo/changeFrameSize.png)
 
 接下来，拖动八个按钮到**DJIGSButtonViewController.xib**上，并将它们的名字改为 **Edit**, **Back**, **Clear**, **Focus Map**, **Start**, **Stop**, **Add** 和 **Config**. Edit覆盖在Back上面, Focus Map覆盖在Add上面. 并且确保 **Back**, **Clear**, **Start**, **Add** 和 **Config** 按钮是隐藏状态.
 
-![gsButtons](../../images/iOS/GSDemo/gsButtonViews.png)
+![gsButtons](../../Images/iOS/GSDemo/gsButtonViews.png)
 
  然后在**DJIGSButtonViewController.h**文件里为八个按钮添加IBOutlets 和 IBActions. 同时，我们将加入一个名为 **DJIGSViewMode**的枚举值，用来记录app的两种工作模式(View和Edit). 接着，我们添加几个delegate方法，用于响应IBAction的方法调用. 最后，加入一个 **- (void)switchToMode:(DJIGSViewMode)mode inGSButtonVC:(DJIGSButtonViewController *)GSBtnVC;** 方法，当DJIGSViewMode的值改变时，更新多个按钮的状态. 请看下面的代码:
  
@@ -1015,7 +1015,7 @@ typedef NS_ENUM(NSUInteger, DJIGSViewMode) {
  
  现在，我们回到 **DJIRootViewController.h** 文件并删除 **editButton** IBOutlet,  **resetPointsAction** 方法, 以及  **focusMapAction** 方法. 删除这些以后，创建一个名为 "topBarView" 的UIView IBOutlet并将其连接到 **Main.storyboard**的 RootViewController的对应View上, 如下所示:
  
- ![topBarView](../../images/iOS/GSDemo/topBarView.png)
+ ![topBarView](../../Images/iOS/GSDemo/topBarView.png)
  
  然后打开 DJIRootViewController.m 文件, 导入**DJIGSButtonViewController.h**头文件. 接着创建一个DJIGSButtonViewController类型的属性并命名为 **gsButtonVC**，然后在类里实现 DJIGSButtonViewController的 **DJIGSButtonViewControllerDelegate** 协议:
  
@@ -1105,7 +1105,7 @@ self.gsButtonVC.delegate = self;
 
 现在，我们编译并运行该工程，并尝试按下**Edit** 和 **Back** 按钮. 以下是当你按下按钮时的动画:
 
-![pressEditBtn](../../images/iOS/GSDemo/pressEditBtn.gif)
+![pressEditBtn](../../Images/iOS/GSDemo/pressEditBtn.gif)
 
 ## 设置智能飞行任务
 
@@ -1240,7 +1240,7 @@ typedef NS_ENUM(NSUInteger, DJIWaypointMissionHeadingMode){
 
 现在，我们创建一个新的ViewController来让用户设置waypoint的参数. 来到Xcode的project navigator，右键点击 **GSDemo** 文件夹, 选择 **New File...**, 将它的子类设置为 **UIViewController**, 命名其为 "DJIWaypointConfigViewController", 然后确保 "Also create XIB file" 为已选状态. 接着，打开 **DJIWaypointConfigViewController.xib** 文件并实现UI, 如下所示:
 
-![wayPointConfig](../../images/iOS/GSDemo/wayPointConfigureVC.png)
+![wayPointConfig](../../Images/iOS/GSDemo/wayPointConfigureVC.png)
 
 在Waypoint Configuration ViewController里, 我们使用UITextField来让用户设置DJIWaypoint实例的**altitude**属性. 然后，用两个UITextField来让用户设置**DJIWaypointMission**的**maxFlightSpeed** 和 **autoFlightSpeed**属性. 接下来，有两个UISegmentedControl控件来设置**DJIWaypointMission**对象的 **finishedAction** 和 **headingMode** 属性. 
 
@@ -1441,7 +1441,7 @@ typedef NS_ENUM(NSUInteger, DJIWaypointMissionHeadingMode){
 
 当这些都完成后，我们来编译运行下工程. 尝试按下**Edit** 按钮和 **Start** 按钮来显示**waypointConfigVC**的view:
 
-![waypointConfigView](../../images/iOS/GSDemo/waypointConfigView.png)
+![waypointConfigView](../../Images/iOS/GSDemo/waypointConfigView.png)
 
 ### 2. 操作地面站任务
 
@@ -1704,45 +1704,45 @@ BOOL CLLocationCoordinate2DIsValid(CLLocationCoordinate2D coord);
 
 编译并运行此工程，安装应用到你的移动设备上. 之后，请用Micro USB线将你的飞机连接上运行着Windows系统的PC或者虚拟机. 然后，启动遥控器和飞机. 接下来，在DJI PC 模拟器中按下 **Display Simulator** 按钮，你可以按需要输入你当前位置的经纬度信息到模拟器中.
 
-![simulatorPreview](../../images/iOS/GSDemo/simulator_preview.png)
+![simulatorPreview](../../Images/iOS/GSDemo/simulator_preview.png)
 
 然后使用苹果数据线，将你的移动设备连接上遥控器，并且运行app. 你将会看到下面的截图:
 
-![enterNaviModeFailed](../../images/iOS/GSDemo/enterNaviModeFailed.jpg)
+![enterNaviModeFailed](../../Images/iOS/GSDemo/enterNaviModeFailed.jpg)
 
 如果你遇到这个问题，请在此教程的前半部分查看解决方案. 接下来，我们回到DJI PC 模拟器，按下 **Start Simulation** 按钮. 一架小型红色飞机会出现在地图上，如下图所示:
 
-![aircraftOnMap1](../../images/iOS/GSDemo/aircraftOnMap1.jpg)
+![aircraftOnMap1](../../Images/iOS/GSDemo/aircraftOnMap1.jpg)
 
 按下 "**Edit**" 按钮, 地图会自动放大并且定位到当前飞机的坐标位置:
 
-![locateAircraft](../../images/iOS/GSDemo/locateTheAircraft.gif)
+![locateAircraft](../../Images/iOS/GSDemo/locateTheAircraft.gif)
 
 接下来，点击地图上任何位置，测试下添加航点的功能. 在每一个你点击地图的地方，都会出现一个紫色的图钉，代表你设置的航点位置, 如下动画所示:
 
-![addWayPoints](../../images/iOS/GSDemo/addWaypoints_final.gif)
+![addWayPoints](../../Images/iOS/GSDemo/addWaypoints_final.gif)
 
 你一旦按下 **Config** 按钮， **Waypoint Configuration** 视图就会出现. 当你做完适当的设置操作后，按下 **Finish** 按钮. 航点任务会开始上传并且在上传结束时，任务会被处理. 这时你会看到以下动画:
 
-![flying](../../images/iOS/GSDemo/tryToConfig.gif)
+![flying](../../Images/iOS/GSDemo/tryToConfig.gif)
 
-![startMissionFailed](../../images/iOS/GSDemo/startMissionFailed.png)
+![startMissionFailed](../../Images/iOS/GSDemo/startMissionFailed.png)
 
 这里弹出了一个提示框，写着“Start Mission Failed”, 因为飞机没有起飞并飞行到离地5米以上。 SDK添加了这个限制是为了确保执行地面站任务时的安全性。使用遥控器在PC模拟器中控制飞机起飞，并飞到离地5米以上，然后按下**Start**按钮。飞机会自动飞到预设的高度，并朝着第一个航点方向飞去。
 
-![flyTowards](../../images/iOS/GSDemo/flyTowards.gif)
+![flyTowards](../../Images/iOS/GSDemo/flyTowards.gif)
 
 与此同时，你也可以在DJI PC 模拟器上目睹Inspire 1 起飞和飞行的全过程.
 
-![takeOff](../../images/iOS/GSDemo/takeOff.gif)
+![takeOff](../../Images/iOS/GSDemo/takeOff.gif)
 
 当航点任务结束时，Inspire 1会开始返航！
 
-![goHome](../../images/iOS/GSDemo/goHome.gif) 
+![goHome](../../Images/iOS/GSDemo/goHome.gif) 
 
 遥控器会开始发出滴滴声，同时遥控器上的 **Go Home** 键会开始闪烁白灯. 现在我们来看下DJI PC 模拟器的情景:
 
-![landing](../../images/iOS/GSDemo/landing.gif)
+![landing](../../Images/iOS/GSDemo/landing.gif)
 
 Inspire 1最后会回到Home点，着陆，并且遥控器的滴滴声会停止. 然后app会回到普通状态. 如果你按下 **Clear** 按钮，之前设置的全部航点都会消失. 在任务过程中。如果你想要停止地面站任务，你可以按下 **Stop** 按钮.
 

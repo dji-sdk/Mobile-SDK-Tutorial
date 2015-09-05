@@ -145,7 +145,7 @@
 
 以下是多预览UI的基本样式. 以下八个图片预览每一个都是一个按钮. 我们通过GridView来实现这些按钮. 
 
-![Multiple playback view](../../../images/Android/PlaybackAlbumDemo/gridview.jpg)
+![Multiple playback view](../../../Images/Android/PlaybackAlbumDemo/gridview.jpg)
 
 在我们开始之前，我们需要注意grid view的两个特点:
 
@@ -451,15 +451,15 @@
 
 **Capture**, **Record** 和 **Playback** 按钮, 它们由于能够来回切换所以在所有的状态中他们都会显示出来，然而其他的内容并不是一定出现，所以他们的可见性`visibility`已经被设置为Gone了。在 **Playback** ，模式中我们有三个子模式 **Single Preview**, **Multiple Preview** 和 **Multiple Edition**. 进入 **Playback** 模式将使用户进入 **Single Preview** 模式。在 **Multiple Preview** 模式中，用户可以按下任何图片来进入该照片的 **Single Preview** 模式。**Multiple Edition** 回放模式不同于 **Multiple Preview** 因为它使用户能够选择他们感兴趣的文件，下载和删除它们. 下面的截图将会概述那些按钮和功能属于哪一个模式。
 
-![Capture Mode](../../../images/Android/PlaybackAlbumDemo/capturemode.jpg)
+![Capture Mode](../../../Images/Android/PlaybackAlbumDemo/capturemode.jpg)
 
-![Record Mode](../../../images/Android/PlaybackAlbumDemo/recordmode.jpg)
+![Record Mode](../../../Images/Android/PlaybackAlbumDemo/recordmode.jpg)
 
-![Single Playback Mode](../../../images/Android/PlaybackAlbumDemo/singleplayback.jpg)
+![Single Playback Mode](../../../Images/Android/PlaybackAlbumDemo/singleplayback.jpg)
 
-![Multiple Playback Mode](../../../images/Android/PlaybackAlbumDemo/multipleplayback.jpg)
+![Multiple Playback Mode](../../../Images/Android/PlaybackAlbumDemo/multipleplayback.jpg)
 
-![State switch figure](../../../images/Android/PlaybackAlbumDemo/statuschange.jpg)
+![State switch figure](../../../Images/Android/PlaybackAlbumDemo/statuschange.jpg)
 
 现在Activity增加以下的代码，用于状态的模式切换:
 
@@ -717,9 +717,9 @@ Inspire 1, Phantom 3 Professional 和 M100的遥控器有照相，录像，和�
 
 好样的! 一些自定义的动作已经加入到了你的app里，使得你的app用户体验更好了。
 
-![Single swipee gesture](../../../images/Android/PlaybackAlbumDemo/singleslide.png)
+![Single swipee gesture](../../../Images/Android/PlaybackAlbumDemo/singleslide.png)
 
-![Multiple swipe gesture](../../../images/Android/PlaybackAlbumDemo/multipleslide.jpg)
+![Multiple swipe gesture](../../../Images/Android/PlaybackAlbumDemo/multipleslide.jpg)
 
 ### 3.4 播放视频
 
@@ -813,9 +813,9 @@ DJI Camera 提供了一个视频预览功能让用户能享受他们拍摄的视
 
 现在app将自动检测相机是否在视频单预览回放模式，并且如果不是的话屏蔽播放和暂停按钮.
 
-![Play the video](../../../images/Android/PlaybackAlbumDemo/playbutton.jpg)
+![Play the video](../../../Images/Android/PlaybackAlbumDemo/playbutton.jpg)
 
-![Pause the video](../../../images/Android/PlaybackAlbumDemo/pausebutton.jpg)
+![Pause the video](../../../Images/Android/PlaybackAlbumDemo/pausebutton.jpg)
 
 你已经成功的实现了所有的此教程提供的UI功能了! 再来试试你的app吧.
 
@@ -972,9 +972,9 @@ DJI Camera 提供了一个视频预览功能让用户能享受他们拍摄的视
 
 现在尝试选择一些媒体文件并下载它们!
 
-![Multiple Select](../../../images/Android/PlaybackAlbumDemo/multipleselect.jpg)
+![Multiple Select](../../../Images/Android/PlaybackAlbumDemo/multipleselect.jpg)
 
-![Downloading](../../../images/Android/PlaybackAlbumDemo/download.jpg)
+![Downloading](../../../Images/Android/PlaybackAlbumDemo/download.jpg)
 
 ### 4.2 自动下载媒体文件
 

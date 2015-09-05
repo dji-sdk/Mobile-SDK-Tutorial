@@ -29,10 +29,10 @@ We **strongly** recommend that you download the final project code and have it o
 (1) Create a new 'Android Application Project'. Name the Application, Project and Package as you please. Under the 'Create Activity' page of the project set-up, create a blank activity, and name it 'FPVActivity'. The layout activity should automatically fill out with 'activity_fpv'.
 
 (2) Unzip the SDK package downloaded from the DJI website. Import the folder **Lib** (Eclipse\DJI-SDK-Android-V2.1.0) into Eclipse (File -> Import -> Android -> Existing Android Code into Workspace). Next, add the imported file to your library (right click on your project -> Select "**Properties**" -> Select "**Android**" -> Add).
-![setLib](../../images/Android/FPVDemo/1_importLib.png)
+![setLib](../../Images/Android/FPVDemo/1_importLib.png)
 
 (3) The imported library should now be located as shown below:
-![checkLib](../../images/Android/FPVDemo/1_CheckLib.png)
+![checkLib](../../Images/Android/FPVDemo/1_CheckLib.png)
 
 ### Android Studio
 
@@ -42,11 +42,11 @@ We **strongly** recommend that you download the final project code and have it o
 
 *Note: The folder 'Android Studio' is found in the SDK package downloaded from the DJI website. The library used in the demo project code is from the 'Eclipse' folder in the same SDK package, so if you are working in Android Studio make sure that you are using the correct library, found in the 'Android Studio' folder. For your convenience the SDK package download link is reproduced here <https://developer.dji.com/mobile-sdk/downloads>*
 
-![importModule](../../images/Android/FPVDemo/importModuleScreenshot.png)
+![importModule](../../Images/Android/FPVDemo/importModuleScreenshot.png)
 
 Next, right click on the 'app' module in the file directory to the left, and click 'Open Module Settings". Navigate to the 'Dependencies' tab. Press the green plus sign, click 'Module Dependency', and select ':DJI-SDK-LIB'. Press 'OK' to confirm. After Gradle finishes rebuilding, you're environment will be ready!
 
-![addDependency](../../images/Android/FPVDemo/addDependencyScreenshot.png)
+![addDependency](../../Images/Android/FPVDemo/addDependencyScreenshot.png)
 
 
 ## Activating your App
@@ -55,11 +55,11 @@ Next, right click on the 'app' module in the file directory to the left, and cli
 
 (2) Copy both the **<uses-permission ... >** lines of code and the highlighted meta-data element into your **AndroidManifest.xml** file for activation, as shown below.  
 
-![appKeyMetaData](../../images/Android/FPVDemo/1_appKeyMetaData2.png)
+![appKeyMetaData](../../Images/Android/FPVDemo/1_appKeyMetaData2.png)
 
 Fill in the **android:value** field with the APP KEY that you have applied for from <https://developer.dji.com/en/user/mobile-sdk/>.
 
-![appKey](../../images/Android/FPVDemo/1_appKey.png)
+![appKey](../../Images/Android/FPVDemo/1_appKey.png)
 
 In your FPVActivity.java file, add the following variable in the FPVActivity class.
 
@@ -126,7 +126,7 @@ public void onGetPermissionResult(int result){
 
 Check the 'LogCat' panel at the bottom of your coding environment window for a return message. You will be able to identify the return message by its 'Tag' field, where it should say "MyApp".
 
-![logcat](../../images/Android/FPVDemo/logcatScreenshot.png)
+![logcat](../../Images/Android/FPVDemo/logcatScreenshot.png)
 
 Check the error code against the table below:
 
@@ -506,7 +506,7 @@ After you have built and run the project successfully, you can now connect your 
 ## Checking your results
 If you can see the live video stream in the app, congratulations! You've succesfully implemented a First Person View!
 
-![runAppScreenShot](../../images/Android/FPVDemo/runAppScreenShot.png)
+![runAppScreenShot](../../Images/Android/FPVDemo/runAppScreenShot.png)
 
 ## Creating a Handler
 
@@ -736,7 +736,7 @@ Once the camera starts recording, we need some way to tell it to stop! That's wh
 
 You can now add a 'Record' and 'Stop Recording' button to your app, and have them call **recordAction()** and **stopRecord()** respectively. Build and run the project, and it should look something like the screenshot below:
 
-![recordVideoScreenShot](../../images/Android/FPVDemo/recordVideo.png)
+![recordVideoScreenShot](../../Images/Android/FPVDemo/recordVideo.png)
 
 Then congratulations! Your Aerial First Person View Android app is complete, capable of viewing your DJI Drone's video feed, as well as remotely taking picture and videos!
 

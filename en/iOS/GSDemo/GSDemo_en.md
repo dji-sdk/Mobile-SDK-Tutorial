@@ -37,7 +37,7 @@ Then, double click the **DJISimulator-Installer.exe** file and follow the instru
 
 **1**. The **Simulator Config** window will appear once you launch the DJI PC Simulator. Set the **Latitude** and **Longitude** values based on your preference. The **SN** represents the connected aircraft's SN number. If you do not see the **SN**, your aircraft is not connected properly to the PC or there is an issues with your firmware.
 
- ![Config](../../images/iOS/GSDemo/simulator_config.png)
+ ![Config](../../Images/iOS/GSDemo/simulator_config.png)
 
 ---
 **Note**: 
@@ -46,13 +46,13 @@ Then, double click the **DJISimulator-Installer.exe** file and follow the instru
 
 - Select **show log window** under the Log Settings tab to display the log window, as seen below:
 
- ![showLog](../../images/iOS/GSDemo/showLog.png)
+ ![showLog](../../Images/iOS/GSDemo/showLog.png)
 
 ---
 
 **2**. Connect the aircraft to your PC via the Micro USB cable, turn on the remote controller and finally turn on the aircraft. Click **Display Simulator**, and you will see the screenshot below(it will show whatever aircraft you are using). In this case you see the Inspire 1:
 
- ![display](../../images/iOS/GSDemo/display.png)
+ ![display](../../Images/iOS/GSDemo/display.png)
 
 ---
 **Note**: 
@@ -69,9 +69,9 @@ Please check the data on the left down corner of view, World X, Y, Z represents 
 
 **4**. In order to change the view angle, left-click and drag, and to scroll, zoom in and zoom out.
 
- ![zoomIn](../../images/iOS/GSDemo/zoomIn.png)
+ ![zoomIn](../../Images/iOS/GSDemo/zoomIn.png)
  
- ![zoomOut](../../images/iOS/GSDemo/zoomout.png)
+ ![zoomOut](../../Images/iOS/GSDemo/zoomout.png)
 
 **5**. Click **Stop Simulation** to stop the simulation. Close the simulator, and turn off the aircraft, and turn off the remote controller after use. 
 
@@ -103,9 +103,9 @@ For the Phantom 3, you can check upgrade status of the firmware by looking at th
 
 Regardless of what aircraft you are using, you can check whether or not the firmware was upgraded by checking the **txt** file generated during the upgrade process. For the Phantom 3 Professional, the txt file is named **"P3X_FW_RESULT_AB.txt"**, and for the Inspire 1, it's named **"WM610_FW_RESULT_AB.txt"**. Here are example contents of the **txt** file:
 
-  ![upgradeP3XSuccess](../../images/iOS/GSDemo/upgradeP3XSuccess.png)
+  ![upgradeP3XSuccess](../../Images/iOS/GSDemo/upgradeP3XSuccess.png)
   
-  ![upgradeInspire1Success](../../images/iOS/GSDemo/upgradeInspire1Success.png)
+  ![upgradeInspire1Success](../../Images/iOS/GSDemo/upgradeInspire1Success.png)
 
 ## Setup The Map View
 
@@ -115,12 +115,12 @@ Now that you've finished the steps above, we can start working on the applicatio
 
 **1**. Create a new project in Xcode and name it "**GSDemo**", copy the **DJISDK.framework** to your Xcode project's folder. Then, select the project target and go to Build Phases -> Link Binary With Libraries. Click the "+" button at the bottom and add two libraries to your project: libstdc++.6.0.9.dylib and libz.dylib. Take a look at the screenshot below:
 
-  ![framework](../../images/iOS/GSDemo/framework.png)
+  ![framework](../../Images/iOS/GSDemo/framework.png)
 
 ### 2. Create The Map View
 Now, let's delete the **ViewController.h** and **ViewController.m** files, which were created by Xcode when you created the project. Then, create a viewController named "**DJIRootViewController**" and set it as the **Root View Controller** in Main.storyboard. Moreover, drag a **MKMapView** from Object Library to **DJIRootViewController**, setup its AutoLayout constraints, and set its delegate to **DJIRootViewController**, as seen below:
    
-![mkMapView](../../images/iOS/GSDemo/mkMapView.png)
+![mkMapView](../../Images/iOS/GSDemo/mkMapView.png)
 
 After that, open the **DJIRootViewController.h** file, create an IBOutlet for the MKMapView, name it "**mapView**" and link it to the MKMapView in **Main.storyboard**. Import the following header files and implement MKMapView's delegate method:
 
@@ -137,7 +137,7 @@ After that, open the **DJIRootViewController.h** file, create an IBOutlet for th
 
 Now, let's build and run the project. If everything is as it should be, you should see the following screenshot:
 
-![mapView](../../images/iOS/GSDemo/mapView.png)
+![mapView](../../Images/iOS/GSDemo/mapView.png)
 
 ### 3. Add Annotations to The MapView
 
@@ -227,7 +227,7 @@ Go back to the **DJIRootViewController.h** file, import the DJIMapController.h h
 - (IBAction)editBtnAction:(id)sender;
 ~~~
 
-![editButton](../../images/iOS/GSDemo/editButton.png)
+![editButton](../../Images/iOS/GSDemo/editButton.png)
 
 Once that is complete, open the **DJIMapController.m** file, initialize the **mapController** and **tapGesture** variables, and add the **tapGesture** to mapView to add waypoints. Furthermore, we need a boolean variable named "**isEditingPoints**" to store the edit waypoint state, which will also change the title of **editBtn** accordingly. Lastly, implement tapGesture's action method **addWayPoints**, as shown below:
 
@@ -298,7 +298,7 @@ method to add waypoints to the map. Next, we implement the IBAction method **edi
 
 When you are done with all the steps above, build and run your project and try to add waypoints on the map. If everything is fine, you will see the following animation:
 
-![addWaypoint](../../images/iOS/GSDemo/addWaypoint.gif)
+![addWaypoint](../../Images/iOS/GSDemo/addWaypoint.gif)
 
 
 ### 4. Focus The MKMapView
@@ -328,7 +328,7 @@ Open the **DJIRootViewController.h** file and import CoreLocation's header file.
 
 In the code above, we also added a UIButton named "**Focus Map**" in DJIRootViewController's scene in **Main.storyboard** and added an IBAction method named as "**focusMapAction**". Here is the screenshot of the scene from **Main.storyboard**:
 
-![focusMap](../../images/iOS/GSDemo/focusMap.png)
+![focusMap](../../Images/iOS/GSDemo/focusMap.png)
 
 Once you are done, go to **DJIRootViewController.m** file and add the following code:
 
@@ -406,11 +406,11 @@ First, we initialize **userLocation** data to kCLLocationCoordinate2DInvalid in 
 
 In iOS8, we must call **locationManager**'s **requestAlwaysAuthorization** first, which was done in **startUpdateLocation** method. Next, add a NSLocationAlwaysUsageDescription or NSLocationWhenInUseUsageDescription key to your project’s Info.plist containing the message to be displayed to the user when a UIAlert asking whether or not they want to allow the application to use their location. We set the messages empty here:
 
-![infoPlist](../../images/iOS/GSDemo/infoPlist.png)
+![infoPlist](../../Images/iOS/GSDemo/infoPlist.png)
 
 It's time to build and run the project to check the focus map feature. When you launch the app for the first time, a pop up alert asking for your permission to access your location will appear. Select **Allow** and press the **Focus Map** button. If the map view animates to your current location like the following animation, congratulations, you have finished the **Focus Map** feature!
 
-![focusMap](../../images/iOS/GSDemo/focusMap.gif)
+![focusMap](../../Images/iOS/GSDemo/focusMap.gif)
 
 
 ### 5. Show The Aircraft on Map View
@@ -583,7 +583,7 @@ We add an if statement to check if the annotation of the map view is equal to th
 
 To provide a better user experience, we need to add a status view on top of the mapView to show the aircraft's flight mode type, current GPS satellite count, vertical and horizontal flight speed and the flight altitude. Let's add the UI in **Main.storyboard**'s RootViewController Scene, as seen below:
 
-![statusView](../../images/iOS/GSDemo/statusView.png)
+![statusView](../../Images/iOS/GSDemo/statusView.png)
 
 Once that's done, open **DJIRootViewController.h** file, create IBOutlets for the above UI elements and import DJISDK's header file and implement **DJIDroneDelegate** , **DJIMainControllerDelegate**, **DJIAppManagerDelegate** and **DJINavigationDelegate** protocols. Here we use Inspire 1 for the demo, so we need to create three properties, one of type **DJIDrone**, another of type **DJIInspireMainController**'s property and the last of type **NSObject<DJINavigation>**'s property. Also, we need to create a **CLLocationCoordinate2D** property named **droneLocation** to record the aircraft's location, as shown below:
 
@@ -822,25 +822,25 @@ If it succeeds to connect to the aircraft, call **DJIInspireMainController**'s *
 Let's test the application! 
 Build and run the project to install the app onto your mobile device. After that, please connect the aircraft to your PC or Virtual Machine running Windows via a Micro USB cable, and then power on the aircraft and the remote controller. Click Display Simulator. You can type in your current location's latitude and longitude data in the Simulator Config, if you would like. 
 
-![simulatorPreview](../../images/iOS/GSDemo/simulator_preview.png)
+![simulatorPreview](../../Images/iOS/GSDemo/simulator_preview.png)
 
 Then, run the app and connect your mobile device to the remote controller using Apple's lighting cable. You may see the following screenshot:
 
-![enterNaviModeFailed](../../images/iOS/GSDemo/enterNaviModeFailed.jpg)
+![enterNaviModeFailed](../../Images/iOS/GSDemo/enterNaviModeFailed.jpg)
 
 **Important**: To fix this problem, please switch the Remote Controller's mode selection to the **F** position (which used to be the A position in the previous version) and press **Retry** button. If the mode selection bar is in the F position when the autopilot is powered on, the user must toggle back and forth between **F** and another position and then press the **Retry** button again.
 
 You are required to be in the **F** position when using the Ground Station, Hotpoint and Joystick functions in the DJI Mobile SDK.
 
-![switchFlightMode](../../images/iOS/GSDemo/switchFlightMode.png)
+![switchFlightMode](../../Images/iOS/GSDemo/switchFlightMode.png)
 
 Next, let's go to the DJI PC Simulator on your PC and press the **Start Simulation** button. If you check the application now, a tiny red aircraft will be shown on the map as seen below:
 
-![aircraftOnMap1](../../images/iOS/GSDemo/aircraftOnMap1.jpg)
+![aircraftOnMap1](../../Images/iOS/GSDemo/aircraftOnMap1.jpg)
 
 If you cannot find the aircraft, press the "**Focus Map**" button and the map view will zoom in to center the aircraft on the center of the map view region as shown below:
 
-![focusAircraft](../../images/iOS/GSDemo/focusAircraft.gif)
+![focusAircraft](../../Images/iOS/GSDemo/focusAircraft.gif)
 
 Now, if you press the **Stop Simulation** button on the Simulator Config, the aircraft will disappear on the map, since the simulator stops providing GPS data to the aircraft.
    
@@ -851,12 +851,12 @@ As you seen, the project's code structure was simple and not robust. In order to
 ### 1. Add & Handle The New UIButtons
 First, we will create a new file named **DJIGSButtonController**, which will be subclass of **UIViewController**. Make sure the check box saying **Also create XIB file** is selected when creating the file. Then open the **DJIGSButtonController.xib** file and set its size to **Freeform** under the **Size** dropdown in the **Simulated Metrics** section. In the view section, change the width to **100** and height to **288**. Take a look at the changes made below:
 
-![freeform](../../images/iOS/GSDemo/freeform.png)
-![changeSize](../../images/iOS/GSDemo/changeFrameSize.png)
+![freeform](../../Images/iOS/GSDemo/freeform.png)
+![changeSize](../../Images/iOS/GSDemo/changeFrameSize.png)
 
 Next, drag eight UIButtons to the view and change their names to **Edit**, **Back**, **Clear**, **Focus Map**, **Start**, **Stop**, **Add** and **Config**. **Edit** will sit on top of **Back**, and **Focus Map** will sit on top of **Add**. Make sure to hide the **Back**, **Clear**, **Start**, **Stop**, **Add** and **Config** buttons.
 
-![gsButtons](../../images/iOS/GSDemo/gsButtonViews.png)
+![gsButtons](../../Images/iOS/GSDemo/gsButtonViews.png)
 
  Then add IBOutlets and IBActions for each of the eight buttons in the **DJIGSButtonViewController.h** file. Also, we will add an Enum named **DJIGSViewMode** with the two different modes the application could be in. Next, we add serveral delegate methods to be implemented by the delegate viewcontroller when IBAction methods for the buttons are trigger. Lastly, add the method **- (void)switchToMode:(DJIGSViewMode)mode inGSButtonVC:(DJIGSButtonViewController *)GSBtnVC;** to update the state of the buttons when the **DJIGSViewMode** changed. Take a look at the code below:
  
@@ -1013,7 +1013,7 @@ typedef NS_ENUM(NSUInteger, DJIGSViewMode) {
  
  Now, let's go to the **DJIRootViewController.h** file and delete the **editButton** IBOutlet, the **resetPointsAction** method, and the **focusMapAction** method. After making those deletions, create an UIView IBOutlet named "topBarView" and link it to the **Main.storyboard**'s RootViewController's  view, as seen below:
  
- ![topBarView](../../images/iOS/GSDemo/topBarView.png)
+ ![topBarView](../../Images/iOS/GSDemo/topBarView.png)
  
  Then, open the **DJIRootViewController.m** file, import the **DJIGSButtonViewController.h** header file. Create a property of type **DJIGSButtonViewController** named **gsButtonVC** and implement **DJIGSButtonViewController**'s **DJIGSButtonViewControllerDelegate** protocol within the class, as shown below:
  
@@ -1104,7 +1104,7 @@ In the **- (void)switchToMode:(DJIGSViewMode)mode inGSButtonVC:(DJIGSButtonViewC
 
 Now, let's build and run the project and try to press the **Edit** and **Back** Buttons. Here are the animation when you press them:
 
-![pressEditBtn](../../images/iOS/GSDemo/pressEditBtn.gif)
+![pressEditBtn](../../Images/iOS/GSDemo/pressEditBtn.gif)
 
 ## Configure The DJIWaypoint and The DJIWaypointMission
 
@@ -1240,7 +1240,7 @@ For this demo, we will assume that the parameters of each waypoint being added t
 
 Now, let's create a new ViewController that will let the user to set the parameters of waypoints. Go to Xcode’s project navigator, right click on the **GSDemo** folder, select **New File...**, set its subclass to **UIViewController**, named it **DJIWaypointConfigViewController**, and make sure "Also create XIB file" is selected. Next, open the **DJIWaypointConfigViewController.xib** file and implement the UI, as you see it below:
 
-![wayPointConfig](../../images/iOS/GSDemo/wayPointConfigureVC.png)
+![wayPointConfig](../../Images/iOS/GSDemo/wayPointConfigureVC.png)
 
 In the Waypoint Configuration ViewController, we use a UITextField to let the user set the **altitude** property of a **DJIWaypoint** object. Then, we use two UITextField to let the user set the **maxFlightSpeed** and **autoFlightSpeed** properties of **DJIWaypointMission**. Next, there are two UISegmentedControls to configure the **finishedAction** property and the **headingMode** property of a **DJIWaypointMission** object. 
 
@@ -1442,7 +1442,7 @@ method with the following code to show the **waypointConfigVC**'s view when the 
 
 Once that's done, let's build and run the project. Try to show the **waypointConfigVC**'s view by pressing the **Edit** button and **Config** button:
 
-![waypointConfigView](../../images/iOS/GSDemo/waypointConfigView.png)
+![waypointConfigView](../../Images/iOS/GSDemo/waypointConfigView.png)
 
 ### 2. Handle The GroundStation Task
 
@@ -1705,45 +1705,45 @@ You've come a long way in this tutorial, and it's time to test the whole applica
 
 Build and run the project to install the application into your mobile device. After that, please connect the aircraft to your PC or Virtual Machine running Windows via a Micro USB cable. Then, power on the remote controller and the aircraft, in that order. Next, press the **Display Simulator** button in the DJI PC Simulator and feel free to type in your current location's latitude and longitude data into the simulator.
 
-![simulatorPreview](../../images/iOS/GSDemo/simulator_preview.png)
+![simulatorPreview](../../Images/iOS/GSDemo/simulator_preview.png)
 
 Then connect your mobile device to the remote controller using Apple's lighting cable and run the application. You may see the following screenshot:
 
-![enterNaviModeFailed](../../images/iOS/GSDemo/enterNaviModeFailed.jpg)
+![enterNaviModeFailed](../../Images/iOS/GSDemo/enterNaviModeFailed.jpg)
 
 If you encounter this issue, check the solution to this problem in the previous part of this tutorial. Next, let's come back to the DJI PC Simulator on your PC and press the **Start Simulation** button. A tiny red aircraft will appear on the map in your application, as seen below:
 
-![aircraftOnMap1](../../images/iOS/GSDemo/aircraftOnMap1.jpg)
+![aircraftOnMap1](../../Images/iOS/GSDemo/aircraftOnMap1.jpg)
 
 Press the **Edit** button, and the map view will zoom in to the region you are in and will center the aircraft:
 
-![locateAircraft](../../images/iOS/GSDemo/locateTheAircraft.gif)
+![locateAircraft](../../Images/iOS/GSDemo/locateTheAircraft.gif)
 
 Next, test the waypoint feature by tapping wherever you'd like on the map view. Wherever you do tap, a waypoint will be added and a purple pin will appear exactly at the location of the waypoint, as shown below:
 
-![addWayPoints](../../images/iOS/GSDemo/addWaypoints_final.gif)
+![addWayPoints](../../Images/iOS/GSDemo/addWaypoints_final.gif)
 
 Once you press the **Config** button, the **Waypoint Configuration** view will appear. After you're satisfied with the changes, press the **Finish** button. The waypoint mission will start to upload and when it finishes, the mission will start to be processed. You will see the following animation when you do so:
 
-![flying](../../images/iOS/GSDemo/tryToConfig.gif)
+![flying](../../Images/iOS/GSDemo/tryToConfig.gif)
 
-![startMissionFailed](../../images/iOS/GSDemo/startMissionFailed.png)
+![startMissionFailed](../../Images/iOS/GSDemo/startMissionFailed.png)
 
 An alertView shows up saying "Start Mission Failed" because the aircraft hasn't taken off and flown at least 5 meters above ground. The SDK has this limitation to ensure safety when you execute a waypoint task. Use the remote controller to have the aircraft takeoff and fly at least 5 meters above ground in the PC Simulator and then press the **Start** button again. The aircraft will fly up to the altitude you set and continue flying to the first waypoint.
 
-![flyTowards](../../images/iOS/GSDemo/flyTowards.gif)
+![flyTowards](../../Images/iOS/GSDemo/flyTowards.gif)
 
 At the same time, you will be able to see the Inspire 1 take off and start to fly in the DJI PC Simulator.
 
-![takeOff](../../images/iOS/GSDemo/takeOff.gif)
+![takeOff](../../Images/iOS/GSDemo/takeOff.gif)
 
 When the waypoint mission finishes, the Inspire 1 will start to go home!
 
-![goHome](../../images/iOS/GSDemo/goHome.gif) 
+![goHome](../../Images/iOS/GSDemo/goHome.gif) 
 
 The remote controller will start beeping, and the **Go Home** button on the remote controller will start to flash a white light. Let's take a look at the DJI PC Simulator now:
 
-![landing](../../images/iOS/GSDemo/landing.gif)
+![landing](../../Images/iOS/GSDemo/landing.gif)
  
 The inspire 1 will eventually go home, land, and the beeping from the remote controller will stop. The application will go back to its normal status. If you press the **Clear** button, all the waypoints you previously set will be cleared. During the mission, if you'd ever like to stop the groundStation task, you can do so by pressing the **Stop** button.
 

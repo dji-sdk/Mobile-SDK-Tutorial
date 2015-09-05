@@ -159,7 +159,7 @@ In our official drone companion app, DJI Pilot, you can see that there are eight
 
 Below is a rough outline for the multiple preview UI. Each of these eight picture previews is a button. We implement these buttons through GridView. 
 
-![Multiple playback view](../../images/Android/PlaybackAlbumDemo/gridview.jpg)
+![Multiple playback view](../../Images/Android/PlaybackAlbumDemo/gridview.jpg)
 
 There are two features of the grid view we should be aware of before we start:
 
@@ -454,15 +454,15 @@ Now we can continue. As we know from section 1, there are four camera modes and 
 
 The **Capture**, **Record** and **Playback** buttons, which allow the user to navigate between these three modes, will always be present. Within the **Playback** mode, however, there are three submodes **Single Preview**, **Multiple Preview** and **Multiple Edition**. Entering **Playback** mode places the user in **Single Preview** mode. In **Multiple Preview** mode, users can press any image to enter **Single Preview** mode. **Multiple Edition** playback mode is different from **Multiple Preview** in that it allows users to select, download and delete files. Take a look below for screenshots outlining which specific buttons and features should be included in each mode, as well as a state switch diagram outlining the relationship between modes:
 
-![Capture Mode](../../images/Android/PlaybackAlbumDemo/capturemode.jpg)
+![Capture Mode](../../Images/Android/PlaybackAlbumDemo/capturemode.jpg)
 
-![Record Mode](../../images/Android/PlaybackAlbumDemo/recordmode.jpg)
+![Record Mode](../../Images/Android/PlaybackAlbumDemo/recordmode.jpg)
 
-![Single Playback Mode](../../images/Android/PlaybackAlbumDemo/singleplayback.jpg)
+![Single Playback Mode](../../Images/Android/PlaybackAlbumDemo/singleplayback.jpg)
 
-![Multiple Playback Mode](../../images/Android/PlaybackAlbumDemo/multipleplayback.jpg)
+![Multiple Playback Mode](../../Images/Android/PlaybackAlbumDemo/multipleplayback.jpg)
 
-![State switch figure](../../images/Android/PlaybackAlbumDemo/statuschange.jpg)
+![State switch figure](../../Images/Android/PlaybackAlbumDemo/statuschange.jpg)
 
 Now the gridview `onItemClick` logic needs to be adjusted based on the current playback status using the following code:
 
@@ -706,9 +706,9 @@ If you run your application and try to test this method, you may find that nothi
 
 Nice! Some predefined gestures have been added to your app and have made your app more user friendly.
 
-![Single swipee gesture](../../images/Android/PlaybackAlbumDemo/singleslide.png)
+![Single swipee gesture](../../Images/Android/PlaybackAlbumDemo/singleslide.png)
 
-![Multiple swipe gesture](../../images/Android/PlaybackAlbumDemo/multipleslide.jpg)
+![Multiple swipe gesture](../../Images/Android/PlaybackAlbumDemo/multipleslide.jpg)
 
 ### 4. Playing Video
 
@@ -798,9 +798,9 @@ However, there are two types of media files the user can preview while in single
 
 Now the app will automatically detect whether the camera is in video single preview playback mode, and remove the play and pause buttons if not.
 
-![Play the video](../../images/Android/PlaybackAlbumDemo/playbutton.jpg)
+![Play the video](../../Images/Android/PlaybackAlbumDemo/playbutton.jpg)
 
-![Pause the video](../../images/Android/PlaybackAlbumDemo/pausebutton.jpg)
+![Pause the video](../../Images/Android/PlaybackAlbumDemo/pausebutton.jpg)
 
 You have successfuly implemented all the UI features that this tutorial has to offer! Give your app another go.
 
@@ -955,9 +955,9 @@ For multiple preview downloads, developers should first invoke `enterMultipleEdi
 
 Now try selecting some media files and downloading them!
 
-![Multiple Select](../../images/Android/PlaybackAlbumDemo/multipleselect.jpg)
+![Multiple Select](../../Images/Android/PlaybackAlbumDemo/multipleselect.jpg)
 
-![Downloading](../../images/Android/PlaybackAlbumDemo/download.jpg)
+![Downloading](../../Images/Android/PlaybackAlbumDemo/download.jpg)
 
 ### 2. Automatically downloading media files
 

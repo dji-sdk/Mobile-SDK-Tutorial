@@ -28,7 +28,7 @@ Minimum Requirement: iOS 6.1 or above
 
 **1**. Copy the framework **DJISDK.framework** from the **Lib** folder and copy the file to your Xcode project folder, then drag the framework to the Frameworks folder in Xcode’s project navigator as shown below:
 
-   ![ImportSDK](../../images/iOS/FPVDemo/importSDK.png)
+   ![ImportSDK](../../Images/iOS/FPVDemo/importSDK.png)
    
 **2**. Select the project target, in this case **FPVDemo**, and go to **Build Phases -> Link Binary With Libraries**. Click the "+" button at the bottom and add two libraries to your project: libstdc++.6.0.9.dylib and libz.dylib. These two libraries are necessay to compile the SDK framework.
 
@@ -38,26 +38,26 @@ Minimum Requirement: iOS 6.1 or above
 
    Let's go the project's plist file in Supporting Files folder, add the MFI protocol names as shown below:
   
-   ![MFI](../../images/iOS/FPVDemo/MFIProtocol.png)
+   ![MFI](../../Images/iOS/FPVDemo/MFIProtocol.png)
 
 ## Implement the First Person View
   **1**. We use the FFMPEG decoding library (found at http://ffmpeg.org) to decode the video stream. You can find the **VideoPreviewer** folder in the downloaded SDK. Copy the entire **VideoPreviewer** folder to your Xcode project's folder and then add it to the Xcode project navigator, as shown below:
   
- ![AppKey](../../images/iOS/FPVDemo/ffmpegImport.png)
+ ![AppKey](../../Images/iOS/FPVDemo/ffmpegImport.png)
  
  **2**. Go to **XCode -> Project -> Build Phases -> Link Binary With Libraries** and add the **libiconv.dylib** library. Then, set the **Header Search Paths** in **Build Settings** to the path for the **~/include** folder in the **FFMPEG** folder. Then, set the **Library Search Paths** to the path for the **~/lib** folder in the **FFMPEG** folder, as shown below:
  
-  ![HeaderSearchPath](../../images/iOS/FPVDemo/headerSearchPath.png)
+  ![HeaderSearchPath](../../Images/iOS/FPVDemo/headerSearchPath.png)
   
-  ![LibrarySearchPath](../../images/iOS/FPVDemo/librarySearchPath.png)
+  ![LibrarySearchPath](../../Images/iOS/FPVDemo/librarySearchPath.png)
   
   **3**. In **Main.storyboard**, add a new View Controller and call it **DJICameraViewController**. Set **DJICameraViewController** as the root View Controller for the new View Controller you just added in **Main.storyboard**:
   
-  ![rootController](../../images/iOS/FPVDemo/rootController.png)
+  ![rootController](../../Images/iOS/FPVDemo/rootController.png)
   
 Add a UIView inside the View Controller and set it as an IBOutlet called "**fpvPreviewView**". Then, add two UIButtons and one UISegmentedControl at the bottom of the View Control and set their IBOutlets and IBActions, as shown below:
   
-  ![Storyboard](../../images/iOS/FPVDemo/Storyboard.png)
+  ![Storyboard](../../Images/iOS/FPVDemo/Storyboard.png)
   
   Go to **DJICameraViewController.m** file and import the **DJISDK** and **VideoPreviewer** header files. Then create **DJIDrone** and **DJICamera** instance variables and implement their delegate protocols as below:
   
@@ -192,7 +192,7 @@ Then create a new method named **registerApp** and invoke it in the viewDidLoad 
 ---
 **Note**: In the code above, you will need to obtain an App Key from the DJI Developer website **(<https://developer.dji.com/user/mobile-sdk>)** and enter it where it says **Enter Your App Key**. You receive an App Key by clicking **Create APP** and filling out the necessary information. Please note that **Identification Code** stands for **Bundle Identifier**. Once you do that, an App Key is generated for you. The **App Key** we generate for you is associated with the Xcode project **Bundle Identifier**, so you will not be able to use the same App Key in a different Xcode project. Each project must be submiteed individually and will receive a unique App Key. This is what you should see once you submit the information:
 
-![AppKey](../../images/iOS/FPVDemo/AppKey.png)
+![AppKey](../../Images/iOS/FPVDemo/AppKey.png)
 
 ---
 
@@ -253,7 +253,7 @@ In the code above, we call the **connectToDrone** method of DJIDrone to start co
 
 **3**. Build and Run the project in Xcode. If everything is OK, you will see a "Register App Successed!" alert once the application loads. Also, if you see the following screenshot as below, then you can start connect to your aircraft and enjoy the video stream from its camera!
   
-  ![Screenshot](../../images/iOS/FPVDemo/Screenshot.jpg)
+  ![Screenshot](../../Images/iOS/FPVDemo/Screenshot.jpg)
 
 ## Connect the Aircraft
 After you finish the steps above, you can now connect your mobile device to your DJI Aircraft to use the application, like checking the FPV View. Here are the guidelines:
@@ -287,7 +287,7 @@ After you finish the steps above, you can now connect your mobile device to your
 
 If you can see the live video stream in the application, congratulations! Let's move forward.
 
-  ![fpv](../../images/iOS/FPVDemo/fpv.jpg)
+  ![fpv](../../Images/iOS/FPVDemo/fpv.jpg)
 
 
 ## Implement the Capture function
@@ -532,7 +532,7 @@ Add the following codes to the **captureAction** IBAction method:
    
    Now, we can build and run the project and check the functions. You can try to play with the **Record** and **Switch Camera WorkMode** functions, if everything is going well, you should see the screenshot like this:
    
-   ![Screenshot](../../images/iOS/FPVDemo/record_screenshot.jpg)
+   ![Screenshot](../../Images/iOS/FPVDemo/record_screenshot.jpg)
    
    Congratulations! Your Aerial FPV iOS app is complete, you can now use this app to control the camera of your Inspire 1. 
 

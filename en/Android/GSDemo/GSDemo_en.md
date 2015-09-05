@@ -33,7 +33,7 @@ Finally, double click the **DJISimulator-Installer.exe** file and follow the on-
 ### 3. How to use DJI PC Simulator
 **1.** The Simulator Config window will display upon the launching of the DJI PC Simulator. Set appropriate  Latitude and Longitude values as the home point. The "SN" denotes the connected aircraft's serial number.
 
-![Config](../../images/Android/GSDemo/simulator_config.png)
+![Config](../../Images/Android/GSDemo/simulator_config.png)
 
 ---
 **Note**: 
@@ -42,14 +42,14 @@ Finally, double click the **DJISimulator-Installer.exe** file and follow the on-
 
 - Select "Show Log Window" under the "Log Settings" tag to show the flight lot as shown below:
 
- ![showLog](../../images/Android/GSDemo/showLog.png)
+ ![showLog](../../Images/Android/GSDemo/showLog.png)
 
 ---
 
 **2**. Connect the aircraft to your PC via a Micro USB cable, and then power on the aircraft and the
 remote controller. Click Display Simulator. You can see the screenshot as below:
 
- ![display](../../images/Android/GSDemo/display.png)
+ ![display](../../Images/Android/GSDemo/display.png)
 
 ---
 **Note**: 
@@ -64,9 +64,9 @@ remote controller. Click Display Simulator. You can see the screenshot as below:
 
 **4**. Left-click, hold on and drag to change the view angle. Scroll to zoom in and zoom out.
 
- ![zoomIn](../../images/Android/GSDemo/zoomIn.png)
+ ![zoomIn](../../Images/Android/GSDemo/zoomIn.png)
  
- ![zoomOut](../../images/Android/GSDemo/zoomout.png)
+ ![zoomOut](../../Images/Android/GSDemo/zoomout.png)
 
 **5**. Click Stop Simulation to stop the simulation. Close the simulator, and power off the aircraft and the remote controller after use. 
 
@@ -95,9 +95,9 @@ Verify the result via the beeping pattern from the gimbals or the blinking patte
 
 Also, you can check the firmware upgrade status by checking the **txt** file generated during the upgrade process. For Phantom 3 Professional, the txt file is named as **"P3X_FW_RESULT_AB.txt"**, For Inspire 1, it's named as **"WM610_FW_RESULT_AB.txt"**, here are the example contents:
 
-  ![upgradeP3XSuccess](../../images/Android/GSDemo/upgradeP3XSuccess.png)
+  ![upgradeP3XSuccess](../../Images/Android/GSDemo/upgradeP3XSuccess.png)
   
-  ![upgradeInspire1Success](../../images/Android/GSDemo/upgradeInspire1Success.png)
+  ![upgradeInspire1Success](../../Images/Android/GSDemo/upgradeInspire1Success.png)
   
   
 ## Setup the Map View
@@ -115,7 +115,7 @@ Installed the Android SDK through the **Android SDK Manager**. Enter the **Andro
 (2) Install and set up the Google Play services SDK by referring to the setup guide presented in: <https://developers.google.com/android/guides/setup>
 
 **The Google Maps Android API** is included in the Google Play services SDK. Install the Google Play services SDK  by **Android SDK Manager**
-![installGooglePlayService](../../images/Android/GSDemo/installGooglePlayService.png)
+![installGooglePlayService](../../Images/Android/GSDemo/installGooglePlayService.png)
 
 After the Google Play services SDK is installed, locate the library project under the ADT path "xxx/\<android-sdk>/extras/google/google_play_services/libproject/google-play-services_lib". Copy the library project to the location where you store your Android app projects.
 
@@ -123,7 +123,7 @@ Import the library project into your Eclipse workspace. Click **File>Import**, t
 
 Add Google Play services library reference to your project by right clicking **Package Explorer**, then Click **Properties>Android**. Click **Add...** to add **google-play-services_lib**.
 
-![addGooglePlayService](../../images/Android/GSDemo/addGooglePlayService.png) 
+![addGooglePlayService](../../Images/Android/GSDemo/addGooglePlayService.png) 
 
 After Google Play services library is added as a dependency for your project. Open **manifest** file for your app and add the following tag as a child of the ** \<application>** element:
 
@@ -140,7 +140,7 @@ You can now start using the Google Play services APIs to develop your project.
 
 Obtain the **SHA-1 fingerprint** of the debug certificate or release certificate by using the command **keytool**.  Use the **SHA-1 fingerprint** for the debug certificate. When using Eclipse with ADT, you can obtain the **SHA-1 fingerprint** by selecting **Window>Preferences>Android>Build**. 
 
-![debugSHA1](../../images/Android/GSDemo/debugSHA1.png)
+![debugSHA1](../../Images/Android/GSDemo/debugSHA1.png)
 
 2.Register a project in the Google Developers Console and add the Google Maps Android API v2 as a service for the project.
 
@@ -149,7 +149,7 @@ Login the Google Developer console <https://console.developers.google.com>. Sele
 3.Create an Android API key
 
 Click the project. In the sidebar on the left, select **Credentials**. If your project doesn't already have a **Key for Android applications**, create an API key by clicking **Create New Key** and then **Android key**. In the resulting dialog, enter your app's SHA-1 fingerprint, then a semicolon(;) then your app's package name. The Google Developers Console displays a section titled **Key for Android applications** followed by your API key.
-![androidAPIKey](../../images/Android/GSDemo/androidAPIKey.png)
+![androidAPIKey](../../Images/Android/GSDemo/androidAPIKey.png)
 
 4.Add the API key to your application
 
@@ -265,7 +265,7 @@ Second, add the following codes in your Activity.
 ```
 
 Now you can see your app loading a Google map by following the instructions to enable developer options on your Android device, connect your device to the computer through USB cable, build and run your app. The loading of the Google map will require your Android device having installed the Google Play service.
-![loadGoogleMap](../../images/Android/GSDemo/loadGoogleMap.png)
+![loadGoogleMap](../../Images/Android/GSDemo/loadGoogleMap.png)
 
 
  
@@ -429,11 +429,11 @@ Third, register the "Locate" button in the activity
 
 Build and run the app to check the location function. Connect to aircraft to the computer through a USB cable and Launch the DJI PC simulator:
 
-![simulatorLocateAircraft](../../images/Android/GSDemo/simulatorLocateAircraft.png)
+![simulatorLocateAircraft](../../Images/Android/GSDemo/simulatorLocateAircraft.png)
 
 Click the "locate" button, the following GUI prompt to show the location of the aircraft in the map.
 
-![locateAircraft](../../images/Android/GSDemo/locateAircraft.png)
+![locateAircraft](../../Images/Android/GSDemo/locateAircraft.png)
 
 ### 3. Add and clear the waypoints
 
@@ -456,7 +456,7 @@ It is critical to enable user to add waypoints in Ground Station intuitively. We
 
 When we click on the map, the codes within the **public void onMapClick(LatLng point)** will be executed. an instance of **DJIGroundStationWaypoint** will be created and added to **mGroundStationTask**.
 
-![addWaypoints](../../images/Android/GSDemo/addWaypoints.png)
+![addWaypoints](../../Images/Android/GSDemo/addWaypoints.png)
 
 We add the "clear" button to clear all the added waypoints. All the markers on the map will be erased and all waypoints will be removed from **mGroundStationTask**.
 
@@ -487,7 +487,7 @@ We add the "clear" button to clear all the added waypoints. All the markers on t
 
 ```
 
-![clearWaypoints](../../images/Android/GSDemo/clearWaypoints.png)
+![clearWaypoints](../../Images/Android/GSDemo/clearWaypoints.png)
 
 ## Configure the Navigation Task
 
@@ -497,7 +497,7 @@ Here, as a simple example, we just show how to configure the waypoints. Users ca
 
 We first add a new button "Config". When users click the button, a new configuration dialog will be popped up. 
 
-![configButton](../../images/Android/GSDemo/configButton.png)
+![configButton](../../Images/Android/GSDemo/configButton.png)
 
 We use a dialog to load the configuration setting view. The settings include the altitude of waypoints, whether to repeat the task, the horizontal speed of the aircraft during the task, the action after the task finished, the heading of the aircraft during the task (altitude and speed is a field of class **DJIGroundStationWaypoint**. Here we set all the waypoints' altitude or speed the same as a simple example. Users can also set different values for different waypoints' altitude or speed). We do not show the codes for the dialog here. When users click "Finish" after inputting a value or selecting an option for each item, the following function will be called to set the fields of **DJIGroundStationTask** and **DJIGroundStationWaypoint**:
 
@@ -552,11 +552,11 @@ We first need to call **public void openGroundStation(final DJIGroundStationExec
 
 If the flight mode switch is at "F" position when the aircraft is powered on, the user must toggle back and forth between F and another position and then have an uploading of waypoints.
 
-![switchFlightMode](../../images/Android/GSDemo/switchFlightMode.png)
+![switchFlightMode](../../Images/Android/GSDemo/switchFlightMode.png)
 
 When all waypoints are uploaded successfully , the DJI PC Simulator log will prompt "received mission length xx from app". 
 
-![uploadwaypointsLog](../../images/Android/GSDemo/uploadwaypointsLog.png)
+![uploadwaypointsLog](../../Images/Android/GSDemo/uploadwaypointsLog.png)
 
 ## Start and Stop the DJIGroundStationTask
 
@@ -576,7 +576,7 @@ After uploading the task to the aircraft, execute the **DJIGroundStationTask**. 
     }
 ```
 
-![startGSTask](../../images/Android/GSDemo/startGSTask.png)
+![startGSTask](../../Images/Android/GSDemo/startGSTask.png)
 
 The DJIGroundStationTask can be stopped during execution by calling function **public void pauseGroundStationTask(final DJIGroundStationExecuteCallBack mCallBack)** to pause the task, after the pausing the task, use **public void closeGroundStation(final DJIGroundStationExecuteCallBack mCallBack)** to close the Ground Station function.
 

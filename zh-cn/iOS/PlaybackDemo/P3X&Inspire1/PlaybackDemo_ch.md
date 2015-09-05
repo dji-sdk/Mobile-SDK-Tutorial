@@ -9,7 +9,7 @@
 
 在此教程中，你将会学到如何使用DJI Mobile SDK去访问飞机相机上的SD卡媒体资源。当你完成本教程后，你将开发出一款app，具备预览照片，播放视频，下载或者删除文件等功能.
 
-但是，为了能够在App里面对照片和视频进行管理，你首先必须能够用app进行拍照和录像. 幸好，在我们之前的教程[创建航拍相机App](../../../iOS/FPVDemo/FPVDemo_ch.md)中，我们演示了如何实现 **拍照** 和 **录像** 功能. 因此，请确保你在开始本教程之前, 先阅读该教程。
+但是，为了能够在App里面对照Images/片和视频进行管理，你首先必须能够用app进行拍照和录像. 幸好，在我们之前的教程[创建航拍相机App](../../../iOS/FPVDemo/FPVDemo_ch.md)中，我们演示了如何实现 **拍照** 和 **录像** 功能. 因此，请确保你在开始本教程之前, 先阅读该教程。
 
 你可以从[这里](https://github.com/DJI-Mobile-SDK/iOS-PlaybackDemo.git)下载到本教程的demo工程。
 
@@ -21,18 +21,18 @@
 
   在Xcode中创建一个新工程并将其命名为 "PlaybackDemo", 复制 **DJISDK.framework** 到你的Xcode工程文件夹中. 接下来，在下载好的SDK中找到 "VideoPreviewer" 文件夹。 将整个"VideoPreviewer"文件夹拷贝到Xcode工程的 "ThirdParty" 文件夹中. 在**Build Settings**里设置好**FFMPEG**的 **Header Search Paths** 和 **Library Search Paths**。 如果这有一点难懂，请看我们之前的教程 [创建航拍相机App](../../../iOS/FPVDemo/FPVDemo_ch.md) 来获得更多的解释。 接着，选择工程的target并来到 Build Phases -> Link Binary With Libraries. 按下下方的 "+" 按钮，然后添加这两个library到你的工程中: **libstdc++.6.0.9.dylib** 和 **libz.dylib**。 请看以下截图:
 
-  ![navigator](../../../images/iOS/PlaybackDemo/navigator.png)
+  ![navigator](../../../Images/iOS/PlaybackDemo/navigator.png)
 
 ### 1.2 切换到回放模式
 
   现在，我们删除 **ViewController.h** 和 **ViewController.m** 文件, 它们在你一开始创建工程时就Xcode就自动帮你生成了. 接着，创建一个 viewController 并命名为 "DJIRootViewController", 在**Main.storyboard**中把它设置为 **Root View Controller**. 因为本教程和Demo代码是针对iPad编写的，所以我们需要相应地调整**Main.storyboard**的用户界面. 这里我们改变下 **Root View Controller**的frame. 我们在**Simulated Metrics**部分的**Size**中将它的尺寸设置为 **Freeform**. 在view部分中，将它的宽修改为**1024**，并将它的高修改为**768**. 如下图所示:
 
-  ![freeform](../../../images/iOS/PlaybackDemo/freeform.png)
-  ![changeSize](../../../images/iOS/PlaybackDemo/changeSize.png)
+  ![freeform](../../../Images/iOS/PlaybackDemo/freeform.png)
+  ![changeSize](../../../Images/iOS/PlaybackDemo/changeSize.png)
   
 然后，在 **Root View Controller**中加入一个UIView, 并设置它的IBOutlet为 **fpvPreviewView**. 在viewControl下面加入两个 UIButton 和一个 UISegmentedControl，并设置好它们的 IBOutlet 和 IBAction. 这里我们设置UISegmentedControl里三个部分的名称为: **Capture**, **Record** 和 **Playback**. 最后，添加一个 UILabel 到顶部, 将其水平居中并且先隐藏起来：
 
-  ![RootViewController1](../../../images/iOS/PlaybackDemo/rootViewController_1.png)
+  ![RootViewController1](../../../Images/iOS/PlaybackDemo/rootViewController_1.png)
   
  当你完成后, 来到 **DJIRootViewController.m** 文件中，导入 **DJISDK** 和 **VideoPreviewer** 头文件。 然后创建一个**DJIDrone**类的属性和一个 **DJICamera** 类的属性，然后在类扩展(Class Extension)中实现它们的协议. 接下来，加入两个 **UIButton**,  一个**UISegmentedControl** 和一个 **UILabel**的 IBOutlet 属性. 加入一个布尔属性，命名为 "isRecording" 来检查录像状态. 最后，为所有UI控件加入IBAction方法，如下所示:
 
@@ -265,7 +265,7 @@
    
   现在，编译运行Xcode工程. 尝试使用 **Capture** 和 **Record** 功能去进行拍照和录像操作. 然后点击UISegmentControl进行**Camera Mode**的切换, 我们切换到 **Playback** 模式，检查下能否看到你最后拍下的照片或者拍摄到的录像. 以下是回放模式的截图:
   
- ![singlePreview](../../../images/iOS/PlaybackDemo/singlePreview.jpg)
+ ![singlePreview](../../../Images/iOS/PlaybackDemo/singlePreview.jpg)
   
 ### 1.3 预览单个文件
 
@@ -311,7 +311,7 @@
 
 打开 **Main.storyboard**, 拖拽一个 UIView 对象并将其放在viewController的上方, 然后拖拽一个 UIButton 到你刚刚添加的view上面，作为它的subview，命名为 **Stop**. 接下来拖拽一个UIButton对象到viewController的中间, 设置它的图片为"playVideo"(你可以在此工程源代码的Images.xcassets文件夹中获得改图片文件).
 
- ![playbackButtons](../../../images/iOS/PlaybackDemo/playbackButtons.jpg)
+ ![playbackButtons](../../../Images/iOS/PlaybackDemo/playbackButtons.jpg)
  
  这里我们隐藏掉 **Stop** 和 **playVideo** 按钮. 现在，我们来到 **DJIRootViewController.m**文件并为新加入的控件创建 IBOutlet 和 IBAction:
  
@@ -424,7 +424,7 @@
 
 在回放App中播放你的视频:
 
- ![playVideo](../../../images/iOS/PlaybackDemo/playVideo.gif)
+ ![playVideo](../../../Images/iOS/PlaybackDemo/playVideo.gif)
 
 ### 1.4 预览多个文件
 
@@ -474,22 +474,22 @@ typedef NS_ENUM(uint8_t, CameraPlaybackMode){
 
 我们将会学到如何预览多个文件。以下是**Multiple Preview**的画面:
 
- ![multiplePreview](../../../images/iOS/PlaybackDemo/multiplePreview.jpg)
+ ![multiplePreview](../../../Images/iOS/PlaybackDemo/multiplePreview.jpg)
  
 你可以同时预览最多8个文件。因为预览的照片是在**fpvPreviewView**里面显示的。你不能和它们进行交互。所以，让我们加入按钮和滑动手势来操作它们.
 
 首先，我们将创造一个新的文件命名为 **DJIPlaybackMultiSelectViewController**, 它会作为 **UIViewController** 的子类. 确保你在创建该文件时，选择了 **Also create XIB file** 选项。然后打开 **DJIPlaybackMultiSelectViewController.xib** 文件, 在**Simulated Metrics**部分的 **Size** 菜单下, 将它的大小设置为 **Freeform** . 在view部分, 将宽度修改为**1024**，高度为**768**. 以下是示意图:
 
-  ![freeform](../../../images/iOS/PlaybackDemo/freeform.png)
-  ![changeSize](../../../images/iOS/PlaybackDemo/changeSize.png)
+  ![freeform](../../../Images/iOS/PlaybackDemo/freeform.png)
+  ![changeSize](../../../Images/iOS/PlaybackDemo/changeSize.png)
   
 然后拖拽一个 **UIView** 对象到 viewController 中作为它的subview，命名为 **Buttons View**. 接下来设置它的frame:
 
-  ![buttonsViewFrame](../../../images/iOS/PlaybackDemo/buttonsViewFrame.png)
+  ![buttonsViewFrame](../../../Images/iOS/PlaybackDemo/buttonsViewFrame.png)
   
 接着，拖拽8个 **UIButton** 对象到 **Buttons View** 中作为它的subview，并将它们放置到如下位置(你可以检查demo工程的 **DJIPlaybackMultiSelectViewController.xib** 文件来获取关于如何设置这些按钮frame的细节):
 
-  ![buttonsView](../../../images/iOS/PlaybackDemo/buttonsView.png)
+  ![buttonsView](../../../Images/iOS/PlaybackDemo/buttonsView.png)
 
 当你在 **Multiple Preview Mode**下，这些按钮代表八个媒体文件. 按下任一按钮，都会进入 **Single Preview Mode**.
 
@@ -692,7 +692,7 @@ typedef NS_ENUM(uint8_t, CameraPlaybackMode){
 
 当你完成这些后，来到 **Main.storyboard** ,拖拽一个 **UIButton** 对象到**playbackBtnsView**中作为subView, 将其命名为 **Multi Pre** ，然后放置到如下位置:
 
-![multiPreBtn](../../../images/iOS/PlaybackDemo/multiPreBtn.jpg)
+![multiPreBtn](../../../Images/iOS/PlaybackDemo/multiPreBtn.jpg)
 
 最后，创建一个IBAction方法，命名为 **multiPreviewButtonClicked**，然后在**Main.storyboard**中，将它与上面刚创建的UIButton关联起来. 实现以下方法来进入多张预览模式:
 
@@ -704,7 +704,7 @@ typedef NS_ENUM(uint8_t, CameraPlaybackMode){
 
 现在我们编译运行工程，尝试进入多张预览模式. 使用上下滑动手势来预览文件. 按下8张预览图片中的任意一张，可以切换到单张预览模式. 以下是截图:
 
-![multiPre](../../../images/iOS/PlaybackDemo/multiPre.jpg)
+![multiPre](../../../Images/iOS/PlaybackDemo/multiPre.jpg)
 
 ## 删除照片和录像
 
@@ -899,11 +899,11 @@ typedef NS_ENUM(uint8_t, CameraPlaybackMode){
 
 * 删除单个文件:
 
-![deleteSingleFile](../../../images/iOS/PlaybackDemo/deleteSingleFile.gif)
+![deleteSingleFile](../../../Images/iOS/PlaybackDemo/deleteSingleFile.gif)
 
 * 删除多个文件:
 
-![deleteMultiFiles](../../../images/iOS/PlaybackDemo/deleteMultiFiles.gif)
+![deleteMultiFiles](../../../Images/iOS/PlaybackDemo/deleteMultiFiles.gif)
 
 ## 下载和保存照片
 
@@ -911,7 +911,7 @@ typedef NS_ENUM(uint8_t, CameraPlaybackMode){
 
 我们现在来实现图片下载的功能. 首先，来到 **Main.storyboard** 文件中，拖拽一个 **UIButton** 对象到 **playbackBtnsView**中，将其命名为 "Download". 然后按下图所示设置好位置:
 
-![download](../../../images/iOS/PlaybackDemo/download.jpg)
+![download](../../../Images/iOS/PlaybackDemo/download.jpg)
 
 然后来到 **DJIRootViewController.m** 文件中，在类扩展（Class Extension）中创建以下属性对象和IBAction方法:
 
@@ -1260,11 +1260,11 @@ completionBlock:^{
 
 * 选择照片，下载照片:
 
-![downloadFiles1](../../../images/iOS/PlaybackDemo/downloadFiles1.gif)
+![downloadFiles1](../../../Images/iOS/PlaybackDemo/downloadFiles1.gif)
 
 * 下载照片，并保存到相册中:
 
-![downloadFiles2](../../../images/iOS/PlaybackDemo/downloadFiles2.gif)
+![downloadFiles2](../../../Images/iOS/PlaybackDemo/downloadFiles2.gif)
 
 
 ## 总结

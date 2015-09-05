@@ -22,18 +22,18 @@ Let's get started!
 
   Create a new project in Xcode and name it "**PlaybackDemo**", copy the **DJISDK.framework** into your Xcode project's folder. Next, find the "VideoPreviewer" folder in the downloaded SDK. Copy the entire "VideoPreviewer" folder into your Xcode project's "ThirdParty" folder. Set the **Header Search Paths** and **Library Search Paths** for **FFMPEG** in the **Build Settings**. If this is a bit confusing, just check our previous tutorial [**Creating a Camera Application**](../../../iOS/FPVDemo/FPVDemo_en.md) for further explanation. Then, select the project target and go to Build Phases -> Link Binary With Libraries. Click the "+" button at the bottom and add two libraries to your project: **libstdc++.6.0.9.dylib** and **libz.dylib**. Take a look at the screenshot below:
 
-  ![navigator](../../../images/iOS/PlaybackDemo/navigator.png)
+  ![navigator](../../../Images/iOS/PlaybackDemo/navigator.png)
   
 ### 2. Switching Playback Modes
 
   Now, let's delete the **ViewController.h** and **ViewController.m** files, which were created by Xcode when you created the project. Then, create a viewController named "DJIRootViewController" and set it as the **Root View Controller** in Main.storyboard**. This demo and its code was written to be used with the iPad, so we'll have to adjust the User Interface of **Main.storyboard** accordingly. We'll change the **Root View Controller**'s frame. Let's set its size to **Freeform** under the **Size** dropdown in the **Simulated Metrics** section. In the view section, change the width to **1024** and height to **768**. Take a look at the changes made below:
 
-  ![freeform](../../../images/iOS/PlaybackDemo/freeform.png)
-  ![changeSize](../../../images/iOS/PlaybackDemo/changeSize.png)
+  ![freeform](../../../Images/iOS/PlaybackDemo/freeform.png)
+  ![changeSize](../../../Images/iOS/PlaybackDemo/changeSize.png)
   
 Then, add a UIView inside the **Root View Controller** and set it as an IBOutlet called **fpvPreviewView**. Add two UIButtons and one UISegmentedControl at the bottom of the View Control and set their IBOutlets and IBActions. Here we set three segments in the UISegmentedControl: **Capture**, **Record** and **Playback**. Lastly, drag a UILabel to the top, horizontally center it in the view controller and hide it first.
 
-  ![RootViewController1](../../../images/iOS/PlaybackDemo/rootViewController_1.png)
+  ![RootViewController1](../../../Images/iOS/PlaybackDemo/rootViewController_1.png)
   
  Once that's done, enter the **DJIRootViewController.m** file and import the **DJISDK** and **VideoPreviewer** header files. Then create a property of the **DJIDrone** class and one of the **DJICamera** class and implement their protocols in the class extension. Next, add the two **UIButtons**, the **UISegmentedControl** and the **UILabel**'s IBOutlet properties. Add a boolean property named "isRecording" to check the record state. Lastly, add the IBAction methods for all the UI controls as below:
 
@@ -264,7 +264,7 @@ Create a new method named **initData** for data initialization and call it in th
    
   For now, build and run the project in Xcode. Try to use the **Capture** and **Record** feature to take photos and record videos. Then switch the **Camera Mode** by tapping on the UISegmentControl, switch to **Playback** mode to see if you can see the last photo you took or the last video you recorded. Here is a screenshot of what your playback mode should look like:
   
- ![singlePreview](../../../images/iOS/PlaybackDemo/singlePreview.jpg)
+ ![singlePreview](../../../Images/iOS/PlaybackDemo/singlePreview.jpg)
   
 ### 3. Previewing Single Files
 
@@ -310,7 +310,7 @@ The above code uses the **singlePreviewNextPage** and **singlePreviewPreviousPag
 
 Open **Main.storyboard**, drag a UIView object and position it on the top of the viewController, then drag a UIButton to the view you just added as subview and named **Stop**. Next, drag a UIButton object to the center of the viewController, set its image as "playVideo"(You can get this image file from the project source code, in the Images.xcassets folder).
 
- ![playbackButtons](../../../images/iOS/PlaybackDemo/playbackButtons.jpg)
+ ![playbackButtons](../../../Images/iOS/PlaybackDemo/playbackButtons.jpg)
  
  Here we hide the **Stop** and the **playVideo** buttons. Now let's go to **DJIRootViewController.m** and create IBOutlets and IBActions for the newly added UIs:
  
@@ -423,7 +423,7 @@ Once it's done, build and run the project. Try swiping left and right in playbac
 
 Playing your video through the playback app:
 
- ![playVideo](../../../images/iOS/PlaybackDemo/playVideo.gif)
+ ![playVideo](../../../Images/iOS/PlaybackDemo/playVideo.gif)
 
 ### 4. Previewing Multiple Files
 
@@ -473,22 +473,22 @@ As shown in the code above, we can preview files in two ways: **Single Preview**
 
 We will learn how to preview multiple files here. Here is what **Multiple Preview** looks like:
 
- ![multiplePreview](../../../images/iOS/PlaybackDemo/multiplePreview.jpg)
+ ![multiplePreview](../../../Images/iOS/PlaybackDemo/multiplePreview.jpg)
  
 You can preview at most eight files at the same time. Since the preview images are shown in the **fpvPreviewView**, you cannot interact with them yet. Let's add buttons and swipe gestures to interact with them.
 
 First, we will create a new file named **DJIPlaybackMultiSelectViewController**, which will be a subclass of **UIViewController**. Make sure the check box for **Also create XIB file** is selected when creating the file. Then open the **DJIPlaybackMultiSelectViewController.xib** file and, under the **Size** dropdown in the **Simulated Metrics** section, set its size to **Freeform** . In the view section, change the width to **1024** and height to **768**. Take a look at the changes made below:
 
-  ![freeform](../../../images/iOS/PlaybackDemo/freeform.png)
-  ![changeSize](../../../images/iOS/PlaybackDemo/changeSize.png)
+  ![freeform](../../../Images/iOS/PlaybackDemo/freeform.png)
+  ![changeSize](../../../Images/iOS/PlaybackDemo/changeSize.png)
   
 Then drag a **UIView** object to the viewController as subview and set its name to **Buttons View**. Next set its frame as follows:
 
-  ![buttonsViewFrame](../../../images/iOS/PlaybackDemo/buttonsViewFrame.png)
+  ![buttonsViewFrame](../../../Images/iOS/PlaybackDemo/buttonsViewFrame.png)
   
 Moreover, drag eight **UIButton** objects to the **Buttons View** as subviews and position them as follows(You can check the demo project's **DJIPlaybackMultiSelectViewController.xib** file to get the details on how to setup these buttons's frame):
 
-  ![buttonsView](../../../images/iOS/PlaybackDemo/buttonsView.png)
+  ![buttonsView](../../../Images/iOS/PlaybackDemo/buttonsView.png)
 
 These buttons represent eight media files when you are in the **Multiple Preview Mode**. Pressing any of these buttons will enter **Single Preview Mode**. 
 
@@ -693,7 +693,7 @@ Furthermore, we invoke the **swipeGestureAction** block's setter method and impl
 
 Once this is done, go to **Main.storyboard** and drag a **UIButton** object to the **playbackBtnsView** as subView, naming it as **Multi Pre** and positioning it as follows:
 
-![multiPreBtn](../../../images/iOS/PlaybackDemo/multiPreBtn.jpg)
+![multiPreBtn](../../../Images/iOS/PlaybackDemo/multiPreBtn.jpg)
 
 Finally, create an IBAction method named **multiPreviewButtonClicked** and link it to the above UIButton in the **Main.storyboard**. Implement the method as shown below to enter Multiple Preview Mode:
 
@@ -705,7 +705,7 @@ Finally, create an IBAction method named **multiPreviewButtonClicked** and link 
 
 Let's build and run the project and try to enter Multiple Preview Mode. Use the swipe up and down gestures to preview files. Switch to the Single Preview Mode by pressing any of the eight preview images. Here is a screenshot:
 
-![multiPre](../../../images/iOS/PlaybackDemo/multiPre.jpg)
+![multiPre](../../../Images/iOS/PlaybackDemo/multiPre.jpg)
 
 ## Deleting Photos and Videos
 
@@ -900,11 +900,11 @@ Build and run the project, and try the select multiple files, delete single and 
 
 * Deleting a  Single File:
 
-![deleteSingleFile](../../../images/iOS/PlaybackDemo/deleteSingleFile.gif)
+![deleteSingleFile](../../../Images/iOS/PlaybackDemo/deleteSingleFile.gif)
 
 * Deleting Multiple Files:
 
-![deleteMultiFiles](../../../images/iOS/PlaybackDemo/deleteMultiFiles.gif)
+![deleteMultiFiles](../../../Images/iOS/PlaybackDemo/deleteMultiFiles.gif)
 
 
 ## Downloading And Saving Photos
@@ -913,7 +913,7 @@ Build and run the project, and try the select multiple files, delete single and 
 
 Let's implement the download photo feature now. First, go to the **Main.storyboard** file and drag a **UIButton** object to the **playbackBtnsView** and name it "Download". Then position it as shown below:
 
-![download](../../../images/iOS/PlaybackDemo/download.jpg)
+![download](../../../Images/iOS/PlaybackDemo/download.jpg)
 
 Then go to **DJIRootViewController.m** file and create the following property objects and IBAction methods in the class extension:
 
@@ -1263,11 +1263,11 @@ Let's build and run the project. Try to download photos in Single Preview Mode a
 
 * Selecting files and downloading them:
 
-![downloadFiles1](../../../images/iOS/PlaybackDemo/downloadFiles1.gif)
+![downloadFiles1](../../../Images/iOS/PlaybackDemo/downloadFiles1.gif)
 
 * Download completion and photos being saved to the Photo Album:
 
-![downloadFiles2](../../../images/iOS/PlaybackDemo/downloadFiles2.gif)
+![downloadFiles2](../../../Images/iOS/PlaybackDemo/downloadFiles2.gif)
 
 
 ## Summary

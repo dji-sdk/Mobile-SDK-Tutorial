@@ -24,7 +24,7 @@
 
 **1**. 先拷贝DJISDK.framework到您的工程目录下，再将DJISDK.framework拖到您工程”Frameworks”的目录下，如下图所示:
 
-   ![ImportSDK](../../images/iOS/FPVDemo/importSDK.png)
+   ![ImportSDK](../../Images/iOS/FPVDemo/importSDK.png)
    
 **2**. 从Xcode的左侧导航栏选择当前工程，进入右侧的 Build Phases -> Link Binary With Libraries. 点击底部的 "+" 按钮添加 libstdc++.6.0.9.dylib 和 libz.dylib 到你的工程中. 编译SDK时需要用到这些动态库。
 
@@ -34,22 +34,22 @@
 
    添加方法：在工程的Supporting Files文件夹下的plist文件添加MFI协议名称，如下图所示：  
    
-   ![MFI](../../images/iOS/FPVDemo/MFIProtocol.png)
+   ![MFI](../../Images/iOS/FPVDemo/MFIProtocol.png)
 
 ## 实现FPV视图功能
 
   **1**. 我们使用 FFMPEG 解码库 (http://ffmpeg.org) 对视频流进行解码. 你可以在下载好的SDK开发包中找到 **VideoPreviewer** 文件夹. 将它拷贝到 Xcode 工程的文件夹中, 然后像下图所示添加到工程导航栏的**thirdParty**文件夹下:
   
- ![AppKey](../../images/iOS/FPVDemo/ffmpegImport.png)
+ ![AppKey](../../Images/iOS/FPVDemo/ffmpegImport.png)
  
   **2**. 接下来来到XCode -> Project -> Build Phases -> Link Binary With Libraries中, 点击“**+**” 添加libiconv.dylib动态库文件. 然后在Build Settings中的Header Search Paths 添加FFMPEG的 include 文件夹路径. 同时在Library Search Paths中添加 FFMPEG的 lib 文件夹的路径，如下图所示:
   
-  ![HeaderSearchPath](../../images/iOS/FPVDemo/headerSearchPath.png)
-  ![LibrarySearchPath](../../images/iOS/FPVDemo/librarySearchPath.png)
+  ![HeaderSearchPath](../../Images/iOS/FPVDemo/headerSearchPath.png)
+  ![LibrarySearchPath](../../Images/iOS/FPVDemo/librarySearchPath.png)
   
   **3**. 创建 **DJICameraViewController** 并在 **Main.storyboard** 中设置它为**Root ViewController**, 添加一个 UIView到该viewController中, 设置它的 IBOutlet 为**fpvPreviewView**, 然后在底部添加两个 UIButton 和一个 UISegmentedControl 控件, 设置好它们的IBOutlets 和 IBActions，如下图所示:
   
-  ![Storyboard](../../images/iOS/FPVDemo/Storyboard.png)
+  ![Storyboard](../../Images/iOS/FPVDemo/Storyboard.png)
   
   打开 **DJICameraViewController.m** 文件 导入 **DJISDK** 和 **VideoPreviewer** 头文件, 然后创建 **DJIDrone** 和 **DJICamera** 实例变量，如下所示实现它们的委托方法:
   
@@ -199,7 +199,7 @@
 ---
 **注意**: 你可以在SDK网站上创建属于你自己App的**App Key**: <https://developer.dji.com/user/mobile-sdk/>, 如下图所示:
 
-![AppKey](../../images/iOS/FPVDemo/AppKey_CN.png)
+![AppKey](../../Images/iOS/FPVDemo/AppKey_CN.png)
 
 另外, **App Key** 是和工程的 **Bundle Identifier**相关联的. 所以如果Bundle Identifier不正确的话，你就不能在多个不同工程里面使用同一个App Key。
 
@@ -262,7 +262,7 @@ APP KEY 激活失败码如下所示:
 
 **3**. 现在运行你的Xcode工程, 如果一切顺利, 你可以看到 "Register App Successed!" 的提示！同时，如果你可以看到类似以下截屏画面, 那么你就可以准备启动你的航拍飞机，享受飞机摄像机上的FPV画面了!
   
-  ![Screenshot](../../images/iOS/FPVDemo/Screenshot.jpg)
+  ![Screenshot](../../Images/iOS/FPVDemo/Screenshot.jpg)
   
 ## 连接飞行器
 
@@ -294,7 +294,7 @@ APP KEY 激活失败码如下所示:
 
 如果你可以在app中看到飞机的视频流，那么恭喜，你已经完成了第一部分教程的内容了！下图是app的截屏：
 
-  ![fpv](../../images/iOS/FPVDemo/fpv.jpg)
+  ![fpv](../../Images/iOS/FPVDemo/fpv.jpg)
 
 
 ## 实现拍照功能
@@ -538,7 +538,7 @@ APP KEY 激活失败码如下所示:
    
    现在, 我们可以编译运行工程，检查下刚做好的功能. 你可以尝试下 **录像** 和 **切换相机工作模式** 功能, 如果一切顺利，你会看到以下App截屏画面：
    
-   ![Screenshot](../../images/iOS/FPVDemo/record_screenshot.jpg)
+   ![Screenshot](../../Images/iOS/FPVDemo/record_screenshot.jpg)
    
    恭喜你! 你的FPV航拍App已经大功告成，你现在可以用它来控制Inspire 1的相机了。
 

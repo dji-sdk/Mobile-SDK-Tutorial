@@ -35,10 +35,10 @@
 
 
 (2)将软件包解压缩。导入一个叫**Lib**文件夹(Eclipse\DJI-SDK-Android-V2.1.0)到Eclipse里面(File -> Import -> Android -> Existing Android Code into Workspace)。下一步，把导入的文件加到你的library (right click on your project -> Select "**Properties**" -> Select "**Android**" -> Add).
-![setLib](../../images/Android/FPVDemo/1_importLib.png)
+![setLib](../../Images/Android/FPVDemo/1_importLib.png)
 
 （3）已被导入的library应该被存在这里：
-![checkLib](../../images/Android/FPVDemo/1_CheckLib.png)
+![checkLib](../../Images/Android/FPVDemo/1_CheckLib.png)
 
 ### Android Studio
 
@@ -48,12 +48,12 @@
 
 **注意：** Android Studio文件夹能从DJI网站下载下来的SDK Package里找到。demo project里面用的软件包是用的'Eclpise'文件夹里的。如果你要用Android Studio，确保你用的是Android Studio文件夹里面的软件包。SDK Package 能在此下载：<https://developer.dji.com/mobile-sdk/downloads>*
 
-![importModule](../../images/Android/FPVDemo/importModuleScreenshot.png)
+![importModule](../../Images/Android/FPVDemo/importModuleScreenshot.png)
 
 然后，在"Packages"视图下，右击左边项目列表中的'app'模块。出现下拉框，点击'Open Module Settings'。找到一个叫'Dependencies'的标签。点击那个绿色加号，然后点击‘Module Dependency'并选择':DJI-SDK-LIB'。点击'OK'来确认。Gradle完成重建后,你的编程环境设置完毕。
 
 
-![addDependency](../../images/Android/FPVDemo/addDependencyScreenshot.png)
+![addDependency](../../Images/Android/FPVDemo/addDependencyScreenshot.png)
 
 
 ## 显示FPV视图
@@ -62,11 +62,11 @@
 
 请使用你在[DJI开发者网站](https://developer.dji.com/user/mobile-sdk)上申请的APP KEY填入**android:value=""**。当申请APP KEY的时候，需要在标识码处填入你的工程的包名。
 
-![appKey](../../images/Android/FPVDemo/appKey_cn.png)
+![appKey](../../Images/Android/FPVDemo/appKey_cn.png)
 
 在工程的AndroidManifest.xml文件中添加以下meta-data元素配置用来激活的APP KEY和'uses-permission'代码行。
 
-![appKeyMetaData](../../images/Android/FPVDemo/1_appKeyMetaData2.png)
+![appKeyMetaData](../../Images/Android/FPVDemo/1_appKeyMetaData2.png)
  
 在开始调用SDK APIs之前，需要添加以下代码来进行激活验证，
 
@@ -327,7 +327,7 @@ DJIAoaActivity中有添加如下代码支持AOA,
 你应该注意调用**mDjiGLSurfaceView**的方法**public boolean start()**和设置视频数据回调接口给**mDjiGLSurfaceView**传递视频数据的顺序，以及释放**mDjiGLSurfaceView**和停止传递数据给它的顺序。
 
 (4) 编译并运行你的工程，检查一切是否正常。如果在运行后看到移动端出现如下界面，你就可以开始用你自己的APP连接飞机，并享受飞机实时传回航拍视频的乐趣了！
-![afterCompileScreenShot](../../images/Android/FPVDemo/afterComplileScreenShot.png)
+![afterCompileScreenShot](../../Images/Android/FPVDemo/afterComplileScreenShot.png)
 
 ## 连接飞行器
 完成以上步骤后, 现在就可以连接你的移动设备到DJI飞行器上，检查是否获取到FPV画面，以下是连接指引：
@@ -358,7 +358,7 @@ DJIAoaActivity中有添加如下代码支持AOA,
 
 ## 享受FPV视图
 如果你可以在app中看到飞机的视频流，那么恭喜，你已经完成了第一部分教程的内容了！下图是app的截屏：
-![runAppScreenShot](../../images/Android/FPVDemo/runAppScreenShot.png)
+![runAppScreenShot](../../Images/Android/FPVDemo/runAppScreenShot.png)
 
 ## 实现拍照功能
 
@@ -479,7 +479,7 @@ DJIAoaActivity中有添加如下代码支持AOA,
 ~~~
 
 现在，我们可以编译并运行工程，检查我们开始录像，停止录像功能了。如果一切正常，你将看到类似如下的截屏，
-![recordVideoScreenShot](../../images/Android/FPVDemo/recordVideo.png)
+![recordVideoScreenShot](../../Images/Android/FPVDemo/recordVideo.png)
 
 恭喜你！你的FPV航拍App已经大功告成，你现在可以用它来控制Inspire 1的相机了。
 

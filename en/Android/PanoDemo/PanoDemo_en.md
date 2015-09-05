@@ -33,19 +33,19 @@ We've already gone ahead and created a working panorama app for you to reference
 
 1.Open Eclipse->File->Import->General->Existing Projects into Workspace->Select root directory->Browse. Locate the downloaded folder "PanoDemo":
 
-![](../../images/Android/PanoDemo/importing-1-2.gif)
+![](../../Images/Android/PanoDemo/importing-1-2.gif)
 
 2.Select the following 3 projects:
 
-![](../../images/Android/PanoDemo/select3project.png)
+![](../../Images/Android/PanoDemo/select3project.png)
 
 3.Press Finish and wait for the project to build. In the Package Explorer on the left, right click on the "PanoDemo" package -> Properties -> Android. Check that under the "Libraries" section "OpenCV Library" and "DJI-SDK-LIB" have both been added. If not, press "Add..." to add them:
 
-![](../../images/Android/PanoDemo/check-lib2.png)
+![](../../Images/Android/PanoDemo/check-lib2.png)
 
 4.Navigate to the "Android.mk" file in the "PanoDemo" package. Update the highlighted line so that it includes the path of your own Android OpenCV package.
 
-![](../../images/Android/PanoDemo/update-opencv-path2.png)
+![](../../Images/Android/PanoDemo/update-opencv-path2.png)
 
 5.Ensure that the following folders have been added to your System Path. Some of them should have already been added in the process of following the tutorials linked in part 1.
 
@@ -64,34 +64,34 @@ Run the "PanoDemo" project on an Android device (for instructions on how to do t
 
 When the app first starts up, you will be greeted with this page. Press the "Start" button to begin taking a panorama. If the "Start" button is grayed out, try unplugging and plugging your device back into the remote, and ensure that it is properly connected.
 
-![](../../images/Android/PanoDemo/connecting3.gif)
+![](../../Images/Android/PanoDemo/connecting3.gif)
 
 After pressing "Start", a live video feed from the drone will be displayed.
 Position your drone somewhere it can nice a nice photo, and press the "One key Panorama" button to start the automated panorama capturing process.
 
-![](../../images/Android/PanoDemo/one-key-panorama-6-1.gif)
+![](../../Images/Android/PanoDemo/one-key-panorama-6-1.gif)
 
 If you are connected to a Phantom 3 Professional, you will be greeted with an alert box like the one shown below. Choose either option to continue. You will learn what the difference between the two is later on in this tutorial.
-![](../../images/Android/PanoDemo/choose-control-method.png)
+![](../../Images/Android/PanoDemo/choose-control-method.png)
 
 The drone will start to take photos, either by rotating the gimbal (if you are using the Inspire 1), or by rotating the entire drone (if you are using the Phantom 3 Professional).
-![](../../images/Android/PanoDemo/one-key-panorama-6-2.gif)
+![](../../Images/Android/PanoDemo/one-key-panorama-6-2.gif)
 
 After the drone captures 8 images, each captured at a 45 degree angle differential from the last, you will be prompted to allow the app to stitch the photos together. Press "OK" to continue. 
 
-![](../../images/Android/PanoDemo/confirm-stitching5.gif)
+![](../../Images/Android/PanoDemo/confirm-stitching5.gif)
 
 The app will display the photos onboard the drone's SD card, and automatically select the 8 it had just taken and download them. No user input is required.
 
-![](../../images/Android/PanoDemo/download-images5.gif)
+![](../../Images/Android/PanoDemo/download-images5.gif)
 
 The drone will then stitch the photos together. Video preview will be disabled during this period, and will instead display a static image. Please note that the stitching process will take several minutes to complete.
 
-![](../../images/Android/PanoDemo/stitching3.gif)
+![](../../Images/Android/PanoDemo/stitching3.gif)
 
 Once the photos have been stitched together, you will receive a dialogue box allowing you to view the finished result!
 
-![](../../images/Android/PanoDemo/stitching-success5.gif)
+![](../../Images/Android/PanoDemo/stitching-success5.gif)
 
 ## Creating your own Panorama App
 
@@ -99,7 +99,7 @@ Now that you've played around with the finished product, you can now have a go a
 
 The demo app you just ran may seem intimidating to code yourself, but it can be broken down into several simple tasks:
 
-![](../../images/Android/PanoDemo/overview-flowchart.png)
+![](../../Images/Android/PanoDemo/overview-flowchart.png)
 
 We'll work our way slowly through each part of the above flowchart. Go ahead and create a new Android Application project in the Eclipse. Name your main activity "MainActivity".
 
@@ -230,7 +230,7 @@ Our app will consist of several view elements:
 
 There also exists a **batteryTextView**, but as this is not very relevant to the app's purpose, we'll be leaving this out for now. Stay tuned till the end of the tutorial for a bonus segment on how to add it though!
 
-![labels](../../images/Android/PanoDemo/ui-design-labeled.png)
+![labels](../../Images/Android/PanoDemo/ui-design-labeled.png)
 
 Add these elements to your **activity_main.xml** file. Here's our xml code as reference. All of this is contained within a relative layout:
 
@@ -661,11 +661,11 @@ protected void onCreate(Bundle savedInstanceState)
 
 Go ahead and run your app. With any luck it'll look something like this:
 
-![](../../images/Android/PanoDemo/start-unavailable.png)
+![](../../Images/Android/PanoDemo/start-unavailable.png)
 
 And like this when it detects a connection to a drone's camera:
 
-![](../../images/Android/PanoDemo/start-available.png)
+![](../../Images/Android/PanoDemo/start-available.png)
 
 ### Communicating with your drone
 
@@ -1118,7 +1118,7 @@ Run your code and watch as your Inspire rotates its gimbal to take 8 photos, enc
 
 The photos your drone just took are stored on its SD card. Now we have to download those images onto our device, where they can be processed into a panorama. Here's a quick flowchart detailing how we're going to do that:
 
-![](../../images/Android/PanoDemo/download-image-diagram.png)
+![](../../Images/Android/PanoDemo/download-image-diagram.png)
 
 As we've just finished taking photos, the drone is in **Capture Mode**. From there we will need to navigate to **Playback Mode**, which is the general mode through which we can view and access media files. Within **Playback Mode** we have **Multiple Preview Mode**, which allows us to view multiple files at once in a grid layout. From there we can switch to **Multiple Edit Mode** which is the mode which allows downloading of media files. From there it's a simple matter of selecting and downloading the last 8 files on the SD card.
 
@@ -1796,7 +1796,7 @@ This is a native function, meaning that its code is in a different programming l
 
 Right click on your project -> Android Tools -> Add Native Support. A new folder named **jni** will be created in your project. Within it will be two files: **APPNAME.cpp** and **Android.mk** (APPNAME being your app name).
 
-![](../../images/Android/PanoDemo/add-native-support.gif)
+![](../../Images/Android/PanoDemo/add-native-support.gif)
 
 Look into the demo project **PanoDemo**'s **jni** folder and locate the file **Application.mk**. Copy it into your **jni** folder. Open up the demo project's **Android.mk** file and replace the contents of your **Android.mk** file with it's contents. Find the following two lines of code and replace **PanoDemo** with your app name:
 
@@ -2604,7 +2604,7 @@ Run your app and enjoy it in all its original glory, now complete with a battery
 
 ## Summary
 
-![](../../images/Android/PanoDemo/cropped-pano-4.jpg)
+![](../../Images/Android/PanoDemo/cropped-pano-4.jpg)
 
 Congratulations on reaching the end of this tutorial! We covered a *lot* of material and played with many parts of the mobile SDK, including:
 - Connecting to and displaying a live video feed from the drone
