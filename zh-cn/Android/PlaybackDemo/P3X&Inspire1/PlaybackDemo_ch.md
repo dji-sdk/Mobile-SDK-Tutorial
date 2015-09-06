@@ -1,5 +1,7 @@
 # 创建照片和视频回放应用
 
+*提醒: 本教程目前只支持Phantom 3 Professional 和 Inspire 1 机型*
+
 *如果您在本教程中遇到任何错误或者bug，请使用Github issue，在DJI论坛发帖或者在Gitbook中评论告知我们。您可以随时给我们发送Github pull request来帮助我们修复错误。*
 
 ---

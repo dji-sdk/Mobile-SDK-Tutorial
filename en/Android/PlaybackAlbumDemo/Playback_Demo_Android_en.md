@@ -4,7 +4,7 @@
 
 *If you come across any mistakes or bugs in this tutorial, please let us know using a Github issue, a post on the DJI forum, or commenting in the Gitbook. Please feel free to send us Github pull request and help us fix any issues.*
 
-*Note: This tutorial is only for Phantom 3 Professional and Inspire 1*
+**Note: This tutorial is only for Phantom 3 Professional and Inspire 1**
 
 ---
 
