@@ -9,7 +9,7 @@
 ---
 
 ## Introduction
-In this tutorial, you will familiarize yourself with the various Camera Modes the Inspire 1, Phantom 3 Professional and M100 have, how to switch and get the Camera Mode, how to build a friendly UI for a Photo and Video Album app, and how to select and download media files. Let's get started!
+In this tutorial, you will familiarize yourself with the various Camera Modes the Inspire 1 and Phantom 3 Professional have, how to switch and get the Camera Mode, how to build a friendly UI for a Photo and Video Album app, and how to select and download media files. Let's get started!
 
 You can download the demo project for this tutorial from here: <https://github.com/DJI-Mobile-SDK/Android-PlaybackDemo>
 
@@ -17,7 +17,7 @@ We **strongly** recommend that you have the source code for the demo project ope
 
 ## Camera Modes
 
-Before developing the album app, we should briefly cover the capabilities the SDK has in each camera mode. For the Inspire 1, Phantom 3 Professional and M100, there are four camera modes, **Capture Mode, Record Mode, Playback Mode** and **Download Mode**. In **Capture Mode**, users are allowed to use capture functions, such as taking photos and setting up parameters for the camera. In the **Record Mode**, these capture functions are blocked and users can only start and stop recording video. **Playback Mode** allows the user to preview the media files in the SD card. **Download Mode** lets the user download media files, but must be set up correctly beforehand.
+Before developing the album app, we should briefly cover the capabilities the SDK has in each camera mode. For the Inspire 1 and Phantom 3 Professional, there are four camera modes, **Capture Mode, Record Mode, Playback Mode** and **Download Mode**. In **Capture Mode**, users are allowed to use capture functions, such as taking photos and setting up parameters for the camera. In the **Record Mode**, these capture functions are blocked and users can only start and stop recording video. **Playback Mode** allows the user to preview the media files in the SD card. **Download Mode** lets the user download media files, but must be set up correctly beforehand.
 
 **However, the Phantom 3 Advanced is different in that it has only three camera modes: Capture Mode, Record Mode and Download Mode. This will be discussed in a later tutorial.**
 
@@ -623,7 +623,7 @@ To keep the UI logic consistent, we also detect the current status of the camera
         }.start();
 ~~~
 
-The Inspire 1, Phantom 3 Professional and M100's remote controllers have buttons for capturing, recording and entering the playback mode. Once these buttons have been pressed, the camera status will be changed directly. Would be great if our application could listen to the buttons at the remote controller and automatically adjust the UI?
+The Inspire 1's and Phantom 3 Professional's remote controllers have buttons for capturing, recording and entering the playback mode. Once these buttons have been pressed, the camera status will be changed directly. Would be great if our application could listen to the buttons at the remote controller and automatically adjust the UI?
 
 To listen to the remote controller, we set up `DJIRemoteControllerUpdateAttitudeCallBack`. Add the code below to the onCreate() function, but make sure to declare the variable `mRemoteControllerUpdateAttitudeCallBack` first.
 
@@ -810,7 +810,7 @@ You have successfuly implemented all the UI features that this tutorial has to o
 
 In previous sections, we discussed and implemented three out of four camera modes. In this section we will cover the final camera mode, **Download Mode**.
 
-Please note that **DNG images and 4k video cannot be downloaded through playback mode**. In addition, the two methods below are not supported by the Inspire 1, Phantom 3 Professional or the M100:
+Please note that **DNG images and 4k video cannot be downloaded through playback mode**. In addition, the two methods below are not supported by the Inspire 1 or Phantom 3 Professional:
 
 - `fetchMediaData(DJIMedia, DJIExecuteResultCallback)`
 - `fetchMediaThumbnail(DJIMedia, DJIExecuteResultCallback)`
@@ -1065,7 +1065,7 @@ In summary, developers should follow the following steps to allow users to downl
 
 ## Summary
 
-Over the course of this tutorial, you have learned how to switch and get the current camera mode, download and delete media files, implement gesture control, and much more to create a Photo and Video Album application for the Inspire 1, Phantom 3 Professional and M100!
+Over the course of this tutorial, you have learned how to switch and get the current camera mode, download and delete media files, implement gesture control, and much more to create a Photo and Video Album application for the Inspire 1 and Phantom 3 Professional!
 
 In the next tutorial, we will be implementing the album app for Phantom 3 Advanced. 
 
