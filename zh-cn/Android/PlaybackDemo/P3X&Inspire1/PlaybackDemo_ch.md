@@ -5,7 +5,7 @@
 ---
 
 ## 概览
-在此教程中，你将会知晓Inspire 1, Phantom 3 Professional和M100所特有的多种相机模式，以及如何切换和获取不同的相机模式和如何为回放相册app创造一个交互良好的UI界面。最重要的，当然还有如何选择和下载媒体文件。让我们开始吧!
+在此教程中，你将会知晓Inspire 1, Phantom 3 Professional所特有的多种相机模式，以及如何切换和获取不同的相机模式和如何为回放相册app创造一个交互良好的UI界面。最重要的，当然还有如何选择和下载媒体文件。让我们开始吧!
 
 你可以在此下载此教程的demo工程: <https://github.com/DJI-Mobile-SDK/Android-PlaybackDemo>
 
@@ -13,7 +13,7 @@
 
 ## 相机模式
 
-在开发回放相册app之前，我们将简单地解释SDK中每个相机模式的特性。 Inspire 1, Phantom 3 Professional 和 M100有四个相机模式, **Capture 模式, Record 模式, Playback 模式** 和 **Download 模式**。在 **Capture 模式**中, 用户能够使用拍照功能，比如拍摄照片和设置相机参数，其他动作例如录像回放等将不被直接响应。在**Record 模式**中，上述的拍照功能将被禁用，而且用户此时只能使用开始或者停止录像等摄像相关方法。**Playback 模式**可以让用户预览飞行器上SD卡里的媒体文件。**Download 模式**允许用户下载媒体文件，但是前提是所有想要下载的文件必须正确选择以及设置。
+在开发回放相册app之前，我们将简单地解释SDK中每个相机模式的特性。 Inspire 1和 Phantom 3 Professional有四个相机模式, **Capture 模式, Record 模式, Playback 模式** 和 **Download 模式**。在 **Capture 模式**中, 用户能够使用拍照功能，比如拍摄照片和设置相机参数，其他动作例如录像回放等将不被直接响应。在**Record 模式**中，上述的拍照功能将被禁用，而且用户此时只能使用开始或者停止录像等摄像相关方法。**Playback 模式**可以让用户预览飞行器上SD卡里的媒体文件。**Download 模式**允许用户下载媒体文件，但是前提是所有想要下载的文件必须正确选择以及设置。
 
 **但是，特别地，Phantom 3 Advanced只有3种相机模式: Capture模式，Record模式以及Download模式。下一个教程将会解释这些不一样的内容。**
 
@@ -629,7 +629,7 @@
 
 ~~~
 
-Inspire 1, Phantom 3 Professional 和 M100的遥控器有照相，录像，和进入回放模式的按钮。当这些按钮被按下时，相机的状态将会根据按钮而改变。如果我们的应用能根据遥控器上的按钮并自动调整UI,那就更完美了
+Inspire 1和 Phantom 3 Professional的遥控器有照相，录像，和进入回放模式的按钮。当这些按钮被按下时，相机的状态将会根据按钮而改变。如果我们的应用能根据遥控器上的按钮并自动调整UI,那就更完美了
 
 为了监听遥控器, 我们将使用`DJIRemoteControllerUpdateAttitudeCallBack`。将下面的代码加入到 onCreate() 方法, 当请确保先定义变量 `mRemoteControllerUpdateAttitudeCallBack`。
 
@@ -825,7 +825,7 @@ DJI Camera 提供了一个视频预览功能让用户能享受他们拍摄的视
 
 在前面的部分，我们讨论并且实现了4个相机模式中的3个。在这部分，你将完成最后一个相机模式，**Download Mode**.
 
-请注意 **DNG 图片和4k 视频无法再回放模式中下载**. 还有，以下的两个方法不被Inspire 1, Phantom 3 Professional 或者 M100所支持:
+请注意 **DNG 图片和4k 视频无法再回放模式中下载**. 还有，以下的两个方法不被Inspire 1和Phantom 3 Professional所支持:
 
 - `fetchMediaData(DJIMedia, DJIExecuteResultCallback)`
 - `fetchMediaThumbnail(DJIMedia, DJIExecuteResultCallback)`
@@ -1082,7 +1082,7 @@ DJI Camera 提供了一个视频预览功能让用户能享受他们拍摄的视
 
 ## 总结
 
-在此教程中，你学会了如何切换以及获取当前相机的模式, 下载和删除没文件, 实现动作操作, 以及很多创造一个为了Inspire 1, Phantom 3 Professional 和 M100相片和视频集的应用.
+在此教程中，你学会了如何切换以及获取当前相机的模式, 下载和删除没文件, 实现动作操作, 以及很多创造一个为了Inspire 1 和Phantom 3 Professional相片和视频集的应用.
 
 在下一个教程中。我们将实现Phantom 3 Advanced的相薄. 
 
