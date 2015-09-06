@@ -2,8 +2,6 @@
 
 *如果您在本教程中遇到任何错误或者bug，请使用Github issue，在DJI论坛发帖或者在Gitbook中评论告知我们。您可以随时给我们发送Github pull request来帮助我们修复错误。*
 
-*注意: 本教程中的代码是针对iPad开发的. 请确保在iPad或者iPad模拟器上运行本教程代码。*
-
 ---
 
 你可以从这里下载到本教程的Demo工程:<https://github.com/DJI-Mobile-SDK/iOS-FPVDemo.git>

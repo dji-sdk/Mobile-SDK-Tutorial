@@ -1,7 +1,7 @@
  
 # 创建照片和视频回放App
 
-*提醒: 此教程中的代码是为iPad而写的. 请确保你在iPad或者iPad模拟器上运行此代码. 本教程目前只支持Phantom 3 Professional 和 Inspire 1 机型*
+*提醒: 本教程目前只支持Phantom 3 Professional 和 Inspire 1 机型*
 
 *如果您在本教程中遇到任何错误或者bug，请使用Github issue，在DJI论坛发帖或者在Gitbook中评论告知我们。您可以随时给我们发送Github pull request来帮助我们修复错误。*
 
