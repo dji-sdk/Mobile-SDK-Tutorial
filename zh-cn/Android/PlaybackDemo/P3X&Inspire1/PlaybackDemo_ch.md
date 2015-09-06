@@ -1,12 +1,12 @@
 # 创建照片和视频回放应用
 
+<!-- toc -->
+
+*如果您在本教程中遇到任何错误或者bug，请使用Github issue，在DJI论坛发帖或者在Gitbook中评论告知我们。您可以随时给我们发送Github pull request来帮助我们修复错误。关于文档的修改需要符合[格式标准](https://github.com/dji-sdk/Mobile-SDK-Tutorial/issues/19)*
+
 *提醒: 本教程目前只支持Phantom 3 Professional 和 Inspire 1 机型*
 
-*如果您在本教程中遇到任何错误或者bug，请使用Github issue，在DJI论坛发帖或者在Gitbook中评论告知我们。您可以随时给我们发送Github pull request来帮助我们修复错误。*
-
 ---
-
-<!-- toc -->
 
 ## 概览
 在此教程中，你将会知晓Inspire 1, Phantom 3 Professional所特有的多种相机模式，以及如何切换和获取不同的相机模式和如何为回放相册app创造一个交互良好的UI界面。最重要的，当然还有如何选择和下载媒体文件。让我们开始吧!

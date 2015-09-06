@@ -1,10 +1,10 @@
 # 创建航拍相机App
 
-*如果您在本教程中遇到任何错误或者bug，请使用Github issue，在DJI论坛发帖或者在Gitbook中评论告知我们。您可以随时给我们发送Github pull request来帮助我们修复错误。*
+<!-- toc -->
+
+*如果您在本教程中遇到任何错误或者bug，请使用Github issue，在DJI论坛发帖或者在Gitbook中评论告知我们。您可以随时给我们发送Github pull request来帮助我们修复错误。关于文档的修改需要符合[格式标准](https://github.com/dji-sdk/Mobile-SDK-Tutorial/issues/19)*
 
 ---
-
-<!-- toc -->
 
 你可以从这里下载到本教程的Demo工程:<https://github.com/DJI-Mobile-SDK/iOS-FPVDemo.git>
 

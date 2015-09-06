@@ -1,10 +1,10 @@
 # 创建智能飞行预设航点功能App
 
-*如果您在本教程中遇到任何错误或者bug，请使用Github issue，在DJI论坛发帖或者在Gitbook中评论告知我们。您可以随时给我们发送Github pull request来帮助我们修复错误。*
+<!-- toc -->
+
+*如果您在本教程中遇到任何错误或者bug，请使用Github issue，在DJI论坛发帖或者在Gitbook中评论告知我们。您可以随时给我们发送Github pull request来帮助我们修复错误。关于文档的修改需要符合[格式标准](https://github.com/dji-sdk/Mobile-SDK-Tutorial/issues/19)*
 
 ---
-
-<!-- toc -->
 
 在这个教程里，你将学会如何安装和使用DJI PC模拟器（用来模拟DJI飞行器的飞控）；如何升级你的Inspire 1，Phantom 3 Professional和Phantom 3 Advanced的固件到最新的beta版本； 如何使用DJI PC模拟器测试地面站的API。而且，你将学到怎样设置已添加的航点，上传航点，开始地面站任务和停止地面站任务。让我们开始吧！
 
