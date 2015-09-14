@@ -70,6 +70,22 @@ Please check the data on the left down corner of view, World X, Y, Z represents 
  ![zoomIn](../../Images/iOS/GSDemo/zoomIn.png)
  
  ![zoomOut](../../Images/iOS/GSDemo/zoomout.png)
+ 
+---
+>**Note**: 
+> You can also see the flight trace in the simulator when the aircraft is flying. Right click on the simulator window and select **setup** as shown below:
+>
+>![simulatorSetup](../../Images/iOS/GSDemo/simulatorSetup.png)
+> 
+>Then select **show trace** under the simulator UI Config tab to display the flight trace, as shown below:
+>
+>![showTrace](../../Images/iOS/GSDemo/showTrace.png)
+>
+>Here is the result:
+>
+>![flightTrace](../../Images/iOS/GSDemo/flightTrace.png)
+>
+---
 
 **5**. Click **Stop Simulation** to stop the simulation. Close the simulator, and turn off the aircraft, and turn off the remote controller after use. 
 

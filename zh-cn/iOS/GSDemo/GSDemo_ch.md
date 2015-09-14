@@ -67,6 +67,22 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
  ![zoomIn](../../Images/iOS/GSDemo/zoomIn.png)
  
  ![zoomOut](../../Images/iOS/GSDemo/zoomout.png)
+ 
+---
+>**注意**: 
+> 你还可以在模拟器上看到飞机的飞行轨迹线。右键点击模拟器对话框，选中**setup**，如下所示:
+>
+>![simulatorSetup](../../Images/iOS/GSDemo/simulatorSetup.png)
+> 
+>然后勾选simulator UI Config选项卡下面的**show trace**，以显示飞行轨迹，如下所示:
+>
+>![showTrace](../../Images/iOS/GSDemo/showTrace.png)
+>
+>以下是效果图:
+>
+>![flightTrace](../../Images/iOS/GSDemo/flightTrace.png)
+>
+---
 
 **5**. 点击 Stop Simulation 结束模拟飞行。使用完毕后关闭飞行器、遥控器和模拟器。 
 
