@@ -100,7 +100,6 @@ Add a UIView inside the View Controller and set it as an IBOutlet called "**fpvP
     [super viewWillDisappear:animated];
     [_camera stopCameraSystemStateUpdates];
     [_drone disconnectToDrone];
-    [_drone destroy];
     [[VideoPreviewer instance] setView:nil];
     
 }
@@ -131,8 +130,8 @@ Add a UIView inside the View Controller and set it as an IBOutlet called "**fpvP
 
 -(void) droneOnConnectionStatusChanged:(DJIConnectionStatus)status
 {
-    if (status == ConnectionSuccessed) {
-        NSLog(@"Connection Successed");
+    if (status == ConnectionSucceeded) {
+        NSLog(@"Connection Succeeded");
     }
     else if(status == ConnectionStartConnect)
     {
@@ -296,7 +295,7 @@ Add the following codes to the **captureAction** IBAction method:
 - (IBAction)captureAction:(id)sender {
     
     [_camera startTakePhoto:CameraSingleCapture withResult:^(DJIError *error) {
-        if (error.errorCode != ERR_Successed) {
+        if (error.errorCode != ERR_Succeeded) {
             NSLog(@"Take Photo Error : %@", error.errorDescription);
         }
     }];
@@ -419,7 +418,7 @@ Add the following codes to the **captureAction** IBAction method:
         
         [inspireCamera setCameraWorkMode:CameraWorkModeCapture withResult:^(DJIError *error) {
             
-            if (error.errorCode != ERR_Successed) {
+            if (error.errorCode != ERR_Succeeded) {
                 UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Set CameraWorkModeCapture Failed" message:error.errorDescription delegate:weakSelf cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [errorAlert show];
             }
@@ -430,7 +429,7 @@ Add the following codes to the **captureAction** IBAction method:
     
         [inspireCamera setCameraWorkMode:CameraWorkModeRecord withResult:^(DJIError *error) {
             
-            if (error.errorCode != ERR_Successed) {
+            if (error.errorCode != ERR_Succeeded) {
                 UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Set CameraWorkModeRecord Failed" message:error.errorDescription delegate:weakSelf cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [errorAlert show];
             }
@@ -505,7 +504,7 @@ Add the following codes to the **captureAction** IBAction method:
         
         [_camera stopRecord:^(DJIError *error) {
             
-            if (error.errorCode != ERR_Successed) {
+            if (error.errorCode != ERR_Succeeded) {
                 UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Stop Record Error" message:error.errorDescription delegate:weakSelf cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [errorAlert show];
             }
@@ -515,7 +514,7 @@ Add the following codes to the **captureAction** IBAction method:
     {
         [_camera startRecord:^(DJIError *error) {
             
-            if (error.errorCode != ERR_Successed) {
+            if (error.errorCode != ERR_Succeeded) {
                 UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Start Record Error" message:error.errorDescription delegate:weakSelf cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [errorAlert show];
             }

@@ -121,7 +121,6 @@
     [self.camera stopCameraSystemStateUpdates];
     [self.drone.mainController stopUpdateMCSystemState];
     [self.drone disconnectToDrone];
-    [self.drone destroy];
     [[VideoPreviewer instance] setView:nil];
     
 }
@@ -169,8 +168,8 @@
 
 -(void) droneOnConnectionStatusChanged:(DJIConnectionStatus)status
 {
-    if (status == ConnectionSuccessed) {
-        NSLog(@"Connection Successed");
+    if (status == ConnectionSucceeded) {
+        NSLog(@"Connection Succeeded");
     }
     else if(status == ConnectionStartConnect)
     {
@@ -205,7 +204,7 @@
 - (IBAction)captureAction:(id)sender {
     __weak DJIRootViewController *weakSelf = self;
     [self.camera startTakePhoto:CameraSingleCapture withResult:^(DJIError *error) {
-        if (error.errorCode != ERR_Successed) {
+        if (error.errorCode != ERR_Succeeded) {
             UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Take Photo Error" message:error.errorDescription delegate:weakSelf cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [errorAlert show];
         }
@@ -216,7 +215,7 @@
     __weak DJIRootViewController *weakSelf = self;
     if (self.isRecording) {
         [self.camera stopRecord:^(DJIError *error) {
-            if (error.errorCode != ERR_Successed) {
+            if (error.errorCode != ERR_Succeeded) {
                 UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Stop Record Error" message:error.errorDescription delegate:weakSelf cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [errorAlert show];
             }
@@ -224,7 +223,7 @@
     }else
     {
         [self.camera startRecord:^(DJIError *error) { 
-            if (error.errorCode != ERR_Successed) {
+            if (error.errorCode != ERR_Succeeded) {
                 UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Start Record Error" message:error.errorDescription delegate:weakSelf cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [errorAlert show];
             }
@@ -238,14 +237,14 @@
     UISegmentedControl *segmentControl = (UISegmentedControl *)sender;
     if (segmentControl.selectedSegmentIndex == 0) { //CaptureMode
         [inspireCamera setCameraWorkMode:CameraWorkModeCapture withResult:^(DJIError *error) {
-            if (error.errorCode != ERR_Successed) {
+            if (error.errorCode != ERR_Succeeded) {
                 UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Set CameraWorkModeCapture Failed" message:error.errorDescription delegate:weakSelf cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [errorAlert show];
             }
         }];
     }else if (segmentControl.selectedSegmentIndex == 1){ //RecordMode
         [inspireCamera setCameraWorkMode:CameraWorkModeRecord withResult:^(DJIError *error) {
-            if (error.errorCode != ERR_Successed) {
+            if (error.errorCode != ERR_Succeeded) {
                 UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Set CameraWorkModeRecord Failed" message:error.errorDescription delegate:weakSelf cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [errorAlert show];
             }
@@ -253,7 +252,7 @@
         
     }else if (segmentControl.selectedSegmentIndex == 2){  //PlaybackMode 
         [inspireCamera setCameraWorkMode:CameraWorkModePlayback withResult:^(DJIError *error) {
-            if (error.errorCode != ERR_Successed) {
+            if (error.errorCode != ERR_Succeeded) {
                 UIAlertView *errorAlert = [[UIAlertView alloc] initWithTitle:@"Set CameraWorkModeRecord Failed" message:error.errorDescription delegate:weakSelf cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [errorAlert show];
             }
