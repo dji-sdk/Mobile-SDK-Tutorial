@@ -707,8 +707,7 @@ In the method above, when the app is registerd successfully, we can call DJIDron
     
     [self.inspireDrone.mainController stopUpdateMCSystemState];
     [self.inspireDrone disconnectToDrone];
-    [self.inspireDrone destroy];
-
+    
 }
 ~~~
 
@@ -793,7 +792,7 @@ Finally, let's implement the DJIDroneDelegate Method, as shown below:
 - (void)enterNavigationMode
 {
     [self.navigationManager enterNavigationModeWithResult:^(DJIError *error) {
-        if (error.errorCode != ERR_Successed) {
+        if (error.errorCode != ERR_Succeeded) {
             NSString* message = [NSString stringWithFormat:@"Enter navigation mode failed:%@", error.errorDescription];
             UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Enter Navigation Mode" message:message delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Retry", nil];
             alertView.tag = kEnterNaviModeFailedAlertTag;
@@ -812,7 +811,7 @@ Finally, let's implement the DJIDroneDelegate Method, as shown below:
 #pragma mark - DJIDroneDelegate Method
 -(void) droneOnConnectionStatusChanged:(DJIConnectionStatus)status
 {
-    if (status == ConnectionSuccessed) {
+    if (status == ConnectionSucceeded) {
        [self enterNavigationMode];    
     }    
 }
@@ -1605,7 +1604,7 @@ Once that is complete, let's go to DJIWaypointConfigViewController's delegate me
 
             [weakSelf.uploadProgressView setTitle:@"Mission Upload Finished"];
 
-            if (error.errorCode != ERR_Successed) {
+            if (error.errorCode != ERR_Succeeded) {
                 [weakSelf.uploadProgressView setMessage:@"Mission Invalid!"];
             }
             
@@ -1613,7 +1612,7 @@ Once that is complete, let's go to DJIWaypointConfigViewController's delegate me
             [weakSelf performSelector:@selector(hideProgressView) withObject:nil afterDelay:3.0];
             
             [weakSelf.waypointMission startMissionWithResult:^(DJIError *error) {
-                if (error.errorCode != ERR_Successed) {
+                if (error.errorCode != ERR_Succeeded) {
                     UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Start Mission Failed" message:error.errorDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
                     [alertView show];
                 }
@@ -1683,7 +1682,7 @@ Finally, let's implement **startBtnActionInGSButtonVC** as shown below:
 - (void)startBtnActionInGSButtonVC:(DJIGSButtonViewController *)GSBtnVC
 {
     [self.waypointMission startMissionWithResult:^(DJIError *error) {
-        if (error.errorCode != ERR_Successed) {
+        if (error.errorCode != ERR_Succeeded) {
             UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Start Mission Failed" message:error.errorDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [alertView show];
         }
@@ -1701,7 +1700,7 @@ Finally, let's implement the **stopBtnActionInGSButtonVC** method, which is a  *
 {
     [self.waypointMission stopMissionWithResult:^(DJIError *error) {
         
-        if (error.errorCode == ERR_Successed) {
+        if (error.errorCode == ERR_Succeeded) {
             UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Stop Mission Success" message:@"" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [alertView show];
         }
@@ -1737,15 +1736,9 @@ Next, test the waypoint feature by tapping wherever you'd like on the map view. 
 
 ![addWayPoints](../../Images/iOS/GSDemo/addWaypoints_final.gif)
 
-Once you press the **Config** button, the **Waypoint Configuration** view will appear. After you're satisfied with the changes, press the **Finish** button. The waypoint mission will start to upload and when it finishes, the mission will start to be processed. You will see the following animation when you do so:
+Once you press the **Config** button, the **Waypoint Configuration** view will appear. After you're satisfied with the changes, press the **Finish** button. The waypoint mission will start to upload and when it finishes, the mission will start to be processed. You will start to see the aircraft move towards the waypoints you set previously on the map view, as shown below:
 
-![flying](../../Images/iOS/GSDemo/tryToConfig.gif)
-
-![startMissionFailed](../../Images/iOS/GSDemo/startMissionFailed.png)
-
-An alertView shows up saying "Start Mission Failed" because the aircraft hasn't taken off and flown at least 5 meters above ground. The SDK has this limitation to ensure safety when you execute a waypoint task. Use the remote controller to have the aircraft takeoff and fly at least 5 meters above ground in the PC Simulator and then press the **Start** button again. The aircraft will fly up to the altitude you set and continue flying to the first waypoint.
-
-![flyTowards](../../Images/iOS/GSDemo/flyTowards.gif)
+![flyTowards](../../Images/iOS/GSDemo/startFlying.gif)
 
 At the same time, you will be able to see the Inspire 1 take off and start to fly in the DJI PC Simulator.
 

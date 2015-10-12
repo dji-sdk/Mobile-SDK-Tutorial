@@ -709,7 +709,6 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
     [self.locationManager stopUpdatingLocation];
     [self.inspireDrone.mainController stopUpdateMCSystemState];
     [self.inspireDrone disconnectToDrone];
-    [self.inspireDrone destroy];
 }
 ~~~
 
@@ -794,7 +793,7 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 - (void)enterNavigationMode
 {
     [self.navigationManager enterNavigationModeWithResult:^(DJIError *error) {
-        if (error.errorCode != ERR_Successed) {
+        if (error.errorCode != ERR_Succeeded) {
             NSString* message = [NSString stringWithFormat:@"Enter navigation mode failed:%@", error.errorDescription];
             UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Enter Navigation Mode" message:message delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Retry", nil];
             alertView.tag = kEnterNaviModeFailedAlertTag;
@@ -813,7 +812,7 @@ DJI PC 模拟器专为 SDK 开发者所设计。模拟器通过 UDP 广播的方
 #pragma mark - DJIDroneDelegate Method
 -(void) droneOnConnectionStatusChanged:(DJIConnectionStatus)status
 {
-    if (status == ConnectionSuccessed) {
+    if (status == ConnectionSucceeded) {
        [self enterNavigationMode];    
     }    
 }
@@ -1606,7 +1605,7 @@ BOOL CLLocationCoordinate2DIsValid(CLLocationCoordinate2D coord);
 
             [weakSelf.uploadProgressView setTitle:@"Mission Upload Finished"];
 
-            if (error.errorCode != ERR_Successed) {
+            if (error.errorCode != ERR_Succeeded) {
                 [weakSelf.uploadProgressView setMessage:@"Mission Invalid!"];
             }
             
@@ -1614,7 +1613,7 @@ BOOL CLLocationCoordinate2DIsValid(CLLocationCoordinate2D coord);
             [weakSelf performSelector:@selector(hideProgressView) withObject:nil afterDelay:3.0];
             
             [weakSelf.waypointMission startMissionWithResult:^(DJIError *error) {
-                if (error.errorCode != ERR_Successed) {
+                if (error.errorCode != ERR_Succeeded) {
                     UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Start Mission Failed" message:error.errorDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
                     [alertView show];
                 }
@@ -1684,7 +1683,7 @@ BOOL CLLocationCoordinate2DIsValid(CLLocationCoordinate2D coord);
 - (void)startBtnActionInGSButtonVC:(DJIGSButtonViewController *)GSBtnVC
 {
     [self.waypointMission startMissionWithResult:^(DJIError *error) {
-        if (error.errorCode != ERR_Successed) {
+        if (error.errorCode != ERR_Succeeded) {
             UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Start Mission Failed" message:error.errorDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [alertView show];
         }
@@ -1702,7 +1701,7 @@ BOOL CLLocationCoordinate2DIsValid(CLLocationCoordinate2D coord);
 {
     [self.waypointMission stopMissionWithResult:^(DJIError *error) {
         
-        if (error.errorCode == ERR_Successed) {
+        if (error.errorCode == ERR_Succeeded) {
             UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Stop Mission Success" message:@"" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [alertView show];
         }
@@ -1738,15 +1737,9 @@ BOOL CLLocationCoordinate2DIsValid(CLLocationCoordinate2D coord);
 
 ![addWayPoints](../../Images/iOS/GSDemo/addWaypoints_final.gif)
 
-你一旦按下 **Config** 按钮， **Waypoint Configuration** 视图就会出现. 当你做完适当的设置操作后，按下 **Finish** 按钮. 航点任务会开始上传并且在上传结束时，任务会被处理. 这时你会看到以下动画:
+你一旦按下 **Start** 按钮， **Waypoint Configuration** view就会出现. 当你做完适当的设置操作后，按下 **Finish** 按钮. 航点任务会开始上传并且在上传结束时，任务会被处理. 这时你会看到飞机开始朝你之前设置好的航点位置移动, 如下动画所示:
 
-![flying](../../Images/iOS/GSDemo/tryToConfig.gif)
-
-![startMissionFailed](../../Images/iOS/GSDemo/startMissionFailed.png)
-
-这里弹出了一个提示框，写着“Start Mission Failed”, 因为飞机没有起飞并飞行到离地5米以上。 SDK添加了这个限制是为了确保执行地面站任务时的安全性。使用遥控器在PC模拟器中控制飞机起飞，并飞到离地5米以上，然后按下**Start**按钮。飞机会自动飞到预设的高度，并朝着第一个航点方向飞去。
-
-![flyTowards](../../Images/iOS/GSDemo/flyTowards.gif)
+![flyTowards](../../Images/iOS/GSDemo/startFlying.gif)
 
 与此同时，你也可以在DJI PC 模拟器上目睹Inspire 1 起飞和飞行的全过程.
 
