@@ -117,7 +117,7 @@ b. 登录<http://lbs.amap.com>，系统显示登录高德地图的页面。已�
 
 通过以下步骤给Android应用添加高德地图支持：
 
-1. 登录 <http://lbs.amap.com/api/android-sdk/down>，下载xxx.zip和xxx.zip两个压缩包
+1. 登录 <http://lbs.amap.com/api/android-sdk/down>，下载AMap_2DMap.zip和AMap_Search.zip两个压缩包
 2. 将上面两个压缩包解压，解压之后得到两个jar包。
 3. 将第三步解压得到的两个jar包复制到Android应用的libs/目录下，
 4. 打开Android应用的**AndroidManifest.xml**文件，在该文件的<application.../>元素内添加如下<meta-data.../>子元素：
