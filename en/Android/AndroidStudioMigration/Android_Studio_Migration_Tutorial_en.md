@@ -27,6 +27,10 @@ Open Android Studio and select **Open an existing Android Studio project**. A di
  
 ![sdkPath](../../Images/Android/AndroidStudioMigration/sdkPath.png)
 
+If you run into errors that the libs can not be loaded or found when compiling, please ensure you have the setting to include DJI-SDK-LIB in the build.gradle file of your project. The following is the setting in DJI-DEMO. Please revise the path to the corresponding path of DJI-SDK-LIB in your project.
+
+![jniLibConfig](../../Images/Android/AndroidStudioMigration/jniLibConfig.png)
+
 
 ## Importing the Eclipse version
 
