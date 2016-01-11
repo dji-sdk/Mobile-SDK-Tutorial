@@ -21,6 +21,10 @@ DJI SDK Demo导入Android Studio的方法有两种：一种是直接把下载的
 
 ![sdkPath](../../Images/Android/AndroidStudioMigration/sdkPath.png)
 
+如果在编译时遇到libs找不到的错误，请检查主工程的build.gradle文件含有如下配置,当中的DJI-SDK-LIB路径是在SDK-DEMO中的路径，若是自己创建的主工程，请注意修改为相应的DJI-SDK-LIB的路径
+
+![jniLibConfig](../../Images/Android/AndroidStudioMigration/jniLibConfig.png)
+
 ## 导入Eclipse工程到Android Studio
 
 
