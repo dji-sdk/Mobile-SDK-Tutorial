@@ -6,7 +6,7 @@
 
 ---
 
-You can download the demo project from this **Github Page**. If you want to have a better reading experience, please check our [Gitbook Version](http://dji-dev.gitbooks.io/mobile-sdk-tutorials/content/en/Android/FPVDemo/FPVDemo_en.html)
+You can download the demo project from this **[Github Page](https://github.com/DJI-Mobile-SDK/Android-FPVDemo)**.
 
 We **strongly** recommend that you download the final project code and have it open as reference as you work through this tutorial.
 
