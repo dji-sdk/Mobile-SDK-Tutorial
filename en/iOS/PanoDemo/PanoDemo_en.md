@@ -10,7 +10,7 @@ In this tutorial, you will learn how to build a cool panorama app. With the help
 
 ![several tasks](../../Images/iOS/PanoDemo/workFlow.png)
 
-You can download the demo project from this **Github Page**. If you want to have a better reading experience, please check our [Gitbook Version](http://dji-dev.gitbooks.io/mobile-sdk-tutorials/content/en/iOS/PanoDemo/PanoDemo_en.html)
+You can download the demo project from this [Github Page](https://github.com/DJI-Mobile-SDK/iOS-PanoramaDemo).
 
 ## Implementing the FPV
 
