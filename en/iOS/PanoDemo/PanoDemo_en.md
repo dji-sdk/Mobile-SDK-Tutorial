@@ -747,7 +747,7 @@ Now, let's implement the **DJIPlaybackDelegate** method as shown below to update
 }
 ~~~
 
-Here we set the DJICamera's cameraMode as **DJICameraModePlayback**. If it succeed, we can call the **selectPhotos** method to start selecting photos.
+Here we set the DJICamera's cameraMode as **DJICameraModePlayback**. If it succeeded, we can call the **selectPhotos** method to start selecting photos.
 
 **4**. Once it's done, let's implement the `selectPhotos` method to select the latest photos you capture for the panorama:
 
