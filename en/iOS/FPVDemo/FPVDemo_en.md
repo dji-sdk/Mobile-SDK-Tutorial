@@ -120,7 +120,6 @@ Add a UIView inside the View Controller and set it as an IBOutlet called "**fpvP
   Lastly, implement the **DJICameraDelegate** methods, as shown below:
   
 ~~~objc
-#pragma mark - DJICameraDelegate
 
 #pragma mark - DJICameraDelegate
 -(void)camera:(DJICamera *)camera didReceiveVideoData:(uint8_t *)videoBuffer length:(size_t)size
