@@ -75,7 +75,6 @@ If you are connected to a Phantom 3 Professional, you will be greeted with an al
 ![](../../Images/Android/PanoDemo/choose-control-method.png)
 
 The drone will start to take photos, either by rotating the gimbal (if you are using the Inspire 1), or by rotating the entire drone (if you are using the Phantom 3 Professional).
-![](../../Images/Android/PanoDemo/one-key-panorama-6-2.gif)
 
 After the drone captures 8 images, each captured at a 45 degree angle differential from the last, you will be prompted to allow the app to stitch the photos together. Press "OK" to continue. 
 

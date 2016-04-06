@@ -444,7 +444,7 @@ After you have built and run the project successfully, you can now connect your 
 ## Checking your results
 
 If you can see the live video stream in the app, congratulations! You've succesfully implemented a First Person View!
-![runAppScreenShot](../../Images/Android/FPVDemo/runAppScreenShot.png)
+![runAppScreenShot](../../Images/Android/FPVDemo/runningApp.png)
 ## Implementing the Capture Function
 The **private void captureAction()** function is used to take photos. In our source code, we implement a "Capture" button which calls this function whenever pressed.
 ~~~java
@@ -591,7 +591,7 @@ private void stopRecord(){
 }
 ~~~
 You can now add a 'Record' and 'Stop Recording' button to your app, and have them call **recordAction()** and **stopRecord()** respectively. Build and run the project, and it should look something like the screenshot below:
-![recordVideoScreenShot](../../Images/Android/FPVDemo/recordVideo.png)
+![recordVideoScreenShot](../../Images/Android/FPVDemo/recordVideos.png)
 Congratulations! Your Aerial First Person View Android app is complete, capable of viewing your DJI Drone's video feed, as well as remotely taking picture and videos!
 ## Viewing your Images
 Unfortunately, this tutorial does not include guidance on viewing photos and videos onboard your DJI Drone's SD card. However, if you would like to see the pictures and videos you took through your brand new app, you can download DJI GO App, found here:
