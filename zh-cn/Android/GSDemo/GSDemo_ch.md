@@ -1,3 +1,5 @@
+> 注意：本教程和示例代码基于DJI Android SDK 2.4版本撰写开发，针对最新Android SDK 3.1.1版本的教程是示例代码的更新将会在近期发布，请知悉。
+
 # 创建智能飞行预设航点功能App
 
 <!-- toc -->
@@ -23,6 +25,7 @@ DJI PC模拟器是一个供DJI SDK开发者使用的飞行模拟器。模拟器�
 ### 2.安装和使用DJI PC模拟器
 
 首先，请从以下DJI SDK开发者网址<https://developer.dji.com/mobile-sdk/downloads>下载DJI PC Simulator安装软件和WIN Driver驱动程序。
+
 - DJI PC Simulator Installer & User Manual V1.0
 - WIN Driver Installer
 
@@ -75,7 +78,7 @@ DJI PC模拟器是一个供DJI SDK开发者使用的飞行模拟器。模拟器�
 
 ## 升级固件
 
-在开始这个教程的DJI SDK开发之前，需要确认飞机的固件支持DJI Mobile SDK的开发。请从以下网址<https://developer.dji.com/mobile-sdk/downloads>下载适合你的飞机类型的beta版本固件
+在开始这个教程的DJI SDK开发之前，需要确认飞机的固件支持DJI Mobile SDK的开发。请从以下网址<https://developer.dji.com/mobile-sdk/downloads>下载适合你的飞机类型的固件
 
 把下载的**bin**文件放到SD卡上，插入飞机上相机使用的SD卡槽，重启飞机进行升级。大概需要10到30分钟完成升级。如果需要遥控器支持USB附件模式连接，则需要升级遥控器，把下载的**bin**文件放到USB移动盘，然后插入遥控器的USB接口，当遥控器的指示灯为蓝色时，则遥控器正在升级，当升级成功，遥控器指示灯会变为绿色，当升级失败，遥控器指示灯会变为红色。
 
@@ -86,12 +89,8 @@ DJI PC模拟器是一个供DJI SDK开发者使用的飞行模拟器。模拟器�
 - 升级失败：B...
 - 严重错误：D D D...
 
-你也可以通过检查升级过程中产生的**txt**文件来判断固件升级状态。对于Phantom 3 Professional，txt文件的名字是**"P3X_FW_RESULT_AB.txt"**，对于Inspire 1，txt文件名字是**"WM610_FW_RESULT_AB.txt"**。以下是其中内容的例子：
+你也可以通过检查升级过程中产生的**txt**文件来判断固件升级状态。
 
-  ![upgradeP3XSuccess](../../Images/Android/GSDemo/upgradeP3XSuccess.png)
-  
-  ![upgradeInspire1Success](../../Images/Android/GSDemo/upgradeInspire1Success.png)
-  
 ## 设置地图视图
 
 ### 1. 创建地图视图 
