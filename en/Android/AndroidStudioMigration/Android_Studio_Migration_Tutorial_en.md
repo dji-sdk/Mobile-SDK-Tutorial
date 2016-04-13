@@ -1,3 +1,5 @@
+> Note：This Tutorial is written based on DJI Android SDK v2.4, since the current [DJI Android SDK Sample Project](https://github.com/dji-sdk/Mobile-SDK-Android) only supports Android Studio, this tutorial is no longer useful now.
+
 # Importing DJI SDK Demo to Android Studio
 
 <!-- toc -->
